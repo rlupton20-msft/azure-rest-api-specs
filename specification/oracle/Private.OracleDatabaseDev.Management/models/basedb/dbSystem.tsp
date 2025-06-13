@@ -31,6 +31,10 @@ model DbSystemProperties extends DbSystemBaseProperties {
   @minLength(1)
   @maxLength(255)
   adminPassword?: Password;
+
+  @doc("A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation.")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  dbVersion: string;
 }
 
 //OCI Reference: https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/LaunchDbSystemBase
