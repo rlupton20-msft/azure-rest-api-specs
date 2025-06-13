@@ -27,7 +27,7 @@ model ExtensionSlot
   @path
   @key("slotName")
   @segment("slots")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   name: string;
 }
 
