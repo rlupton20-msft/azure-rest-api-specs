@@ -1949,6 +1949,80 @@
           }
         }
       },
+      "patch": {
+        "operationId": "Credentials_Update",
+        "tags": [
+          "Credentials"
+        ],
+        "description": "Update a Credential",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CredentialUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Credential"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "Credentials_Update_MaximumSet_Gen": {
+            "$ref": "./examples/Credentials_Update_MaximumSet_Gen.json"
+          }
+        }
+      },
       "delete": {
         "operationId": "Credentials_Delete",
         "tags": [
@@ -5266,6 +5340,21 @@
         }
       }
     },
+    "CredentialUpdate": {
+      "type": "object",
+      "description": "A Credential Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/CredentialProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
+    },
     "DataPoint": {
       "type": "object",
       "description": "Defines the data point properties.",
@@ -7353,7 +7442,7 @@
         },
         "dataSource": {
           "type": "string",
-          "description": "Name of the data source within a dataset."
+          "description": "Reference to a data source for a given dataset."
         },
         "typeRef": {
           "type": "string",
@@ -7942,7 +8031,7 @@
         },
         "dataSource": {
           "type": "string",
-          "description": "Name of the data source within a dataset."
+          "description": "Reference to a data source for a given dataset."
         },
         "typeRef": {
           "type": "string",
