@@ -21,10 +21,12 @@ model DeviceBaseProperties {
   externalDeviceId?: string;
 
   @doc("Device Template Id used to create a device.")
+  @removed(Versions.v2025_07_01_preview)
   @visibility(Lifecycle.Read, Lifecycle.Create)
   deviceTemplateId?: string;
 
   @doc("The AAD group the device is a member of.")
+  @removed(Versions.v2025_07_01_preview)
   deviceGroupId?: string;
 
   @doc("Hardware manufacturer name.")
@@ -44,6 +46,7 @@ model DeviceBaseProperties {
   operatingSystemVersion?: string;
 
   @doc("Identity for the resource.")
+  @removed(Versions.v2025_07_01_preview)
   @visibility(Lifecycle.Read, Lifecycle.Create)
   identity?: DeviceIdentity;
 
@@ -118,6 +121,7 @@ model NamespaceDeviceProperties extends DeviceBaseProperties {
 }
 
 @doc("The backing AAD identity for the device used for authentication to other services.")
+@removed(Versions.v2025_07_01_preview)
 model DeviceIdentity {
   @doc("Principal id for the device resource.")
   @visibility(Lifecycle.Read)
@@ -206,14 +210,13 @@ model DeviceMessagingEndpoint {
 @doc("A type of endpoint to connect to the device.")
 @added(Versions.v2025_07_01_preview)
 model InboundEndpoints {
-  @doc("Type of connection endpoint. Formatted as ABC.XYZ:{connectorVersion}")
-  @pattern("^[a-zA-Z]+\\.[a-zA-Z]+:[^+#{}/]+$")
+  @doc("Type of connection endpoint.")
   endpointType?: string;
 
   @doc("Fully qualified domain name.")
   address: string;
 
-  @doc("Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP:v1, and 3.5 or 5.0 for endpointType Microsoft.Mqtt:v2 etc.")
+  @doc("Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP, and 3.5 or 5.0 for endpointType Microsoft.Mqtt etc.")
   version?: string;
 
   @doc("Defines the client authentication mechanism to the server.")

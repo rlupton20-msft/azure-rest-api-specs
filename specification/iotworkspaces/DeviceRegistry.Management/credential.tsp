@@ -15,22 +15,23 @@ namespace Private.DeviceRegistry;
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-name-pattern" "singleton"
 @added(Versions.v2025_08_01_preview)
-@doc("A Credential Resource") 
-@parentResource(Namespace) 
-model Credential is Azure.ResourceManager.TrackedResource<CredentialProperties> { 
-  @doc("The name of the Credential tracked resource.") 
-  @key("credentialName") 
-  @segment("credentials") 
-  @path 
-  name: "default"; 
-} 
+@doc("A Credential Resource")
+@parentResource(Namespace)
+model Credential
+  is Azure.ResourceManager.TrackedResource<CredentialProperties> {
+  @doc("The name of the Credential tracked resource.")
+  @key("credentialName")
+  @segment("credentials")
+  @path
+  name: "default";
+}
 
 @added(Versions.v2025_08_01_preview)
-@doc("Details of the Credential Resource.") 
-model CredentialProperties { 
-  @visibility(Lifecycle.Read) 
-  @doc("The status of the last operation.") 
-  provisioningState?: ProvisioningState; 
+@doc("Details of the Credential Resource.")
+model CredentialProperties {
+  @visibility(Lifecycle.Read)
+  @doc("The status of the last operation.")
+  provisioningState?: ProvisioningState;
 }
 
 @added(Versions.v2025_08_01_preview)

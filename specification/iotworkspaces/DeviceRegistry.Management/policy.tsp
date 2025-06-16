@@ -27,18 +27,18 @@ model Policy is Azure.ResourceManager.TrackedResource<PolicyProperties> {
 }
 
 @added(Versions.v2025_08_01_preview)
-@doc("Details of the Credential Policy.") 
+@doc("Details of the Credential Policy.")
 model PolicyProperties {
   @visibility(Lifecycle.Read)
   @doc("The status of the last operation.")
   provisioningState?: ProvisioningState;
 
   @doc("The certificate configuration.")
-  certificate?: CertificateConfiguration
+  certificate?: CertificateConfiguration;
 }
 
 @added(Versions.v2025_08_01_preview)
-@doc("The certificate configuration.") 
+@doc("The certificate configuration.")
 model CertificateConfiguration {
   @doc("The configuration to set up an ICA.")
   certificateAuthorityConfiguration: CertficateAuthorityConfiguration;
@@ -53,15 +53,15 @@ model CertficateAuthorityConfiguration {
   @doc("Crypto type: RSA or EC.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   keyType: SupportedKeyType;
-  
+
   @doc("Certificate subject.")
   @visibility(Lifecycle.Read)
   subject?: string;
-  
+
   @doc("Certificate is valid not before this date. Format ISO8601. Generated based on on validity period.")
   @visibility(Lifecycle.Read)
   validityNotBefore?: utcDateTime;
-  
+
   @doc("Certificate is valid not after this date. Format ISO8601. Generated based on validity period.")
   @visibility(Lifecycle.Read)
   validityNotAfter?: utcDateTime;
@@ -71,6 +71,7 @@ model CertficateAuthorityConfiguration {
 @doc("Supported key types.")
 union SupportedKeyType {
   string,
+
   //@doc("Indicate the RSA key type.")
   //RSA,
   @doc("Indicate the ECC key type.")
@@ -96,4 +97,3 @@ interface Policies {
   listByResourceGroup is ArmResourceListByParent<Policy>;
   listBySubscription is ArmListBySubscription<Policy>;
 }
-
