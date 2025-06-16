@@ -41,7 +41,7 @@ model PolicyProperties {
 @doc("The certificate configuration.")
 model CertificateConfiguration {
   @doc("The configuration to set up an ICA.")
-  certificateAuthorityConfiguration: CertficateAuthorityConfiguration;
+  certificateAuthorityConfiguration: CertificateAuthorityConfiguration;
 
   @doc("The leaf certificate configuration.")
   leafCertificateConfiguration: LeafCertificateConfiguration;
@@ -49,7 +49,7 @@ model CertificateConfiguration {
 
 @added(Versions.v2025_08_01_preview)
 @doc("The configuration to set up an ICA.")
-model CertficateAuthorityConfiguration {
+model CertificateAuthorityConfiguration {
   @doc("Crypto type: RSA or EC.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   keyType: SupportedKeyType;

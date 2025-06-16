@@ -5120,7 +5120,7 @@
         "key"
       ]
     },
-    "CertficateAuthorityConfiguration": {
+    "CertificateAuthorityConfiguration": {
       "type": "object",
       "description": "The configuration to set up an ICA.",
       "properties": {
@@ -5154,7 +5154,7 @@
         "keyType"
       ]
     },
-    "CertficateAuthorityConfigurationUpdate": {
+    "CertificateAuthorityConfigurationUpdate": {
       "type": "object",
       "description": "The configuration to set up an ICA."
     },
@@ -5163,7 +5163,7 @@
       "description": "The certificate configuration.",
       "properties": {
         "certificateAuthorityConfiguration": {
-          "$ref": "#/definitions/CertficateAuthorityConfiguration",
+          "$ref": "#/definitions/CertificateAuthorityConfiguration",
           "description": "The configuration to set up an ICA."
         },
         "leafCertificateConfiguration": {
@@ -5181,7 +5181,7 @@
       "description": "The certificate configuration.",
       "properties": {
         "certificateAuthorityConfiguration": {
-          "$ref": "#/definitions/CertficateAuthorityConfigurationUpdate",
+          "$ref": "#/definitions/CertificateAuthorityConfigurationUpdate",
           "description": "The configuration to set up an ICA."
         },
         "leafCertificateConfiguration": {
@@ -5251,6 +5251,20 @@
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
       ]
+    },
+    "CredentialsMetadata": {
+      "type": "object",
+      "description": "Defines the credentialsMetadata for the device.",
+      "properties": {
+        "credentialId": {
+          "type": "string",
+          "description": "Resource Id of the Policy."
+        },
+        "validationScheme": {
+          "type": "string",
+          "description": "The name of field on certificate that contains the Id."
+        }
+      }
     },
     "DataPoint": {
       "type": "object",
@@ -5562,6 +5576,16 @@
         }
       }
     },
+    "DeviceCredentialPolicy": {
+      "type": "object",
+      "description": "Defines the Policy used to issue device certificates if any.",
+      "properties": {
+        "resourceId": {
+          "type": "string",
+          "description": "Resource Id of the Policy."
+        }
+      }
+    },
     "DeviceEndpoints": {
       "type": "object",
       "description": "Property bag containing the device's unassigned and assigned endpoints.",
@@ -5596,6 +5620,16 @@
       "required": [
         "assigned"
       ]
+    },
+    "DeviceInternalMetadata": {
+      "type": "object",
+      "description": "Defines the internal metadata for the device.",
+      "properties": {
+        "credentials": {
+          "$ref": "#/definitions/CredentialsMetadata",
+          "description": "Resource Id of the Policy."
+        }
+      }
     },
     "DeviceMessagingEndpoint": {
       "type": "object",
@@ -7452,6 +7486,14 @@
           "format": "date-time",
           "description": "A timestamp that is updated each time the resource is modified.",
           "readOnly": true
+        },
+        "policy": {
+          "$ref": "#/definitions/DeviceCredentialPolicy",
+          "description": "Policy used to issue device certificates."
+        },
+        "internalMetadata": {
+          "$ref": "#/definitions/DeviceInternalMetadata",
+          "description": "Policy used to issue device certificates."
         }
       },
       "allOf": [
@@ -7471,6 +7513,14 @@
         "operatingSystemVersion": {
           "type": "string",
           "description": "Operating system version."
+        },
+        "policy": {
+          "$ref": "#/definitions/DeviceCredentialPolicy",
+          "description": "Policy used to issue device certificates."
+        },
+        "internalMetadata": {
+          "$ref": "#/definitions/DeviceInternalMetadata",
+          "description": "Policy used to issue device certificates."
         }
       },
       "allOf": [

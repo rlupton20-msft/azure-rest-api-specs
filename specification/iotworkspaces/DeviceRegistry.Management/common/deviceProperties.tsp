@@ -118,6 +118,38 @@ model NamespaceDeviceProperties extends DeviceBaseProperties {
   @visibility(Lifecycle.Read)
   @added(Versions.v2025_07_01_preview)
   lastTransitionTime?: utcDateTime;
+
+  @added(Versions.v2025_08_01_preview)
+  @doc("Policy used to issue device certificates.")
+  policy?: DeviceCredentialPolicy;
+
+  @added(Versions.v2025_08_01_preview)
+  @doc("Policy used to issue device certificates.")
+  internalMetadata?: DeviceInternalMetadata;
+}
+
+@added(Versions.v2025_08_01_preview)
+@doc("Defines the internal metadata for the device.")
+model DeviceInternalMetadata {
+  @doc("Resource Id of the Policy.")
+  credentials?: CredentialsMetadata;
+}
+
+@added(Versions.v2025_08_01_preview)
+@doc("Defines the credentialsMetadata for the device.")
+model CredentialsMetadata {
+  @doc("Resource Id of the Policy.")
+  credentialId?: string;
+
+  @doc("The name of field on certificate that contains the Id.")
+  validationScheme?: string;
+}
+
+@added(Versions.v2025_08_01_preview)
+@doc("Defines the Policy used to issue device certificates if any.")
+model DeviceCredentialPolicy {
+  @doc("Resource Id of the Policy.")
+  resourceId?: string;
 }
 
 @doc("The backing AAD identity for the device used for authentication to other services.")
