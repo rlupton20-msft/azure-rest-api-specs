@@ -6,7 +6,6 @@ import "../Discovery.Shared/data-plane.tsp";
 import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Microsoft.Discovery.Shared;
@@ -232,8 +231,8 @@ model RunResult {
   debugInfo: string;
 }
 
-/** Project name path parameter */
-model WithProjectName {
+/** Project name path parameter for URL routing */
+model WithProjectNamePath {
   /** Name of the associated Project. */
   @path
   @pattern(resourceNamePattern)
@@ -244,7 +243,10 @@ interface Tools {
   #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
   @doc("Used for to poll status of a Tool run.")
   @route("/tools/projects/{projectName}/operations")
-  getRunStatus is Foundations.GetOperationStatus<WithProjectName, RunResult>;
+  getRunStatus is Foundations.GetOperationStatus<
+    WithProjectNamePath,
+    RunResult
+  >;
 
   /** Run the specified tool in the context of the specified project. */
   #suppress "@azure-tools/typespec-azure-core/use-standard-operations"

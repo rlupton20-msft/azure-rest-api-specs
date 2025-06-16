@@ -30,6 +30,14 @@ model WithDescription {
   description: string;
 }
 
+@access(Access.internal)
+@doc("For adding copilot instruction.")
+model WithCopilotInstruction {
+  @doc("The copilot instruction")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  copilotInstruction: string;
+}
+
 @doc("Enum for resource visibility Scope.")
 union Scope {
   /** The resource is Archived/discarded. */

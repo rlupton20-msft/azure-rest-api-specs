@@ -77,9 +77,9 @@ model EnclaveVirtualNetworkModel {
   connectToAzureServices?: boolean = false;
 }
 
-@doc("Enclave Virtual Network Properties")
-@withoutDefaultValues
-model EnclaveVirtualNetworkPatchModel is EnclaveVirtualNetworkModel;
+@doc("Virtual Enclave Default Settings")
+model EnclaveDefaultSettingsPatchModel
+  is UpdateableProperties<OmitDefaults<EnclaveDefaultSettingsModel>>;
 
 @doc("Virtual Enclave Default Settings")
 model EnclaveDefaultSettingsModel {
@@ -99,10 +99,6 @@ model EnclaveDefaultSettingsModel {
   diagnosticDestination?: DiagnosticDestination = DiagnosticDestination.EnclaveOnly;
 }
 
-@doc("Virtual Enclave Default Settings Patch Model")
-@withoutDefaultValues
-model EnclaveDefaultSettingsPatchModel is EnclaveDefaultSettingsModel;
-
 @doc("Enclave Address Spaces")
 model EnclaveAddressSpacesModel {
   @doc("Enclave Address Space")
@@ -117,6 +113,9 @@ model VirtualEnclaveBaseModel {
   @doc("Provisioning State.")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
+
+  @doc("Virtual Network.")
+  enclaveVirtualNetwork: EnclaveVirtualNetworkModel;
 
   @doc("Enclave Address Spaces")
   @visibility(Lifecycle.Read)
@@ -155,32 +154,29 @@ model VirtualEnclaveBaseModel {
   governedServiceList?: GovernedServiceItem[];
 }
 
+@doc("Virtual Enclave Resource properties")
 model VirtualEnclaveModel is VirtualEnclaveBaseModel {
-  @doc("Enclave Virtual Network.")
-  enclaveVirtualNetwork: EnclaveVirtualNetworkModel;
-
-  @doc("Enclave Maintenance Mode configuration.")
-  maintenanceModeConfiguration?: MaintenanceModeConfigurationModel;
-
-  @doc("Enclave Default Settings")
+  @doc("Enclave default settings.")
   enclaveDefaultSettings?: EnclaveDefaultSettingsModel;
+
+  @doc("Maintenance Mode configuration.")
+  maintenanceModeConfiguration?: MaintenanceModeConfigurationModel;
 }
 
-model VirtualEnclavePatchProperties is VirtualEnclaveBaseModel {
-  @doc("Enclave Virtual Network Patch Model.")
-  enclaveVirtualNetwork: EnclaveVirtualNetworkPatchModel;
-
-  @doc("Enclave Maintenance Mode configuration Patch Model.")
-  maintenanceModeConfiguration?: MaintenanceModeConfigurationPatchModel;
-
-  @doc("Enclave Default Settings Patch Model")
+@doc("Virtual Enclave Patchable Properties")
+model VirtualEnclavePatchProperties
+  is UpdateableProperties<OmitDefaults<VirtualEnclaveBaseModel>> {
+  @doc("Enclave default settings.")
   enclaveDefaultSettings?: EnclaveDefaultSettingsPatchModel;
+
+  @doc("Maintenance Mode configuration.")
+  maintenanceModeConfiguration?: MaintenanceModeConfigurationPatchModel;
 }
 
 @doc("Virtual Enclave Patch Model")
 model VirtualEnclavePatchModel {
   @doc("Virtual Enclave Patch properties")
-  properties?: Update<VirtualEnclavePatchProperties>;
+  properties?: VirtualEnclavePatchProperties;
 
   ...ManagedServiceIdentityProperty;
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;

@@ -26,7 +26,7 @@ model NamespaceDevice is TrackedResource<NamespaceDeviceProperties> {
   @pattern("^[0-9a-zA-Z][a-zA-Z0-9-]*$")
   @path
   @minLength(3)
-  @maxLength(64)
+  @maxLength(63)
   name: string;
 
   // etag not included in TrackedResource

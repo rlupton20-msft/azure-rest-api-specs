@@ -58,11 +58,13 @@ model BulkDeploySolutionParameter {
   @doc("Targets")
   @Azure.ResourceManager.identifiers(#[])
   targets: BulkDeployTargetDetails[];
-
+  
+  @removed(Versions.v2025_06_01_preview)
   @doc("Solution instance name")
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   solutionInstanceName?: string;
 
+  @removed(Versions.v2025_06_01_preview)
   @doc("Solution dependencies")
   @Azure.ResourceManager.identifiers(#[])
   solutionDependencies?: SolutionDependencyParameter[];
@@ -70,6 +72,7 @@ model BulkDeploySolutionParameter {
 
 @doc("Bulk deploy target details")
 model BulkDeployTargetDetails {
+  @removed(Versions.v2025_06_01_preview)
   @doc("ArmId of Target")
   targetId: Azure.Core.armResourceIdentifier<[
     {
@@ -77,9 +80,18 @@ model BulkDeployTargetDetails {
     }
   ]>;
 
+  @removed(Versions.v2025_06_01_preview)
   @doc("Solution instance name")
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   solutionInstanceName?: string;
+
+  @added(Versions.v2025_06_01_preview)
+  @doc("ArmId of Target Solution Version")
+  solutionVersionId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.Edge/Targets/Solutions/Versions";
+    }
+  ]>;
 }
 
 @doc("Bulk publish solution parameter")
@@ -131,7 +143,7 @@ interface SolutionTemplateVersions {
     BulkDeploySolutionParameter
   >;
 
-  @doc("Post request to bulk pubish")
+  @doc("Post request to bulk publish")
   bulkPublishSolution is ArmResourceActionNoResponseContentAsync<
     SolutionTemplateVersion,
     BulkPublishSolutionParameter

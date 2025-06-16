@@ -266,7 +266,7 @@ model SolutionTypeProperties {
   supportedAzureRegions?: string[];
 
   @doc("The cloud providers this solution supported in.")
-  supportedCloudProviders?: HostType[];
+  hostTypes?: HostType[];
 
   #suppress "@azure-tools/typespec-azure-resource-manager/missing-x-ms-identifiers"
   @doc("Array of solution settings and its description.")
@@ -294,8 +294,8 @@ model SolutionTypeSettingsProperties {
   defaultValue: string;
 
   @doc("The cloud providers this solution settings supported in.")
-  @madeRequired(Versions.v2025_07_01_preview)
-  supportedCloudProviders: HostType[];
+  @madeRequired(Versions.v2025_12_01_preview)
+  hostTypes: HostType[];
 }
 
 //------------------- Inventory -------------------

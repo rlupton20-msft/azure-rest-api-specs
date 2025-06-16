@@ -74,11 +74,34 @@ model PodResourceRequirement {
   @doc("GPU vendor type")
   gpuVendor?: GPUVendor;
 
+  /** List of GPU architectures that are acceptable (e.g., "turing", "ampere") */
+  gpuArchitectures?: string[];
+
+  /** List of GPU products that are acceptable (e.g., "Tesla-T4", "Tesla-V100") */
+  gpuProducts?: string[];
+
   /** Container NVIDIA driver version */
   containerNvidiaDriverVersion?: string;
 
-  /** Node selector labels */
-  nodeSelector?: string[];
+  /** Minimum Kubernetes version required by this workload */
+  @pattern("[0-9]+\\.[0-9]+\\.[0-9]+")
+  minimumKubernetesVersion?: string;
+
+  /** Required OS type for the nodes */
+  @doc("Operating system type")
+  operatingSystem?: OperatingSystem;
+
+  /** Minimum kernel version required by this workload */
+  @pattern("[0-9]+\\.[0-9]+\\.[0-9]+([-\\.][0-9a-zA-Z]+)*")
+  minimumKernelVersion?: string;
+
+  /** Allowed Kubernetes distributions for this workload */
+  @doc("Common values: k3s, aks, eks, gke, rke, rke2, microk8s, kind, minikube, openshift, rancher, vmware, kubeadm")
+  kubernetesDistributions?: string[];
+
+  /** Field to enforce node labels, labelKey: labelVal */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "This property uses Record<string> which represents a map data structure from Kubernetes"
+  nodeSelector?: Record<string>;
 }
 
 /** GPU vendor types */
@@ -105,6 +128,19 @@ union ValidationMode {
 
   /** Validate but save the request regardless of validation results */
   ValidateOnly: "ValidateOnly",
+
+  /** String value for extensibility */
+  string,
+}
+
+/** Operating system types */
+@doc("Supported operating system types")
+union OperatingSystem {
+  /** Linux operating system */
+  Linux: "linux",
+
+  /** Windows operating system */
+  Windows: "windows",
 
   /** String value for extensibility */
   string,

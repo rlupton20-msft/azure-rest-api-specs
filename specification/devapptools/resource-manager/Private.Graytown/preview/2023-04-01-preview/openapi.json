@@ -387,6 +387,30 @@
         }
       }
     },
+    "OperatingSystem": {
+      "type": "string",
+      "description": "Supported operating system types",
+      "enum": [
+        "linux",
+        "windows"
+      ],
+      "x-ms-enum": {
+        "name": "OperatingSystem",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Linux",
+            "value": "linux",
+            "description": "Linux operating system"
+          },
+          {
+            "name": "Windows",
+            "value": "windows",
+            "description": "Windows operating system"
+          }
+        ]
+      }
+    },
     "PodResourceRequirement": {
       "type": "object",
       "description": "Pod resource requirement",
@@ -420,14 +444,49 @@
           "$ref": "#/definitions/GPUVendor",
           "description": "GPU vendor type"
         },
+        "gpuArchitectures": {
+          "type": "array",
+          "description": "List of GPU architectures that are acceptable (e.g., \"turing\", \"ampere\")",
+          "items": {
+            "type": "string"
+          }
+        },
+        "gpuProducts": {
+          "type": "array",
+          "description": "List of GPU products that are acceptable (e.g., \"Tesla-T4\", \"Tesla-V100\")",
+          "items": {
+            "type": "string"
+          }
+        },
         "containerNvidiaDriverVersion": {
           "type": "string",
           "description": "Container NVIDIA driver version"
         },
-        "nodeSelector": {
+        "minimumKubernetesVersion": {
+          "type": "string",
+          "description": "Minimum Kubernetes version required by this workload",
+          "pattern": "[0-9]+\\.[0-9]+\\.[0-9]+"
+        },
+        "operatingSystem": {
+          "$ref": "#/definitions/OperatingSystem",
+          "description": "Operating system type"
+        },
+        "minimumKernelVersion": {
+          "type": "string",
+          "description": "Minimum kernel version required by this workload",
+          "pattern": "[0-9]+\\.[0-9]+\\.[0-9]+([-\\.][0-9a-zA-Z]+)*"
+        },
+        "kubernetesDistributions": {
           "type": "array",
-          "description": "Node selector labels",
+          "description": "Common values: k3s, aks, eks, gke, rke, rke2, microk8s, kind, minikube, openshift, rancher, vmware, kubeadm",
           "items": {
+            "type": "string"
+          }
+        },
+        "nodeSelector": {
+          "type": "object",
+          "description": "Field to enforce node labels, labelKey: labelVal",
+          "additionalProperties": {
             "type": "string"
           }
         }

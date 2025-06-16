@@ -1769,7 +1769,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           }
         ],
@@ -1829,7 +1829,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           },
           {
@@ -1925,7 +1925,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           },
           {
@@ -2009,7 +2009,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           }
         ],
@@ -4921,78 +4921,14 @@
         }
       }
     },
-    "DiscoveredDeviceProperties": {
-      "type": "object",
-      "description": "Defines the Discovered Asset Endpoint Profile properties.",
-      "properties": {
-        "externalDeviceId": {
-          "type": "string",
-          "description": "A device id that represents the device in a system external to Azure. Unique within scope of an Azure Tenant."
-        },
-        "endpoints": {
-          "$ref": "#/definitions/DiscoveredMessagingEndpoints",
-          "description": "Endpoints for discovered devices."
-        },
-        "discoveryId": {
-          "type": "string",
-          "description": "Identifier used to detect changes in the asset endpoint profile."
-        },
-        "manufacturer": {
-          "type": "string",
-          "description": "Hardware manufacturer name.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "model": {
-          "type": "string",
-          "description": "Model name.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "operatingSystem": {
-          "type": "string",
-          "description": "Operating system name.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "operatingSystemVersion": {
-          "type": "string",
-          "description": "Operating system version."
-        },
-        "attributes": {
-          "type": "object",
-          "description": "A set of key-value pairs that contain custom attributes.",
-          "additionalProperties": {}
-        },
-        "version": {
-          "type": "integer",
-          "format": "int64",
-          "description": "An integer that is incremented each time the resource is modified."
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "Provisioning state of the resource.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "discoveryId",
-        "version"
-      ]
-    },
     "DiscoveredInboundEndpoints": {
       "type": "object",
       "description": "A type of endpoint to connect to the device.",
       "properties": {
         "endpointType": {
           "type": "string",
-          "description": "Type of connection endpoint."
+          "description": "Type of connection endpoint. Formatted as ABC.XYZ:{connectorVersion}",
+          "pattern": "^[a-zA-Z]+\\.[a-zA-Z]+:[^+#{}/]+$"
         },
         "address": {
           "type": "string",
@@ -5000,7 +4936,7 @@
         },
         "version": {
           "type": "string",
-          "description": "Version associated with device endpoint."
+          "description": "Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP:v1, and 3.5 or 5.0 for endpointType Microsoft.Mqtt:v2 etc."
         },
         "supportedAuthenticationMethods": {
           "type": "array",
@@ -5025,7 +4961,8 @@
       "properties": {
         "endpointType": {
           "type": "string",
-          "description": "Type of connection endpoint."
+          "description": "Type of connection endpoint. Formatted as ABC.XYZ:{connectorVersion}",
+          "pattern": "^[a-zA-Z]+\\.[a-zA-Z]+:[^+#{}/]+$"
         },
         "address": {
           "type": "string",
@@ -5033,7 +4970,7 @@
         },
         "version": {
           "type": "string",
-          "description": "Version associated with device endpoint."
+          "description": "Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP:v1, and 3.5 or 5.0 for endpointType Microsoft.Mqtt:v2 etc."
         },
         "supportedAuthenticationMethods": {
           "type": "array",
@@ -5492,7 +5429,8 @@
       "properties": {
         "endpointType": {
           "type": "string",
-          "description": "Type of connection used for the endpoint."
+          "description": "Type of connection endpoint. Formatted as ABC.XYZ:{connectorVersion}",
+          "pattern": "^[a-zA-Z]+\\.[a-zA-Z]+:[^+#{}/]+$"
         },
         "address": {
           "type": "string",
@@ -5500,7 +5438,7 @@
         },
         "version": {
           "type": "string",
-          "description": "Version associated with device endpoint."
+          "description": "Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP:v1, and 3.5 or 5.0 for endpointType Microsoft.Mqtt:v2 etc."
         },
         "authentication": {
           "$ref": "#/definitions/HostAuthentication",
@@ -5525,7 +5463,8 @@
       "properties": {
         "endpointType": {
           "type": "string",
-          "description": "Type of connection used for the endpoint."
+          "description": "Type of connection endpoint. Formatted as ABC.XYZ:{connectorVersion}",
+          "pattern": "^[a-zA-Z]+\\.[a-zA-Z]+:[^+#{}/]+$"
         },
         "address": {
           "type": "string",
@@ -5533,7 +5472,7 @@
         },
         "version": {
           "type": "string",
-          "description": "Version associated with device endpoint."
+          "description": "Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP:v1, and 3.5 or 5.0 for endpointType Microsoft.Mqtt:v2 etc."
         },
         "authentication": {
           "$ref": "#/definitions/HostAuthenticationUpdate",
@@ -6249,7 +6188,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6272,7 +6212,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6300,7 +6241,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6346,7 +6288,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6536,7 +6479,7 @@
         },
         "dataSource": {
           "type": "string",
-          "description": "Name of the data source within a dataset."
+          "description": "Reference to a data source for a given dataset."
         },
         "typeRef": {
           "type": "string",
@@ -7125,7 +7068,7 @@
         },
         "dataSource": {
           "type": "string",
-          "description": "Name of the data source within a dataset."
+          "description": "Reference to a data source for a given dataset."
         },
         "typeRef": {
           "type": "string",
@@ -7197,7 +7140,7 @@
       "description": "Discovered device definition.",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/DiscoveredDeviceProperties",
+          "$ref": "#/definitions/NamespaceDiscoveredDeviceProperties",
           "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
@@ -7237,6 +7180,71 @@
       },
       "required": [
         "value"
+      ]
+    },
+    "NamespaceDiscoveredDeviceProperties": {
+      "type": "object",
+      "description": "Defines the Discovered Asset Endpoint Profile properties.",
+      "properties": {
+        "externalDeviceId": {
+          "type": "string",
+          "description": "A device id that represents the device in a system external to Azure. Unique within scope of an Azure Tenant."
+        },
+        "endpoints": {
+          "$ref": "#/definitions/DiscoveredMessagingEndpoints",
+          "description": "Endpoints for discovered devices."
+        },
+        "discoveryId": {
+          "type": "string",
+          "description": "Identifier used to detect changes in the asset endpoint profile."
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "Hardware manufacturer name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "model": {
+          "type": "string",
+          "description": "Model name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "operatingSystem": {
+          "type": "string",
+          "description": "Operating system name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "operatingSystemVersion": {
+          "type": "string",
+          "description": "Operating system version."
+        },
+        "attributes": {
+          "type": "object",
+          "description": "A set of key-value pairs that contain custom attributes.",
+          "additionalProperties": {}
+        },
+        "version": {
+          "type": "integer",
+          "format": "int64",
+          "description": "An integer that is incremented each time the resource is modified."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of the resource.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "discoveryId",
+        "version"
       ]
     },
     "NamespaceDiscoveredDeviceUpdate": {

@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./State.tsp";
+import "./Job.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -70,6 +71,14 @@ model SolutionVersionProperties {
   @doc("Error Details if any failure is there")
   @visibility(Lifecycle.Read)
   errorDetails?: Azure.ResourceManager.Foundations.ErrorDetail;
+
+  @doc("The URI for tracking the latest action performed on this solution version.")
+  @visibility(Lifecycle.Read)
+  latestActionTrackingUri?: string;
+
+  @doc("The type of the latest action performed on this solution version.")
+  @visibility(Lifecycle.Read)
+  actionType?: JobType;
 
   @doc("Provisioning state of resource")
   @visibility(Lifecycle.Read)

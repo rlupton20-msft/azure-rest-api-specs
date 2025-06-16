@@ -97,7 +97,7 @@
             "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/WithQueryInvestigationId"
+            "$ref": "#/parameters/WithQueryInvestigationName"
           },
           {
             "$ref": "#/parameters/Microsoft.Discovery.Shared.WithQueryCreatedSince"
@@ -144,7 +144,28 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/WithInvestigationIdOptional"
+              "type": "object",
+              "properties": {
+                "projectName": {
+                  "type": "string",
+                  "description": "The name of the associated Project",
+                  "x-ms-mutability": [
+                    "read",
+                    "create"
+                  ]
+                },
+                "investigationName": {
+                  "type": "string",
+                  "description": "The Name of the associated Investigation",
+                  "x-ms-mutability": [
+                    "read",
+                    "create"
+                  ]
+                }
+              },
+              "required": [
+                "projectName"
+              ]
             }
           }
         ],
@@ -522,51 +543,81 @@
         }
       }
     },
-    "/messages": {
-      "get": {
-        "operationId": "ConversationMessages_ListMessagesByWorkspace",
-        "description": "List Messages across conversations",
+    "/conversations/{conversationName}/messages/{messageName}:submitUserInput": {
+      "post": {
+        "operationId": "ConversationMessages_SubmitUserInput",
+        "description": "Submit user input in response to AwaitingUserInput status.",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+            "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/WithQueryConversationId"
+            "name": "conversationName",
+            "in": "path",
+            "description": "The conversation name.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
           },
           {
-            "$ref": "#/parameters/Microsoft.Discovery.Shared.WithQueryCreatedSince"
+            "name": "messageName",
+            "in": "path",
+            "description": "The message name.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
           },
           {
-            "$ref": "#/parameters/WithQueryInvestigationId"
+            "$ref": "#/parameters/Azure.Core.RepeatabilityRequestHeaders.repeatabilityRequestId"
           },
           {
-            "$ref": "#/parameters/WithQueryProjectId"
+            "$ref": "#/parameters/Azure.Core.RepeatabilityRequestHeaders.repeatabilityFirstSent"
+          },
+          {
+            "$ref": "#/parameters/Azure.Core.ClientRequestIdHeader"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MessageConfirmationStatus"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "The request has succeeded.",
-            "schema": {
-              "type": "object",
-              "description": "Paged list resources",
-              "properties": {
-                "value": {
-                  "type": "array",
-                  "description": "The ConversationMessage items on this page",
-                  "items": {
-                    "$ref": "#/definitions/ConversationMessage"
-                  },
-                  "x-ms-identifiers": []
-                },
-                "nextLink": {
-                  "type": "string",
-                  "format": "uri",
-                  "description": "The link to the next page of items"
+            "headers": {
+              "Repeatability-Result": {
+                "type": "string",
+                "description": "Indicates whether the repeatable request was accepted or rejected.",
+                "enum": [
+                  "accepted",
+                  "rejected"
+                ],
+                "x-ms-enum": {
+                  "name": "RepeatabilityResult",
+                  "modelAsString": false,
+                  "values": [
+                    {
+                      "name": "accepted",
+                      "value": "accepted",
+                      "description": "If the request was accepted and the server guarantees that the server state reflects a single execution of the operation."
+                    },
+                    {
+                      "name": "rejected",
+                      "value": "rejected",
+                      "description": "If the request was rejected because the combination of Repeatability-First-Sent and Repeatability-Request-ID were invalid\nor because the Repeatability-First-Sent value was outside the range of values held by the server."
+                    }
+                  ]
                 }
               },
-              "required": [
-                "value"
-              ]
+              "x-ms-client-request-id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "An opaque, globally-unique, client-generated string identifier for the request."
+              }
             }
           },
           "default": {
@@ -581,10 +632,55 @@
               }
             }
           }
-        },
-        "x-ms-examples": {
-          "ConversationMessages_ListMessagesByWorkspace_MaximumSet - generated by [MaximumSet] rule": {
-            "$ref": "./examples/ConversationMessages_ListMessagesByWorkspace_MaximumSet_Gen.json"
+        }
+      }
+    },
+    "/conversations/{conversationName}/messages/{messageName}/logs": {
+      "get": {
+        "operationId": "MessageLogs_ListLogs",
+        "description": "List message logs in the specified conversation.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "name": "conversationName",
+            "in": "path",
+            "description": "The conversation name.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "messageName",
+            "in": "path",
+            "description": "The message name.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "$ref": "#/parameters/Microsoft.Discovery.Shared.WithQueryCreatedSince"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/PagedMessageLog"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Azure.Core.Foundations.ErrorResponse"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "type": "string",
+                "description": "String error code indicating what went wrong."
+              }
+            }
           }
         },
         "x-ms-pageable": {
@@ -809,98 +905,6 @@
         }
       }
     },
-    "/projects/{projectName}/investigations/{investigationName}:clone": {
-      "post": {
-        "operationId": "Investigations_Clone",
-        "description": "Clone investigation (to a new one).",
-        "parameters": [
-          {
-            "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
-          },
-          {
-            "name": "projectName",
-            "in": "path",
-            "description": "The project name.",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "investigationName",
-            "in": "path",
-            "description": "The investigation name.",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "$ref": "#/parameters/Azure.Core.RepeatabilityRequestHeaders.repeatabilityRequestId"
-          },
-          {
-            "$ref": "#/parameters/Azure.Core.RepeatabilityRequestHeaders.repeatabilityFirstSent"
-          },
-          {
-            "$ref": "#/parameters/Azure.Core.ClientRequestIdHeader"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "schema": {
-              "$ref": "#/definitions/Investigation"
-            },
-            "headers": {
-              "Repeatability-Result": {
-                "type": "string",
-                "description": "Indicates whether the repeatable request was accepted or rejected.",
-                "enum": [
-                  "accepted",
-                  "rejected"
-                ],
-                "x-ms-enum": {
-                  "name": "RepeatabilityResult",
-                  "modelAsString": false,
-                  "values": [
-                    {
-                      "name": "accepted",
-                      "value": "accepted",
-                      "description": "If the request was accepted and the server guarantees that the server state reflects a single execution of the operation."
-                    },
-                    {
-                      "name": "rejected",
-                      "value": "rejected",
-                      "description": "If the request was rejected because the combination of Repeatability-First-Sent and Repeatability-Request-ID were invalid\nor because the Repeatability-First-Sent value was outside the range of values held by the server."
-                    }
-                  ]
-                }
-              },
-              "x-ms-client-request-id": {
-                "type": "string",
-                "format": "uuid",
-                "description": "An opaque, globally-unique, client-generated string identifier for the request."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/Azure.Core.Foundations.ErrorResponse"
-            },
-            "headers": {
-              "x-ms-error-code": {
-                "type": "string",
-                "description": "String error code indicating what went wrong."
-              }
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Investigations_Clone_MaximumSet - generated by [MaximumSet] rule": {
-            "$ref": "./examples/Investigations_Clone_MaximumSet_Gen.json"
-          }
-        }
-      }
-    },
     "/tools/projects/{projectName}:run": {
       "post": {
         "operationId": "Tools_Run",
@@ -917,7 +921,82 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/RunRequest"
+              "type": "object",
+              "properties": {
+                "toolId": {
+                  "type": "string",
+                  "format": "arm-id",
+                  "description": "ID of the tool to execute",
+                  "x-ms-arm-id-details": {
+                    "allowedResources": [
+                      {
+                        "type": "Microsoft.Discovery/Tools"
+                      }
+                    ]
+                  }
+                },
+                "command": {
+                  "type": "string",
+                  "description": "Command to pass to tool container entrypoint.\n\nIf the tool has multiple containers defined, this command is executed on all of them.\n\nIf omitted, all containers execute their raw entrypoints."
+                },
+                "inlineFiles": {
+                  "type": "array",
+                  "description": "Encoded inline files to be mounted into the container, e.g. for generated code.",
+                  "maxItems": 10,
+                  "items": {
+                    "$ref": "#/definitions/InlineFile"
+                  },
+                  "x-ms-identifiers": []
+                },
+                "storageId": {
+                  "type": "string",
+                  "format": "arm-id",
+                  "description": "The Discovery Storage resource to use for this run.",
+                  "x-ms-arm-id-details": {
+                    "allowedResources": [
+                      {
+                        "type": "Microsoft.Discovery/Storages"
+                      }
+                    ]
+                  }
+                },
+                "inputDataAssets": {
+                  "type": "array",
+                  "description": "Input DataAssets and associated relativeMountPath for each, relative to the working directory.\n\nAny DataAssetIds which point to SharedStorage must point to\nthe same DiscoveryStorage specified by DiscoveryStorageId, otherwise the\nrequest will be rejected.",
+                  "items": {
+                    "$ref": "#/definitions/DataAssetMount"
+                  },
+                  "x-ms-identifiers": []
+                },
+                "outputDataAssets": {
+                  "type": "array",
+                  "description": "Output DataAssets and associated relativeMountPath for each, relative to the working directory.\n\nAny DataAssetIds which point to SharedStorage must point to\nthe same DiscoveryStorage specified by DiscoveryStorageId, otherwise the\nrequest will be rejected.",
+                  "items": {
+                    "$ref": "#/definitions/DataAssetMount"
+                  },
+                  "x-ms-identifiers": []
+                },
+                "nodePoolIds": {
+                  "type": "array",
+                  "description": "IDs of NodePools to use for this run. If not specified, suitable NodePools will be selected based on the infra requirements of the Tool.",
+                  "items": {
+                    "type": "string",
+                    "format": "arm-id",
+                    "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+                    "x-ms-arm-id-details": {
+                      "allowedResources": [
+                        {
+                          "type": "Microsoft.Discovery/Supercomputers/NodePools"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "required": [
+                "toolId",
+                "storageId"
+              ]
             }
           }
         ],
@@ -988,7 +1067,7 @@
             "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
           },
           {
-            "$ref": "#/parameters/WithProjectName"
+            "$ref": "#/parameters/WithProjectNamePath"
           },
           {
             "name": "operationId",
@@ -1199,6 +1278,36 @@
         "description"
       ]
     },
+    "ConfirmationStatus": {
+      "type": "string",
+      "description": "Enumeration for message status.",
+      "enum": [
+        "AwaitingUserInput",
+        "Confirmed",
+        "Denied"
+      ],
+      "x-ms-enum": {
+        "name": "ConfirmationStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "AwaitingUserInput",
+            "value": "AwaitingUserInput",
+            "description": "Message is awaiting user input"
+          },
+          {
+            "name": "Confirmed",
+            "value": "Confirmed",
+            "description": "Message Confirmed"
+          },
+          {
+            "name": "Denied",
+            "value": "Denied",
+            "description": "Message Denied"
+          }
+        ]
+      }
+    },
     "Conversation": {
       "type": "object",
       "description": "A conversation.",
@@ -1250,9 +1359,17 @@
             "create"
           ]
         },
-        "investigationId": {
+        "investigationName": {
           "type": "string",
-          "description": "The ID of the associated Investigation",
+          "description": "The Name of the associated Investigation",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "projectName": {
+          "type": "string",
+          "description": "The name of the associated Project",
           "x-ms-mutability": [
             "read",
             "create"
@@ -1277,9 +1394,17 @@
             "create"
           ]
         },
-        "investigationId": {
+        "investigationName": {
           "type": "string",
-          "description": "The ID of the associated Investigation",
+          "description": "The Name of the associated Investigation",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "projectName": {
+          "type": "string",
+          "description": "The name of the associated Project",
           "x-ms-mutability": [
             "read",
             "create"
@@ -1335,9 +1460,17 @@
           "description": "The type of user who Updated this resource.",
           "readOnly": true
         },
-        "investigationId": {
+        "investigationName": {
           "type": "string",
-          "description": "The ID of the associated Investigation",
+          "description": "The Name of the associated Investigation",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "projectName": {
+          "type": "string",
+          "description": "The name of the associated Project",
           "x-ms-mutability": [
             "read",
             "create"
@@ -1692,6 +1825,30 @@
         ]
       }
     },
+    "IsAction": {
+      "type": "string",
+      "description": "Indicates if a log entry represents an action.",
+      "enum": [
+        "true",
+        "false"
+      ],
+      "x-ms-enum": {
+        "name": "IsAction",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "True",
+            "value": "true",
+            "description": "Log entry represents an action."
+          },
+          {
+            "name": "False",
+            "value": "false",
+            "description": "Log entry does not represent an action."
+          }
+        ]
+      }
+    },
     "KnowledgeBaseResponse": {
       "type": "object",
       "description": "Knowledge base response",
@@ -1712,6 +1869,191 @@
         "response"
       ]
     },
+    "LogLevel": {
+      "type": "string",
+      "description": "Log level for a message log.",
+      "enum": [
+        "Information"
+      ],
+      "x-ms-enum": {
+        "name": "LogLevel",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Information",
+            "value": "Information",
+            "description": "Information log level."
+          }
+        ]
+      }
+    },
+    "LogStatus": {
+      "type": "string",
+      "description": "Status of a log entry activity.",
+      "enum": [
+        "in_progress",
+        "cancelled",
+        "failed",
+        "completed",
+        "expired"
+      ],
+      "x-ms-enum": {
+        "name": "LogStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "InProgress",
+            "value": "in_progress",
+            "description": "Activity is currently in progress."
+          },
+          {
+            "name": "Cancelled",
+            "value": "cancelled",
+            "description": "Activity was cancelled."
+          },
+          {
+            "name": "Failed",
+            "value": "failed",
+            "description": "Activity failed to complete."
+          },
+          {
+            "name": "Completed",
+            "value": "completed",
+            "description": "Activity completed successfully."
+          },
+          {
+            "name": "Expired",
+            "value": "expired",
+            "description": "Activity expired before completion."
+          }
+        ]
+      }
+    },
+    "LogType": {
+      "type": "string",
+      "description": "Enumeration for log type.",
+      "enum": [
+        "ToolInvocation",
+        "AgentInvocation",
+        "Generate"
+      ],
+      "x-ms-enum": {
+        "name": "LogType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "ToolInvocation",
+            "value": "ToolInvocation",
+            "description": "Tool invocation log."
+          },
+          {
+            "name": "AgentInvocation",
+            "value": "AgentInvocation",
+            "description": "Agent invocation log."
+          },
+          {
+            "name": "Generate",
+            "value": "Generate",
+            "description": "Log event for generating a summary or output."
+          }
+        ]
+      }
+    },
+    "MessageConfirmation": {
+      "type": "object",
+      "description": "A user confirmation for a copilot action related to a message.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The confirmation name/key.",
+          "readOnly": true
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the resource was created",
+          "readOnly": true
+        },
+        "createdBy": {
+          "type": "string",
+          "description": "The ID of the user who created this resource.",
+          "readOnly": true
+        },
+        "createdByType": {
+          "$ref": "#/definitions/Microsoft.Discovery.Shared.ByType",
+          "description": "The type of user who created this resource.",
+          "readOnly": true
+        },
+        "lastModifiedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the resource was last updated",
+          "readOnly": true
+        },
+        "lastModifiedBy": {
+          "type": "string",
+          "description": "The ID of the user who Updated this resource.",
+          "readOnly": true
+        },
+        "lastModifiedByType": {
+          "$ref": "#/definitions/Microsoft.Discovery.Shared.ByType",
+          "description": "The type of user who Updated this resource.",
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/ConfirmationStatus",
+          "description": "Confirmation status",
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
+        },
+        "statusReason": {
+          "type": "string",
+          "description": "Reason for status (e.g. deny reason)",
+          "x-ms-mutability": [
+            "read",
+            "update"
+          ]
+        },
+        "agentName": {
+          "type": "string",
+          "description": "Name of the agent seeking confirmation",
+          "readOnly": true
+        },
+        "toolName": {
+          "type": "string",
+          "description": "Name of the tool seeking confirmation",
+          "readOnly": true
+        },
+        "toolArguments": {
+          "type": "string",
+          "description": "Arguments for the tool",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "name",
+        "status"
+      ]
+    },
+    "MessageConfirmationStatus": {
+      "type": "object",
+      "description": "A minimal response for confirmation status.",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/ConfirmationStatus",
+          "description": "Enumeration for message status."
+        },
+        "statusReason": {
+          "type": "string",
+          "description": "Reason for status (e.g. deny reason)"
+        }
+      },
+      "required": [
+        "status"
+      ]
+    },
     "MessageCreateBody": {
       "type": "object",
       "description": "A body for creating a message.",
@@ -1729,6 +2071,112 @@
         "text"
       ]
     },
+    "MessageLog": {
+      "type": "object",
+      "description": "A copilot log related to a message.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The Log name/key.",
+          "readOnly": true
+        },
+        "conversationName": {
+          "type": "string",
+          "description": "The identifier of the conversation this log belongs to.",
+          "readOnly": true
+        },
+        "messageName": {
+          "type": "string",
+          "description": "The identifier of the message this log is associated with.",
+          "readOnly": true
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "The timestamp of the log entry in ISO 8601 format.",
+          "readOnly": true
+        },
+        "logLevel": {
+          "$ref": "#/definitions/LogLevel",
+          "description": "The log level for this entry.",
+          "readOnly": true
+        },
+        "type": {
+          "$ref": "#/definitions/LogType",
+          "description": "The type of activity for this log entry.",
+          "readOnly": true
+        },
+        "toolType": {
+          "$ref": "#/definitions/ToolType",
+          "description": "The type of tool, if applicable.",
+          "readOnly": true
+        },
+        "toolName": {
+          "type": "string",
+          "description": "The name of the tool, if applicable.",
+          "readOnly": true
+        },
+        "toolArguments": {
+          "type": "string",
+          "description": "The arguments passed to the tool, if applicable.",
+          "readOnly": true
+        },
+        "isAction": {
+          "$ref": "#/definitions/IsAction",
+          "description": "Indicates if this log entry represents an action.",
+          "readOnly": true
+        },
+        "codeEnvironment": {
+          "type": "boolean",
+          "description": "Indicates the code environment",
+          "readOnly": true
+        },
+        "destinationAgent": {
+          "type": "string",
+          "description": "The destination agent, if applicable.",
+          "readOnly": true
+        },
+        "sender": {
+          "type": "string",
+          "description": "The sender of the log entry.",
+          "readOnly": true
+        },
+        "text": {
+          "type": "string",
+          "description": "The text content of the log entry.",
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/LogStatus",
+          "description": "The status of the activity represented by this log entry.",
+          "readOnly": true
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The creation time of the log entry (Unix timestamp).",
+          "readOnly": true
+        },
+        "completedAt": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The completion time of the log entry (Unix timestamp).",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "name",
+        "conversationName",
+        "messageName",
+        "timestamp",
+        "logLevel",
+        "type",
+        "sender",
+        "text",
+        "status",
+        "createdAt",
+        "completedAt"
+      ]
+    },
     "MessageStatus": {
       "type": "string",
       "description": "Enumeration for message status.",
@@ -1737,7 +2185,7 @@
         "AwaitingUserInput",
         "Running",
         "Succeeded",
-        "Canceled",
+        "Cancelled",
         "Failed"
       ],
       "x-ms-enum": {
@@ -1765,8 +2213,8 @@
             "description": "Succeeded"
           },
           {
-            "name": "Canceled",
-            "value": "Canceled",
+            "name": "Cancelled",
+            "value": "Cancelled",
             "description": "Canceled"
           },
           {
@@ -1881,6 +2329,28 @@
         "value"
       ]
     },
+    "PagedMessageLog": {
+      "type": "object",
+      "description": "Paged collection of MessageLog items",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The MessageLog items on this page",
+          "items": {
+            "$ref": "#/definitions/MessageLog"
+          },
+          "x-ms-identifiers": []
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
     "Project": {
       "type": "object",
       "description": "A project.",
@@ -1958,6 +2428,14 @@
       "type": "object",
       "description": "Parameters to run a Tool",
       "properties": {
+        "projectName": {
+          "type": "string",
+          "description": "The name of the associated Project",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
         "toolId": {
           "type": "string",
           "format": "arm-id",
@@ -2029,6 +2507,7 @@
         }
       },
       "required": [
+        "projectName",
         "toolId",
         "storageId"
       ]
@@ -2151,6 +2630,48 @@
         ]
       }
     },
+    "ToolType": {
+      "type": "string",
+      "description": "Enumeration for tool type.",
+      "enum": [
+        "Hosted",
+        "OpenAPI",
+        "Function",
+        "BuiltIn",
+        "Remote"
+      ],
+      "x-ms-enum": {
+        "name": "ToolType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Hosted",
+            "value": "Hosted",
+            "description": "Hosted tool."
+          },
+          {
+            "name": "OpenAPI",
+            "value": "OpenAPI",
+            "description": "OpenAPI tool."
+          },
+          {
+            "name": "Function",
+            "value": "Function",
+            "description": "Function tool."
+          },
+          {
+            "name": "BuiltIn",
+            "value": "BuiltIn",
+            "description": "Built-in tool."
+          },
+          {
+            "name": "Remote",
+            "value": "Remote",
+            "description": "Remote tool."
+          }
+        ]
+      }
+    },
     "UiCommand": {
       "type": "object",
       "description": "Command for the UI to invoke",
@@ -2221,20 +2742,6 @@
       "required": [
         "dataAssetId"
       ]
-    },
-    "WithInvestigationIdOptional": {
-      "type": "object",
-      "description": "For investigation reference.",
-      "properties": {
-        "investigationId": {
-          "type": "string",
-          "description": "The ID of the associated Investigation",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      }
     },
     "WithKey": {
       "type": "object",
@@ -2333,32 +2840,24 @@
     "WithProjectName": {
       "name": "projectName",
       "in": "path",
+      "description": "The name of the associated Project",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "WithProjectNamePath": {
+      "name": "projectName",
+      "in": "path",
       "description": "Name of the associated Project.",
       "required": true,
       "type": "string",
       "pattern": "^[a-zA-Z0-9-]{3,24}$",
       "x-ms-parameter-location": "method"
     },
-    "WithQueryConversationId": {
-      "name": "conversationId",
+    "WithQueryInvestigationName": {
+      "name": "investigationName",
       "in": "query",
-      "description": "The ID of the associated Conversation",
-      "required": false,
-      "type": "string",
-      "x-ms-parameter-location": "method"
-    },
-    "WithQueryInvestigationId": {
-      "name": "investigationId",
-      "in": "query",
-      "description": "The ID of the associated Investigation",
-      "required": false,
-      "type": "string",
-      "x-ms-parameter-location": "method"
-    },
-    "WithQueryProjectId": {
-      "name": "projectId",
-      "in": "query",
-      "description": "The ID of the associated Project",
+      "description": "The name of the associated Investigation",
       "required": false,
       "type": "string",
       "x-ms-parameter-location": "method"

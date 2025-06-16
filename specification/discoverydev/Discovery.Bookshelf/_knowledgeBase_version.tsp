@@ -27,10 +27,16 @@ model KnowledgeBaseVersion {
   ...BaseKnowledgeBase;
 }
 
-@doc("Node pool identifier")
+@doc("Resources for indexing operation")
 model WithNodePool {
   @doc("Node pool ID")
   nodePoolId: string;
+
+  @doc("Project ID")
+  projectId?: string;
+
+  @doc("Storage ID")
+  storageId?: string;
 }
 
 @doc("Supercomputer run ID")
@@ -113,9 +119,9 @@ interface KnowledgeBaseVersions {
     WithRunId
   >;
 
-  @doc("Stop indexing.")
+  @doc("Cancel indexing.")
   @pollingOperation(KnowledgeBaseVersions.getOperationStatus)
-  stopIndexing is Operations.LongRunningResourceAction<
+  cancelIndexing is Operations.LongRunningResourceAction<
     KnowledgeBaseVersion,
     WithNodePool,
     WithRunId
