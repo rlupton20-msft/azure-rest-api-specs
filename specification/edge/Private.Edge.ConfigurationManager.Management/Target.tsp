@@ -158,7 +158,7 @@ model TargetProperties {
   @doc("Display name of target")
   displayName: string;
 
-  @added(Versions.v2025_06_01_preview)
+  @added(Versions.v2025_06_01)
   @doc("ArmId of Context")
   contextId: Azure.Core.armResourceIdentifier<[
     {

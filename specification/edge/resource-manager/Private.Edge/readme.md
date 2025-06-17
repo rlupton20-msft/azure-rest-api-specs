@@ -60,15 +60,6 @@ input-file:
   - configurationmanager/stable/2025-06-01/configurationmanager.json
 ```
 
-### Tag: package-2025-06-01-preview
-
-These settings apply only when `--tag=package-2025-06-01-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2025-06-01-preview'
-input-file:
-  - configurationmanager/preview/2025-06-01-preview/configurationmanager.json
-```
-
 ### Tag: package-2025-01-01-preview
 
 These settings apply only when `--tag=package-2025-05-01-preview` is specified on the command line.
