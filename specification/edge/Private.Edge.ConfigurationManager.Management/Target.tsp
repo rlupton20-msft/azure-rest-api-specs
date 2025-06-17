@@ -27,11 +27,17 @@ model ResolvedConfiguration {
 
 @doc("Solution Template Parameter")
 model SolutionTemplateParameter {
+  @removed(Versions.v2025_06_01)
   @doc("Solution Template Name")
   solutionTemplate: string;
 
+  @removed(Versions.v2025_06_01)
   @doc("Solution Template Version Name")
   solutionTemplateVersion: string;
+
+  @added(Versions.v2025_06_01)
+  @doc("Solution Template Version ARM Id")
+  solutionTemplateVersionId: string;
 
   @doc("Solution Instance Name")
   @maxLength(24)
@@ -45,14 +51,21 @@ model SolutionTemplateParameter {
 
 @doc("Solution Version Parameter")
 model SolutionVersionParameter {
+  @removed(Versions.v2025_06_01)
   @doc("Solution Name")
   solution: string;
 
+  @removed(Versions.v2025_06_01)
   @doc("Solution Version Name")
   solutionVersion: string;
 
+  @removed(Versions.v2025_06_01)
   @doc("Review ID")
   reviewId: string;
+
+  @added(Versions.v2025_06_01)
+  @doc("Solution Version ARM Id")
+  solutionVersionId: string;
 }
 
 @doc("Update External Validation Status Parameter")
@@ -96,17 +109,28 @@ model SolutionDependencyParameter {
 
 @doc("Install Solution Parameter")
 model InstallSolutionParameter {
+  @removed(Versions.v2025_06_01)
   @doc("Solution Name")
   solution: string;
 
+  @removed(Versions.v2025_06_01)
   @doc("Solution Version Name")
   solutionVersion: string;
+
+  @added(Versions.v2025_06_01)
+  @doc("Solution Version ARM Id")
+  solutionVersionId: string;
 }
 
 @doc("Uninstall Solution Parameter")
 model UninstallSolutionParameter {
+  @removed(Versions.v2025_06_01)
   @doc("Solution Name")
   solutionName: string;
+
+  @added(Versions.v2025_06_01)
+  @doc("Solution Template ARM Id")
+  solutionTemplateId: string;
 
   @doc("Solution Instance Name")
   solutionInstanceName?: string;
@@ -114,8 +138,13 @@ model UninstallSolutionParameter {
 
 @doc("Install Solution Parameter")
 model RemoveRevisionParameter {
+  @removed(Versions.v2025_06_01)
   @doc("Solution Name")
   solution: string;
+
+  @added(Versions.v2025_06_01)
+  @doc("Solution Template ARM Id")
+  solutionTemplateId: string;
 
   @doc("Solution Version Name")
   solutionVersion: string;
