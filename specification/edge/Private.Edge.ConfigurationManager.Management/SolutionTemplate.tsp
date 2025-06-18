@@ -47,7 +47,8 @@ model SolutionTemplate
   is Azure.ResourceManager.TrackedResource<SolutionTemplateProperties> {
   ...ResourceNameParameter<
     SolutionTemplate,
-    NamePattern = "^(?!.*(?:-v-|v-))[a-zA-Z0-9-]{3,24}$">;
+    NamePattern = "^(?!v-)(?!.*-v-)[a-zA-Z0-9-]{3,24}$"
+  >;
   ...EntityTagProperty;
 }
 
