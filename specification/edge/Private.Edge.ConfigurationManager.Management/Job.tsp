@@ -159,7 +159,7 @@ model JobProperties {
 model Job is ExtensionResource<JobProperties> {
   ...ResourceNameParameter<
     Job,
-    NamePattern = "^[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
+    NamePattern = "^(?=.{3,60}$)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
   >;
   ...EntityTagProperty;
 }
