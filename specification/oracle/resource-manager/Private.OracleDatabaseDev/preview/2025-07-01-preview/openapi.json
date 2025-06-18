@@ -10677,6 +10677,34 @@
         ]
       }
     },
+    "DnsForwardingRule": {
+      "type": "object",
+      "description": "DNS forwarding rule properties",
+      "properties": {
+        "domainName": {
+          "type": "string",
+          "description": "Domain name",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "forwardingIpAddress": {
+          "type": "string",
+          "description": "Forwarding ip address",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "domainName",
+        "forwardingIpAddress"
+      ]
+    },
     "DnsPrivateView": {
       "type": "object",
       "description": "DnsPrivateView resource definition",
@@ -10934,42 +10962,6 @@
             "description": "Updating value"
           }
         ]
-      }
-    },
-    "DnsResolutionFromAzureToOciProperties": {
-      "type": "object",
-      "description": "DnsResolutionFromAzureToOci properties",
-      "properties": {
-        "isEnabled": {
-          "type": "boolean",
-          "description": "Indicates whether DNS forwarding from Azure to OCI is enabled for the Network Anchor.",
-          "default": false
-        },
-        "listeningEndpointIpAddress": {
-          "type": "string",
-          "description": "The IP address used for DNS forwarding from Azure to OCI."
-        }
-      }
-    },
-    "DnsResolutionFromOciToAzureProperties": {
-      "type": "object",
-      "description": "DnsResolutionFromOciToAzure properties",
-      "properties": {
-        "isEnabled": {
-          "type": "boolean",
-          "description": "Indicates whether DNS forwarding from OCI to Azure is enabled for the Network Anchor.",
-          "default": false
-        },
-        "domainName": {
-          "type": "string",
-          "description": "The domain name used for DNS forwarding from OCI to Azure.",
-          "minLength": 1,
-          "maxLength": 255
-        },
-        "forwardingIpAddress": {
-          "type": "string",
-          "description": "The IP address used for DNS forwarding from OCI to Azure."
-        }
       }
     },
     "EstimatedPatchingTime": {
@@ -12624,23 +12616,58 @@
             "create"
           ]
         },
-        "dnsResolutionFromOciToAzureProperties": {
-          "$ref": "#/definitions/DnsResolutionFromOciToAzureProperties",
-          "description": "DnsResolutionFromOciToAzure properties",
+        "enableDnsZoneSyncFromOciToAzure": {
+          "type": "boolean",
+          "description": "Indicates whether DNS zone sync from OCI to Azure is enabled",
+          "default": false,
           "x-ms-mutability": [
             "read",
             "update",
             "create"
           ]
         },
-        "dnsResolutionFromAzureToOciProperties": {
-          "$ref": "#/definitions/DnsResolutionFromAzureToOciProperties",
-          "description": "DnsResolutionFromAzureToOci properties",
+        "enableDnsListeningEndpoint": {
+          "type": "boolean",
+          "description": "Indicates whether the DNS listening endpoint is enabled",
+          "default": false,
           "x-ms-mutability": [
             "read",
             "update",
             "create"
           ]
+        },
+        "enableDnsForwardingEndpoint": {
+          "type": "boolean",
+          "description": "Indicates whether the DNS forwarding endpoint is enabled",
+          "default": false,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "dnsForwardingRules": {
+          "type": "array",
+          "description": "DNS forwarding rules",
+          "items": {
+            "$ref": "#/definitions/DnsForwardingRule"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "dnsListeningEndpointIpAddress": {
+          "type": "string",
+          "description": "DNS listening endpoint IP address",
+          "readOnly": true
+        },
+        "dnsForwardingEndpointIpAddress": {
+          "type": "string",
+          "description": "DNS forwarding endpoint IP address",
+          "readOnly": true
         }
       },
       "required": [
@@ -12685,18 +12712,43 @@
             "create"
           ]
         },
-        "dnsResolutionFromOciToAzureProperties": {
-          "$ref": "#/definitions/DnsResolutionFromOciToAzureProperties",
-          "description": "DnsResolutionFromOciToAzure properties",
+        "enableDnsZoneSyncFromOciToAzure": {
+          "type": "boolean",
+          "description": "Indicates whether DNS zone sync from OCI to Azure is enabled",
+          "default": false,
           "x-ms-mutability": [
             "read",
             "update",
             "create"
           ]
         },
-        "dnsResolutionFromAzureToOciProperties": {
-          "$ref": "#/definitions/DnsResolutionFromAzureToOciProperties",
-          "description": "DnsResolutionFromAzureToOci properties",
+        "enableDnsListeningEndpoint": {
+          "type": "boolean",
+          "description": "Indicates whether the DNS listening endpoint is enabled",
+          "default": false,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "enableDnsForwardingEndpoint": {
+          "type": "boolean",
+          "description": "Indicates whether the DNS forwarding endpoint is enabled",
+          "default": false,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "dnsForwardingRules": {
+          "type": "array",
+          "description": "DNS forwarding rules",
+          "items": {
+            "$ref": "#/definitions/DnsForwardingRule"
+          },
+          "x-ms-identifiers": [],
           "x-ms-mutability": [
             "read",
             "update",

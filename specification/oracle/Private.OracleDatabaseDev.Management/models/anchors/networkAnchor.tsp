@@ -54,37 +54,45 @@ model NetworkAnchorProperties {
   ociBackupCidrBlock?: string;
 
   @added(Versions.v20250701_preview)
-  @doc("DnsResolutionFromOciToAzure properties")
+  @doc("Indicates whether DNS zone sync from OCI to Azure is enabled")
   @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
-  dnsResolutionFromOciToAzureProperties?: DnsResolutionFromOciToAzureProperties;
+  enableDnsZoneSyncFromOciToAzure?: boolean = false;
 
   @added(Versions.v20250701_preview)
-  @doc("DnsResolutionFromAzureToOci properties")
+  @doc("Indicates whether the DNS listening endpoint is enabled")
   @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
-  dnsResolutionFromAzureToOciProperties?: DnsResolutionFromAzureToOciProperties;
+  enableDnsListeningEndpoint?: boolean = false;
+
+  @added(Versions.v20250701_preview)
+  @doc("Indicates whether the DNS forwarding endpoint is enabled")
+  @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
+  enableDnsForwardingEndpoint?: boolean = false;
+
+  @added(Versions.v20250701_preview)
+  @doc("DNS forwarding rules")
+  @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  dnsForwardingRules?: DnsForwardingRule[];
+
+  @added(Versions.v20250701_preview)
+  @doc("DNS listening endpoint IP address")
+  @visibility(Lifecycle.Read)
+  dnsListeningEndpointIpAddress?: string;
+
+  @added(Versions.v20250701_preview)
+  @doc("DNS forwarding endpoint IP address")
+  @visibility(Lifecycle.Read)
+  dnsForwardingEndpointIpAddress?: string;
 }
 
 @added(Versions.v20250701_preview)
-@doc("DnsResolutionFromOciToAzure properties")
-model DnsResolutionFromOciToAzureProperties {
-  @doc("Indicates whether DNS forwarding from OCI to Azure is enabled for the Network Anchor.")
-  isEnabled?: boolean = false;
+@doc("DNS forwarding rule properties")
+model DnsForwardingRule {
+  @doc("Domain name")
+  @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
+  domainName: string;
 
-  @doc("The domain name used for DNS forwarding from OCI to Azure.")
-  @minLength(1)
-  @maxLength(255)
-  domainName?: string;
-
-  @doc("The IP address used for DNS forwarding from OCI to Azure.")
-  forwardingIpAddress?: string;
-}
-
-@added(Versions.v20250701_preview)
-@doc("DnsResolutionFromAzureToOci properties")
-model DnsResolutionFromAzureToOciProperties {
-  @doc("Indicates whether DNS forwarding from Azure to OCI is enabled for the Network Anchor.")
-  isEnabled?: boolean = false;
-
-  @doc("The IP address used for DNS forwarding from Azure to OCI.")
-  listeningEndpointIpAddress?: string;
+  @doc("Forwarding ip address")
+  @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
+  forwardingIpAddress: string;
 }
