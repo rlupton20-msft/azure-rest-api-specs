@@ -157,7 +157,10 @@ model JobProperties {
 
 @doc("Job extension resource for tracking job execution and substatuses.")
 model Job is ExtensionResource<JobProperties> {
-  ...ResourceNameParameter<Job>;
+  ...ResourceNameParameter<
+    Job,
+    NamePattern = "^[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
+  >;
   ...EntityTagProperty;
 }
 
@@ -168,4 +171,13 @@ interface Jobs {
 
   @doc("List Jobs by parent resource")
   listByTarget is ArmResourceListByParent<Job>;
+
+  @doc("Create or update job Resource")
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<Job>;
+
+  @doc("Update an Job Resource")
+  update is ArmResourcePatchAsync<Job, JobProperties>;
+
+  @doc("Delete Job Resource")
+  delete is ArmResourceDeleteWithoutOkAsync<Job>;
 }

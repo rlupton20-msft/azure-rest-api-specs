@@ -176,7 +176,7 @@
             "description": "The name of the Job",
             "required": true,
             "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+            "pattern": "^[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
           }
         ],
         "responses": {
@@ -193,6 +193,189 @@
             }
           }
         }
+      },
+      "put": {
+        "operationId": "Jobs_CreateOrUpdate",
+        "tags": [
+          "Jobs"
+        ],
+        "description": "Create or update job Resource",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "jobName",
+            "in": "path",
+            "description": "The name of the Job",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Job"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'Job' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Job"
+            }
+          },
+          "201": {
+            "description": "Resource 'Job' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Job"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "Jobs_Update",
+        "tags": [
+          "Jobs"
+        ],
+        "description": "Update an Job Resource",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "jobName",
+            "in": "path",
+            "description": "The name of the Job",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/JobUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Job"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "Jobs_Delete",
+        "tags": [
+          "Jobs"
+        ],
+        "description": "Delete Job Resource",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "jobName",
+            "in": "path",
+            "description": "The name of the Job",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/{resourceUri}/providers/Private.Edge/schemaReferences": {
@@ -9840,6 +10023,21 @@
       ],
       "x-ms-discriminator-value": "deploy"
     },
+    "DeployJobParameterUpdate": {
+      "type": "object",
+      "description": "Parameters for a deployment job.",
+      "properties": {
+        "parameter": {
+          "$ref": "#/definitions/InstallSolutionParameterUpdate"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/JobParameterBaseUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "deploy"
+    },
     "DeployJobStepStatistics": {
       "type": "object",
       "description": "Deploy statistics for a job step, including total, success, and failed counts.",
@@ -10463,6 +10661,16 @@
         "solutionVersionId"
       ]
     },
+    "InstallSolutionParameterUpdate": {
+      "type": "object",
+      "description": "Install Solution Parameter",
+      "properties": {
+        "solutionVersionId": {
+          "type": "string",
+          "description": "Solution Version ARM Id"
+        }
+      }
+    },
     "Instance": {
       "type": "object",
       "description": "Instance Resource. Represents a deployment object.",
@@ -10747,6 +10955,20 @@
         "jobType"
       ]
     },
+    "JobParameterBaseUpdate": {
+      "type": "object",
+      "description": "Base Job Parameter",
+      "properties": {
+        "jobType": {
+          "$ref": "#/definitions/JobType",
+          "description": "Job type discriminator value"
+        }
+      },
+      "discriminator": "jobType",
+      "required": [
+        "jobType"
+      ]
+    },
     "JobProperties": {
       "type": "object",
       "description": "Properties of a Job resource, including type, status, parameters, steps, and error details.",
@@ -10782,7 +11004,8 @@
           "description": "Steps and substatuses for the job.",
           "items": {
             "$ref": "#/definitions/JobStep"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "triggeredBy": {
           "type": "string",
@@ -10803,6 +11026,50 @@
         "jobType",
         "status"
       ]
+    },
+    "JobPropertiesUpdate": {
+      "type": "object",
+      "description": "Properties of a Job resource, including type, status, parameters, steps, and error details.",
+      "properties": {
+        "jobType": {
+          "$ref": "#/definitions/JobType",
+          "description": "The type of job."
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start time of the job (ISO8601)."
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End time of the job (ISO8601)."
+        },
+        "status": {
+          "$ref": "#/definitions/JobStatus",
+          "description": "Status of the job."
+        },
+        "jobParameter": {
+          "$ref": "#/definitions/JobParameterBaseUpdate",
+          "description": "Parameters for the job."
+        },
+        "correlationId": {
+          "type": "string",
+          "description": "Correlation ID for tracking."
+        },
+        "steps": {
+          "type": "array",
+          "description": "Steps and substatuses for the job.",
+          "items": {
+            "$ref": "#/definitions/JobStep"
+          },
+          "x-ms-identifiers": []
+        },
+        "triggeredBy": {
+          "type": "string",
+          "description": "The OID or identity that triggered the job."
+        }
+      }
     },
     "JobStatus": {
       "type": "string",
@@ -10876,7 +11143,8 @@
           "description": "Nested substeps for this step",
           "items": {
             "$ref": "#/definitions/JobStep"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "errorDetails": {
           "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorDetail",
@@ -10936,6 +11204,21 @@
           }
         ]
       }
+    },
+    "JobUpdate": {
+      "type": "object",
+      "description": "Job extension resource for tracking job execution and substatuses.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/JobPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
     },
     "OrchestratorType": {
       "type": "string",
@@ -12087,7 +12370,8 @@
           "description": "List of tasks in the stage",
           "items": {
             "$ref": "#/definitions/TaskSpec"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "taskOption": {
           "$ref": "#/definitions/TaskOption",
