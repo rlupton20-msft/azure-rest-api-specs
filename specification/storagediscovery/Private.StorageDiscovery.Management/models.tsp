@@ -1,0 +1,57 @@
+import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/versioning";
+import "./versions.tsp";
+
+using TypeSpec.Versioning;
+using Azure.ResourceManager;
+
+namespace Private.StorageDiscovery;
+
+/**
+ * Request to get StorageDiscoveryWorkspace data from ADX
+ */
+@added(ApiVersion.v2025_04_01_preview)
+model GetReportRequest {
+  @doc("The list of queries")
+  queries: string[];
+}
+
+/**
+ * The response of the report operation
+ */
+@added(ApiVersion.v2025_04_01_preview)
+model GetReportResponse {
+  @doc("One or more result sets, in the same order as the queries in the request body")
+  @identifiers(#[])
+  results: ReportResponseResultSet[];
+}
+
+/**
+ * The result set of the report operation
+ */
+@added(ApiVersion.v2025_04_01_preview)
+model ReportResponseResultSet {
+  @doc("Array of columns object, present only if the query succeeded")
+  @identifiers(#[])
+  columns?: ReportResponseColumn[];
+
+  @doc("Array of all rows from ADX, present only if the query succeeded")
+  @identifiers(#[])
+  rows?: string[][];
+
+  @doc("Provides an error about the query, present only if the query fails")
+  errorCode?: string;
+}
+
+/**
+ * The column of the response result set
+ */
+@added(ApiVersion.v2025_04_01_preview)
+model ReportResponseColumn {
+  @doc("Name of the column")
+  name: string;
+
+  @doc("ADX type of the column")
+  type: string;
+}
