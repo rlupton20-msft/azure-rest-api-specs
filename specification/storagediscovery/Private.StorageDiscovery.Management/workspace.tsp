@@ -34,10 +34,12 @@ model StorageDiscoveryWorkspace
 model StorageDiscoveryWorkspaceProperties {
   @doc("The storage discovery sku.")
   @renamedFrom(ApiVersion.v2025_03_01_preview, "tier")
+  @madeRequired(ApiVersion.v2025_06_01_preview)
   sku: StorageDiscoverySku;
 
   @doc("The state of storage discovery workspace")
   @added(ApiVersion.v2025_03_01_preview)
+  @removed(ApiVersion.v2025_06_01_preview)
   workspaceState: WorkspaceState;
 
   @doc("The state of storage discovery data export")
@@ -50,27 +52,31 @@ model StorageDiscoveryWorkspaceProperties {
   @doc("The view level storage discovery data estate")
   @added(ApiVersion.v2025_01_01_preview)
   @renamedFrom(ApiVersion.v2025_03_01_preview, "storageEstateViewLevel")
+  @madeRequired(ApiVersion.v2025_06_01_preview)
   @typeChangedFrom(
     ApiVersion.v2025_03_01_preview,
     Azure.Core.armResourceIdentifier
   )
-  discoveryScopeLevels: Azure.Core.armResourceIdentifier<[
+  workspaceRoots: Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.Storage/storageAccounts";
-      scopes: ["tenant", "subscription", "resourceGroup"];
+      type: "Microsoft.Storage/storageAccounts",
+      scopes: ["Tenant", "Subscription", "ResourceGroup"]
     }
   ]>[];
 
   @doc("The scope of the storage discovery workspace.")
   @identifiers(#["displayName"])
   @removed(ApiVersion.v2025_01_01_preview)
-  scopes: StorageDiscoveryScopeV1[];
+  @renamedFrom(ApiVersion.v2025_06_01_preview, "scopes")
+  oldScopes: StorageDiscoveryScopeV1[];
 
   @doc("The storage discovery resource collections.")
   @identifiers(#["displayName"])
   @added(ApiVersion.v2025_01_01_preview)
   @renamedFrom(ApiVersion.v2025_03_01_preview, "storageCollections")
-  discoveryScopes: StorageDiscoveryScope[];
+  @renamedFrom(ApiVersion.v2025_06_01_preview, "discoveryScopes")
+  @madeRequired(ApiVersion.v2025_06_01_preview)
+  scopes: StorageDiscoveryScope[];
 
   @doc("The destinations to which the storage workspace sends data")
   @removed(ApiVersion.v2025_01_01_preview)
@@ -87,6 +93,7 @@ model StorageDiscoveryWorkspaceProperties {
  * The state of storage discovery workspace
  */
 @added(ApiVersion.v2025_03_01_preview)
+@removed(ApiVersion.v2025_06_01_preview)
 union WorkspaceState {
   @doc("Workspace is Enabled")
   Enabled: "Enabled",

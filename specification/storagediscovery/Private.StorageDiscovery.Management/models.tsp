@@ -13,7 +13,12 @@ namespace Private.StorageDiscovery;
  */
 @added(ApiVersion.v2025_04_01_preview)
 model GetReportRequest {
-  @doc("The list of queries")
+  @doc("""
+    The queries to execute against Storage Discovery data.
+    Format: Base64-encoded JSON object with structure:
+    {"queries":[{"name":"queryName","query":"KQL query"}]}
+    For query syntax and available tables, see: https://aka.ms/storageDiscoveryQuery
+    """)
   queries: string[];
 }
 

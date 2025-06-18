@@ -763,7 +763,7 @@
       "properties": {
         "queries": {
           "type": "array",
-          "description": "The list of queries",
+          "description": "The queries to execute against Storage Discovery data.\nFormat: Base64-encoded JSON object with structure:\n{\"queries\":[{\"name\":\"queryName\",\"query\":\"KQL query\"}]}\nFor query syntax and available tables, see: https://aka.ms/storageDiscoveryQuery",
           "items": {
             "type": "string"
           }
@@ -1029,10 +1029,6 @@
           "$ref": "#/definitions/StorageDiscoverySku",
           "description": "The storage discovery sku."
         },
-        "workspaceState": {
-          "$ref": "#/definitions/WorkspaceState",
-          "description": "The state of storage discovery workspace"
-        },
         "exportState": {
           "$ref": "#/definitions/DataExportState",
           "description": "The state of storage discovery data export"
@@ -1041,7 +1037,7 @@
           "type": "string",
           "description": "The description of the storage discovery workspace"
         },
-        "discoveryScopeLevels": {
+        "workspaceRoots": {
           "type": "array",
           "description": "The view level storage discovery data estate",
           "items": {
@@ -1053,16 +1049,16 @@
                 {
                   "type": "Microsoft.Storage/storageAccounts",
                   "scopes": [
-                    "tenant",
-                    "subscription",
-                    "resourceGroup"
+                    "Tenant",
+                    "Subscription",
+                    "ResourceGroup"
                   ]
                 }
               ]
             }
           }
         },
-        "discoveryScopes": {
+        "scopes": {
           "type": "array",
           "description": "The storage discovery resource collections.",
           "items": {
@@ -1084,9 +1080,8 @@
       },
       "required": [
         "sku",
-        "workspaceState",
-        "discoveryScopeLevels",
-        "discoveryScopes"
+        "workspaceRoots",
+        "scopes"
       ]
     },
     "StorageDiscoveryWorkspacePropertiesUpdate": {
@@ -1097,10 +1092,6 @@
           "$ref": "#/definitions/StorageDiscoverySku",
           "description": "The storage discovery sku."
         },
-        "workspaceState": {
-          "$ref": "#/definitions/WorkspaceState",
-          "description": "The state of storage discovery workspace"
-        },
         "exportState": {
           "$ref": "#/definitions/DataExportState",
           "description": "The state of storage discovery data export"
@@ -1109,7 +1100,7 @@
           "type": "string",
           "description": "The description of the storage discovery workspace"
         },
-        "discoveryScopeLevels": {
+        "workspaceRoots": {
           "type": "array",
           "description": "The view level storage discovery data estate",
           "items": {
@@ -1121,16 +1112,16 @@
                 {
                   "type": "Microsoft.Storage/storageAccounts",
                   "scopes": [
-                    "tenant",
-                    "subscription",
-                    "resourceGroup"
+                    "Tenant",
+                    "Subscription",
+                    "ResourceGroup"
                   ]
                 }
               ]
             }
           }
         },
-        "discoveryScopes": {
+        "scopes": {
           "type": "array",
           "description": "The storage discovery resource collections.",
           "items": {
@@ -1160,30 +1151,6 @@
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
       ]
-    },
-    "WorkspaceState": {
-      "type": "string",
-      "description": "The state of storage discovery workspace",
-      "enum": [
-        "Enabled",
-        "Disabled"
-      ],
-      "x-ms-enum": {
-        "name": "WorkspaceState",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Enabled",
-            "value": "Enabled",
-            "description": "Workspace is Enabled"
-          },
-          {
-            "name": "Disabled",
-            "value": "Disabled",
-            "description": "Workspace is Disabled"
-          }
-        ]
-      }
     }
   },
   "parameters": {}
