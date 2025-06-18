@@ -8,6 +8,7 @@ import "../shared/maintenancemodeconfiguration.tsp";
 
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
+using OpenAPI;
 
 @doc("Microsoft Mission Resource Provider management API.")
 namespace Microsoft.Mission;
@@ -136,9 +137,15 @@ model CommunityBaseModel {
   @visibility(Lifecycle.Read)
   resourceCollection?: string[];
 
+  @removed(Microsoft.Mission.Versions.v2025_05_01_preview)
   @doc("Managed resource group configuration.")
   @visibility(Lifecycle.Read)
   managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+
+  @added(Microsoft.Mission.Versions.v2025_05_01_preview)
+  @doc("Managed resource group name.")
+  @visibility(Lifecycle.Read)
+  managedResourceGroupName?: string;
 
   @added(Microsoft.Mission.Versions.v2025_05_01_preview)
   @doc("Managed On Behalf Of Configuration.")
@@ -146,11 +153,12 @@ model CommunityBaseModel {
   managedOnBehalfOfConfiguration?: CommonTypes.ManagedOnBehalfOfConfiguration;
 
   @doc("List of services governed by a community.")
+  @extension("x-ms-identifiers", #["serviceId"])
   governedServiceList?: GovernedServiceItem[];
 
   @added(Microsoft.Mission.Versions.v2025_05_01_preview)
   @doc("Allow enclaves to override community policies")
-  allowEnclavePolicyOverride?: boolean;
+  policyOverride?: "Enclave" | "None" | string;
 
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Community role assignments")
