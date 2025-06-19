@@ -29,17 +29,17 @@ model GetReportContent {
 model GetReportResult {
   @doc("One or more result sets, in the same order as the queries in the request body")
   @identifiers(#[])
-  results: ReportResponseResultSet[];
+  results: ReportResultSet[];
 }
 
 /**
  * The result set of the report operation
  */
 @added(ApiVersion.v2025_04_01_preview)
-model ReportResponseResultSet {
+model ReportResultSet {
   @doc("Array of columns object, present only if the query succeeded")
   @identifiers(#[])
-  columns?: ReportResponseColumn[];
+  columns?: ReportResultColumn[];
 
   @doc("Array of all rows from ADX, present only if the query succeeded")
   @identifiers(#[])
@@ -53,7 +53,7 @@ model ReportResponseResultSet {
  * The column of the response result set
  */
 @added(ApiVersion.v2025_04_01_preview)
-model ReportResponseColumn {
+model ReportResultColumn {
   @doc("Name of the column")
   name: string;
 
