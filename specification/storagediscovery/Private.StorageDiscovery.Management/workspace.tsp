@@ -17,9 +17,12 @@ namespace Private.StorageDiscovery;
 
 /**
  * Legacy name type for StorageDiscoveryWorkspace in older API versions (2024-12-01 through 2025-04-01)
+ * Legacy display name type for scope names in older API versions (2024-12-01 through 2025-04-01)
  */
 @pattern("^[a-z0-9]{3,18}$")
 scalar StorageDiscoveryWorkspaceNameLegacy extends string;
+
+scalar ScopeDisplayNameLegacy extends string;
 
 /**
  * A Storage Discovery Workspace resource. This resource configures the collection of storage account metrics.
@@ -160,7 +163,7 @@ union StorageDiscoverySku {
 @renamedFrom(ApiVersion.v2025_03_01_preview, "StorageDiscoveryScope")
 model StorageDiscoveryScopeV1 {
   @doc("Display name of the scope")
-  displayName: string;
+  displayName: ScopeDisplayNameLegacy;
 
   @doc("Resource types for the scope")
   resourceTypes: Azure.Core.armResourceIdentifier<[
@@ -194,6 +197,10 @@ model StorageDiscoveryResourceFilter {
 @renamedFrom(ApiVersion.v2025_03_01_preview, "StorageDiscoveryCollection")
 model StorageDiscoveryScope {
   @doc("Display name of the collection")
+  @typeChangedFrom(ApiVersion.v2025_06_01_preview, ScopeDisplayNameLegacy)
+  @pattern("^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+  @minLength(3)
+  @maxLength(64)
   displayName: string;
 
   @doc("Resource types for the collection")
