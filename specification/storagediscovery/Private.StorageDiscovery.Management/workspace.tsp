@@ -78,6 +78,7 @@ model StorageDiscoveryWorkspaceProperties {
   workspaceRoots: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.Storage/storageAccounts";
+      scopes: ["Tenant", "Subscription", "ResourceGroup"];
     }
   ]>[];
 
