@@ -7,7 +7,9 @@ using Azure.ClientGenerator.Core;
 using Private.StorageDiscovery;
 
 // suppress report operations
-@@scope(StorageDiscoveryWorkspaces.report, "!(python,javascript,go,java,csharp)");
+@@scope(StorageDiscoveryWorkspaces.report,
+  "!(python,javascript,go,java,csharp)"
+);
 @@scope(Report.get, "!(python,javascript,go,java,csharp)");
 @@scope(Report.report, "!(python,javascript,go,java,csharp)");
 @@scope(Report.listByResourceGroup, "!(python,javascript,go,java,csharp)");
