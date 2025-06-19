@@ -7,15 +7,8 @@ using Azure.ClientGenerator.Core;
 using Private.StorageDiscovery;
 
 // suppress report operations
-@@scope(StorageDiscoveryWorkspaces.report, "none");
-@@scope(Report.get, "none");
-@@scope(Report.report, "none");
-@@scope(Report.listByResourceGroup, "none");
-@@scope(Report.listBySubscription, "none");
-
-// make report operations internal
-@@access(StorageDiscoveryWorkspaces.report, Access.internal);
-@@access(Report.get, Access.internal);
-@@access(Report.report, Access.internal);
-@@access(Report.listByResourceGroup, Access.internal);
-@@access(Report.listBySubscription, Access.internal);
+@@scope(StorageDiscoveryWorkspaces.report, "!(python,javascript,go,java,csharp)");
+@@scope(Report.get, "!(python,javascript,go,java,csharp)");
+@@scope(Report.report, "!(python,javascript,go,java,csharp)");
+@@scope(Report.listByResourceGroup, "!(python,javascript,go,java,csharp)");
+@@scope(Report.listBySubscription, "!(python,javascript,go,java,csharp)");
