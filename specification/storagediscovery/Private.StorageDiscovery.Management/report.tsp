@@ -39,8 +39,8 @@ interface Report {
   @post
   report is ArmResourceActionAsync<
     ReportResource,
-    GetReportRequest,
-    GetReportResponse
+    GetReportContent,
+    GetReportResult
   >;
   listByResourceGroup is ArmResourceListByParent<ReportResource>;
   listBySubscription is ArmListBySubscription<ReportResource>;

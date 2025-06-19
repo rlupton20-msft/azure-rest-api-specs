@@ -3,6 +3,7 @@ namespace Private.AltsTest;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.ResourceManager;
+using TypeSpec.Versioning;
 
 @doc("A template defining the parameters for a test job.")
 model JobTemplate is TrackedResource<JobTemplateResourceProperties> {
@@ -27,13 +28,15 @@ model JobTemplateResourceProperties is ResourceProperties {
   vmSize?: string[] = #[];
 
   @doc("OS disk enccryption setting for Confidential VM only.")
+  @added(Versions.v2025_04_01_preview)
   encryptDisk?: boolean = false;
 
   @doc("Options are 'none', 'secureboot', 'cvm', 'stateless'")
+  @added(Versions.v2025_04_01_preview)
   securityProfile?: SecurityProfile;
 
   @doc("Test Selections. Default is to run the smoke_test case")
-  @OpenAPI.extension("x-ms-identifiers", #[])
+  @identifiers(#[])
   selections?: Selections[];
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "customParameters requires a Record<string> for backward compatibility"
@@ -45,6 +48,7 @@ model JobTemplateResourceProperties is ResourceProperties {
 }
 
 @doc("Security Profiles")
+@added(Versions.v2025_04_01_preview)
 union SecurityProfile {
   @doc("none = no additional security features")
   none: "none",
@@ -115,14 +119,22 @@ model Selections {
   ignoreFailure?: boolean = false;
 }
 
+/** Updateable properties of a Tracked Resource */
+#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
+model TrackedResourceUpdate extends Azure.ResourceManager.Foundations.Resource {
+  /** The resource tags */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
+  tags?: Record<string>;
+}
+
 /**
  * Represents the updateable properties of a Job Template.
  */
-model JobTemplatePatch {
-  ...Azure.ResourceManager.Foundations.ArmTagsProperty;
-
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
+model JobTemplateUpdate extends TrackedResourceUpdate {
   /** RP-specific properties */
-  properties?: JobTemplatePatchProperties;
+  properties?: JobTemplateUpdateProperties;
 }
 
 /**
@@ -130,7 +142,7 @@ model JobTemplatePatch {
  * defaults are prohibited for PATCH operations
  */
 @doc("The job template properties for PATCH operations without default values")
-model JobTemplatePatchProperties {
+model JobTemplateUpdateProperties {
   @doc("Tags used to organized templates.")
   templateTags?: string[];
 
@@ -140,15 +152,17 @@ model JobTemplatePatchProperties {
   @doc("VM sizes to run test on.")
   vmSize?: string[];
 
+  @added(Versions.v2025_04_01_preview)
   @doc("OS disk encryption setting for Confidential VM only.")
   encryptDisk?: boolean;
 
+  @added(Versions.v2025_04_01_preview)
   @doc("Options are 'none', 'secureboot', 'cvm', 'stateless'")
   securityProfile?: SecurityProfile;
 
   @doc("Test Selections without defaults")
-  @OpenAPI.extension("x-ms-identifiers", #[])
-  selections?: SelectionsPatch[];
+  @identifiers(#[])
+  selections?: SelectionsUpdate[];
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "customParameters requires a Record<string> for backward compatibility"
   @doc("Custom parameters for different test cases")
@@ -159,7 +173,7 @@ model JobTemplatePatchProperties {
 }
 
 @doc("Details test case criteria for PATCH operations (without default values)")
-model SelectionsPatch {
+model SelectionsUpdate {
   @doc("Test case name.")
   caseName?: string[];
 
@@ -197,7 +211,15 @@ interface JobTemplates {
   listByResourceGroup is ArmResourceListByParent<JobTemplate>;
   listbySubscription is ArmListBySubscription<JobTemplate>;
   get is ArmResourceRead<JobTemplate>;
+
+  @sharedRoute
+  @renamedFrom(Versions.v2025_04_01_preview, "createOrUpdate")
+  @removed(Versions.v2025_04_01_preview)
+  createOrUpdateOld is ArmResourceCreateOrUpdateSyncCompliant<JobTemplate>;
+  @sharedRoute
+  @added(Versions.v2025_04_01_preview)
   createOrUpdate is ArmResourceCreateOrReplaceSync<JobTemplate>;
-  update is ArmCustomPatchSync<JobTemplate, JobTemplatePatch>;
+
+  update is ArmCustomPatchSync<JobTemplate, JobTemplateUpdate>;
   delete is ArmResourceDeleteSync<JobTemplate>;
 }

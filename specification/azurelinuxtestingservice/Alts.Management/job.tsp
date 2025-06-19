@@ -42,7 +42,7 @@ model JobResourceProperties is ResourceProperties {
 
   @doc("Test results once job is completed.")
   @visibility(Lifecycle.Read)
-  @OpenAPI.extension("x-ms-identifiers", #[])
+  @identifiers(#[])
   results?: TestResultProperties[];
 
   @doc("Test duration in format 5h 10m 2s")
@@ -150,7 +150,15 @@ interface Jobs {
   listByResourceGroup is ArmResourceListByParent<Job>;
   listbySubscription is ArmListBySubscription<Job>;
   get is ArmResourceRead<Job>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<Job>;
+
+  @sharedRoute
+  @renamedFrom(Versions.v2025_04_01_preview, "createOrUpdate")
+  @removed(Versions.v2025_04_01_preview)
+  createOrUpdateOld is ArmResourceCreateOrUpdateAsyncCompliant<Job>;
+  @sharedRoute
+  @added(Versions.v2025_04_01_preview)
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<Job>;
+
   update is ArmTagsPatchSync<Job>;
   delete is ArmResourceDeleteWithoutOkAsync<Job>;
 }

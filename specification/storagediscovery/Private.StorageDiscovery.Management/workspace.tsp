@@ -60,7 +60,6 @@ model StorageDiscoveryWorkspaceProperties {
   workspaceRoots: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.Storage/storageAccounts";
-      scopes: ["Tenant", "Subscription", "ResourceGroup"];
     }
   ]>[];
 
@@ -234,8 +233,8 @@ interface StorageDiscoveryWorkspaces {
   @added(ApiVersion.v2025_04_01_preview)
   report is ArmResourceActionAsync<
     StorageDiscoveryWorkspace,
-    GetReportRequest,
-    GetReportResponse
+    GetReportContent,
+    GetReportResult
   >;
 }
 
