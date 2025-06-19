@@ -16,16 +16,29 @@ using TypeSpec.Versioning;
 namespace Private.StorageDiscovery;
 
 /**
+ * Legacy name type for StorageDiscoveryWorkspace in older API versions (2024-12-01 through 2025-04-01)
+ */
+@pattern("^[a-z0-9]{3,18}$")
+scalar StorageDiscoveryWorkspaceNameLegacy extends string;
+
+/**
  * A Storage Discovery Workspace resource. This resource configures the collection of storage account metrics.
  */
+@doc("A Storage Discovery Workspace resource. This resource configures the collection of storage account metrics.")
 model StorageDiscoveryWorkspace
   is Azure.ResourceManager.TrackedResource<StorageDiscoveryWorkspaceProperties> {
-  ...ResourceNameParameter<
-    Resource = StorageDiscoveryWorkspace,
-    KeyName = "storageDiscoveryWorkspaceName",
-    SegmentName = "storageDiscoveryWorkspaces",
-    NamePattern = "^[a-z0-9]{3,18}$"
-  >;
+  
+  @doc("The name of the StorageDiscoveryWorkspace")
+  @key("storageDiscoveryWorkspaceName")
+  @segment("storageDiscoveryWorkspaces")
+  @path
+  @visibility(Lifecycle.Read)
+  // Starting from v2025_06_01_preview, use enhanced validation
+  @typeChangedFrom(ApiVersion.v2025_06_01_preview, StorageDiscoveryWorkspaceNameLegacy)
+  @pattern("^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+  @minLength(4)
+  @maxLength(64)
+  name: string;
 }
 
 /**
