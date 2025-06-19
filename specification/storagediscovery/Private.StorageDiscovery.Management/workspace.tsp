@@ -220,7 +220,7 @@ model StorageDiscoveryDestination {
 @armResourceOperations
 interface StorageDiscoveryWorkspaces {
   get is ArmResourceRead<StorageDiscoveryWorkspace>;
-  createOrUpdate is ArmResourceCreateOrReplaceSync<StorageDiscoveryWorkspace>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<StorageDiscoveryWorkspace>;
   update is ArmResourcePatchSync<
     StorageDiscoveryWorkspace,
     StorageDiscoveryWorkspaceProperties
