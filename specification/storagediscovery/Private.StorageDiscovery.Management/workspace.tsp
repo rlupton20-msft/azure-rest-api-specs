@@ -27,14 +27,16 @@ scalar StorageDiscoveryWorkspaceNameLegacy extends string;
 @doc("A Storage Discovery Workspace resource. This resource configures the collection of storage account metrics.")
 model StorageDiscoveryWorkspace
   is Azure.ResourceManager.TrackedResource<StorageDiscoveryWorkspaceProperties> {
-  
   @doc("The name of the StorageDiscoveryWorkspace")
   @key("storageDiscoveryWorkspaceName")
   @segment("storageDiscoveryWorkspaces")
   @path
   @visibility(Lifecycle.Read)
   // Starting from v2025_06_01_preview, use enhanced validation
-  @typeChangedFrom(ApiVersion.v2025_06_01_preview, StorageDiscoveryWorkspaceNameLegacy)
+  @typeChangedFrom(
+    ApiVersion.v2025_06_01_preview,
+    StorageDiscoveryWorkspaceNameLegacy
+  )
   @pattern("^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
   @minLength(4)
   @maxLength(64)
