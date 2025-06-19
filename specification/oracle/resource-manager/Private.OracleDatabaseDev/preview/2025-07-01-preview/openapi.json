@@ -115,6 +115,9 @@
     },
     {
       "name": "DbSystems"
+    },
+    {
+      "name": "DbVersions"
     }
   ],
   "paths": {
@@ -737,6 +740,100 @@
             "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/DbSystemShape"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/dbVersions": {
+      "get": {
+        "operationId": "DbVersions_ListByLocation",
+        "tags": [
+          "DbVersions"
+        ],
+        "description": "List DbVersion resources by SubscriptionLocationResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "$ref": "#/parameters/DbVersionFilter.dbSystemShape"
+          },
+          {
+            "$ref": "#/parameters/DbVersionFilter.dbSystemId"
+          },
+          {
+            "$ref": "#/parameters/DbVersionFilter.storageManagement"
+          },
+          {
+            "$ref": "#/parameters/DbVersionFilter.isUpgradeSupported"
+          },
+          {
+            "$ref": "#/parameters/DbVersionFilter.isDatabaseSoftwareImageSupported"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DbVersionListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/dbVersions/{dbversionsname}": {
+      "get": {
+        "operationId": "DbVersions_Get",
+        "tags": [
+          "DbVersions"
+        ],
+        "description": "Get a DbVersion",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "name": "dbversionsname",
+            "in": "path",
+            "description": "DbVersion name",
+            "required": true,
+            "type": "string",
+            "pattern": ".*"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DbVersion"
             }
           },
           "default": {
@@ -7628,6 +7725,24 @@
         "azureSubscriptionIds"
       ]
     },
+    "BaseDbSystemShapes": {
+      "type": "string",
+      "description": "Allowed values for BaseDb System Shapes",
+      "enum": [
+        "VM.Standard.E5.Flex"
+      ],
+      "x-ms-enum": {
+        "name": "BaseDbSystemShapes",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "VMStandardE5Flex",
+            "value": "VM.Standard.E5.Flex",
+            "description": "Vm Standard E5 Flex shape"
+          }
+        ]
+      }
+    },
     "CloneType": {
       "type": "string",
       "description": "Clone type enum",
@@ -9777,7 +9892,8 @@
         "initialDataStorageSizeInGb": {
           "type": "integer",
           "format": "int32",
-          "description": "Size in GB of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume.",
+          "description": "Size in GB of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume. If not specified, the default is 256.",
+          "default": 256,
           "minimum": 2,
           "x-ms-mutability": [
             "create"
@@ -9882,7 +9998,8 @@
         "nodeCount": {
           "type": "integer",
           "format": "int32",
-          "description": "The number of nodes in the DB system. For RAC DB systems, the value is greater than 1.",
+          "description": "The number of nodes in the DB system. For RAC DB systems, the value is greater than 1. If not specified, the default is 1.",
+          "default": 1,
           "minimum": 1,
           "x-ms-mutability": [
             "read",
@@ -10375,6 +10492,73 @@
         }
       }
     },
+    "DbVersion": {
+      "type": "object",
+      "description": "Oracle Database DbVersion resource definition",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DbVersionProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "DbVersionListResult": {
+      "type": "object",
+      "description": "The response of a DbVersion list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The DbVersion items on this page",
+          "items": {
+            "$ref": "#/definitions/DbVersion"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "DbVersionProperties": {
+      "type": "object",
+      "description": "DbVersion resource model",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "A valid Oracle Database version.",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "isLatestForMajorVersion": {
+          "type": "boolean",
+          "description": "True if this version of the Oracle Database software is the latest version for a release."
+        },
+        "isPreviewDbVersion": {
+          "type": "boolean",
+          "description": "True if this version of the Oracle Database software is the preview version."
+        },
+        "isUpgradeSupported": {
+          "type": "boolean",
+          "description": "True if this version of the Oracle Database software is supported for Upgrade."
+        },
+        "supportsPdb": {
+          "type": "boolean",
+          "description": "True if this version of the Oracle Database software supports pluggable databases."
+        }
+      },
+      "required": [
+        "version"
+      ]
+    },
     "DefinedFileSystemConfiguration": {
       "type": "object",
       "description": "Predefined configurations for the file system",
@@ -10492,6 +10676,34 @@
           }
         ]
       }
+    },
+    "DnsForwardingRule": {
+      "type": "object",
+      "description": "DNS forwarding rule properties",
+      "properties": {
+        "domainName": {
+          "type": "string",
+          "description": "Domain name",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "forwardingIpAddress": {
+          "type": "string",
+          "description": "Forwarding ip address",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      },
+      "required": [
+        "domainName",
+        "forwardingIpAddress"
+      ]
     },
     "DnsPrivateView": {
       "type": "object",
@@ -10750,42 +10962,6 @@
             "description": "Updating value"
           }
         ]
-      }
-    },
-    "DnsResolutionFromAzureToOciProperties": {
-      "type": "object",
-      "description": "DnsResolutionFromAzureToOci properties",
-      "properties": {
-        "isEnabled": {
-          "type": "boolean",
-          "description": "Indicates whether DNS forwarding from Azure to OCI is enabled for the Network Anchor.",
-          "default": false
-        },
-        "listeningEndpointIpAddress": {
-          "type": "string",
-          "description": "The IP address used for DNS forwarding from Azure to OCI."
-        }
-      }
-    },
-    "DnsResolutionFromOciToAzureProperties": {
-      "type": "object",
-      "description": "DnsResolutionFromOciToAzure properties",
-      "properties": {
-        "isEnabled": {
-          "type": "boolean",
-          "description": "Indicates whether DNS forwarding from OCI to Azure is enabled for the Network Anchor.",
-          "default": false
-        },
-        "domainName": {
-          "type": "string",
-          "description": "The domain name used for DNS forwarding from OCI to Azure.",
-          "minLength": 1,
-          "maxLength": 255
-        },
-        "forwardingIpAddress": {
-          "type": "string",
-          "description": "The IP address used for DNS forwarding from OCI to Azure."
-        }
       }
     },
     "EstimatedPatchingTime": {
@@ -12440,23 +12616,58 @@
             "create"
           ]
         },
-        "dnsResolutionFromOciToAzureProperties": {
-          "$ref": "#/definitions/DnsResolutionFromOciToAzureProperties",
-          "description": "DnsResolutionFromOciToAzure properties",
+        "enableDnsZoneSyncFromOciToAzure": {
+          "type": "boolean",
+          "description": "Indicates whether DNS zone sync from OCI to Azure is enabled",
+          "default": false,
           "x-ms-mutability": [
             "read",
             "update",
             "create"
           ]
         },
-        "dnsResolutionFromAzureToOciProperties": {
-          "$ref": "#/definitions/DnsResolutionFromAzureToOciProperties",
-          "description": "DnsResolutionFromAzureToOci properties",
+        "enableDnsListeningEndpoint": {
+          "type": "boolean",
+          "description": "Indicates whether the DNS listening endpoint is enabled",
+          "default": false,
           "x-ms-mutability": [
             "read",
             "update",
             "create"
           ]
+        },
+        "enableDnsForwardingEndpoint": {
+          "type": "boolean",
+          "description": "Indicates whether the DNS forwarding endpoint is enabled",
+          "default": false,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "dnsForwardingRules": {
+          "type": "array",
+          "description": "DNS forwarding rules",
+          "items": {
+            "$ref": "#/definitions/DnsForwardingRule"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "dnsListeningEndpointIpAddress": {
+          "type": "string",
+          "description": "DNS listening endpoint IP address",
+          "readOnly": true
+        },
+        "dnsForwardingEndpointIpAddress": {
+          "type": "string",
+          "description": "DNS forwarding endpoint IP address",
+          "readOnly": true
         }
       },
       "required": [
@@ -12501,18 +12712,43 @@
             "create"
           ]
         },
-        "dnsResolutionFromOciToAzureProperties": {
-          "$ref": "#/definitions/DnsResolutionFromOciToAzureProperties",
-          "description": "DnsResolutionFromOciToAzure properties",
+        "enableDnsZoneSyncFromOciToAzure": {
+          "type": "boolean",
+          "description": "Indicates whether DNS zone sync from OCI to Azure is enabled",
+          "default": false,
           "x-ms-mutability": [
             "read",
             "update",
             "create"
           ]
         },
-        "dnsResolutionFromAzureToOciProperties": {
-          "$ref": "#/definitions/DnsResolutionFromAzureToOciProperties",
-          "description": "DnsResolutionFromAzureToOci properties",
+        "enableDnsListeningEndpoint": {
+          "type": "boolean",
+          "description": "Indicates whether the DNS listening endpoint is enabled",
+          "default": false,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "enableDnsForwardingEndpoint": {
+          "type": "boolean",
+          "description": "Indicates whether the DNS forwarding endpoint is enabled",
+          "default": false,
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "dnsForwardingRules": {
+          "type": "array",
+          "description": "DNS forwarding rules",
+          "items": {
+            "$ref": "#/definitions/DnsForwardingRule"
+          },
+          "x-ms-identifiers": [],
           "x-ms-mutability": [
             "read",
             "update",
@@ -14116,6 +14352,82 @@
     }
   },
   "parameters": {
+    "DbVersionFilter.dbSystemId": {
+      "name": "dbSystemId",
+      "in": "query",
+      "description": "The DB system AzureId. If provided, filters the results to the set of database versions which are supported for the DB system.",
+      "required": false,
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "x-ms-parameter-location": "method"
+    },
+    "DbVersionFilter.dbSystemShape": {
+      "name": "dbSystemShape",
+      "in": "query",
+      "description": "If provided, filters the results to the set of database versions which are supported for the given shape. e.g., VM.Standard.E5.Flex",
+      "required": false,
+      "type": "string",
+      "enum": [
+        "VM.Standard.E5.Flex"
+      ],
+      "x-ms-enum": {
+        "name": "BaseDbSystemShapes",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "VMStandardE5Flex",
+            "value": "VM.Standard.E5.Flex",
+            "description": "Vm Standard E5 Flex shape"
+          }
+        ]
+      },
+      "x-ms-parameter-location": "method"
+    },
+    "DbVersionFilter.isDatabaseSoftwareImageSupported": {
+      "name": "isDatabaseSoftwareImageSupported",
+      "in": "query",
+      "description": "If true, filters the results to the set of Oracle Database versions that are supported for the database software images.",
+      "required": false,
+      "type": "boolean",
+      "x-ms-parameter-location": "method"
+    },
+    "DbVersionFilter.isUpgradeSupported": {
+      "name": "isUpgradeSupported",
+      "in": "query",
+      "description": "If true, filters the results to the set of database versions which are supported for Upgrade.",
+      "required": false,
+      "type": "boolean",
+      "x-ms-parameter-location": "method"
+    },
+    "DbVersionFilter.storageManagement": {
+      "name": "storageManagement",
+      "in": "query",
+      "description": "The DB system storage management option. Used to list database versions available for that storage manager. Valid values are ASM and LVM.",
+      "required": false,
+      "type": "string",
+      "enum": [
+        "ASM",
+        "LVM"
+      ],
+      "x-ms-enum": {
+        "name": "StorageManagementType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "ASM",
+            "value": "ASM",
+            "description": "Automatic storage management"
+          },
+          {
+            "name": "LVM",
+            "value": "LVM",
+            "description": "Logical Volume management"
+          }
+        ]
+      },
+      "x-ms-parameter-location": "method"
+    },
     "FlexComponentsFilter": {
       "name": "shape",
       "in": "query",
