@@ -74,11 +74,6 @@ model StorageDiscoveryWorkspace
   @segment("storageDiscoveryWorkspaces")
   @path
   @visibility(Lifecycle.Read)
-  // Starting from v2025_06_01_preview, use enhanced validation
-  @typeChangedFrom(
-    ApiVersion.v2025_06_01_preview,
-    StorageDiscoveryWorkspaceNameLegacy
-  )
   @pattern("^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
   @minLength(4)
   @maxLength(64)

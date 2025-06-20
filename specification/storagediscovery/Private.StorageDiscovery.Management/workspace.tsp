@@ -10,19 +10,9 @@ using TypeSpec.Rest;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
-using TypeSpec.OpenAPI;
 using TypeSpec.Versioning;
 
 namespace Private.StorageDiscovery;
-
-/**
- * Legacy name type for StorageDiscoveryWorkspace in older API versions (2024-12-01 through 2025-04-01)
- * Legacy display name type for scope names in older API versions (2024-12-01 through 2025-04-01)
- */
-@pattern("^[a-z0-9]{3,18}$")
-scalar StorageDiscoveryWorkspaceNameLegacy extends string;
-
-scalar ScopeDisplayNameLegacy extends string;
 
 /**
  * Storage Discovery Workspace Properties
@@ -142,7 +132,10 @@ union StorageDiscoverySku {
 @renamedFrom(ApiVersion.v2025_03_01_preview, "StorageDiscoveryScope")
 model StorageDiscoveryScopeV1 {
   @doc("Display name of the scope")
-  displayName: ScopeDisplayNameLegacy;
+  @pattern("^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+  @minLength(4)
+  @maxLength(64)
+  displayName: string;
 
   @doc("Resource types for the scope")
   resourceTypes: Azure.Core.armResourceIdentifier<[
@@ -176,9 +169,8 @@ model StorageDiscoveryResourceFilter {
 @renamedFrom(ApiVersion.v2025_03_01_preview, "StorageDiscoveryCollection")
 model StorageDiscoveryScope {
   @doc("Display name of the collection")
-  @typeChangedFrom(ApiVersion.v2025_06_01_preview, ScopeDisplayNameLegacy)
   @pattern("^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
-  @minLength(3)
+  @minLength(4)
   @maxLength(64)
   displayName: string;
 
