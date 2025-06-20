@@ -63,11 +63,11 @@ model ReportResultColumn {
   @doc("ADX type of the column")
   type: string;
 }
-  /**
+/**
  * A Storage Discovery Workspace resource. This resource configures the collection of storage account metrics.
  */
 @doc("A Storage Discovery Workspace resource. This resource configures the collection of storage account metrics.")
-model StorageDiscoveryWorkspace 
+model StorageDiscoveryWorkspace
   is Azure.ResourceManager.TrackedResource<StorageDiscoveryWorkspaceProperties> {
   @doc("The name of the StorageDiscoveryWorkspace")
   @key("storageDiscoveryWorkspaceName")
