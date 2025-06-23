@@ -44,7 +44,7 @@ model ApprovalRule {
   @doc("The maximum time in minutes that the approval workflow can be executed. The default value is 7 days. The max value is 90 days.")
   @minValue(1)
   @maxValue(129600)
-  timeoutInMinutes?: int32 = 10080;
+  timeoutInMinutes: int32 = 10080;
 }
 
 @doc("Definition of an stage in an approval workflow.")
