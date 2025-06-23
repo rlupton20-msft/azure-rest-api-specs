@@ -6,7 +6,6 @@ import "../Discovery.Shared/data-plane.tsp";
 import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Microsoft.Discovery.Shared;
@@ -39,22 +38,44 @@ union RunStatus {
   string,
 }
 
-/** For tracking mount path */
-@access(Access.internal)
-model WithMountPath {
-  /** Mount path, relative to the working directory. */
-  relativeMountPath: string;
+/** Data URI and path where it will be mounted in the tool container. */
+model InputDataMount {
+  /** URI of input data to mount. */
+  uri: DataUri;
+
+  /** Absolute path within the container at which to mount this input. */
+  mountPath: string;
 }
 
-/** DataAsset and path where it will be mounted, relative to the working directory . */
-model DataAssetMount {
-  /** ID of DataAsset */
-  dataAssetId: DataAssetId;
+/** Definition of a mount for collecting tool output data. */
+model OutputDataMount {
+  /**
+   * URI of location to persist output to. If not specified, a folder will be
+   * created on the Storage specified by the storageId property in the tool run
+   * request.
+   *
+   * If a URI is specified, it must not point at Discovery Storage (i.e. it must point
+   * at a Data Asset which is not in a Discovery Storage Data Container). This is
+   * because the Supercomputer dataplane owns choosing output locations on
+   * Discovery Storage (to provide immutability guarantees).
+   */
+  uri?: DataUri;
 
-  ...WithMountPath;
+  /** Absolute path within the container from which to collect output data. */
+  mountPath: string;
 }
+
+/** Model for providing the URI of the output collected from a specific container path. */
+model OutputDataUri {
+  /** The URI of the output data. */
+  uri: DataUri;
+
+  /** The path within the container from which the output was collected. */
+  mountPath: string;
+}
+
 /*
- * The interplay between command, inlineFiles, inputDataAssets and outputDataAssets warrants an example.
+ * The interplay between command, inlineFiles, inputData and outputData warrants an example.
  *
  * Imagine a scenario in which an agent generates a Python script wrapper.py which:
  * - Takes a single command line argument, --input, which is a text file containing a list of
@@ -66,55 +87,56 @@ model DataAssetMount {
  *
  * ```json
  * {
- *   "command": "python wrapper.py --input abcdef-input-1/* --output abcdef-output-1",
+ *   "command": "python /code/wrapper.py --input /inputs/abcdef-input-1/* --output /outputs/abcdef-output-1",
  *   "inlineFiles": [
  *     {
- *       "relativeMountPath": "iomanager.py",
+ *       "mountPath": "/code/iomanager.py",
  *       "encodedFile": "IiIiQmFzaWMgb..."
  *     },
  *     {
- *       "relativeMountPath": "wrapper.py",
+ *       "mountPath": "/code/wrapper.py",
  *       "encodedFile": "3RlcHMve3NlbG..."
  *     }
  *   ],
- *   "inputDataAssets": [
+ *   "inputData": [
  *     {
- *         "relativeMountPath": "abcdef-input-1",
- *         "dataAssetId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Discovery/dataContainers/{dataContainerName}/dataAssets/SmilesTxtDataAsset",
+ *         "mountPath": "/inputs/abcdef-input-1",
+ *         "uri": "discovery://dataassets/<dataAssetArmId>"
  *     }
  *   ],
- *   "outputDataAssets": [
+ *   "outputData": [
  *     {
- *         "relativeMountPath": "abcdef-output-1",
- *         "dataAssetId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Discovery/dataContainers/{dataContainerName}/dataAssets/MySharedStorageDataAsset1",
+ *         "mountPath": "/outputs/abcdef-output-1"
  *     }
  *   ],
- *   "sharedStorageId": "MySharedStorage"
+ *   "nodePoolIds": ["<myNodePoolId>"],
+ *   "storageId": "<myStorageId>"
  * }
  * ```
- * where SmilesTxtDataAsset refers to a blob DataAsset containing a single smiles.txt file, and
- * MySharedStorageDataAsset1 refers to a SharedStorage DataAsset on MySharedStorage, then the
+ * where SmilesTxtDataAsset refers to a blob DataAsset containing a single smiles.txt file, then the
  * following filesystem layout will be presented to the tool container:
  *
- * WORKDIR/
+ * /code
  * ├── iomanager.py
- * ├── wrapper.py
- * ├── abcdef-input-1/
- * │   └── smiles.txt
+ * └── wrapper.py
+ * /inputs
+ * └── abcdef-input-1/
+ *     └── smiles.txt
+ * /outputs
  * └── abcdef-output-1/
  *
  * Supercomputer will ensure that the abcdef-output-1/ directory is backed, via filesystem mounts,
- * by the SharedStorage path referenced in MySharedStorageDataAsset1.
+ * by a persistent folder on <myStorageId> (the storage specified by storageId).
  *
- * The container will be launched with the command python wrapper.py --input abcdef-input-1/* which
- * will be expanded by the shell to python wrapper.py --input abcdef-input-1/smiles.txt.
+ * wrapper.py will write its output to /outputs/abcdef-output-1/, meaning it is persisted to the
+ * provided folder on <myStorageId>.
  *
- * wrapper.py will write its output to abcdef-output-1/, meaning it is persisted to the
- * specified SharedStorage DataAsset.
+ * When the run completes, the status API will provide a URI which identifies the location to which
+ * the output has been written, allowing it to be consumed by downstream tools.
  */
 @doc("Parameters to run a Tool")
 model RunRequest {
-  ...WithProjectName;
+  ...WithProjectNamePath;
 
   /** ID of the tool to execute */
   toolId: ToolId;
@@ -124,6 +146,26 @@ model RunRequest {
    * If the tool has multiple containers defined, this command is executed on all of them.
    *
    * If omitted, all containers execute their raw entrypoints.
+   *
+   * This command is parsed into an argument list which is passed to the underlying container runtime.
+   * For example, if the command is "python /code/wrapper.py --input /inputs/abcdef-input-1/input.txt --output /outputs/abcdef-output-1",
+   * then the container runtime will receive the following argument list:
+   * ["python", "/code/wrapper.py", "--input", "/inputs/abcdef-input-1/input.txt", "--output", "/outputs/abcdef-output-1"]
+   *
+   * The container's entrypoint is not overridden. In Docker terminology, the above argument list becomes
+   * the CMD, not the ENTRYPOINT of the launched container.
+   *
+   * Our parsing includes the following limited interpretation of special characters:
+   * - The only special characters are " ' and \.
+   * - Backslashes `\` escape the next character if that character is a special character, preserving its literal value.
+   * - Double quotes `"` preserve everything inside them literally, with the exception of the characters " and \, which must be escaped with a backslash `\`. Unmatched quotes will throw an error.
+   * - Single quotes `'` preserve everything inside them literally. A single-quote cannot occur within single-quotes. Unmatched quotes will throw an error.
+   *
+   * If you wish to run a command that relies on shell features such as globbing or output redirection, you either need to:
+   * - use a container with an entrypoint that is a shell (e.g. `/bin/sh` or `/bin/bash`) and pass a command which is valid for that shell e.g.
+   *   `-c 'python /code/wrapper.py --input /inputs/abcdef-input-1/* --output /outputs/abcdef-output-1'`
+   * - use a container which has a shell installed, and include the shell in the command, e.g.
+   *   `sh -c "python /code/wrapper.py --input /inputs/abcdef-input-1/* --output /outputs/abcdef-output-1"`
    */
   /*
    * Note that we will likely extend this API in M2 to better support tools with
@@ -149,39 +191,23 @@ model RunRequest {
   @maxItems(10)
   inlineFiles?: Array<InlineFile>;
 
-  @doc("The Storage resource to use for this run.")
-  storageId: StorageId;
+  @doc("The Discovery Storage resource to use for this run.")
+  storageId: DiscoveryStorageId;
 
-  // KnowledgeBase configuration is under discussion.
-  // Currently this is called KnowledgeBaseDefinition, which really does not make sense.
-  //   @doc("The indexed KnowledgeBase data plane resources to use for the run.")
-  //   knowledgeBaseIds: string[];
+  @doc("Input data and associated mountPath for each.")
+  inputData?: InputDataMount[];
 
-  /**
-   * Input DataAssets and associated relativeMountPath for each, relative to the working directory.
-   *
-   * Any DataAssetIds which point to SharedStorage must point to
-   * the same SharedStorage specified by sharedStorageId, otherwise the
-   * request will be rejected.
-   */
-  inputDataAssets?: DataAssetMount[];
+  @doc("Output data mount paths (with optional data URIs to specify persistence location).")
+  outputData?: OutputDataMount[];
 
-  /**
-   * Output DataAssets and associated relativeMountPath for each, relative to the working directory.
-   *
-   * Any DataAssetIds which point to SharedStorage must point to
-   * the same SharedStorage specified by sharedStorageId, otherwise the
-   * request will be rejected.
-   */
-  outputDataAssets?: DataAssetMount[];
-
-  @doc("IDs of NodePools to use for this run. If not specified, suitable NodePools will be selected based on the infra requirements of the Tool.")
-  nodePoolIds?: NodePoolId[];
+  @doc("IDs of NodePools to use for this run.")
+  nodePoolIds: NodePoolId[];
 }
 
 @doc("A file to be included in the input data for a tool run and the path where it will be mounted, relative to the working directory.")
 model InlineFile {
-  ...WithMountPath;
+  @doc("Absolute path within the container at which to mount this file.")
+  mountPath: string;
 
   /*
    * Expected reasonable limit for small code files,
@@ -191,7 +217,7 @@ model InlineFile {
    * zipping or encoding it.
    */
   @doc("File contents: Compressed using .gz then base64-encoded.")
-  @maxLength(20000) // ~20kB
+  @maxLength(12000) // ~12kB - any larger threw an exception on the Batch API - commandLine too long. May be able to relax for AKS but easier to start strict.
   encodedFile: string;
 }
 
@@ -220,7 +246,55 @@ model RunResult {
     percentageComplete: int8;
 
     statusInformation?: {};
+
+    /** Logs from the tool. */
+    logs?: string[];
   };
+
+  /** Output data URIs.
+   *
+   * This array will contain the same set of mountPaths specified in the outputData property of initial tool run request,
+   * but every mountPath will have a corresponding URI that points to the location where the output data was persisted:
+   * * for mount paths which had a URI specified in the outputData property, the URI will be the same as the one
+   *   specified in the request, and the data will have been persisted to the location specified by that URI.
+   * * for mount paths which did not have a URI specified in the outputData property, the URI will point to a
+   *   folder created by the service on the Storage specified by the storageId property in the tool run request.
+   *
+   * E.g. if the following run request is made:
+   * ```json
+   * {
+   *   "toolId": "testTool",
+   *   "command": "echo 'hello world' > /output1/hello.txt",
+   *   "inlineFiles": [],
+   *   "inputData": [],
+   *   "outputData": [
+   *       {
+   *           "mountPath": "/output1"
+   *       }
+   *   ],
+   *   "nodePoolIds": ["<nodePoolId>"],
+   *   "storageId": "<storageARMId"
+   * }
+   * ```
+   * then once the tool completes, the status API response will contain the following:
+   * ```json
+   * {
+   *   "status": "Succeeded",
+   *   ...
+   *   "outputData": [
+   *      {
+   *        "uri": "discovery://storages/<storageARMId>/paths/<some-generated-path>/output1",
+   *        "mountPath": "/output1"
+   *      }
+   *   ]
+   * }
+   * ```
+   * `discovery://storages/<storageARMId>/paths/<some-generated-path>/output1` can then be used as an
+   * input to another tool run. Any valid subpaths can also be used, e.g.
+   * `discovery://storages/<storageARMId>/paths/<some-generated-path>/output1/hello.txt` to refer specifically
+   * to the hello.txt file.
+   */
+  outputData: OutputDataUri[];
 
   /*
    * The intention is to place the original request payload in this field as
@@ -232,19 +306,29 @@ model RunResult {
   debugInfo: string;
 }
 
-/** Project name path parameter */
-model WithProjectName {
+/** Project name path parameter for URL routing */
+model WithProjectNamePath {
   /** Name of the associated Project. */
   @path
   @pattern(resourceNamePattern)
   projectName: string;
 }
 
+/** Operation ID path parameter */
+model WithOperationId {
+  /** ID of the operation to cancel. */
+  @path
+  operationId: string;
+}
+
 interface Tools {
   #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
   @doc("Used for to poll status of a Tool run.")
   @route("/tools/projects/{projectName}/operations")
-  getRunStatus is Foundations.GetOperationStatus<WithProjectName, RunResult>;
+  getRunStatus is Foundations.GetOperationStatus<
+    WithProjectNamePath,
+    RunResult
+  >;
 
   /** Run the specified tool in the context of the specified project. */
   #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
@@ -253,5 +337,14 @@ interface Tools {
   run is Foundations.LongRunningOperation<
     RunRequest,
     AcceptedResponse & Foundations.OperationStatus<RunResult>
+  >;
+
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  @doc("Cancel an ongoing tool run.")
+  @route("/tools/projects/{projectName}/operations/{operationId}:cancel")
+  @post
+  cancelRun is Foundations.Operation<
+    WithProjectNamePath & WithOperationId,
+    AcceptedResponse
   >;
 }

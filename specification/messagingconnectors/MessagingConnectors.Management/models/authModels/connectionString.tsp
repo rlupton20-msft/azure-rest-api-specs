@@ -3,14 +3,8 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-import "./authModel.tsp";
 
-using TypeSpec.Versioning;
-using Azure.Core;
-using TypeSpec.OpenAPI;
-
-@versioned(Versions)
-namespace Private.MessagingConnectors;
+namespace Private.MessagingConnectors.Models.Auth;
 
 @doc("ConnectionString Model.")
 model ConnectionStringAuthentication extends Authentication {

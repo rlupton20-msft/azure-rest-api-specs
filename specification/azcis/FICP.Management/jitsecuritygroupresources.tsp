@@ -1,20 +1,18 @@
-import "@typespec/rest";
-import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/http";
+import "@typespec/rest";
 
-using OpenAPI;
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using Azure.Core;
 using Azure.ResourceManager;
-using Autorest;
+using TypeSpec.Http;
+using TypeSpec.Rest;
 
 namespace Microsoft.AzureCis;
 
 @doc("JIT security group resources properties")
 model JitSecurityGroupResourceProperties {
-  @doc("Instance identificator. Required.")
+  @doc("Instance identifier. Required.")
   instanceId: string;
 
   @doc("Cloud identifier for the JIT security group. Possible options are PROD, blackforest, fairfax, mooncake, ex, rx. Required.")

@@ -1,14 +1,12 @@
-import "@typespec/http";
-import "@typespec/rest";
-import "@typespec/versioning";
-import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/http";
+import "@typespec/rest";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using Azure.Core;
 using Azure.ResourceManager;
+using TypeSpec.Http;
+using TypeSpec.Rest;
 
 namespace Microsoft.AzureCis;
 

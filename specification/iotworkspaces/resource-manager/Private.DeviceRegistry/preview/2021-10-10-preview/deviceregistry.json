@@ -67,6 +67,12 @@
       "name": "Namespaces"
     },
     {
+      "name": "Credentials"
+    },
+    {
+      "name": "Policies"
+    },
+    {
       "name": "NamespaceDevices"
     },
     {
@@ -343,6 +349,94 @@
         "x-ms-examples": {
           "List_Namespaces_BySubscription_Id": {
             "$ref": "./examples/List_Namespace_BySubscription.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.DeviceRegistry/namespaces/{namespaceName}/credentials": {
+      "get": {
+        "operationId": "Credentials_ListBySubscription",
+        "tags": [
+          "Credentials"
+        ],
+        "description": "List Credential resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/CredentialListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.DeviceRegistry/namespaces/{namespaceName}/credentials/default/policies": {
+      "get": {
+        "operationId": "Policies_ListBySubscription",
+        "tags": [
+          "Policies"
+        ],
+        "description": "List Policy resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/PolicyListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
           }
         },
         "x-ms-pageable": {
@@ -1605,6 +1699,676 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/namespaces/{namespaceName}/credentials": {
+      "get": {
+        "operationId": "Credentials_ListByResourceGroup",
+        "tags": [
+          "Credentials"
+        ],
+        "description": "List Credential resources by Namespace",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/CredentialListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/namespaces/{namespaceName}/credentials/default": {
+      "get": {
+        "operationId": "Credentials_Get",
+        "tags": [
+          "Credentials"
+        ],
+        "description": "Get a Credential",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Credential"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "Credentials_CreateOrUpdate",
+        "tags": [
+          "Credentials"
+        ],
+        "description": "Create a Credential",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Credential"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'Credential' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Credential"
+            }
+          },
+          "201": {
+            "description": "Resource 'Credential' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Credential"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "Credentials_Update",
+        "tags": [
+          "Credentials"
+        ],
+        "description": "Update a Credential",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CredentialUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Credential"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "Credentials_Delete",
+        "tags": [
+          "Credentials"
+        ],
+        "description": "Delete a Credential",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/namespaces/{namespaceName}/credentials/default/policies": {
+      "get": {
+        "operationId": "Policies_ListByResourceGroup",
+        "tags": [
+          "Policies"
+        ],
+        "description": "List Policy resources by Credential",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/PolicyListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/namespaces/{namespaceName}/credentials/default/policies/{policyName}": {
+      "get": {
+        "operationId": "Policies_Get",
+        "tags": [
+          "Policies"
+        ],
+        "description": "Get a Policy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "policyName",
+            "in": "path",
+            "description": "The name of the Policy tracked resource.",
+            "required": true,
+            "type": "string",
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,64}[a-zA-Z0-9]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "Policies_CreateOrUpdate",
+        "tags": [
+          "Policies"
+        ],
+        "description": "Create a Policy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "policyName",
+            "in": "path",
+            "description": "The name of the Policy tracked resource.",
+            "required": true,
+            "type": "string",
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,64}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'Policy' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          },
+          "201": {
+            "description": "Resource 'Policy' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "Policies_Update",
+        "tags": [
+          "Policies"
+        ],
+        "description": "Update a Policy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "policyName",
+            "in": "path",
+            "description": "The name of the Policy tracked resource.",
+            "required": true,
+            "type": "string",
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,64}[a-zA-Z0-9]$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PolicyUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "Policies_Delete",
+        "tags": [
+          "Policies"
+        ],
+        "description": "Delete a Policy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "policyName",
+            "in": "path",
+            "description": "The name of the Policy tracked resource.",
+            "required": true,
+            "type": "string",
+            "maxLength": 128,
+            "pattern": "^[a-zA-Z0-9-]{3,64}[a-zA-Z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/namespaces/{namespaceName}/credentials/default/synchronize": {
+      "post": {
+        "operationId": "Credentials_Synchronize",
+        "tags": [
+          "Credentials"
+        ],
+        "description": "A long-running resource action.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/namespaces/{namespaceName}/devices": {
       "get": {
         "operationId": "NamespaceDevices_ListByResourceGroup",
@@ -1691,7 +2455,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           }
         ],
@@ -1751,7 +2515,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           },
           {
@@ -1847,7 +2611,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           },
           {
@@ -1931,7 +2695,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           }
         ],
@@ -3672,9 +4436,30 @@
           "format": "uri",
           "description": "The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration."
         },
+        "endpointProfileType": {
+          "type": "string",
+          "description": "Defines the configuration for the connector type that is being used with the endpoint profile."
+        },
+        "authentication": {
+          "$ref": "#/definitions/Authentication",
+          "description": "Defines the client authentication mechanism to the server."
+        },
         "additionalConfiguration": {
           "type": "string",
           "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF)."
+        },
+        "discoveredAssetEndpointProfileRef": {
+          "type": "string",
+          "description": "Reference to a discovered asset endpoint profile. Populated only if the asset endpoint profile has been created from discovery flow. Discovered asset endpoint profile name must be provided.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "status": {
+          "$ref": "#/definitions/AssetEndpointProfileStatus",
+          "description": "Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.",
+          "readOnly": true
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -3683,8 +4468,41 @@
         }
       },
       "required": [
-        "targetAddress"
+        "targetAddress",
+        "endpointProfileType"
       ]
+    },
+    "AssetEndpointProfileStatus": {
+      "type": "object",
+      "description": "Defines the asset endpoint profile status properties.",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "description": "Array object to transfer and persist errors that originate from the Edge.",
+          "items": {
+            "$ref": "#/definitions/AssetEndpointProfileStatusError"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        }
+      }
+    },
+    "AssetEndpointProfileStatusError": {
+      "type": "object",
+      "description": "Defines the asset endpoint profile status error properties.",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Error code for classification of errors (ex: 400, 404, 500, etc.).",
+          "readOnly": true
+        },
+        "message": {
+          "type": "string",
+          "description": "Human readable helpful error message to provide additional context for error (ex: “targetAddress 'foo' is not a valid url”).",
+          "readOnly": true
+        }
+      }
     },
     "AssetEndpointProfileUpdate": {
       "type": "object",
@@ -3711,6 +4529,14 @@
           "type": "string",
           "format": "uri",
           "description": "The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration."
+        },
+        "endpointProfileType": {
+          "type": "string",
+          "description": "Defines the configuration for the connector type that is being used with the endpoint profile."
+        },
+        "authentication": {
+          "$ref": "#/definitions/AuthenticationUpdate",
+          "description": "Defines the client authentication mechanism to the server."
         },
         "additionalConfiguration": {
           "type": "string",
@@ -4077,6 +4903,54 @@
         }
       }
     },
+    "Authentication": {
+      "type": "object",
+      "description": "Definition of the client authentication mechanism to the server.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "Defines the method to authenticate the user of the client at the server.",
+          "default": "Certificate",
+          "enum": [
+            "Anonymous",
+            "Certificate",
+            "UsernamePassword"
+          ],
+          "x-ms-enum": {
+            "name": "AuthenticationMethod",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Anonymous",
+                "value": "Anonymous",
+                "description": "The user authentication method is anonymous."
+              },
+              {
+                "name": "Certificate",
+                "value": "Certificate",
+                "description": "The user authentication method is an x509 certificate."
+              },
+              {
+                "name": "UsernamePassword",
+                "value": "UsernamePassword",
+                "description": "The user authentication method is a username and password."
+              }
+            ]
+          }
+        },
+        "usernamePasswordCredentials": {
+          "$ref": "#/definitions/UsernamePasswordCredentials",
+          "description": "Defines the username and password references when UsernamePassword user authentication mode is selected."
+        },
+        "x509Credentials": {
+          "$ref": "#/definitions/X509Credentials",
+          "description": "Defines the certificate reference when Certificate user authentication mode is selected."
+        }
+      },
+      "required": [
+        "method"
+      ]
+    },
     "AuthenticationMethod": {
       "type": "string",
       "description": "The method to authenticate the user of the client at the server.",
@@ -4107,6 +4981,51 @@
         ]
       }
     },
+    "AuthenticationUpdate": {
+      "type": "object",
+      "description": "Definition of the client authentication mechanism to the server.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "Defines the method to authenticate the user of the client at the server.",
+          "default": "Certificate",
+          "enum": [
+            "Anonymous",
+            "Certificate",
+            "UsernamePassword"
+          ],
+          "x-ms-enum": {
+            "name": "AuthenticationMethod",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Anonymous",
+                "value": "Anonymous",
+                "description": "The user authentication method is anonymous."
+              },
+              {
+                "name": "Certificate",
+                "value": "Certificate",
+                "description": "The user authentication method is an x509 certificate."
+              },
+              {
+                "name": "UsernamePassword",
+                "value": "UsernamePassword",
+                "description": "The user authentication method is a username and password."
+              }
+            ]
+          }
+        },
+        "usernamePasswordCredentials": {
+          "$ref": "#/definitions/UsernamePasswordCredentialsUpdate",
+          "description": "Defines the username and password references when UsernamePassword user authentication mode is selected."
+        },
+        "x509Credentials": {
+          "$ref": "#/definitions/X509CredentialsUpdate",
+          "description": "Defines the certificate reference when Certificate user authentication mode is selected."
+        }
+      }
+    },
     "Azure.ResourceManager.CommonTypes.SystemAssignedServiceIdentityUpdate": {
       "type": "object",
       "description": "Managed service identity (either system assigned, or none)",
@@ -4119,6 +5038,7 @@
     },
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
+      "title": "Tracked Resource",
       "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
       "properties": {
         "tags": {
@@ -4184,6 +5104,165 @@
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning state of the resource.",
           "readOnly": true
+        }
+      }
+    },
+    "BrokerStateStoreDestinationConfiguration": {
+      "type": "object",
+      "description": "The configuration for an BrokerStateStore destination.",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The BrokerStateStore destination key."
+        }
+      },
+      "required": [
+        "key"
+      ]
+    },
+    "CertificateAuthorityConfiguration": {
+      "type": "object",
+      "description": "The configuration to set up an ICA.",
+      "properties": {
+        "keyType": {
+          "$ref": "#/definitions/SupportedKeyType",
+          "description": "Crypto type: RSA or EC.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "subject": {
+          "type": "string",
+          "description": "Certificate subject.",
+          "readOnly": true
+        },
+        "validityNotBefore": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Certificate is valid not before this date. Format ISO8601. Generated based on on validity period.",
+          "readOnly": true
+        },
+        "validityNotAfter": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Certificate is valid not after this date. Format ISO8601. Generated based on validity period.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "keyType"
+      ]
+    },
+    "CertificateAuthorityConfigurationUpdate": {
+      "type": "object",
+      "description": "The configuration to set up an ICA."
+    },
+    "CertificateConfiguration": {
+      "type": "object",
+      "description": "The certificate configuration.",
+      "properties": {
+        "certificateAuthorityConfiguration": {
+          "$ref": "#/definitions/CertificateAuthorityConfiguration",
+          "description": "The configuration to set up an ICA."
+        },
+        "leafCertificateConfiguration": {
+          "$ref": "#/definitions/LeafCertificateConfiguration",
+          "description": "The leaf certificate configuration."
+        }
+      },
+      "required": [
+        "certificateAuthorityConfiguration",
+        "leafCertificateConfiguration"
+      ]
+    },
+    "CertificateConfigurationUpdate": {
+      "type": "object",
+      "description": "The certificate configuration.",
+      "properties": {
+        "certificateAuthorityConfiguration": {
+          "$ref": "#/definitions/CertificateAuthorityConfigurationUpdate",
+          "description": "The configuration to set up an ICA."
+        },
+        "leafCertificateConfiguration": {
+          "$ref": "#/definitions/LeafCertificateConfigurationUpdate",
+          "description": "The leaf certificate configuration."
+        }
+      }
+    },
+    "Credential": {
+      "type": "object",
+      "description": "A Credential Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/CredentialProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "CredentialListResult": {
+      "type": "object",
+      "description": "The response of a Credential list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The Credential items on this page",
+          "items": {
+            "$ref": "#/definitions/Credential"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "CredentialProperties": {
+      "type": "object",
+      "description": "Details of the Credential Resource.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      }
+    },
+    "CredentialUpdate": {
+      "type": "object",
+      "description": "A Credential Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/CredentialProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
+    },
+    "CredentialsMetadata": {
+      "type": "object",
+      "description": "Defines the credentialsMetadata for the device.",
+      "properties": {
+        "credentialId": {
+          "type": "string",
+          "description": "Resource Id of the Policy."
+        },
+        "validationScheme": {
+          "type": "string",
+          "description": "The name of field on certificate that contains the Id."
         }
       }
     },
@@ -4334,6 +5413,25 @@
         "name"
       ]
     },
+    "DatasetBrokerStateStoreDestination": {
+      "type": "object",
+      "description": "The type for a BrokerStateStore destination.",
+      "properties": {
+        "configuration": {
+          "$ref": "#/definitions/BrokerStateStoreDestinationConfiguration",
+          "description": "The BrokerStateStore destination configuration."
+        }
+      },
+      "required": [
+        "configuration"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/DatasetDestination"
+        }
+      ],
+      "x-ms-discriminator-value": "BrokerStateStore"
+    },
     "DatasetDestination": {
       "type": "object",
       "description": "The type of the destination.",
@@ -4353,7 +5451,7 @@
       "description": "The set of supported Dataset destinations for an Asset.",
       "enum": [
         "Mqtt",
-        "EdgeStateStore",
+        "BrokerStateStore",
         "Storage"
       ],
       "x-ms-enum": {
@@ -4366,9 +5464,9 @@
             "description": "MQTT target."
           },
           {
-            "name": "EdgeStateStore",
-            "value": "EdgeStateStore",
-            "description": "EdgeStateStore target."
+            "name": "BrokerStateStore",
+            "value": "BrokerStateStore",
+            "description": "BrokerStateStore target."
           },
           {
             "name": "Storage",
@@ -4377,25 +5475,6 @@
           }
         ]
       }
-    },
-    "DatasetEdgeStateStoreDestination": {
-      "type": "object",
-      "description": "The type for a EdgeStateStore destination.",
-      "properties": {
-        "configuration": {
-          "$ref": "#/definitions/EdgeStateStoreDestinationConfiguration",
-          "description": "The EdgeStateStore destination configuration."
-        }
-      },
-      "required": [
-        "configuration"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/DatasetDestination"
-        }
-      ],
-      "x-ms-discriminator-value": "EdgeStateStore"
     },
     "DatasetMqttDestination": {
       "type": "object",
@@ -4457,18 +5536,6 @@
             "create"
           ]
         },
-        "deviceTemplateId": {
-          "type": "string",
-          "description": "Device Template Id used to create a device.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "deviceGroupId": {
-          "type": "string",
-          "description": "The AAD group the device is a member of."
-        },
         "manufacturer": {
           "type": "string",
           "description": "Hardware manufacturer name.",
@@ -4492,14 +5559,6 @@
             "create"
           ]
         },
-        "identity": {
-          "$ref": "#/definitions/DeviceIdentity",
-          "description": "Identity for the resource.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
         "attributes": {
           "type": "object",
           "description": "A set of key-value pairs that contain custom attributes set by the customer.",
@@ -4514,6 +5573,16 @@
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning state of the resource.",
           "readOnly": true
+        }
+      }
+    },
+    "DeviceCredentialPolicy": {
+      "type": "object",
+      "description": "Defines the Policy used to issue device certificates if any.",
+      "properties": {
+        "resourceId": {
+          "type": "string",
+          "description": "Resource Id of the Policy."
         }
       }
     },
@@ -4552,19 +5621,13 @@
         "assigned"
       ]
     },
-    "DeviceIdentity": {
+    "DeviceInternalMetadata": {
       "type": "object",
-      "description": "The backing AAD identity for the device used for authentication to other services.",
+      "description": "Defines the internal metadata for the device.",
       "properties": {
-        "principalId": {
-          "type": "string",
-          "description": "Principal id for the device resource.",
-          "readOnly": true
-        },
-        "tenantId": {
-          "type": "string",
-          "description": "Tenant id for the AAD tenant.",
-          "readOnly": true
+        "credentials": {
+          "$ref": "#/definitions/CredentialsMetadata",
+          "description": "Resource Id of the Policy."
         }
       }
     },
@@ -4687,71 +5750,6 @@
         }
       }
     },
-    "DiscoveredDeviceProperties": {
-      "type": "object",
-      "description": "Defines the Discovered Asset Endpoint Profile properties.",
-      "properties": {
-        "externalDeviceId": {
-          "type": "string",
-          "description": "A device id that represents the device in a system external to Azure. Unique within scope of an Azure Tenant."
-        },
-        "endpoints": {
-          "$ref": "#/definitions/DiscoveredMessagingEndpoints",
-          "description": "Endpoints for discovered devices."
-        },
-        "discoveryId": {
-          "type": "string",
-          "description": "Identifier used to detect changes in the asset endpoint profile."
-        },
-        "manufacturer": {
-          "type": "string",
-          "description": "Hardware manufacturer name.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "model": {
-          "type": "string",
-          "description": "Model name.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "operatingSystem": {
-          "type": "string",
-          "description": "Operating system name.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "operatingSystemVersion": {
-          "type": "string",
-          "description": "Operating system version."
-        },
-        "attributes": {
-          "type": "object",
-          "description": "A set of key-value pairs that contain custom attributes.",
-          "additionalProperties": {}
-        },
-        "version": {
-          "type": "integer",
-          "format": "int64",
-          "description": "An integer that is incremented each time the resource is modified."
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "Provisioning state of the resource.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "discoveryId",
-        "version"
-      ]
-    },
     "DiscoveredInboundEndpoints": {
       "type": "object",
       "description": "A type of endpoint to connect to the device.",
@@ -4766,7 +5764,7 @@
         },
         "version": {
           "type": "string",
-          "description": "Version associated with device endpoint."
+          "description": "Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP, and 3.5 or 5.0 for endpointType Microsoft.Mqtt etc."
         },
         "supportedAuthenticationMethods": {
           "type": "array",
@@ -4799,7 +5797,7 @@
         },
         "version": {
           "type": "string",
-          "description": "Version associated with device endpoint."
+          "description": "Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP, and 3.5 or 5.0 for endpointType Microsoft.Mqtt etc."
         },
         "supportedAuthenticationMethods": {
           "type": "array",
@@ -4877,19 +5875,6 @@
         }
       }
     },
-    "EdgeStateStoreDestinationConfiguration": {
-      "type": "object",
-      "description": "The configuration for an EdgeStateStore destination.",
-      "properties": {
-        "key": {
-          "type": "string",
-          "description": "The EdgeStateStore destination key."
-        }
-      },
-      "required": [
-        "key"
-      ]
-    },
     "Endpoint": {
       "type": "object",
       "description": "Connection endpoint url a device can use to connect to a service.",
@@ -4926,12 +5911,6 @@
           },
           "readOnly": true,
           "x-ms-identifiers": []
-        },
-        "innerError": {
-          "type": "object",
-          "description": "A set of key-value pairs that contain service specific details set by the service.",
-          "additionalProperties": {},
-          "readOnly": true
         }
       }
     },
@@ -5264,7 +6243,7 @@
       "properties": {
         "endpointType": {
           "type": "string",
-          "description": "Type of connection used for the endpoint."
+          "description": "Type of connection endpoint."
         },
         "address": {
           "type": "string",
@@ -5272,7 +6251,7 @@
         },
         "version": {
           "type": "string",
-          "description": "Version associated with device endpoint."
+          "description": "Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP, and 3.5 or 5.0 for endpointType Microsoft.Mqtt etc."
         },
         "authentication": {
           "$ref": "#/definitions/HostAuthentication",
@@ -5297,7 +6276,7 @@
       "properties": {
         "endpointType": {
           "type": "string",
-          "description": "Type of connection used for the endpoint."
+          "description": "Type of connection endpoint."
         },
         "address": {
           "type": "string",
@@ -5305,7 +6284,7 @@
         },
         "version": {
           "type": "string",
-          "description": "Version associated with device endpoint."
+          "description": "Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP, and 3.5 or 5.0 for endpointType Microsoft.Mqtt etc."
         },
         "authentication": {
           "$ref": "#/definitions/HostAuthenticationUpdate",
@@ -5318,6 +6297,35 @@
         "additionalConfiguration": {
           "type": "string",
           "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF)."
+        }
+      }
+    },
+    "LeafCertificateConfiguration": {
+      "type": "object",
+      "description": "The leaf certificate configuration.",
+      "properties": {
+        "validityPeriodInDays": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The validity period in days.",
+          "minimum": 7,
+          "maximum": 30
+        }
+      },
+      "required": [
+        "validityPeriodInDays"
+      ]
+    },
+    "LeafCertificateConfigurationUpdate": {
+      "type": "object",
+      "description": "The leaf certificate configuration.",
+      "properties": {
+        "validityPeriodInDays": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The validity period in days.",
+          "minimum": 7,
+          "maximum": 30
         }
       }
     },
@@ -6021,7 +7029,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6044,7 +7053,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6072,7 +7082,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6118,7 +7129,8 @@
         },
         "error": {
           "$ref": "#/definitions/StatusError",
-          "description": "Object to transfer and persist errors that originate from the edge."
+          "description": "Object to transfer and persist errors that originate from the edge.",
+          "readOnly": true
         }
       },
       "required": [
@@ -6308,7 +7320,7 @@
         },
         "dataSource": {
           "type": "string",
-          "description": "Name of the data source within a dataset."
+          "description": "Reference to a data source for a given dataset."
         },
         "typeRef": {
           "type": "string",
@@ -6474,6 +7486,14 @@
           "format": "date-time",
           "description": "A timestamp that is updated each time the resource is modified.",
           "readOnly": true
+        },
+        "policy": {
+          "$ref": "#/definitions/DeviceCredentialPolicy",
+          "description": "Policy used to issue device certificates."
+        },
+        "internalMetadata": {
+          "$ref": "#/definitions/DeviceInternalMetadata",
+          "description": "Policy used to issue device certificates."
         }
       },
       "allOf": [
@@ -6493,6 +7513,14 @@
         "operatingSystemVersion": {
           "type": "string",
           "description": "Operating system version."
+        },
+        "policy": {
+          "$ref": "#/definitions/DeviceCredentialPolicy",
+          "description": "Policy used to issue device certificates."
+        },
+        "internalMetadata": {
+          "$ref": "#/definitions/DeviceInternalMetadata",
+          "description": "Policy used to issue device certificates."
         }
       },
       "allOf": [
@@ -6897,7 +7925,7 @@
         },
         "dataSource": {
           "type": "string",
-          "description": "Name of the data source within a dataset."
+          "description": "Reference to a data source for a given dataset."
         },
         "typeRef": {
           "type": "string",
@@ -6969,7 +7997,7 @@
       "description": "Discovered device definition.",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/DiscoveredDeviceProperties",
+          "$ref": "#/definitions/NamespaceDiscoveredDeviceProperties",
           "description": "The resource-specific properties for this resource."
         },
         "extendedLocation": {
@@ -7009,6 +8037,71 @@
       },
       "required": [
         "value"
+      ]
+    },
+    "NamespaceDiscoveredDeviceProperties": {
+      "type": "object",
+      "description": "Defines the Discovered Asset Endpoint Profile properties.",
+      "properties": {
+        "externalDeviceId": {
+          "type": "string",
+          "description": "A device id that represents the device in a system external to Azure. Unique within scope of an Azure Tenant."
+        },
+        "endpoints": {
+          "$ref": "#/definitions/DiscoveredMessagingEndpoints",
+          "description": "Endpoints for discovered devices."
+        },
+        "discoveryId": {
+          "type": "string",
+          "description": "Identifier used to detect changes in the asset endpoint profile."
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "Hardware manufacturer name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "model": {
+          "type": "string",
+          "description": "Model name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "operatingSystem": {
+          "type": "string",
+          "description": "Operating system name.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "operatingSystemVersion": {
+          "type": "string",
+          "description": "Operating system version."
+        },
+        "attributes": {
+          "type": "object",
+          "description": "A set of key-value pairs that contain custom attributes.",
+          "additionalProperties": {}
+        },
+        "version": {
+          "type": "integer",
+          "format": "int64",
+          "description": "An integer that is incremented each time the resource is modified."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of the resource.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "discoveryId",
+        "version"
       ]
     },
     "NamespaceDiscoveredDeviceUpdate": {
@@ -7568,6 +8661,82 @@
         }
       }
     },
+    "Policy": {
+      "type": "object",
+      "description": "A Credential Policy",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/PolicyProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "PolicyListResult": {
+      "type": "object",
+      "description": "The response of a Policy list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The Policy items on this page",
+          "items": {
+            "$ref": "#/definitions/Policy"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "PolicyProperties": {
+      "type": "object",
+      "description": "Details of the Credential Policy.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        },
+        "certificate": {
+          "$ref": "#/definitions/CertificateConfiguration",
+          "description": "The certificate configuration."
+        }
+      }
+    },
+    "PolicyPropertiesUpdate": {
+      "type": "object",
+      "description": "Details of the Credential Policy.",
+      "properties": {
+        "certificate": {
+          "$ref": "#/definitions/CertificateConfigurationUpdate",
+          "description": "The certificate configuration."
+        }
+      }
+    },
+    "PolicyUpdate": {
+      "type": "object",
+      "description": "A Credential Policy",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/PolicyPropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
+    },
     "ProvisioningState": {
       "type": "string",
       "description": "The provisioning status of the resource.",
@@ -7972,12 +9141,6 @@
           },
           "readOnly": true,
           "x-ms-identifiers": []
-        },
-        "innerError": {
-          "type": "object",
-          "description": "A set of key-value pairs that contain service specific details set by the service.",
-          "additionalProperties": {},
-          "readOnly": true
         }
       }
     },
@@ -8069,6 +9232,24 @@
         }
       ],
       "x-ms-discriminator-value": "Storage"
+    },
+    "SupportedKeyType": {
+      "type": "string",
+      "description": "Supported key types.",
+      "enum": [
+        "ECC"
+      ],
+      "x-ms-enum": {
+        "name": "SupportedKeyType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "ECC",
+            "value": "ECC",
+            "description": "Indicate the ECC key type."
+          }
+        ]
+      }
     },
     "Topic": {
       "type": "object",

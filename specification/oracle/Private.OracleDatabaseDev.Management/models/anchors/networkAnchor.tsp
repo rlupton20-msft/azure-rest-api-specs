@@ -52,4 +52,47 @@ model NetworkAnchorProperties {
   @doc("OCI backup subnet cidr block.")
   @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
   ociBackupCidrBlock?: string;
+
+  @added(Versions.v20250701_preview)
+  @doc("Indicates whether DNS zone sync from OCI to Azure is enabled")
+  @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
+  enableDnsZoneSyncFromOciToAzure?: boolean = false;
+
+  @added(Versions.v20250701_preview)
+  @doc("Indicates whether the DNS listening endpoint is enabled")
+  @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
+  enableDnsListeningEndpoint?: boolean = false;
+
+  @added(Versions.v20250701_preview)
+  @doc("Indicates whether the DNS forwarding endpoint is enabled")
+  @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
+  enableDnsForwardingEndpoint?: boolean = false;
+
+  @added(Versions.v20250701_preview)
+  @doc("DNS forwarding rules")
+  @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  dnsForwardingRules?: DnsForwardingRule[];
+
+  @added(Versions.v20250701_preview)
+  @doc("DNS listening endpoint IP address")
+  @visibility(Lifecycle.Read)
+  dnsListeningEndpointIpAddress?: string;
+
+  @added(Versions.v20250701_preview)
+  @doc("DNS forwarding endpoint IP address")
+  @visibility(Lifecycle.Read)
+  dnsForwardingEndpointIpAddress?: string;
+}
+
+@added(Versions.v20250701_preview)
+@doc("DNS forwarding rule properties")
+model DnsForwardingRule {
+  @doc("Domain name")
+  @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
+  domainName: string;
+
+  @doc("Forwarding ip address")
+  @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
+  forwardingIpAddress: string;
 }

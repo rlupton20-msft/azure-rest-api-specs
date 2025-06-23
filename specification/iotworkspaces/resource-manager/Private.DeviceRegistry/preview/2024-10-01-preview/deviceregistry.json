@@ -1336,7 +1336,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           }
         ],
@@ -1388,7 +1388,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           },
           {
@@ -1475,7 +1475,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           },
           {
@@ -1559,7 +1559,7 @@
             "required": true,
             "type": "string",
             "minLength": 3,
-            "maxLength": 64,
+            "maxLength": 63,
             "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
           }
         ],
@@ -3095,234 +3095,6 @@
         }
       }
     },
-    "AssetProperties": {
-      "type": "object",
-      "description": "Defines the asset properties.",
-      "properties": {
-        "uuid": {
-          "type": "string",
-          "description": "Globally unique, immutable, non-reusable id.",
-          "readOnly": true
-        },
-        "enabled": {
-          "type": "boolean",
-          "description": "Enabled/Disabled status of the asset."
-        },
-        "externalAssetId": {
-          "type": "string",
-          "description": "Asset id provided by the customer.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "displayName": {
-          "type": "string",
-          "description": "Human-readable display name."
-        },
-        "description": {
-          "type": "string",
-          "description": "Human-readable description of the asset."
-        },
-        "assetEndpointProfileRef": {
-          "type": "string",
-          "description": "A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must provide asset endpoint profile name.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "version": {
-          "type": "integer",
-          "format": "int64",
-          "description": "An integer that is incremented each time the resource is modified.",
-          "readOnly": true
-        },
-        "manufacturer": {
-          "type": "string",
-          "description": "Asset manufacturer name."
-        },
-        "manufacturerUri": {
-          "type": "string",
-          "description": "Asset manufacturer URI."
-        },
-        "model": {
-          "type": "string",
-          "description": "Asset model name."
-        },
-        "productCode": {
-          "type": "string",
-          "description": "Asset product code."
-        },
-        "hardwareRevision": {
-          "type": "string",
-          "description": "Revision number of the hardware."
-        },
-        "softwareRevision": {
-          "type": "string",
-          "description": "Revision number of the software."
-        },
-        "documentationUri": {
-          "type": "string",
-          "description": "Reference to the documentation."
-        },
-        "serialNumber": {
-          "type": "string",
-          "description": "Asset serial number."
-        },
-        "attributes": {
-          "type": "object",
-          "description": "A set of key-value pairs that contain custom attributes set by the customer.",
-          "additionalProperties": {}
-        },
-        "discoveredAssetRefs": {
-          "type": "array",
-          "description": "Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow. Discovered asset names must be provided.",
-          "items": {
-            "type": "string"
-          },
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "defaultDatasetsConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here."
-        },
-        "defaultEventsConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here."
-        },
-        "defaultTopic": {
-          "$ref": "#/definitions/Topic",
-          "description": "Object that describes the default topic information for the asset."
-        },
-        "datasets": {
-          "type": "array",
-          "description": "Array of datasets that are part of the asset. Each dataset describes the data points that make up the set.",
-          "items": {
-            "$ref": "#/definitions/Dataset"
-          },
-          "x-ms-identifiers": []
-        },
-        "events": {
-          "type": "array",
-          "description": "Array of events that are part of the asset. Each event can have per-event configuration.",
-          "items": {
-            "$ref": "#/definitions/Event"
-          },
-          "x-ms-identifiers": []
-        },
-        "status": {
-          "$ref": "#/definitions/AssetStatus",
-          "description": "Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.",
-          "readOnly": true
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "Provisioning state of the resource.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "assetEndpointProfileRef"
-      ]
-    },
-    "AssetStatus": {
-      "type": "object",
-      "description": "Defines the asset status properties.",
-      "properties": {
-        "errors": {
-          "type": "array",
-          "description": "Array object to transfer and persist errors that originate from the Edge.",
-          "items": {
-            "$ref": "#/definitions/AssetStatusError"
-          },
-          "readOnly": true,
-          "x-ms-identifiers": []
-        },
-        "version": {
-          "type": "integer",
-          "format": "int64",
-          "description": "A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the Asset. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.",
-          "readOnly": true
-        },
-        "datasets": {
-          "type": "array",
-          "description": "Array of dataset statuses that describe the status of each dataset.",
-          "items": {
-            "$ref": "#/definitions/AssetStatusDataset"
-          },
-          "readOnly": true,
-          "x-ms-identifiers": []
-        },
-        "events": {
-          "type": "array",
-          "description": "Array of event statuses that describe the status of each event.",
-          "items": {
-            "$ref": "#/definitions/AssetStatusEvent"
-          },
-          "readOnly": true,
-          "x-ms-identifiers": []
-        }
-      }
-    },
-    "AssetStatusDataset": {
-      "type": "object",
-      "description": "Defines the asset status dataset properties.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the dataset. Must be unique within the status.datasets array. This name is used to correlate between the spec and status dataset information.",
-          "readOnly": true
-        },
-        "messageSchemaReference": {
-          "$ref": "#/definitions/MessageSchemaReference",
-          "description": "The message schema reference object.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "name"
-      ]
-    },
-    "AssetStatusError": {
-      "type": "object",
-      "description": "Defines the asset status error properties.",
-      "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Error code for classification of errors (ex: 400, 404, 500, etc.).",
-          "readOnly": true
-        },
-        "message": {
-          "type": "string",
-          "description": "Human readable helpful error message to provide additional context for error (ex: “capability Id 'foo' does not exist”).",
-          "readOnly": true
-        }
-      }
-    },
-    "AssetStatusEvent": {
-      "type": "object",
-      "description": "Defines the asset status event properties.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the event. Must be unique within the status.events array. This name is used to correlate between the spec and status event information.",
-          "readOnly": true
-        },
-        "messageSchemaReference": {
-          "$ref": "#/definitions/MessageSchemaReference",
-          "description": "The message schema reference object.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "name"
-      ]
-    },
     "Authentication": {
       "type": "object",
       "description": "Definition of the client authentication mechanism to the server.",
@@ -3413,6 +3185,7 @@
     },
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
+      "title": "Tracked Resource",
       "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
       "properties": {
         "tags": {
@@ -3481,82 +3254,6 @@
         }
       }
     },
-    "DataPoint": {
-      "type": "object",
-      "description": "Defines the data point properties.",
-      "properties": {
-        "observabilityMode": {
-          "type": "string",
-          "description": "An indication of how the data point should be mapped to OpenTelemetry.",
-          "default": "None",
-          "enum": [
-            "None",
-            "Counter",
-            "Gauge",
-            "Histogram",
-            "Log"
-          ],
-          "x-ms-enum": {
-            "name": "DataPointObservabilityMode",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "None",
-                "value": "None",
-                "description": "No mapping to OpenTelemetry."
-              },
-              {
-                "name": "Counter",
-                "value": "Counter",
-                "description": "Map as counter to OpenTelemetry."
-              },
-              {
-                "name": "Gauge",
-                "value": "Gauge",
-                "description": "Map as gauge to OpenTelemetry."
-              },
-              {
-                "name": "Histogram",
-                "value": "Histogram",
-                "description": "Map as histogram to OpenTelemetry."
-              },
-              {
-                "name": "Log",
-                "value": "Log",
-                "description": "Map as log to OpenTelemetry."
-              }
-            ]
-          }
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/DataPointBase"
-        }
-      ]
-    },
-    "DataPointBase": {
-      "type": "object",
-      "description": "Defines the data point properties.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the data point."
-        },
-        "dataSource": {
-          "type": "string",
-          "description": "The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset."
-        },
-        "dataPointConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
-        }
-      },
-      "required": [
-        "name",
-        "dataSource"
-      ]
-    },
     "DataPointObservabilityMode": {
       "type": "string",
       "description": "Defines the data point observability mode.",
@@ -3598,35 +3295,6 @@
           }
         ]
       }
-    },
-    "Dataset": {
-      "type": "object",
-      "description": "Defines the dataset properties.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the dataset."
-        },
-        "datasetConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific JSON string that describes configuration for the specific dataset."
-        },
-        "topic": {
-          "$ref": "#/definitions/Topic",
-          "description": "Object that describes the topic information for the specific dataset."
-        },
-        "dataPoints": {
-          "type": "array",
-          "description": "Array of data points that are part of the dataset. Each data point can have per-data point configuration.",
-          "items": {
-            "$ref": "#/definitions/DataPoint"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "name"
-      ]
     },
     "DeviceBaseProperties": {
       "type": "object",
@@ -3969,8 +3637,7 @@
           "description": "Array of data points that are part of the dataset. Each data point can have per-data point configuration.",
           "items": {
             "$ref": "#/definitions/DiscoveredDataPoint"
-          },
-          "x-ms-identifiers": []
+          }
         }
       },
       "required": [
@@ -4021,68 +3688,6 @@
           "description": "Fully qualified domain name."
         }
       }
-    },
-    "Event": {
-      "type": "object",
-      "description": "Defines the event properties.",
-      "properties": {
-        "observabilityMode": {
-          "type": "string",
-          "description": "An indication of how the event should be mapped to OpenTelemetry.",
-          "default": "None",
-          "enum": [
-            "None",
-            "Log"
-          ],
-          "x-ms-enum": {
-            "name": "EventObservabilityMode",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "None",
-                "value": "None",
-                "description": "No mapping to OpenTelemetry."
-              },
-              {
-                "name": "Log",
-                "value": "Log",
-                "description": "Map as log to OpenTelemetry."
-              }
-            ]
-          }
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "#/definitions/EventBase"
-        }
-      ]
-    },
-    "EventBase": {
-      "type": "object",
-      "description": "Defines the event properties.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the event."
-        },
-        "eventNotifier": {
-          "type": "string",
-          "description": "The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset."
-        },
-        "eventConfiguration": {
-          "type": "string",
-          "description": "Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize."
-        },
-        "topic": {
-          "$ref": "#/definitions/Topic",
-          "description": "Object that describes the topic information for the specific event."
-        }
-      },
-      "required": [
-        "name",
-        "eventNotifier"
-      ]
     },
     "EventObservabilityMode": {
       "type": "string",
@@ -4149,32 +3754,6 @@
           }
         ]
       }
-    },
-    "MessageSchemaReference": {
-      "type": "object",
-      "description": "Defines the message schema reference properties.",
-      "properties": {
-        "schemaRegistryNamespace": {
-          "type": "string",
-          "description": "The message schema registry namespace.",
-          "readOnly": true
-        },
-        "schemaName": {
-          "type": "string",
-          "description": "The message schema name.",
-          "readOnly": true
-        },
-        "schemaVersion": {
-          "type": "string",
-          "description": "The message schema version.",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "schemaRegistryNamespace",
-        "schemaName",
-        "schemaVersion"
-      ]
     },
     "Messaging": {
       "type": "object",

@@ -3,19 +3,13 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-import "../shared/provisioningstate.tsp";
-
-using TypeSpec.Http;
-using TypeSpec.Rest;
-using TypeSpec.Versioning;
-using Azure.Core;
-using Azure.ResourceManager;
-
 @doc("Microsoft Mission Resource Provider management API.")
 namespace Microsoft.Mission;
 
 @doc("Specifies the state of the transitHub.")
 union TransitHubState {
+  string,
+
   @doc("TransitHubState Type PendingApproval")
   PendingApproval: "PendingApproval",
 
@@ -30,12 +24,12 @@ union TransitHubState {
 
   @doc("TransitHubState Type Failed")
   Failed: "Failed",
-
-  string,
 }
 
 @doc("Specifies the type of the transitOption.")
 union TransitOptionType {
+  string,
+
   @doc("TransitOptionType ExpressRoute")
   ExpressRoute: "ExpressRoute",
 
@@ -44,8 +38,6 @@ union TransitOptionType {
 
   @doc("TransitOptionType Peering")
   Peering: "Peering",
-
-  string,
 }
 
 @doc("TransitOptionParams Properties")
@@ -83,13 +75,14 @@ model TransitHubProperties {
   resourceCollection?: string[];
 }
 
-@doc("Describes the properties of an Transit Hub.")
-model TransitHubPatchProperties is TransitHubProperties;
+@doc("Transit Hub patchable Properties")
+model TransitHubPatchProperties
+  is UpdateableProperties<OmitDefaults<TransitHubProperties>>;
 
 @doc("TH Patch Resource")
-model TransitHubPatchResource {
+model TransitHubPatchModel {
   @doc("The TransitHub resource.")
-  properties?: Update<TransitHubPatchProperties>;
+  properties?: TransitHubPatchProperties;
 
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
 }

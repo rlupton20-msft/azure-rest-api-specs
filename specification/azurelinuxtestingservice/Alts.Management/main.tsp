@@ -6,9 +6,9 @@ import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-import "./put_response_template.tsp";
 import "./job_template.tsp";
 import "./job.tsp";
+import "./put_response_template.tsp";
 import "./test_result.tsp";
 
 // Include models, operations, and decorators
@@ -68,8 +68,13 @@ union ProvisioningState {
 enum Versions {
   @doc("The 2023-08-01-preview API version.")
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v3)
   v2023_08_01_preview: "2023-08-01-preview",
+
+  @doc("The 2025-04-01-preview API version.")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_04_01_preview: "2025-04-01-preview",
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}

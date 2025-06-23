@@ -37,8 +37,8 @@ union DatasetDestinationTarget {
   @doc("MQTT target.")
   Mqtt: "Mqtt",
 
-  @doc("EdgeStateStore target.")
-  EdgeStateStore: "EdgeStateStore",
+  @doc("BrokerStateStore target.")
+  BrokerStateStore: "BrokerStateStore",
 
   @doc("Storage target.")
   Storage: "Storage",
@@ -123,10 +123,10 @@ model StorageDestinationConfiguration {
   path: string;
 }
 
-@doc("The configuration for an EdgeStateStore destination.")
+@doc("The configuration for an BrokerStateStore destination.")
 @added(Versions.v2025_07_01_preview)
-model EdgeStateStoreDestinationConfiguration {
-  @doc("The EdgeStateStore destination key.")
+model BrokerStateStoreDestinationConfiguration {
+  @doc("The BrokerStateStore destination key.")
   key: string;
 }
 
@@ -142,14 +142,14 @@ union MqttDestinationQos {
   string,
 }
 
-@doc("The type for a EdgeStateStore destination.")
+@doc("The type for a BrokerStateStore destination.")
 @added(Versions.v2025_07_01_preview)
-model DatasetEdgeStateStoreDestination extends DatasetDestination {
-  @doc("The EdgeStateStore destination target.")
-  target: DatasetDestinationTarget.EdgeStateStore;
+model DatasetBrokerStateStoreDestination extends DatasetDestination {
+  @doc("The BrokerStateStore destination target.")
+  target: DatasetDestinationTarget.BrokerStateStore;
 
-  @doc("The EdgeStateStore destination configuration.")
-  configuration: EdgeStateStoreDestinationConfiguration;
+  @doc("The BrokerStateStore destination configuration.")
+  configuration: BrokerStateStoreDestinationConfiguration;
 }
 
 @doc("The type for a Storage destination.")

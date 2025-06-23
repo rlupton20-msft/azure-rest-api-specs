@@ -30,6 +30,14 @@ model WithDescription {
   description: string;
 }
 
+@access(Access.internal)
+@doc("For adding copilot instruction.")
+model WithCopilotInstruction {
+  @doc("The copilot instruction")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  copilotInstruction: string;
+}
+
 @doc("Enum for resource visibility Scope.")
 union Scope {
   /** The resource is Archived/discarded. */
@@ -64,7 +72,7 @@ alias DataAssetId = Azure.Core.armResourceIdentifier<[
   }
 ]>;
 
-alias StorageId = Azure.Core.armResourceIdentifier<[
+alias DiscoveryStorageId = Azure.Core.armResourceIdentifier<[
   {
     type: "Microsoft.Discovery/Storages";
   }
@@ -109,6 +117,12 @@ alias NodePoolId = Azure.Core.armResourceIdentifier<[
 alias WorkspaceId = Azure.Core.armResourceIdentifier<[
   {
     type: "Microsoft.Discovery/workspaces";
+  }
+]>;
+
+alias WorkflowId = Azure.Core.armResourceIdentifier<[
+  {
+    type: "Microsoft.Discovery/workflows";
   }
 ]>;
 

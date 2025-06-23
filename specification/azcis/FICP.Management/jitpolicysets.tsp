@@ -1,27 +1,25 @@
-import "@typespec/rest";
-import "@typespec/versioning";
-import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/openapi";
+import "@typespec/http";
+import "@typespec/rest";
 
+using Azure.Core;
+using Azure.ResourceManager;
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
-using Azure.Core;
-using Azure.ResourceManager;
-using Autorest;
 
 namespace Microsoft.AzureCis;
 
 @doc("Ficp JIT Policy Set properties")
 model JitPolicySetProperties {
+  @doc("Cloud identifier")
+  cloudId: string;
+
   @doc("List of Jit policies")
   @extension("x-ms-identifiers", #[])
   policies: Array<JitPolicy>;
-
-  @doc("Cloud identificator")
-  cloudId: string;
 
   @doc("The Azure location.")
   azureLocation?: azureLocation;
@@ -40,7 +38,7 @@ model JitPolicy {
   executionSequence: int64;
 
   @doc("The type of approval for the policy. Available values are \"AutoApproval\", \"ManualApproval\" and \"ExplicitlyDeny\".")
-  policyType: string;
+  policyType: PolicyType;
 
   @doc("Jit Resource that was created and available for your service.")
   resourceType: string;
@@ -68,7 +66,7 @@ model ExtendedFlags {
   @doc("Flag indicating if it is Global Policy or not")
   globalPolicy: boolean;
 
-  @doc("No Display?")
+  @doc("Flag indicating if the policy should be displayed or not")
   noDisplay: boolean;
 }
 
@@ -93,7 +91,21 @@ model PolicyAction {
 @doc("Provisioning Mode")
 model ProvisioningMode {
   @doc("Type of the provisioning mode, either \"Create\" or \"Delete\".")
-  mode: string;
+  mode: "Create" | "Delete" | string;
+}
+
+@doc("Policy Type")
+union PolicyType {
+  @doc("Auto Approval")
+  AutoApproval: "AutoApproval",
+
+  @doc("Manual Approval")
+  ManualApproval: "ManualApproval",
+
+  @doc("Explicitly Deny")
+  ExplicitlyDeny: "ExplicitlyDeny",
+
+  string,
 }
 
 @doc("FicpJitPolicySet Resource")

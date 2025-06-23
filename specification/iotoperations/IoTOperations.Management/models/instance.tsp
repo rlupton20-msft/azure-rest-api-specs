@@ -7,7 +7,6 @@ import "@azure-tools/typespec-azure-resource-manager";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Azure.Core;
 using Azure.ResourceManager;
 
 namespace Private.IoTOperations;
@@ -54,14 +53,29 @@ model InstanceProperties {
   @doc("The reference to the Schema Registry for this AIO Instance.")
   schemaRegistryRef: SchemaRegistryRef;
 
+  @doc("The reference to the AIO Secret provider class.")
+  @added(Versions.`2025-07-01-preview`)
+  defaultSecretProviderClassRef?: SecretProviderClassRef;
+
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
   @doc("The features of the AIO Instance.")
-  @added(Versions.v2025_04_01)
+  @added(Versions.`2025-04-01`)
   features?: Record<InstanceFeature>;
+
+  @doc("The Azure Device Registry Namespace used by Assets, Discovered Assets and devices")
+  @added(Versions.`2025-07-01-preview`)
+  adrNamespaceRef?: AzureDeviceRegistryNamespaceRef;
+}
+
+@doc("The reference to the AIO Secret provider class.")
+@added(Versions.`2025-07-01-preview`)
+model SecretProviderClassRef {
+  @doc("The resource ID of the AIO Secret provider class.")
+  resourceId: SecretProviderClassID;
 }
 
 @doc("The features of the AIO Instance.")
-@added(Versions.v2025_04_01)
+@added(Versions.`2025-04-01`)
 model InstanceFeature {
   @doc("The state of the feature.")
   mode?: InstanceFeatureMode;
@@ -72,7 +86,7 @@ model InstanceFeature {
 }
 
 @doc("The enum defining mode of a feature.")
-@added(Versions.v2025_04_01)
+@added(Versions.`2025-04-01`)
 union InstanceFeatureMode {
   string,
 
@@ -90,4 +104,11 @@ union InstanceFeatureMode {
 model SchemaRegistryRef {
   @doc("The resource ID of the Schema Registry.")
   resourceId: SchemaRegistryID;
+}
+
+@doc("Azure Device Registry Namespace reference.")
+@added(Versions.`2025-07-01-preview`)
+model AzureDeviceRegistryNamespaceRef {
+  @doc("The resource ID of the Azure Device Registry Namespace.")
+  resourceId: AzureDeviceRegistryNamespaceID;
 }

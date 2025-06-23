@@ -29,6 +29,9 @@ union DataStoreType {
   @doc("The Azure storage file kind.")
   AzureStorageFile: "AzureStorageFile",
 
+  @doc("The Discovery storage kind.")
+  DiscoveryStorage: "DiscoveryStorage",
+
   string,
 }
 
@@ -47,10 +50,10 @@ model WithStorageAccountId {
 @doc("An abstract representation of data store kind.")
 model DataStore {
   @doc("The data store kind.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   kind: DataStoreType;
 }
 
-// @discriminator("kind")
 @doc("The Azure storage blob properties.")
 model AzureStorageBlob extends DataStore {
   /** Azure Storage Blob */
@@ -60,11 +63,21 @@ model AzureStorageBlob extends DataStore {
   ...WithStorageAccountId;
 }
 
+@doc("The Discovery storage properties.")
+model DiscoveryStorage extends DataStore {
+  /** Discovery Storage */
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  kind: DataStoreType.DiscoveryStorage;
+
+  @doc("The associated Discovery storage ID.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  discoveryStorageId: Microsoft.Discovery.Shared.DiscoveryStorageId;
+}
+
 @doc("The Azure storage file properties.")
 model AzureStorageFile extends DataStore {
   /** Azure Storage File */
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  // @discriminator("kind")
   kind: DataStoreType.AzureStorageFile;
 
   ...WithStorageAccountId;
@@ -93,6 +106,7 @@ model Credential {
   name: string;
 
   @doc("The data store kind.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   kind: CredentialType;
 
   ...Microsoft.Discovery.Shared.WithDescription;
@@ -100,17 +114,17 @@ model Credential {
 
 @doc("The managed identity credential properties.")
 model ManagedIdentityCredential extends Credential {
-  @visibility(Lifecycle.Read)
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   kind: CredentialType.ManagedIdentity;
 
   @doc("The managed identity client Id.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  clientId?: string;
+  identityId?: Microsoft.Discovery.Shared.UserAssignedIdentityId;
 }
 
 @doc("SAS token credential properties")
 model KeyVaultSecretCredential extends Credential {
-  @visibility(Lifecycle.Read)
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   kind: CredentialType.KeyVaultSecret;
 
   @doc("The shared access token.")

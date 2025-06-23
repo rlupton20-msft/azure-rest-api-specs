@@ -1,30 +1,23 @@
 // cspell:enableCompoundWords
 // cspell:words managedonbehalfofconfiguration
 
-import "@typespec/rest";
-import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/rest";
+import "@typespec/versioning";
+import "../shared/maintenancemodeconfiguration.tsp";
 
-import "../shared/provisioningstate.tsp";
-import "../community/community.tsp";
-import "../shared/resourceid.tsp";
-import "../shared/managedresourcegroupconfiguration.tsp";
-import "../shared/principal.tsp";
-import "../shared/roleassignmentitem.tsp";
-import "../shared/managedonbehalfofconfiguration.tsp";
-
-using TypeSpec.Http;
-using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
+using TypeSpec.Versioning;
 
 @doc("Microsoft Mission Resource Provider management API.")
 namespace Microsoft.Mission;
 
 @doc("Specifies the destination of where to store diagnostic logs.")
 union DiagnosticDestination {
+  string,
+
   @doc("DiagnosticDestination Type CommunityOnly")
   CommunityOnly: "CommunityOnly",
 
@@ -33,19 +26,22 @@ union DiagnosticDestination {
 
   @doc("DiagnosticDestination Type Both")
   Both: "Both",
-
-  string,
 }
 
 @doc("Subnet Configuration")
-@added(Microsoft.Mission.Versions.v2024_06_01_preview)
 model SubnetConfiguration {
   @doc("Subnet name.")
   name: string;
 
-  @doc("Subnet ID.")
+  @removed(Microsoft.Mission.Versions.v2025_05_01_preview)
+  @doc("Subnet Resource ID.")
   @visibility(Lifecycle.Read)
   id?: SubnetResourceId;
+
+  @added(Microsoft.Mission.Versions.v2025_05_01_preview)
+  @doc("Subnet Resource ID.")
+  @visibility(Lifecycle.Read)
+  subnetResourceid?: SubnetResourceId;
 
   @doc("Network prefix size.")
   networkPrefixSize: int32;
@@ -57,16 +53,26 @@ model SubnetConfiguration {
   @visibility(Lifecycle.Read)
   addressPrefix?: string;
 
+  @removed(Microsoft.Mission.Versions.v2025_05_01_preview)
   @doc("Network security group ID.")
   @visibility(Lifecycle.Read)
   networkSecurityGroupId?: NsgResourceId;
+
+  @added(Microsoft.Mission.Versions.v2025_05_01_preview)
+  @doc("Network security group ID.")
+  @visibility(Lifecycle.Read)
+  networkSecurityGroupResourceId?: NsgResourceId;
 }
 
 @doc("Enclave Virtual Network Properties")
-model EnclaveVirtualNetwork {
+model EnclaveVirtualNetworkModel {
+  @removed(Microsoft.Mission.Versions.v2025_05_01_preview)
   @doc("Network Name.")
-  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   name?: string;
+
+  @added(Microsoft.Mission.Versions.v2025_05_01_preview)
+  @doc("Network Name.")
+  networkName?: string;
 
   @doc("Network Size.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
@@ -77,22 +83,24 @@ model EnclaveVirtualNetwork {
   customCidrRange?: string;
 
   @doc("Subnet Configurations.")
-  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   subnetConfigurations?: SubnetConfiguration[];
 
   @doc("Allow Subnet Communication.")
-  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   @visibility(Lifecycle.Read, Lifecycle.Create)
   allowSubnetCommunication?: boolean = false;
 
-  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  @removed(Microsoft.Mission.Versions.v2025_05_01_preview)
   @doc("Connect to Azure Services (True or False).")
   @visibility(Lifecycle.Read, Lifecycle.Create)
   connectToAzureServices?: boolean = false;
 }
 
 @doc("Virtual Enclave Default Settings")
-model EnclaveDefaultSettingsDef {
+model EnclaveDefaultSettingsPatchModel
+  is UpdateableProperties<OmitDefaults<EnclaveDefaultSettingsModel>>;
+
+@doc("Virtual Enclave Default Settings")
+model EnclaveDefaultSettingsModel {
   @doc("Key Vault Resource Id.")
   @visibility(Lifecycle.Read)
   keyVaultResourceId?: KeyVaultResourceId;
@@ -101,26 +109,16 @@ model EnclaveDefaultSettingsDef {
   @visibility(Lifecycle.Read)
   storageAccountResourceId?: StorageAccountResourceId;
 
-  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   @doc("Log Analytics Resource Ids.")
   @visibility(Lifecycle.Read)
   logAnalyticsResourceIdCollection?: LogAnalyticsResourceId[];
-}
 
-model EnclaveDefaultSettings is EnclaveDefaultSettingsDef {
-  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   @doc("Diagnostic Destination.")
   diagnosticDestination?: DiagnosticDestination = DiagnosticDestination.EnclaveOnly;
 }
 
-model EnclaveDefaultSettingsPatch is EnclaveDefaultSettingsDef {
-  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
-  @doc("Diagnostic Destination.")
-  diagnosticDestination?: DiagnosticDestination;
-}
-
 @doc("Enclave Address Spaces")
-model EnclaveAddressSpaces {
+model EnclaveAddressSpacesModel {
   @doc("Enclave Address Space")
   enclaveAddressSpace?: string;
 
@@ -128,45 +126,18 @@ model EnclaveAddressSpaces {
   managedAddressSpace?: string;
 }
 
-@added(Microsoft.Mission.Versions.v2024_06_01_preview)
-@doc("Maintenance Mode")
-model MaintenanceModeConfiguration {
-  @doc("Current mode of Maintenance Mode Configuration")
-  mode: "On" | "CanNotDelete" | "Off" | "General" | "Advanced" | string = "Off";
-
-  @doc("The user, group or service principal object affected by Maintenance Mode")
-  principals?: Principal[] = #[];
-
-  @doc("Justification for entering or exiting Maintenance Mode")
-  justification?: "Networking" | "Governance" | "Off" | string = "Off";
-}
-
-@added(Microsoft.Mission.Versions.v2024_06_01_preview)
-@doc("Maintenance Mode")
-model MaintenanceModeConfigurationPatch {
-  @doc("Current mode of Maintenance Mode Configuration")
-  mode: "On" | "CanNotDelete" | "Off" | "General" | "Advanced" | string;
-
-  @doc("The user, group or service principal object affected by Maintenance Mode")
-  principals?: Principal[];
-
-  @doc("Justification for entering or exiting Maintenance Mode")
-  justification?: "Networking" | "Governance" | "Off" | string;
-}
-
 @doc("Virtual Enclave Resource properties")
-model VirtualEnclavePropertiesDef {
+model VirtualEnclaveBaseModel {
   @doc("Provisioning State.")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("Virtual Network.")
-  enclaveVirtualNetwork: EnclaveVirtualNetwork;
+  enclaveVirtualNetwork: EnclaveVirtualNetworkModel;
 
-  @added(Microsoft.Mission.Versions.v2024_06_01_preview)
-  @visibility(Lifecycle.Read)
   @doc("Enclave Address Spaces")
-  enclaveAddressSpaces?: EnclaveAddressSpaces;
+  @visibility(Lifecycle.Read)
+  enclaveAddressSpaces?: EnclaveAddressSpacesModel;
 
   @doc("Community Resource Id.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
@@ -176,14 +147,20 @@ model VirtualEnclavePropertiesDef {
   @visibility(Lifecycle.Read)
   resourceCollection?: armResourceIdentifier[];
 
+  @removed(Microsoft.Mission.Versions.v2025_05_01_preview)
   @doc("Managed resource group configuration.")
   @visibility(Lifecycle.Read)
   managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
 
   @added(Microsoft.Mission.Versions.v2025_05_01_preview)
+  @doc("Managed resource group name.")
   @visibility(Lifecycle.Read)
+  managedResourceGroupName?: string;
+
+  @added(Microsoft.Mission.Versions.v2025_05_01_preview)
   @doc("Managed On Behalf Of Configuration.")
-  managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
+  @visibility(Lifecycle.Read)
+  managedOnBehalfOfConfiguration?: CommonTypes.ManagedOnBehalfOfConfiguration;
 
   @doc("Deploy Bastion service (True or False).")
   bastionEnabled?: boolean = false;
@@ -202,27 +179,28 @@ model VirtualEnclavePropertiesDef {
 }
 
 @doc("Virtual Enclave Resource properties")
-model VirtualEnclaveProperties is VirtualEnclavePropertiesDef {
-  @doc("Maintenance Mode configuration.")
-  maintenanceModeConfiguration?: MaintenanceModeConfiguration;
+model VirtualEnclaveModel is VirtualEnclaveBaseModel {
+  @doc("Enclave default settings.")
+  enclaveDefaultSettings?: EnclaveDefaultSettingsModel;
 
-  @doc("Default Settings")
-  enclaveDefaultSettings?: EnclaveDefaultSettings;
+  @doc("Maintenance Mode configuration.")
+  maintenanceModeConfiguration?: MaintenanceModeConfigurationModel;
 }
 
-@doc("Virtual Enclave Patch properties")
-model VirtualEnclavePatchProperties is VirtualEnclavePropertiesDef {
+@doc("Virtual Enclave Patchable Properties")
+model VirtualEnclavePatchProperties
+  is UpdateableProperties<OmitDefaults<VirtualEnclaveBaseModel>> {
+  @doc("Enclave default settings.")
+  enclaveDefaultSettings?: EnclaveDefaultSettingsPatchModel;
+
   @doc("Maintenance Mode configuration.")
-  maintenanceModeConfiguration?: MaintenanceModeConfigurationPatch;
-  
-  @doc("Default Settings")
-  enclaveDefaultSettings?: EnclaveDefaultSettingsPatch;
+  maintenanceModeConfiguration?: MaintenanceModeConfigurationPatchModel;
 }
 
-@doc("Virtual Enclave Patch Resource")
-model VirtualEnclavePatchResource {
+@doc("Virtual Enclave Patch Model")
+model VirtualEnclavePatchModel {
   @doc("Virtual Enclave Patch properties")
-  properties?: Update<VirtualEnclavePatchProperties>;
+  properties?: VirtualEnclavePatchProperties;
 
   ...ManagedServiceIdentityProperty;
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;

@@ -31,16 +31,27 @@ model ProjectProperties {
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
-  @doc("Allowed Agents (Control plane resource references).")
+  @doc("Allowed AgentIds (Control plane resource references).")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  agentIds: AgentId[];
+  agentIds?: AgentId[];
 
-  @doc("Allowed KnowledgeBases (Data plane resource IDs).")
+  @doc("Allowed WorkFlowIds (Control plane resource references).")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  knowledgeBaseIds: string[];
+  workflowIds?: WorkflowId[];
+
+  @doc("ARM ID of the the starting (entry) point Agent or Workflow.")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  entryReferenceId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.Discovery/agents";
+    },
+    {
+      type: "Microsoft.Discovery/workflows";
+    }
+  ]>;
 
   @doc("Allowed DataContainers (Control plane resource references).")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   dataContainerIds: DataContainerId[];
 }
 

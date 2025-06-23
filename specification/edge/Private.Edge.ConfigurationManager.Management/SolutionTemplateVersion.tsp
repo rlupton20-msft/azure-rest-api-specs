@@ -58,11 +58,13 @@ model BulkDeploySolutionParameter {
   @doc("Targets")
   @Azure.ResourceManager.identifiers(#[])
   targets: BulkDeployTargetDetails[];
-
+  
+  @removed(Versions.v2025_06_01)
   @doc("Solution instance name")
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   solutionInstanceName?: string;
-  
+
+  @removed(Versions.v2025_06_01)
   @doc("Solution dependencies")
   @Azure.ResourceManager.identifiers(#[])
   solutionDependencies?: SolutionDependencyParameter[];
@@ -70,6 +72,45 @@ model BulkDeploySolutionParameter {
 
 @doc("Bulk deploy target details")
 model BulkDeployTargetDetails {
+  @removed(Versions.v2025_06_01)
+  @doc("ArmId of Target")
+  targetId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.Edge/Targets";
+    }
+  ]>;
+
+  @removed(Versions.v2025_06_01)
+  @doc("Solution instance name")
+  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
+  solutionInstanceName?: string;
+
+  @added(Versions.v2025_06_01)
+  @doc("ArmId of Target Solution Version")
+  solutionVersionId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.Edge/Targets/Solutions/Versions";
+    }
+  ]>;
+}
+
+@doc("Bulk publish solution parameter")
+model BulkPublishSolutionParameter {
+  @doc("Targets")
+  @Azure.ResourceManager.identifiers(#[])
+  targets: BulkPublishTargetDetails[];
+
+  @doc("Solution instance name")
+  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
+  solutionInstanceName?: string;
+
+  @doc("Solution dependencies")
+  @Azure.ResourceManager.identifiers(#[])
+  solutionDependencies?: SolutionDependencyParameter[];
+}
+
+@doc("Bulk publish target details")
+model BulkPublishTargetDetails {
   @doc("ArmId of Target")
   targetId: Azure.Core.armResourceIdentifier<[
     {
@@ -82,6 +123,12 @@ model BulkDeployTargetDetails {
   solutionInstanceName?: string;
 }
 
+@doc("Apply Hierarchy parameter")
+model HierarchyDetails {
+  @doc("ArmId of Hierarchy")
+  hierarchyId: string;
+}
+
 @armResourceOperations
 interface SolutionTemplateVersions {
   @doc("Get a Solution Template Version Resource")
@@ -89,10 +136,22 @@ interface SolutionTemplateVersions {
 
   @doc("List Solution Template Version Resources")
   listBySolutionTemplate is ArmResourceListByParent<SolutionTemplateVersion>;
-  
+
   @doc("Post request to bulk deploy")
   bulkDeploySolution is ArmResourceActionNoResponseContentAsync<
     SolutionTemplateVersion,
     BulkDeploySolutionParameter
+  >;
+
+  @doc("Post request to bulk publish")
+  bulkPublishSolution is ArmResourceActionNoResponseContentAsync<
+    SolutionTemplateVersion,
+    BulkPublishSolutionParameter
+  >;
+
+  @doc("Post request to apply")
+  applySolution is ArmResourceActionNoResponseContentAsync<
+    SolutionTemplateVersion,
+    HierarchyDetails
   >;
 }
