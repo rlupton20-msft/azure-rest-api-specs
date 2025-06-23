@@ -39,7 +39,7 @@ model LogicAppRef {
 model ApprovalRule {
   @doc("The definitions of all the stages in the approval workflow.")
   @extension("x-ms-identifiers", #["name"])
-  stageDefinitions: ApprovalStageDefinition[];
+  stages: ApprovalStage[];
 
   @doc("The maximum time in minutes that the approval workflow can be executed. The default value is 7 days. The max value is 90 days.")
   @minValue(1)
@@ -48,7 +48,7 @@ model ApprovalRule {
 }
 
 @doc("Definition of an stage in an approval workflow.")
-model ApprovalStageDefinition {
+model ApprovalStage {
   @doc("The name of the stage, unique within a single approval workflow definition.")
   name: string;
 
@@ -72,5 +72,5 @@ interface ApprovalWorkflowDefinitions {
     ApprovalWorkflowDefinitionProperties
   >;
   delete is ArmResourceDeleteWithoutOkAsync<ApprovalWorkflowDefinition>;
-  listByResourceGroup is ArmResourceListByParent<ApprovalWorkflowDefinition>;
+  listByParent is ArmResourceListByParent<ApprovalWorkflowDefinition>;
 }
