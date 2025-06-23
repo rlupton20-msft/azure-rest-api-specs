@@ -31,7 +31,7 @@ model ApprovalRequestOutput {
 }
 
 @armResourceOperations
-interface ApprovalRequest {
+interface ApprovalProvider {
   @doc("The ProviderLevelAction POST call to invoke and fetch the approval request.")
   invokeAndFetchApprovalRequest is ArmProviderActionSync<
     ApprovalRequestInput,
