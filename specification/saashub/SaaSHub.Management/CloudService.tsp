@@ -1,0 +1,151 @@
+import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/openapi";
+import "@typespec/rest";
+import "@typespec/versioning";
+import "./CloudServiceModels.tsp";
+import "./SharedModels.tsp";
+import "./versions.tsp";
+
+using TypeSpec.Rest;
+using Azure.ResourceManager;
+using TypeSpec.Http;
+using TypeSpec.OpenAPI;
+using TypeSpec.Versioning;
+
+namespace Microsoft.SaaSHub;
+/**
+ * A SaaSHub cloud service.
+ */
+@added(SaaSHubVersions.v2025_07_01_preview)
+@removed(SaaSHubVersions.v2024_09_30_preview)
+model CloudService
+  is Azure.ResourceManager.TrackedResource<CloudServiceProperties> {
+  ...ResourceNameParameter<
+    Resource = CloudService,
+    KeyName = "CloudServiceResourceName",
+    SegmentName = "cloudServices",
+    NamePattern = "^[-_0-9a-zA-Z]{3,50}$"
+  >;
+}
+
+@armResourceOperations
+@added(SaaSHubVersions.v2025_07_01_preview)
+@removed(SaaSHubVersions.v2024_09_30_preview)
+interface CloudServices {
+  /**
+   * Gets a SaaSHub cloud service by its ID. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.
+   */
+  get is ArmResourceRead<CloudService, BaseParameters = ApiVersionParameter>;
+
+  /**
+   * Creates or updates a SaaSHub cloud service.
+   */
+  create is ArmResourceCreateOrReplaceAsync<
+    CloudService,
+    BaseParameters = ApiVersionParameter
+  >;
+
+  /**
+   * Updates the properties of a SaaSHub cloud service.
+   */
+  @patch(#{ implicitOptionality: false })
+  update is ArmCustomPatchAsync<
+    CloudService,
+    CloudService,
+    BaseParameters = ApiVersionParameter
+  >;
+
+  /**
+   * Deletes a SaaSHub cloud service.
+   */
+  delete is ArmResourceDeleteWithoutOkAsync<
+    CloudService,
+    BaseParameters = ApiVersionParameter
+  >;
+
+  /**
+   * Lists the SaaSHub cloud services under the subscription.
+   */
+  listBySubscription is ArmListBySubscription<CloudService>;
+
+  /**
+   * Lists the SaaSHub cloud services under the resource group.
+   */
+  listByResourceGroup is ArmResourceListByParent<
+    CloudService,
+    BaseParameters = ApiVersionParameter
+  >;
+
+  /**
+   * Evaluates whether an existing cloud service can be cancelled.
+   */
+  canCancel is ArmResourceActionSync<
+    CloudService,
+    void,
+    CanCancelResult,
+    BaseParameters = ApiVersionParameter
+  >;
+
+  /**
+   * Evaluates whether the source cloud service can be merged to target cloud service.
+   */
+  canMerge is ArmResourceActionSync<
+    CloudService,
+    MergeCloudServiceRequest,
+    CloudServiceCanMergeResult,
+    BaseParameters = ApiVersionParameter
+  >;
+
+  /**
+   * Evaluates whether the request payload can update an existing cloud service.
+   */
+  canUpdate is ArmResourceActionSync<
+    CloudService,
+    CloudService,
+    CanUpdateResult,
+    BaseParameters = ApiVersionParameter
+  >;
+
+  /**
+   * Cancels a SaaSHub cloud service.
+   */
+  cancel is ArmResourceActionAsync<
+    CloudService,
+    void,
+    CloudService,
+    BaseParameters = ApiVersionParameter
+  >;
+
+  /**
+   * Merges multiple cloud services into one target cloud service. The resource name in URL is the target, and the list of source cloud service and quantity will be specified in request payload
+   */
+  merge is ArmResourceActionAsync<
+    CloudService,
+    MergeCloudServiceRequest,
+    CloudService,
+    BaseParameters = ApiVersionParameter
+  >;
+}
+
+@@maxLength(CloudService.name, 50);
+@@minLength(CloudService.name, 3);
+@@doc(CloudService.name,
+  "The name that uniquely identifies a SaaSHub cloud service."
+);
+@@doc(CloudService.properties, "The properties of a SaaSHub cloud service.");
+@@doc(CloudServices.create::parameters.resource,
+  "Request parameters that are provided to the create SaaSHub cloud service operation."
+);
+@@doc(CloudServices.update::parameters.properties,
+  "Request parameters that are provided to the update SaaSHub cloud service operation."
+);
+@@doc(CloudServices.canMerge::parameters.body,
+  "Request parameters that are provided to the merge SaaSHub cloud service operation."
+);
+@@doc(CloudServices.canUpdate::parameters.body,
+  "Request parameters that are provided to the update SaaSHub cloud service operation."
+);
+@@doc(CloudServices.merge::parameters.body,
+  "Request parameters that are provided to the merge SaaSHub cloud service operation."
+);
