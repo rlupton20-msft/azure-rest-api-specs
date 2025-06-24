@@ -21,16 +21,6 @@ model Image is ProxyResource<ImageProperties> {
 
 @armResourceOperations
 interface Images {
-  @doc("List by parent")
-  listByParent is ArmResourceListByParent<
-    Image,
-    {
-      ...ApiVersionParameter;
-      ...FilterQueryParameter;
-      ...TopQueryParameter;
-      ...SkipQueryParameter;
-    }
-  >;
 
   @doc("Get the resource")
   get is ArmResourceRead<Image>;
@@ -40,5 +30,16 @@ interface Images {
     Image,
     void,
     ArmResponse<ImageDownloadResult> | ErrorResponse
+  >;
+
+  @doc("List by parent")
+  @added(Versions.v2025_05_01)
+  listAll is ArmResourceListByParent<
+    Image,
+    Azure.ResourceManager.Foundations.DefaultBaseParameters<Image> & {
+      ...FilterQueryParameter;
+      ...TopQueryParameter;
+      ...SkipQueryParameter;
+    }
   >;
 }

@@ -24,9 +24,7 @@ model Artifact is ProxyResource<ArtifactProperties> {
 @added(Versions.v2025_05_01)
 interface Artifacts {
   @doc("List by parent")
-  listByParent is ArmResourceListByParent<
-    Artifact
-  >;
+  listByParent is ArmResourceListByParent<Artifact>;
 
   @doc("Get the resource")
   get is ArmResourceRead<Artifact>;

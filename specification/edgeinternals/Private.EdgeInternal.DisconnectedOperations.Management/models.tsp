@@ -140,6 +140,11 @@ model DisconnectedOperationDeploymentManifest {
   @visibility(Lifecycle.Read)
   @doc("The connection intent")
   connectionIntent: ConnectionIntent;
+
+  @visibility(Lifecycle.Read)
+  @doc("The cloud in which the resource is registered")
+  @added(Versions.v2025_05_01)
+  cloud?: string;
 }
 
 /**
@@ -209,9 +214,7 @@ model ImageDownloadResponse {
   linkExpiry: utcDateTime;
 }
 
-
 @doc("The image download properties")
-@renamedFrom(Versions.v2025_05_01, "ImageDownloadResponse")
 model ImageDownloadResult {
   ...ImageProperties;
 
