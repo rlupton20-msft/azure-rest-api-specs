@@ -41,10 +41,10 @@ model ApprovalRule {
   @extension("x-ms-identifiers", #["name"])
   stages: ApprovalStage[];
 
-  @doc("The maximum time in minutes that the approval workflow can be executed. The default value is 7 days. The max value is 90 days.")
+  @doc("The maximum time in minutes that the approval workflow can be executed. The min value is 1 minute. The max value is 90 days. The default value is 7 days in the backend service.")
   @minValue(1)
   @maxValue(129600)
-  timeoutInMinutes: int32 = 10080;
+  timeoutInMinutes?: int32;
 }
 
 @doc("Definition of an stage in an approval workflow.")
