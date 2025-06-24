@@ -8,7 +8,6 @@ import "../shared/maintenancemodeconfiguration.tsp";
 
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
-using OpenAPI;
 
 @doc("Microsoft Mission Resource Provider management API.")
 namespace Microsoft.Mission;

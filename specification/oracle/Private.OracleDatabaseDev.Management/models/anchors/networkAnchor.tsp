@@ -56,17 +56,17 @@ model NetworkAnchorProperties {
   @added(Versions.v20250701_preview)
   @doc("Indicates whether DNS zone sync from OCI to Azure is enabled")
   @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
-  enableDnsZoneSyncFromOciToAzure?: boolean = false;
+  isOracleToAzureDnsZoneSyncEnabled?: boolean = false;
 
   @added(Versions.v20250701_preview)
-  @doc("Indicates whether the DNS listening endpoint is enabled")
+  @doc("Indicates whether the Oracle DNS listening endpoint is enabled")
   @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
-  enableDnsListeningEndpoint?: boolean = false;
+  isOracleDnsListeningEndpointEnabled?: boolean = false;
 
   @added(Versions.v20250701_preview)
-  @doc("Indicates whether the DNS forwarding endpoint is enabled")
+  @doc("Indicates whether the Oracle DNS forwarding endpoint is enabled")
   @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
-  enableDnsForwardingEndpoint?: boolean = false;
+  isOracleDnsForwardingEndpointEnabled?: boolean = false;
 
   @added(Versions.v20250701_preview)
   @doc("DNS forwarding rules")
