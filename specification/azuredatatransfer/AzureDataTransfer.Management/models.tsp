@@ -555,6 +555,11 @@ model ConnectionProperties {
   flowTypes?: FlowType[];
 
   /**
+   * The policy names
+   */
+  policyNames?: string[];
+
+  /**
    * Requirement ID of the connection
    */
   requirementId?: string;
