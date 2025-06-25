@@ -14,7 +14,7 @@ model DbVersion is ProxyResource<DbVersionProperties> {
   @doc("DbVersion name")
   @key("dbversionsname")
   @path
-  @segment("baseDbVersions")
+  @segment("dbSystemDbVersions")
   @pattern(".*")
   name: string;
 }
