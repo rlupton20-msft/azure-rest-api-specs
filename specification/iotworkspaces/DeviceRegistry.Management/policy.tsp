@@ -18,8 +18,9 @@ namespace Private.DeviceRegistry;
 @parentResource(Credential)
 model Policy is Azure.ResourceManager.TrackedResource<PolicyProperties> {
   @doc("The name of the Policy tracked resource.")
-  @maxLength(128)
-  @pattern("^[a-zA-Z0-9-]{3,64}[a-zA-Z0-9]$")
+  @minLength(3)
+  @maxLength(63)
+  @pattern("^[0-9a-zA-Z][a-zA-Z0-9-]*$")
   @key("policyName")
   @segment("policies")
   @path
