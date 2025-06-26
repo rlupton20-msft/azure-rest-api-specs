@@ -3,6 +3,7 @@ import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
+import "./versions.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -12,6 +13,7 @@ using Azure.ResourceManager.Foundations;
 using Azure.Core;
 using TypeSpec.Versioning;
 
+@versioned(SaaSHubVersions)
 namespace Microsoft.SaaSHub;
 
 /**
@@ -715,7 +717,7 @@ model SeatBasedResourceProperties {
    */
   @visibility(Lifecycle.Read)
   productType?: string;
-  
+
   /**
    * Linked resources for the resource
    */
@@ -811,14 +813,12 @@ model MergeSourceSeatBasedResource {
   /**
    * Billing token for merge source transaction.
    */
-  @added(Versions.v2025_07_01_preview)
-  @removed(Versions.v2024_09_30_preview)
+  @added(SaaSHubVersions.v2025_07_01_preview)
   billingToken?: string;
 
   /**
    * Availability token for merge source transaction.
    */
-  @added(Versions.v2025_07_01_preview)
-  @removed(Versions.v2024_09_30_preview)
+  @added(SaaSHubVersions.v2025_07_01_preview)
   availabilityToken?: string;
 }

@@ -12,11 +12,14 @@ using Azure.ClientGenerator.Core;
 using TypeSpec.Versioning;
 using Microsoft.SaaSHub;
 
-namespace Microsoft.SaaSHub.Client {
+/**
+ * Client-specific customizations for Microsoft.SaaSHub models
+ */
+#suppress "@azure-tools/typespec-azure-core/casing-style" "SaaSHub is an existing onboarded RP"
+namespace Microsoft.SaasHub.Client {
   /**
    * Client-specific customizations for Microsoft.SaaSHub models
    */
-  
   @clientName("csharp", "MergeSaasResourceContent")
   model MergeSaasResourcesRequest {
     // Use composition rather than inheritance

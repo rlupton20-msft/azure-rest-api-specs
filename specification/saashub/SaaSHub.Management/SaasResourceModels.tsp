@@ -4,6 +4,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./SharedModels.tsp";
+import "./versions.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -13,6 +14,8 @@ using Azure.Core;
 using Azure.ResourceManager.Foundations;
 using Microsoft.SaaSHub;
 
+#suppress "@azure-tools/typespec-azure-core/casing-style" "SaaSHub is an existing onboarded RP"
+@versioned(SaaSHubVersions)
 namespace Microsoft.SaaSHub;
 
 /**
@@ -75,15 +78,13 @@ model MergeSaasResourcesRequest {
   /**
    * Billing token for merge target transaction.
    */
-  @added(Versions.v2025_07_01_preview)
-  @removed(Versions.v2024_09_30_preview)
+  @added(SaaSHubVersions.v2025_07_01_preview)
   billingToken?: string;
 
   /**
    * Availability token for merge target transaction.
    */
-  @added(Versions.v2025_07_01_preview)
-  @removed(Versions.v2024_09_30_preview)
+  @added(SaaSHubVersions.v2025_07_01_preview)
   availabilityToken?: string;
 }
 

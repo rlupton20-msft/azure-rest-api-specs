@@ -40,7 +40,7 @@ model ComputeInstance is ExtensionResource<InstanceProperties> {
   @pattern("^(?=.{0,259}[^\\s.]$)(?!.*[<>%&\\?/#])")
   @key("name")
   @path
-  @segment("computeInstance")
+  @segment("computeInstances")
   name: string;
 }
 
