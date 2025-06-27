@@ -197,6 +197,20 @@ model SystemOverrides {
    */
   @visibility(Lifecycle.Read)
   systemVersion?: string;
+
+  /**
+   * The number of times the resource has been renewed.
+   */
+  @visibility(Lifecycle.Read)
+  @added(SaaSHubVersions.v2025_07_01_preview)
+  renewalCount?: int32 = 0;
+
+  /**
+   * The start date in UTC time on the current product code.
+   */
+  @visibility(Lifecycle.Read)
+  @added(SaaSHubVersions.v2025_07_01_preview)
+  startDateOnCurrentProductCode?: utcDateTime;
 }
 
 /**
@@ -286,6 +300,12 @@ model TermDetails {
    * End date of the term in UTC time. When there is a value passed in for PUT scenario, it is to support co-term scenario. When there is a value passed in for PATCH scenario, it is to support extend trial scenario. The time part passed in will be ignored
    */
   endDate?: utcDateTime;
+
+  /**
+   * Number of days in the grace period for the current term. Optional property, defaults to 0 if not specified.
+   */
+  @added(SaaSHubVersions.v2025_07_01_preview)
+  gracePeriodInDays?: int32 = 0;
 }
 
 /**
