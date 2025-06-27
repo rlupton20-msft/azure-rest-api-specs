@@ -703,6 +703,9 @@
           },
           {
             "$ref": "#/parameters/DbVersionFilter.isDatabaseSoftwareImageSupported"
+          },
+          {
+            "$ref": "#/parameters/DbVersionFilter.shapeFamily"
           }
         ],
         "responses": {
@@ -7729,7 +7732,8 @@
       "type": "string",
       "description": "Allowed values for BaseDb System Shapes",
       "enum": [
-        "VM.Standard.E5.Flex"
+        "VM.Standard.E5.Flex",
+        "VM.Standard.x86"
       ],
       "x-ms-enum": {
         "name": "BaseDbSystemShapes",
@@ -7739,6 +7743,11 @@
             "name": "VMStandardE5Flex",
             "value": "VM.Standard.E5.Flex",
             "description": "Vm Standard E5 Flex shape"
+          },
+          {
+            "name": "VMStandardX86",
+            "value": "VM.Standard.x86",
+            "description": "Vm Standard X86"
           }
         ]
       }
@@ -10064,6 +10073,23 @@
           "type": "string",
           "description": "The Oracle Database version of the DB system.",
           "readOnly": true
+        },
+        "computeModel": {
+          "$ref": "#/definitions/ComputeModel",
+          "description": "The compute model for Base Database Service. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. The ECPU compute model is the recommended model, and the OCPU compute model is legacy.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "computeCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of compute servers for the DB system.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "discriminator": "source",
@@ -10084,7 +10110,8 @@
         "StandardEdition",
         "EnterpriseEdition",
         "EnterpriseEditionHighPerformance",
-        "EnterpriseEditionExtremePerformance"
+        "EnterpriseEditionExtreme",
+        "EnterpriseEditionDeveloper"
       ],
       "x-ms-enum": {
         "name": "DbSystemDatabaseEditionType",
@@ -10106,9 +10133,14 @@
             "description": "Enterprise edition high performance"
           },
           {
-            "name": "EnterpriseEditionExtremePerformance",
-            "value": "EnterpriseEditionExtremePerformance",
-            "description": "Enterprise edition extreme performance"
+            "name": "EnterpriseEditionExtreme",
+            "value": "EnterpriseEditionExtreme",
+            "description": "Enterprise edition extreme"
+          },
+          {
+            "name": "EnterpriseEditionDeveloper",
+            "value": "EnterpriseEditionDeveloper",
+            "description": "Enterprise edition developer"
           }
         ]
       }
@@ -13769,6 +13801,42 @@
         ]
       }
     },
+    "ShapeFamilyType": {
+      "type": "string",
+      "description": "Allowed values for shape family.",
+      "enum": [
+        "EXADATA",
+        "EXADB_XS",
+        "SINGLENODE",
+        "VIRTUALMACHINE"
+      ],
+      "x-ms-enum": {
+        "name": "ShapeFamilyType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Exadata",
+            "value": "EXADATA",
+            "description": "Family value for Exadata Shape"
+          },
+          {
+            "name": "ExadbXs",
+            "value": "EXADB_XS",
+            "description": "Family value for Exadb XS Shape"
+          },
+          {
+            "name": "SingleNode",
+            "value": "SINGLENODE",
+            "description": "Family value for Single Node Shape"
+          },
+          {
+            "name": "VirtualMachine",
+            "value": "VIRTUALMACHINE",
+            "description": "Family value for Virtual Machine Shape"
+          }
+        ]
+      }
+    },
     "SourceType": {
       "type": "string",
       "description": "Source type enum.",
@@ -13833,18 +13901,12 @@
       "type": "string",
       "description": "Storage Management type enum.",
       "enum": [
-        "ASM",
         "LVM"
       ],
       "x-ms-enum": {
         "name": "StorageManagementType",
         "modelAsString": true,
         "values": [
-          {
-            "name": "ASM",
-            "value": "ASM",
-            "description": "Automatic storage management"
-          },
           {
             "name": "LVM",
             "value": "LVM",
@@ -14369,7 +14431,8 @@
       "required": false,
       "type": "string",
       "enum": [
-        "VM.Standard.E5.Flex"
+        "VM.Standard.E5.Flex",
+        "VM.Standard.x86"
       ],
       "x-ms-enum": {
         "name": "BaseDbSystemShapes",
@@ -14379,6 +14442,11 @@
             "name": "VMStandardE5Flex",
             "value": "VM.Standard.E5.Flex",
             "description": "Vm Standard E5 Flex shape"
+          },
+          {
+            "name": "VMStandardX86",
+            "value": "VM.Standard.x86",
+            "description": "Vm Standard X86"
           }
         ]
       },
@@ -14400,6 +14468,46 @@
       "type": "boolean",
       "x-ms-parameter-location": "method"
     },
+    "DbVersionFilter.shapeFamily": {
+      "name": "shapeFamily",
+      "in": "query",
+      "description": "If provided, filters the results to the set of database versions which are supported for the given shape family.",
+      "required": false,
+      "type": "string",
+      "enum": [
+        "EXADATA",
+        "EXADB_XS",
+        "SINGLENODE",
+        "VIRTUALMACHINE"
+      ],
+      "x-ms-enum": {
+        "name": "ShapeFamilyType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Exadata",
+            "value": "EXADATA",
+            "description": "Family value for Exadata Shape"
+          },
+          {
+            "name": "ExadbXs",
+            "value": "EXADB_XS",
+            "description": "Family value for Exadb XS Shape"
+          },
+          {
+            "name": "SingleNode",
+            "value": "SINGLENODE",
+            "description": "Family value for Single Node Shape"
+          },
+          {
+            "name": "VirtualMachine",
+            "value": "VIRTUALMACHINE",
+            "description": "Family value for Virtual Machine Shape"
+          }
+        ]
+      },
+      "x-ms-parameter-location": "method"
+    },
     "DbVersionFilter.storageManagement": {
       "name": "storageManagement",
       "in": "query",
@@ -14407,18 +14515,12 @@
       "required": false,
       "type": "string",
       "enum": [
-        "ASM",
         "LVM"
       ],
       "x-ms-enum": {
         "name": "StorageManagementType",
         "modelAsString": true,
         "values": [
-          {
-            "name": "ASM",
-            "value": "ASM",
-            "description": "Automatic storage management"
-          },
           {
             "name": "LVM",
             "value": "LVM",

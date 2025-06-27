@@ -173,6 +173,14 @@ model DbSystemBaseProperties {
   @doc("The Oracle Database version of the DB system.")
   @visibility(Lifecycle.Read)
   version?: string;
+
+  @doc("The compute model for Base Database Service. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. The ECPU compute model is the recommended model, and the OCPU compute model is legacy.")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  computeModel?: ComputeModel;
+
+  @doc("The number of compute servers for the DB system.")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  computeCount?: int32;
 }
 
 @added(Versions.v20250701_preview)
@@ -187,8 +195,11 @@ union DbSystemDatabaseEditionType {
   @doc("Enterprise edition high performance")
   EnterpriseEditionHighPerformance: "EnterpriseEditionHighPerformance",
 
-  @doc("Enterprise edition extreme performance")
-  EnterpriseEditionExtremePerformance: "EnterpriseEditionExtremePerformance",
+  @doc("Enterprise edition extreme")
+  EnterpriseEditionExtreme: "EnterpriseEditionExtreme",
+
+  @doc("Enterprise edition developer")
+  EnterpriseEditionDeveloper: "EnterpriseEditionDeveloper",
 
   string,
 }

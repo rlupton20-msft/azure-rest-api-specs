@@ -158,6 +158,11 @@ model GcpBucketProperties {
   id?: string;
 
   /**
+   * The content generation of this object. Used for object versioning..
+   */
+  generation?: string;
+
+  /**
    * The kind of item this is. For buckets, this is always storage#bucket.
    */
   kind?: string = "storage#bucket";
@@ -215,7 +220,7 @@ model GcpBucketProperties {
   /**
    * The metadata generation of this bucket.
    */
-  metageneration?: int64;
+  metageneration?: string;
 
   /**
    * The name of the bucket.
