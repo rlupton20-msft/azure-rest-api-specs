@@ -29,9 +29,7 @@ model CopilotSettingsResource
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   name: string;
 
-  @added(Versions.v2025_08_01_preview)
-  @doc("Managed service identity (system assigned and/or user assigned identities).")
-  identity?: Azure.ResourceManager.CommonTypes.ManagedServiceIdentity;
+  ...Azure.ResourceManager.ManagedServiceIdentityProperty;
 }
 
 @armResourceOperations

@@ -33,6 +33,14 @@ model CopilotSettingsProperties {
   @doc("Boolean indicating if role-based access control is enabled for copilot in this tenant.")
   accessControlEnabled: boolean;
 
+  @added(Versions.v2025_08_01_preview)
+  @doc("The setting for Bring Your Own Storage (BYOS) for copilot in this tenant. If set, copilot will use specified cosmos DB account for storing copilot chat data.")
+  cosmosResourceId?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.DocumentDB/databaseAccounts";
+    }
+  ]>;
+
   @added(Versions.v2024_08_01_preview)
   @removed(Versions.v2024_09_01_preview)
   @doc("The setting for Multi-Factor Authentication enforcement when signing into this tenant in the Azure Portal.")
