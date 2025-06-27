@@ -30,6 +30,22 @@ openapi-subtype: rpaas
 tag: package-2024-04-01
 ```
 
+### Tag: package-2025-04-01-preview
+
+These settings apply only when `--tag=package-2025-04-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-04-01-preview'
+input-file:
+  - Microsoft.PortalServices/settings/preview/2025-04-01-preview/settings.json
+suppressions:
+  - code: TenantLevelAPIsNotAllowed
+    reason: The resource type Settings in the Microsoft.PortalServices resource provider is @tenantResource, and has received exception sign-off approval by PAS team and ARM team.
+    from:
+      - settings.json
+    where:
+      - $.paths["/providers/Microsoft.PortalServices/settings/default"]
+```
+
 ### Tag: package-2024-10-01-preview
 
 These settings apply only when `--tag=package-2024-10-01-preview` is specified on the command line.
@@ -38,6 +54,22 @@ These settings apply only when `--tag=package-2024-10-01-preview` is specified o
 input-file:
   - Microsoft.PortalServices/dashboards/preview/2024-10-01-preview/dashboards.json
   - Microsoft.PortalServices/extensions/preview/2024-10-01-preview/extensions.json
+```
+
+### Tag: package-2024-09-01-preview
+
+These settings apply only when `--tag=package-2024-09-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-09-01-preview'
+input-file:
+  - Microsoft.PortalServices/settings/preview/2024-09-01-preview/settings.json
+suppressions:
+  - code: TenantLevelAPIsNotAllowed
+    reason: The resource type Settings in the Microsoft.PortalServices resource provider is @tenantResource, and has received exception sign-off approval by PAS team and ARM team.
+    from:
+      - settings.json
+    where:
+      - $.paths["/providers/Microsoft.PortalServices/settings/default"]
 ```
 
 ### Tag: package-2024-04-01
