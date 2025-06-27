@@ -67,4 +67,8 @@ model DbVersionFilter {
   @query
   @doc("If true, filters the results to the set of Oracle Database versions that are supported for the database software images.")
   isDatabaseSoftwareImageSupported?: boolean;
+
+  @query
+  @doc("If provided, filters the results to the set of database versions which are supported for the given shape family.")
+  shapeFamily?: ShapeFamilyType;
 }

@@ -292,17 +292,35 @@ union BaseDbSystemShapes {
   @doc("Vm Standard E5 Flex shape")
   VMStandardE5Flex: "VM.Standard.E5.Flex",
 
+  @doc("Vm Standard X86")
+  VMStandardX86: "VM.Standard.x86",
+
   string,
 }
 
 @added(Versions.v20250701_preview)
 @doc("Storage Management type enum.")
 union StorageManagementType {
-  @doc("Automatic storage management")
-  ASM: "ASM",
-
   @doc("Logical Volume management")
   LVM: "LVM",
+
+  string,
+}
+
+@added(Versions.v20250701_preview)
+@doc("Allowed values for shape family.")
+union ShapeFamilyType {
+  @doc("Family value for Exadata Shape")
+  Exadata: "EXADATA",
+
+  @doc("Family value for Exadb XS Shape")
+  ExadbXs: "EXADB_XS",
+
+  @doc("Family value for Single Node Shape")
+  SingleNode: "SINGLENODE",
+
+  @doc("Family value for Virtual Machine Shape")
+  VirtualMachine: "VIRTUALMACHINE",
 
   string,
 }
