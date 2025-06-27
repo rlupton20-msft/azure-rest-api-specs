@@ -1151,7 +1151,7 @@ model NetworkInterface {
   /**
    * Fingerprint hash of contents stored in this network interface. This field will be ignored when inserting an Instance or adding a NetworkInterface. An up-to-date fingerprint must be provided in order to update the NetworkInterface. The request will fail with error 400 Bad Request if the fingerprint is not provided, or 412 Precondition Failed if the fingerprint is out of date.
    */
-  fingerprint?: bytes;
+  fingerprint?: string;
 
   /**
    * The prefix length of the primary internal IPv6 range.
