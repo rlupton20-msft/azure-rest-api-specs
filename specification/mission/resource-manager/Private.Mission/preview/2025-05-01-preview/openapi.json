@@ -4530,7 +4530,8 @@
           "description": "List of services governed by a community.",
           "items": {
             "$ref": "#/definitions/GovernedServiceItem"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "policyOverride": {
           "type": "string",
@@ -4548,7 +4549,8 @@
           "description": "Community role assignments",
           "items": {
             "$ref": "#/definitions/RoleAssignmentItem"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "firewallSku": {
           "type": "string",
@@ -4587,6 +4589,79 @@
         },
         "maintenanceModeConfiguration": {
           "$ref": "#/definitions/MaintenanceModeConfigurationModel",
+          "description": "Maintenance Mode configuration."
+        }
+      }
+    },
+    "CommunityPatchModel": {
+      "type": "object",
+      "description": "Community Patch Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/CommunityPatchProperties",
+          "description": "Community Patch properties"
+        },
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "identity": {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
+          "description": "The managed service identities assigned to this resource."
+        }
+      }
+    },
+    "CommunityPatchProperties": {
+      "type": "object",
+      "description": "Community Resource Properties without default values",
+      "properties": {
+        "dnsServers": {
+          "type": "array",
+          "description": "DNS Servers.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "governedServiceList": {
+          "type": "array",
+          "description": "List of services governed by a community.",
+          "items": {
+            "$ref": "#/definitions/GovernedServiceItem"
+          },
+          "x-ms-identifiers": []
+        },
+        "policyOverride": {
+          "type": "string",
+          "description": "Allow enclaves to override community policies",
+          "enum": [
+            "Enclave",
+            "None"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        },
+        "communityRoleAssignments": {
+          "type": "array",
+          "description": "Community role assignments",
+          "items": {
+            "$ref": "#/definitions/RoleAssignmentItem"
+          },
+          "x-ms-identifiers": []
+        },
+        "firewallSku": {
+          "$ref": "#/definitions/FirewallSKU",
+          "description": "SKU of the community's Azure Firewall (Basic, Standard, Premium). Standard is the default"
+        },
+        "approvalSettings": {
+          "$ref": "#/definitions/ApprovalSettingsPatchProperties",
+          "description": "Approval requirements for various actions on the community's resources."
+        },
+        "maintenanceModeConfiguration": {
+          "$ref": "#/definitions/MaintenanceModeConfigurationPatchModel",
           "description": "Maintenance Mode configuration."
         }
       }
@@ -5239,7 +5314,8 @@
           "description": "Subnet Configurations.",
           "items": {
             "$ref": "#/definitions/SubnetConfiguration"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "allowSubnetCommunication": {
           "type": "boolean",
@@ -5288,7 +5364,7 @@
       "properties": {
         "serviceId": {
           "$ref": "#/definitions/ServiceIdentifier",
-          "description": "Service ID"
+          "description": "Service identifier. Acceptable Values: AKS, AppService, ContainerRegistry, CosmosDB, KeyVault, MicrosoftSQL, Monitoring, PostgreSQL, ServiceBus, Storage, AzureFirewalls, Insights, Logic, PrivateDNSZones, DataConnectors"
         },
         "serviceName": {
           "type": "string",
@@ -6170,21 +6246,24 @@
           "description": "Enclave role assignments",
           "items": {
             "$ref": "#/definitions/RoleAssignmentItem"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "workloadRoleAssignments": {
           "type": "array",
           "description": "Workload role assignments",
           "items": {
             "$ref": "#/definitions/RoleAssignmentItem"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "governedServiceList": {
           "type": "array",
           "description": "Enclave specific policies",
           "items": {
             "$ref": "#/definitions/GovernedServiceItem"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "enclaveDefaultSettings": {
           "$ref": "#/definitions/EnclaveDefaultSettingsModel",
@@ -6199,6 +6278,73 @@
         "enclaveVirtualNetwork",
         "communityResourceId"
       ]
+    },
+    "VirtualEnclavePatchModel": {
+      "type": "object",
+      "description": "Virtual Enclave Patch Model",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/VirtualEnclavePatchProperties",
+          "description": "Virtual Enclave Patch properties"
+        },
+        "identity": {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
+          "description": "The managed service identities assigned to this resource."
+        },
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "VirtualEnclavePatchProperties": {
+      "type": "object",
+      "description": "Virtual Enclave Patchable Properties",
+      "properties": {
+        "enclaveVirtualNetwork": {
+          "$ref": "#/definitions/EnclaveVirtualNetworkModel",
+          "description": "Virtual Network."
+        },
+        "bastionEnabled": {
+          "type": "boolean",
+          "description": "Deploy Bastion service (True or False)."
+        },
+        "enclaveRoleAssignments": {
+          "type": "array",
+          "description": "Enclave role assignments",
+          "items": {
+            "$ref": "#/definitions/RoleAssignmentItem"
+          },
+          "x-ms-identifiers": []
+        },
+        "workloadRoleAssignments": {
+          "type": "array",
+          "description": "Workload role assignments",
+          "items": {
+            "$ref": "#/definitions/RoleAssignmentItem"
+          },
+          "x-ms-identifiers": []
+        },
+        "governedServiceList": {
+          "type": "array",
+          "description": "Enclave specific policies",
+          "items": {
+            "$ref": "#/definitions/GovernedServiceItem"
+          },
+          "x-ms-identifiers": []
+        },
+        "enclaveDefaultSettings": {
+          "$ref": "#/definitions/EnclaveDefaultSettingsPatchModel",
+          "description": "Enclave default settings."
+        },
+        "maintenanceModeConfiguration": {
+          "$ref": "#/definitions/MaintenanceModeConfigurationPatchModel",
+          "description": "Maintenance Mode configuration."
+        }
+      }
     },
     "VirtualNetworkResourceId": {
       "type": "string",

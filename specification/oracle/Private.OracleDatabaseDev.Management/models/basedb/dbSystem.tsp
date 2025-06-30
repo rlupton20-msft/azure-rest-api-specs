@@ -79,10 +79,10 @@ model DbSystemBaseProperties {
   @maxLength(255)
   displayName?: string;
 
-  @doc("Size in GB of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume.")
+  @doc("Size in GB of the initial data volume that will be created and attached to a virtual machine DB system. You can scale up storage after provisioning, as needed. Note that the total storage size attached will be more than the amount you specify to allow for REDO/RECO space and software volume. If not specified, the default is 256.")
   @visibility(Lifecycle.Create)
   @minValue(2)
-  initialDataStorageSizeInGb?: int32;
+  initialDataStorageSizeInGb?: int32 = 256;
 
   @doc("The data storage size, in gigabytes, that is currently available to the DB system. Applies only for virtual machine DB systems.")
   @visibility(Lifecycle.Read)
@@ -135,10 +135,10 @@ model DbSystemBaseProperties {
   @visibility(Lifecycle.Read)
   memorySizeInGbs?: int32;
 
-  @doc("The number of nodes in the DB system. For RAC DB systems, the value is greater than 1.")
+  @doc("The number of nodes in the DB system. For RAC DB systems, the value is greater than 1. If not specified, the default is 1.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   @minValue(1)
-  nodeCount?: int32;
+  nodeCount?: int32 = 1;
 
   @doc("The FQDN of the DNS record for the SCAN IP addresses that are associated with the DB system.")
   @visibility(Lifecycle.Read)
@@ -173,6 +173,14 @@ model DbSystemBaseProperties {
   @doc("The Oracle Database version of the DB system.")
   @visibility(Lifecycle.Read)
   version?: string;
+
+  @doc("The compute model for Base Database Service. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. The ECPU compute model is the recommended model, and the OCPU compute model is legacy.")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  computeModel?: ComputeModel;
+
+  @doc("The number of compute servers for the DB system.")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  computeCount?: int32;
 }
 
 @added(Versions.v20250701_preview)
@@ -187,20 +195,11 @@ union DbSystemDatabaseEditionType {
   @doc("Enterprise edition high performance")
   EnterpriseEditionHighPerformance: "EnterpriseEditionHighPerformance",
 
-  @doc("Enterprise edition extreme performance")
-  EnterpriseEditionExtremePerformance: "EnterpriseEditionExtremePerformance",
+  @doc("Enterprise edition extreme")
+  EnterpriseEditionExtreme: "EnterpriseEditionExtreme",
 
-  string,
-}
-
-@added(Versions.v20250701_preview)
-@doc("Storage Management type enum.")
-union StorageManagementType {
-  @doc("Automatic storage management")
-  ASM: "ASM",
-
-  @doc("Logical Volume management")
-  LVM: "LVM",
+  @doc("Enterprise edition developer")
+  EnterpriseEditionDeveloper: "EnterpriseEditionDeveloper",
 
   string,
 }

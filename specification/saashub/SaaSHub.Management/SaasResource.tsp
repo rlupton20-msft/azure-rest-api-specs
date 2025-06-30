@@ -2,19 +2,21 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "@typespec/rest";
-import "./models.tsp";
+import "./SaasResourceModels.tsp";
+import "./SharedModels.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
+using Microsoft.SaaSHub;
 
 namespace Microsoft.SaaSHub;
 /**
  * A SaaSHub Saas resource.
  */
 model SaasResource
-  is Azure.ResourceManager.ProxyResource<SaasResourceProperties> {
+  is Azure.ResourceManager.ProxyResource<Microsoft.SaaSHub.SaasResourceProperties> {
   ...ResourceNameParameter<
     Resource = SaasResource,
     KeyName = "saasResourceName",
@@ -70,7 +72,7 @@ interface SaasResources {
   canCancel is ArmResourceActionSync<
     SaasResource,
     void,
-    CanCancelResult,
+    Microsoft.SaaSHub.CanCancelResult,
     BaseParameters = ApiVersionParameter
   >;
 
@@ -79,8 +81,8 @@ interface SaasResources {
    */
   canMerge is ArmResourceActionSync<
     SaasResource,
-    MergeSaasResourceRequest,
-    CanMergeResult,
+    Microsoft.SaaSHub.MergeSaasResourcesRequest,
+    Microsoft.SaaSHub.CanMergeResult,
     BaseParameters = ApiVersionParameter
   >;
 
@@ -90,7 +92,7 @@ interface SaasResources {
   canUpdate is ArmResourceActionSync<
     SaasResource,
     SaasResource,
-    CanUpdateResult,
+    Microsoft.SaaSHub.CanUpdateResult,
     BaseParameters = ApiVersionParameter
   >;
 
@@ -109,7 +111,7 @@ interface SaasResources {
    */
   merge is ArmResourceActionAsync<
     SaasResource,
-    MergeSaasResourceRequest,
+    Microsoft.SaaSHub.MergeSaasResourcesRequest,
     SaasResource,
     BaseParameters = ApiVersionParameter
   >;

@@ -436,7 +436,7 @@
             "description": "Request parameters that are provided to the merge SaaSHub Saas resource operation.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/MergeSaasResourceRequest"
+              "$ref": "#/definitions/MergeSaasResourcesRequest"
             }
           }
         ],
@@ -625,7 +625,7 @@
             "description": "Request parameters that are provided to the merge SaaSHub Saas resource operation.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/MergeSaasResourceRequest"
+              "$ref": "#/definitions/MergeSaasResourcesRequest"
             }
           }
         ],
@@ -674,7 +674,7 @@
         "tags": [
           "ProviderLevelActions"
         ],
-        "description": "Evaluates whether the request payload can create a new resource. Currently only supports SaaS resource type.",
+        "description": "Evaluates whether the request payload can create a new SaaS resource.\nOnly available in API versions 2024-09-30-preview and 2025-07-01-preview.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
@@ -682,10 +682,10 @@
           {
             "name": "body",
             "in": "body",
-            "description": "Request parameters that are provided to the create SaaSHub resource operation.",
+            "description": "Request parameters that are provided to the create SaaSHub SaaS resource operation.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CanCreateRequest"
+              "$ref": "#/definitions/CanCreateSaasResourceRequest"
             }
           }
         ],
@@ -791,29 +791,6 @@
           "readOnly": true
         }
       }
-    },
-    "CanCreateRequest": {
-      "type": "object",
-      "description": "Request to check if the resource can be created",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Resource name of the saas hub resource to be created."
-        },
-        "type": {
-          "type": "string",
-          "description": "Resource type to be created, currently only supports SaaS resource type."
-        },
-        "properties": {
-          "$ref": "#/definitions/SaasResourceProperties",
-          "description": "The properties of the saas hub resource to be created."
-        }
-      },
-      "required": [
-        "name",
-        "type",
-        "properties"
-      ]
     },
     "CanCreateResult": {
       "type": "object",
@@ -992,6 +969,29 @@
           "x-ms-identifiers": []
         }
       }
+    },
+    "CanCreateSaasResourceRequest": {
+      "type": "object",
+      "description": "Request to check if the saas resource can be created",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Resource name of the saas hub resource to be created."
+        },
+        "type": {
+          "type": "string",
+          "description": "Resource type to be created, currently only supports SaaS resource type."
+        },
+        "properties": {
+          "$ref": "#/definitions/SaasResourceProperties",
+          "description": "The properties of the saas hub resource to be created."
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "properties"
+      ]
     },
     "CanMergeResult": {
       "type": "object",
@@ -1235,7 +1235,7 @@
         }
       }
     },
-    "MergeSaasResourceRequest": {
+    "MergeSaasResourcesRequest": {
       "type": "object",
       "description": "Request to merge multiple saas resource resources into one target saas resource resource",
       "properties": {
@@ -1252,6 +1252,16 @@
       "type": "object",
       "description": "Saas resource to be used in merge operation as source.",
       "properties": {
+        "quantity": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The quantity of license to be merged"
+        },
+        "validationError": {
+          "type": "string",
+          "description": "The validation error it ran into. Null when validation passed.",
+          "readOnly": true
+        },
         "id": {
           "type": "string",
           "format": "arm-id",
@@ -1263,16 +1273,6 @@
               }
             ]
           }
-        },
-        "quantity": {
-          "type": "integer",
-          "format": "int64",
-          "description": "The quantity of license to be merged"
-        },
-        "validationError": {
-          "type": "string",
-          "description": "The validation error it ran into. Null when validation passed.",
-          "readOnly": true
         }
       }
     },
@@ -1502,37 +1502,36 @@
       "properties": {
         "autoRenew": {
           "$ref": "#/definitions/AutoRenew",
-          "description": "Indicates whether auto renewal is turned on or off for a SaaSHub saas resource. The default value will be 'On' for products that support autorenew."
-        },
-        "billingScope": {
-          "type": "string",
-          "description": "The billing scope to use for purchasing the resource. Needs full billing scope to invoice section level like: providers/Microsoft.Billing/billingAccounts/{baId}/billingProfiles/{bfId}/invoiceSections/{isId}"
-        },
-        "billingSubscriptionId": {
-          "type": "string",
-          "description": "The billing subscription id linked to this resource, with full format like /providers/Microsoft.Billing/billingAccounts/1111:2222/billingSubscriptions/Id",
-          "readOnly": true
+          "description": "Indicates whether auto renewal is turned on or off for a seat-based resource. The default value will be 'On' for products that support autorenew."
         },
         "endCustomerBillingAccount": {
           "type": "string",
           "description": "The end customer billing account in CSP scenario, will full format like /providers/Microsoft.Billing/billingAccounts/1111:2222"
         },
-        "systemOverrides": {
-          "$ref": "#/definitions/SaasResourcePropertiesSystemOverrides",
-          "description": "System imposed policies that regulate behavior of the resource."
+        "billingToken": {
+          "type": "string",
+          "description": "Billing token for current term transaction."
+        },
+        "availabilityToken": {
+          "type": "string",
+          "description": "Availability token for current term transaction."
         },
         "displayName": {
           "type": "string",
-          "description": "The name of the saas resource."
+          "description": "The name of the seat-based resource."
         },
         "productType": {
           "type": "string",
-          "description": "Type of the product for which the saas resource is purchased",
+          "description": "Type of the product for which the resource is purchased",
           "readOnly": true
+        },
+        "linkedResources": {
+          "$ref": "#/definitions/LinkedResources",
+          "description": "Linked resources for the resource"
         },
         "offerType": {
           "$ref": "#/definitions/OfferType",
-          "description": "Type of the offer for which the saas resource is purchased",
+          "description": "Type of the offer for which the resource is purchased",
           "readOnly": true
         },
         "productCode": {
@@ -1546,31 +1545,31 @@
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
-          "description": "Gets the status of the SaaSHub saas resource at the time the operation was called.",
+          "description": "Gets the status of the seat-based resource at the time the operation was called.",
           "readOnly": true
         },
         "quantity": {
           "type": "integer",
           "format": "int64",
-          "description": "The number of licenses purchased for the saas resource"
+          "description": "The number of licenses purchased for the resource"
         },
         "renewalTerm": {
           "$ref": "#/definitions/RenewalTermDetails",
-          "description": "Renewal term details of the saas resource."
+          "description": "Renewal term details of the resource."
         },
         "skuDescription": {
           "type": "string",
-          "description": "The SKU description of the product for which the saas resource is purchased.",
+          "description": "The SKU description of the product for which the resource is purchased.",
           "readOnly": true
         },
         "status": {
-          "$ref": "#/definitions/SaasResourceStatus",
-          "description": "The status of the saas resource.",
+          "$ref": "#/definitions/SeatBasedResourceStatus",
+          "description": "The status of the seat-based resource.",
           "readOnly": true
         },
         "suspensionReasons": {
           "type": "array",
-          "description": "The suspension reason for a saas resource.",
+          "description": "The suspension reason for a resource.",
           "items": {
             "type": "string"
           },
@@ -1578,7 +1577,28 @@
         },
         "term": {
           "$ref": "#/definitions/TermDetails",
-          "description": "Term details of the saas resource."
+          "description": "Term details of the resource."
+        },
+        "provisioningTenantId": {
+          "type": "string",
+          "description": "The Id of the tenant where licenses will be provisioned for this resource. It will only be populated if licenses are provisioned in a different tenant."
+        },
+        "externalId": {
+          "type": "string",
+          "description": "An external Id which could be used to reference other commerce system entity, such as OMS sub id or proposal id. ExternalId value will have \"{externalSystem}:{externalId}\", e.g. \"oms:1111-2222-444-666\""
+        },
+        "systemOverrides": {
+          "$ref": "#/definitions/SystemOverrides",
+          "description": "System imposed policies that regulate behavior of the resource."
+        },
+        "billingScope": {
+          "type": "string",
+          "description": "The billing scope to use for purchasing the resource. Needs full billing scope to invoice section level like: providers/Microsoft.Billing/billingAccounts/{baId}/billingProfiles/{bfId}/invoiceSections/{isId}"
+        },
+        "billingSubscriptionId": {
+          "type": "string",
+          "description": "The billing subscription id linked to this resource, with full format like /providers/Microsoft.Billing/billingAccounts/1111:2222/billingSubscriptions/Id",
+          "readOnly": true
         },
         "originalResourceUri": {
           "type": "string",
@@ -1591,30 +1611,82 @@
               }
             ]
           }
-        },
-        "provisioningTenantId": {
-          "type": "string",
-          "description": "The Id of the tenant where licenses will be provisioned for this resource. It will only be populated if licenses are provisioned in a different tenant."
-        },
-        "externalId": {
-          "type": "string",
-          "description": "An external Id which could be used to reference other commerce system entity, such as OMS sub id or proposal id. ExternalId value will have \"{externalSystem}:{externalId}\", e.g. \"oms:1111-2222-444-666\""
-        },
-        "linkedResources": {
-          "$ref": "#/definitions/LinkedResources",
-          "description": "Linked resources for the saas resource"
-        },
-        "billingToken": {
-          "type": "string",
-          "description": "Billing token for current term transaction."
-        },
-        "availabilityToken": {
-          "type": "string",
-          "description": "Availability token for current term transaction."
         }
       }
     },
-    "SaasResourcePropertiesSystemOverrides": {
+    "SeatBasedResourceStatus": {
+      "type": "string",
+      "description": "The status of a seat-based resource.",
+      "enum": [
+        "Unknown",
+        "Active",
+        "Disabled",
+        "Deleted",
+        "PastDue",
+        "Expiring",
+        "Expired",
+        "AutoRenew",
+        "Cancelled",
+        "Suspended"
+      ],
+      "x-ms-enum": {
+        "name": "SeatBasedResourceStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Unknown",
+            "value": "Unknown",
+            "description": "Resource status is unknown"
+          },
+          {
+            "name": "Active",
+            "value": "Active",
+            "description": "Resource status is active"
+          },
+          {
+            "name": "Disabled",
+            "value": "Disabled",
+            "description": "Resource status is disabled"
+          },
+          {
+            "name": "Deleted",
+            "value": "Deleted",
+            "description": "Resource status is deleted"
+          },
+          {
+            "name": "PastDue",
+            "value": "PastDue",
+            "description": "Resource status is past due"
+          },
+          {
+            "name": "Expiring",
+            "value": "Expiring",
+            "description": "Resource status is expiring"
+          },
+          {
+            "name": "Expired",
+            "value": "Expired",
+            "description": "Resource status is expired"
+          },
+          {
+            "name": "AutoRenew",
+            "value": "AutoRenew",
+            "description": "Resource status is auto renew"
+          },
+          {
+            "name": "Cancelled",
+            "value": "Cancelled",
+            "description": "Resource status is cancelled"
+          },
+          {
+            "name": "Suspended",
+            "value": "Suspended",
+            "description": "Resource status is suspended"
+          }
+        ]
+      }
+    },
+    "SystemOverrides": {
       "type": "object",
       "description": "System imposed policies that regulate behavior of the resource.",
       "properties": {
@@ -1639,78 +1711,6 @@
           "description": "Represents a system entity version for the resource, used for concurrency control.",
           "readOnly": true
         }
-      }
-    },
-    "SaasResourceStatus": {
-      "type": "string",
-      "description": "The status of the saas resource.",
-      "enum": [
-        "Unknown",
-        "Active",
-        "Disabled",
-        "Deleted",
-        "PastDue",
-        "Expiring",
-        "Expired",
-        "AutoRenew",
-        "Cancelled",
-        "Suspended"
-      ],
-      "x-ms-enum": {
-        "name": "SaasResourceStatus",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Unknown",
-            "value": "Unknown",
-            "description": "Saas resource status is unknown"
-          },
-          {
-            "name": "Active",
-            "value": "Active",
-            "description": "Saas resource status is active"
-          },
-          {
-            "name": "Disabled",
-            "value": "Disabled",
-            "description": "Saas resource status is disabled"
-          },
-          {
-            "name": "Deleted",
-            "value": "Deleted",
-            "description": "Saas resource status is deleted"
-          },
-          {
-            "name": "PastDue",
-            "value": "PastDue",
-            "description": "Saas resource status is past due"
-          },
-          {
-            "name": "Expiring",
-            "value": "Expiring",
-            "description": "Saas resource status is expiring"
-          },
-          {
-            "name": "Expired",
-            "value": "Expired",
-            "description": "Saas resource status is expired"
-          },
-          {
-            "name": "AutoRenew",
-            "value": "AutoRenew",
-            "description": "Saas resource status is auto renew"
-          },
-          {
-            "name": "Cancelled",
-            "value": "Cancelled",
-            "description": "Saas resource status is cancelled"
-          },
-          {
-            "name": "Suspended",
-            "value": "Suspended",
-            "description": "Saas resource status is suspended"
-          }
-        ]
       }
     },
     "TermDetails": {

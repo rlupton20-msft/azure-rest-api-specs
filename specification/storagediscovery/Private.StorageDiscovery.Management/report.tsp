@@ -1,4 +1,6 @@
-import "./main.tsp";
+import "./versions.tsp";
+import "./models.tsp";
+import "./workspace.tsp";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
@@ -37,8 +39,8 @@ interface Report {
   @post
   report is ArmResourceActionAsync<
     ReportResource,
-    GetReportRequest,
-    GetReportResponse
+    GetReportContent,
+    GetReportResult
   >;
   listByResourceGroup is ArmResourceListByParent<ReportResource>;
   listBySubscription is ArmListBySubscription<ReportResource>;
