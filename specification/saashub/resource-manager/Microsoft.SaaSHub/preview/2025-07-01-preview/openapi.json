@@ -1900,14 +1900,6 @@
           "type": "string",
           "description": "The end customer billing account in CSP scenario, will full format like /providers/Microsoft.Billing/billingAccounts/1111:2222"
         },
-        "billingToken": {
-          "type": "string",
-          "description": "Billing token for current term transaction."
-        },
-        "availabilityToken": {
-          "type": "string",
-          "description": "Availability token for current term transaction."
-        },
         "displayName": {
           "type": "string",
           "description": "The name of the seat-based resource."
@@ -1982,6 +1974,16 @@
         "systemOverrides": {
           "$ref": "#/definitions/SystemOverrides",
           "description": "System imposed policies that regulate behavior of the resource."
+        },
+        "resourceTokens": {
+          "type": "array",
+          "description": "Resource tokens for various authorization and context purposes.",
+          "items": {
+            "$ref": "#/definitions/ResourceToken"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
         },
         "originalResourceUri": {
           "type": "string",
@@ -2146,13 +2148,15 @@
             "$ref": "#/definitions/MergeSourceCloudService"
           }
         },
-        "billingToken": {
-          "type": "string",
-          "description": "Billing token for merge target transaction."
-        },
-        "availabilityToken": {
-          "type": "string",
-          "description": "Availability token for merge target transaction."
+        "resourceTokens": {
+          "type": "array",
+          "description": "Resource tokens for various authorization and context purposes (for merge target).",
+          "items": {
+            "$ref": "#/definitions/ResourceToken"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
         }
       },
       "required": [
@@ -2170,13 +2174,15 @@
             "$ref": "#/definitions/MergeSourceSaasResource"
           }
         },
-        "billingToken": {
-          "type": "string",
-          "description": "Billing token for merge target transaction."
-        },
-        "availabilityToken": {
-          "type": "string",
-          "description": "Availability token for merge target transaction."
+        "resourceTokens": {
+          "type": "array",
+          "description": "Resource tokens for various authorization and context purposes (for merge target).",
+          "items": {
+            "$ref": "#/definitions/ResourceToken"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
         }
       }
     },
@@ -2194,13 +2200,15 @@
           "description": "The validation error it ran into. Null when validation passed.",
           "readOnly": true
         },
-        "billingToken": {
-          "type": "string",
-          "description": "Billing token for merge source transaction."
-        },
-        "availabilityToken": {
-          "type": "string",
-          "description": "Availability token for merge source transaction."
+        "resourceTokens": {
+          "type": "array",
+          "description": "Resource tokens for various authorization and context purposes (for merge source).",
+          "items": {
+            "$ref": "#/definitions/ResourceToken"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
         },
         "id": {
           "type": "string",
@@ -2230,13 +2238,15 @@
           "description": "The validation error it ran into. Null when validation passed.",
           "readOnly": true
         },
-        "billingToken": {
-          "type": "string",
-          "description": "Billing token for merge source transaction."
-        },
-        "availabilityToken": {
-          "type": "string",
-          "description": "Availability token for merge source transaction."
+        "resourceTokens": {
+          "type": "array",
+          "description": "Resource tokens for various authorization and context purposes (for merge source).",
+          "items": {
+            "$ref": "#/definitions/ResourceToken"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
         },
         "id": {
           "type": "string",
@@ -2426,13 +2436,29 @@
           "$ref": "#/definitions/LinkedResources",
           "description": "Linked resources for the saas resource"
         },
-        "billingToken": {
+        "resourceTokens": {
+          "type": "array",
+          "description": "Resource tokens for various authorization and context purposes.",
+          "items": {
+            "$ref": "#/definitions/ResourceToken"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
+        }
+      }
+    },
+    "ResourceToken": {
+      "type": "object",
+      "description": "Resource token containing type and value for various authorization and context purposes.",
+      "properties": {
+        "type": {
           "type": "string",
-          "description": "Billing token for renewal term transaction."
+          "description": "The type of the resource token. Examples: \"availabilityToken\", \"billingToken\""
         },
-        "availabilityToken": {
+        "value": {
           "type": "string",
-          "description": "Availability token for renewal term transaction."
+          "description": "The value of the resource token."
         }
       }
     },
@@ -2483,14 +2509,6 @@
         "endCustomerBillingAccount": {
           "type": "string",
           "description": "The end customer billing account in CSP scenario, will full format like /providers/Microsoft.Billing/billingAccounts/1111:2222"
-        },
-        "billingToken": {
-          "type": "string",
-          "description": "Billing token for current term transaction."
-        },
-        "availabilityToken": {
-          "type": "string",
-          "description": "Availability token for current term transaction."
         },
         "displayName": {
           "type": "string",
@@ -2566,6 +2584,16 @@
         "systemOverrides": {
           "$ref": "#/definitions/SystemOverrides",
           "description": "System imposed policies that regulate behavior of the resource."
+        },
+        "resourceTokens": {
+          "type": "array",
+          "description": "Resource tokens for various authorization and context purposes.",
+          "items": {
+            "$ref": "#/definitions/ResourceToken"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
         },
         "billingScope": {
           "type": "string",

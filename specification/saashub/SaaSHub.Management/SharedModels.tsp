@@ -250,13 +250,22 @@ model RenewalTermDetails {
   linkedResources?: LinkedResources;
 
   /**
+   * Resource tokens for various authorization and context purposes.
+   */
+  @added(SaaSHubVersions.v2025_07_01_preview)
+  @OpenAPI.extension("x-ms-identifiers", #["type"])
+  resourceTokens?: ResourceToken[];
+
+  /**
    * Billing token for renewal term transaction.
    */
+  @removed(SaaSHubVersions.v2025_07_01_preview)
   billingToken?: string;
 
   /**
    * Availability token for renewal term transaction.
    */
+  @removed(SaaSHubVersions.v2025_07_01_preview)
   availabilityToken?: string;
 }
 
@@ -720,11 +729,13 @@ model SeatBasedResourceProperties {
   /**
    * Billing token for current term transaction.
    */
+  @removed(SaaSHubVersions.v2025_07_01_preview)
   billingToken?: string;
 
   /**
    * Availability token for current term transaction.
    */
+  @removed(SaaSHubVersions.v2025_07_01_preview)
   availabilityToken?: string;
 
   /**
@@ -813,6 +824,13 @@ model SeatBasedResourceProperties {
    * System imposed policies that regulate behavior of the resource.
    */
   systemOverrides?: SystemOverrides;
+
+  /**
+   * Resource tokens for various authorization and context purposes.
+   */
+  @added(SaaSHubVersions.v2025_07_01_preview)
+  @OpenAPI.extension("x-ms-identifiers", #["type"])
+  resourceTokens?: ResourceToken[];
 }
 
 /**
@@ -831,14 +849,24 @@ model MergeSourceSeatBasedResource {
   validationError?: string;
 
   /**
-   * Billing token for merge source transaction.
+   * Resource tokens for various authorization and context purposes (for merge source).
    */
   @added(SaaSHubVersions.v2025_07_01_preview)
-  billingToken?: string;
+  @OpenAPI.extension("x-ms-identifiers", #["type"])
+  resourceTokens?: ResourceToken[];
+}
+
+/**
+ * Resource token containing type and value for various authorization and context purposes.
+ */
+model ResourceToken {
+  /**
+   * The type of the resource token. Examples: "availabilityToken", "billingToken"
+   */
+  type?: string;
 
   /**
-   * Availability token for merge source transaction.
+   * The value of the resource token.
    */
-  @added(SaaSHubVersions.v2025_07_01_preview)
-  availabilityToken?: string;
+  value?: string;
 }

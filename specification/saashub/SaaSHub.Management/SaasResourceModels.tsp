@@ -76,16 +76,11 @@ model MergeSaasResourcesRequest {
   sourceResources?: MergeSourceSaasResource[];
 
   /**
-   * Billing token for merge target transaction.
+   * Resource tokens for various authorization and context purposes (for merge target).
    */
   @added(SaaSHubVersions.v2025_07_01_preview)
-  billingToken?: string;
-
-  /**
-   * Availability token for merge target transaction.
-   */
-  @added(SaaSHubVersions.v2025_07_01_preview)
-  availabilityToken?: string;
+  @OpenAPI.extension("x-ms-identifiers", #["type"])
+  resourceTokens?: ResourceToken[];
 }
 
 /**
