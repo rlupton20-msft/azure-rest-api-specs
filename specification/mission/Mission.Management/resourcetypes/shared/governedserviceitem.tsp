@@ -62,7 +62,6 @@ union ServiceIdentifier {
 @doc("GovernedServiceItem Properties")
 model GovernedServiceItem {
   @removed(Microsoft.Mission.Versions.v2025_05_01_preview)
-  @removed(Microsoft.Mission.Versions.v2025_05_01_preview)
   @doc("Service ID")
   id: ServiceIdentifier;
 
