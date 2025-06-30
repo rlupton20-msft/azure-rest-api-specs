@@ -1,12 +1,15 @@
+import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/rest";
 import "@typespec/versioning";
 
 using TypeSpec.Versioning;
+using Azure.Core;
 
 @doc("Microsoft Mission Resource Provider management API.")
 namespace Microsoft.Mission;
 
 #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
-@doc("Approval Status Enum")
+@doc("Approval Status. It can be Approved, Rejected, Pending, Deleted or Expired.")
 union ApprovalStatus {
   string,
 
@@ -29,13 +32,13 @@ union ApprovalStatus {
 }
 
 @doc("Specifies the action performed by the approver")
-union ActionPerformedEnum {
+union ActionPerformed {
   string,
 
-  @doc("ActionPerformedEnum Type Approved")
+  @doc("Action was Approved")
   Approved: "Approved",
 
-  @doc("ActionPerformedEnum Type Rejected")
+  @doc("Action was Rejected")
   Rejected: "Rejected",
 }
 
@@ -59,11 +62,11 @@ model RequestMetadata {
 @renamedFrom(Microsoft.Mission.Versions.v2024_12_01_preview, "Approvers")
 @doc("Approver Metadata for approvals request.")
 model Approver {
-  @doc("EntraId of the approver")
+  @doc("Entra ObjectID of the approver")
   approverEntraId: string;
 
   @doc("Action Performed by approver")
-  actionPerformed: ActionPerformedEnum;
+  actionPerformed?: ActionPerformed;
 
   @doc("approval request last updated at")
   lastUpdatedAt: utcDateTime;
@@ -76,10 +79,14 @@ model ApprovalBaseModel {
   provisioningState?: ProvisioningState;
 
   @doc("Parameter for optimizing query results")
-  parent1?: string;
+  @renamedFrom(Microsoft.Mission.Versions.v2025_05_01_preview, "parent1")
+  @typeChangedFrom(Microsoft.Mission.Versions.v2025_05_01_preview, string)
+  parentResourceId?: armResourceIdentifier;
 
   @doc("Parameter for optimizing query results")
-  parent2?: string;
+  @renamedFrom(Microsoft.Mission.Versions.v2025_05_01_preview, "parent2")
+  @typeChangedFrom(Microsoft.Mission.Versions.v2025_05_01_preview, string)
+  grandparentResourceId?: armResourceIdentifier;
 
   @added(Microsoft.Mission.Versions.v2024_12_01_preview)
   @OpenAPI.extension("x-ms-identifiers", #["approverEntraId"])
@@ -99,20 +106,20 @@ model ApprovalBaseModel {
   stateChangedAt?: utcDateTime;
 }
 
-model ApprovalModel is ApprovalBaseModel {
+model ApprovalProperties is ApprovalBaseModel {
   @doc("Request metadata for the approval request.")
   requestMetadata: RequestMetadata;
 }
 
 @doc("Request Metadata patch properties.")
-model RequestMetadataPatchModel
+model RequestMetadataUpdatableProperties
   is UpdateableProperties<OmitDefaults<RequestMetadata>>;
 
 @doc("Approvals patch properties.")
 model ApprovalPatchProperties
   is UpdateableProperties<OmitDefaults<ApprovalBaseModel>> {
   @doc("Request metadata for the approval request.")
-  requestMetadata: RequestMetadataPatchModel;
+  requestMetadata: RequestMetadataUpdatableProperties;
 }
 
 @doc("Approvals patch model.")

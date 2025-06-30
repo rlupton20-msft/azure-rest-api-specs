@@ -377,7 +377,7 @@
             "description": "The content of the action request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/InitiatorCallbackRequest"
+              "$ref": "#/definitions/ApprovalActionRequest"
             }
           }
         ],
@@ -385,7 +385,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/InitiatorCallbackResponse"
+              "$ref": "#/definitions/ApprovalActionResponse"
             }
           },
           "202": {
@@ -1496,7 +1496,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/ApprovalCallbackResponse"
+              "$ref": "#/definitions/ApprovalActionResponse"
             }
           },
           "202": {
@@ -1578,7 +1578,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/ApprovalDeletionCallbackResponse"
+              "$ref": "#/definitions/ApprovalActionResponse"
             }
           },
           "202": {
@@ -2284,7 +2284,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/ApprovalCallbackResponse"
+              "$ref": "#/definitions/ApprovalActionResponse"
             }
           },
           "202": {
@@ -2358,7 +2358,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/ApprovalDeletionCallbackResponse"
+              "$ref": "#/definitions/ApprovalActionResponse"
             }
           },
           "202": {
@@ -2728,7 +2728,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/ApprovalCallbackResponse"
+              "$ref": "#/definitions/ApprovalActionResponse"
             }
           },
           "202": {
@@ -2802,7 +2802,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/ApprovalDeletionCallbackResponse"
+              "$ref": "#/definitions/ApprovalActionResponse"
             }
           },
           "202": {
@@ -3220,7 +3220,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/ApprovalCallbackResponse"
+              "$ref": "#/definitions/ApprovalActionResponse"
             }
           },
           "202": {
@@ -3302,7 +3302,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/ApprovalDeletionCallbackResponse"
+              "$ref": "#/definitions/ApprovalActionResponse"
             }
           },
           "202": {
@@ -3675,7 +3675,7 @@
     }
   },
   "definitions": {
-    "ActionPerformedEnum": {
+    "ActionPerformed": {
       "type": "string",
       "description": "Specifies the action performed by the approver",
       "enum": [
@@ -3683,21 +3683,54 @@
         "Rejected"
       ],
       "x-ms-enum": {
-        "name": "ActionPerformedEnum",
+        "name": "ActionPerformed",
         "modelAsString": true,
         "values": [
           {
             "name": "Approved",
             "value": "Approved",
-            "description": "ActionPerformedEnum Type Approved"
+            "description": "Action was Approved"
           },
           {
             "name": "Rejected",
             "value": "Rejected",
-            "description": "ActionPerformedEnum Type Rejected"
+            "description": "Action was Rejected"
           }
         ]
       }
+    },
+    "ApprovalActionRequest": {
+      "type": "object",
+      "description": "Request body for calling post-action",
+      "properties": {
+        "approvalStatus": {
+          "type": "string",
+          "description": "Approval status indicating 'Approved' or 'Rejected'",
+          "enum": [
+            "Approved",
+            "Rejected"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "approvalStatus"
+      ]
+    },
+    "ApprovalActionResponse": {
+      "type": "object",
+      "description": "Response body after handling of approvalCallbackRequest",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Confirmation message indicating the result of the operation."
+        }
+      },
+      "required": [
+        "message"
+      ]
     },
     "ApprovalCallbackRequest": {
       "type": "object",
@@ -3737,19 +3770,6 @@
         "approvalStatus"
       ]
     },
-    "ApprovalCallbackResponse": {
-      "type": "object",
-      "description": "Response body after handling of approvalCallbackRequest",
-      "properties": {
-        "message": {
-          "type": "string",
-          "description": "Confirmation message indicating the result of the operation."
-        }
-      },
-      "required": [
-        "message"
-      ]
-    },
     "ApprovalDeletionCallbackRequest": {
       "type": "object",
       "description": "Request body for calling post-action",
@@ -3769,69 +3789,6 @@
       },
       "required": [
         "resourceRequestAction"
-      ]
-    },
-    "ApprovalDeletionCallbackResponse": {
-      "type": "object",
-      "description": "Response body after handling of approvalDeletionCallbackRequest",
-      "properties": {
-        "message": {
-          "type": "string",
-          "description": "Confirmation message indicating the result of the operation."
-        }
-      },
-      "required": [
-        "message"
-      ]
-    },
-    "ApprovalModel": {
-      "type": "object",
-      "description": "Approval Base model.",
-      "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "Provisioning State.",
-          "readOnly": true
-        },
-        "parent1": {
-          "type": "string",
-          "description": "Parameter for optimizing query results"
-        },
-        "parent2": {
-          "type": "string",
-          "description": "Parameter for optimizing query results"
-        },
-        "approvers": {
-          "type": "array",
-          "description": "List of approvers for the approval request",
-          "items": {
-            "$ref": "#/definitions/Approver"
-          },
-          "x-ms-identifiers": [
-            "approverEntraId"
-          ]
-        },
-        "ticketId": {
-          "type": "string",
-          "description": "Ticket ID for the approval request"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Approval request creation time"
-        },
-        "stateChangedAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Approval request state change time, time at which approval request state changed from pending to approved or rejected."
-        },
-        "requestMetadata": {
-          "$ref": "#/definitions/RequestMetadata",
-          "description": "Request metadata for the approval request."
-        }
-      },
-      "required": [
-        "requestMetadata"
       ]
     },
     "ApprovalPatchModel": {
@@ -3881,7 +3838,7 @@
           "description": "Approval request state change time, time at which approval request state changed from pending to approved or rejected."
         },
         "requestMetadata": {
-          "$ref": "#/definitions/RequestMetadataPatchModel",
+          "$ref": "#/definitions/RequestMetadataUpdatableProperties",
           "description": "Request metadata for the approval request."
         }
       }
@@ -3910,12 +3867,62 @@
         ]
       }
     },
+    "ApprovalProperties": {
+      "type": "object",
+      "description": "Approval Base model.",
+      "properties": {
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning State.",
+          "readOnly": true
+        },
+        "parent1": {
+          "type": "string",
+          "description": "Parameter for optimizing query results"
+        },
+        "parent2": {
+          "type": "string",
+          "description": "Parameter for optimizing query results"
+        },
+        "approvers": {
+          "type": "array",
+          "description": "List of approvers for the approval request",
+          "items": {
+            "$ref": "#/definitions/Approver"
+          },
+          "x-ms-identifiers": [
+            "approverEntraId"
+          ]
+        },
+        "ticketId": {
+          "type": "string",
+          "description": "Ticket ID for the approval request"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Approval request creation time"
+        },
+        "stateChangedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Approval request state change time, time at which approval request state changed from pending to approved or rejected."
+        },
+        "requestMetadata": {
+          "$ref": "#/definitions/RequestMetadata",
+          "description": "Request metadata for the approval request."
+        }
+      },
+      "required": [
+        "requestMetadata"
+      ]
+    },
     "ApprovalResource": {
       "type": "object",
       "description": "Approval Model Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/ApprovalModel",
+          "$ref": "#/definitions/ApprovalProperties",
           "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
         }
@@ -4094,7 +4101,7 @@
     },
     "ApprovalStatus": {
       "type": "string",
-      "description": "Approval Status Enum",
+      "description": "Approval Status. It can be Approved, Rejected, Pending, Deleted or Expired.",
       "enum": [
         "Approved",
         "Rejected",
@@ -4140,10 +4147,10 @@
       "properties": {
         "approverEntraId": {
           "type": "string",
-          "description": "EntraId of the approver"
+          "description": "Entra ObjectID of the approver"
         },
         "actionPerformed": {
-          "$ref": "#/definitions/ActionPerformedEnum",
+          "$ref": "#/definitions/ActionPerformed",
           "description": "Action Performed by approver"
         },
         "lastUpdatedAt": {
@@ -4154,7 +4161,6 @@
       },
       "required": [
         "approverEntraId",
-        "actionPerformed",
         "lastUpdatedAt"
       ]
     },
@@ -4402,7 +4408,63 @@
         "value"
       ]
     },
-    "CommunityModel": {
+    "CommunityPatchModel": {
+      "type": "object",
+      "description": "Community Patch Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/CommunityPatchProperties",
+          "description": "Community Patch properties"
+        },
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "identity": {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
+          "description": "The managed service identities assigned to this resource."
+        }
+      }
+    },
+    "CommunityPatchProperties": {
+      "type": "object",
+      "description": "Community Resource Properties without default values",
+      "properties": {
+        "dnsServers": {
+          "type": "array",
+          "description": "DNS Servers.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "governedServiceList": {
+          "type": "array",
+          "description": "List of services governed by a community.",
+          "items": {
+            "$ref": "#/definitions/GovernedServiceItem"
+          }
+        },
+        "communityRoleAssignments": {
+          "type": "array",
+          "description": "Community role assignments",
+          "items": {
+            "$ref": "#/definitions/RoleAssignmentItem"
+          }
+        },
+        "approvalSettings": {
+          "$ref": "#/definitions/ApprovalSettingsPatchProperties",
+          "description": "Approval requirements for various actions on the community's resources."
+        },
+        "maintenanceModeConfiguration": {
+          "$ref": "#/definitions/MaintenanceModeConfigurationPatchModel",
+          "description": "Maintenance Mode configuration."
+        }
+      }
+    },
+    "CommunityProperties": {
       "type": "object",
       "description": "Community Resource Properties",
       "properties": {
@@ -4463,68 +4525,12 @@
         }
       }
     },
-    "CommunityPatchModel": {
-      "type": "object",
-      "description": "Community Patch Resource",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/CommunityPatchProperties",
-          "description": "Community Patch properties"
-        },
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "identity": {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
-          "description": "The managed service identities assigned to this resource."
-        }
-      }
-    },
-    "CommunityPatchProperties": {
-      "type": "object",
-      "description": "Community Resource Properties without default values",
-      "properties": {
-        "dnsServers": {
-          "type": "array",
-          "description": "DNS Servers.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "governedServiceList": {
-          "type": "array",
-          "description": "List of services governed by a community.",
-          "items": {
-            "$ref": "#/definitions/GovernedServiceItem"
-          }
-        },
-        "communityRoleAssignments": {
-          "type": "array",
-          "description": "Community role assignments",
-          "items": {
-            "$ref": "#/definitions/RoleAssignmentItem"
-          }
-        },
-        "approvalSettings": {
-          "$ref": "#/definitions/ApprovalSettingsPatchProperties",
-          "description": "Approval requirements for various actions on the community's resources."
-        },
-        "maintenanceModeConfiguration": {
-          "$ref": "#/definitions/MaintenanceModeConfigurationPatchModel",
-          "description": "Maintenance Mode configuration."
-        }
-      }
-    },
     "CommunityResource": {
       "type": "object",
       "description": "Community Model Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/CommunityModel",
+          "$ref": "#/definitions/CommunityProperties",
           "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
         },
@@ -5106,7 +5112,7 @@
       "description": "Virtual Enclave Model Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/VirtualEnclaveModel",
+          "$ref": "#/definitions/VirtualEnclaveProperties",
           "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
         },
@@ -5258,39 +5264,6 @@
           }
         ]
       }
-    },
-    "InitiatorCallbackRequest": {
-      "type": "object",
-      "description": "Request body for calling post-action",
-      "properties": {
-        "approvalStatus": {
-          "type": "string",
-          "description": "Approval status indicating 'Approved' or 'Rejected'",
-          "enum": [
-            "Approved",
-            "Rejected"
-          ],
-          "x-ms-enum": {
-            "modelAsString": true
-          }
-        }
-      },
-      "required": [
-        "approvalStatus"
-      ]
-    },
-    "InitiatorCallbackResponse": {
-      "type": "object",
-      "description": "Response body after handling of approvalCallbackRequest",
-      "properties": {
-        "message": {
-          "type": "string",
-          "description": "Confirmation message indicating the result of the operation."
-        }
-      },
-      "required": [
-        "message"
-      ]
     },
     "KeyVaultResourceId": {
       "type": "string",
@@ -5477,12 +5450,9 @@
         "Failed",
         "Canceled",
         "Accepted",
-        "Created",
         "Creating",
-        "Deleted",
         "Deleting",
         "NotSpecified",
-        "Ready",
         "Running",
         "Updating"
       ],
@@ -5511,19 +5481,9 @@
             "description": "Provisioning State Type Accepted"
           },
           {
-            "name": "Created",
-            "value": "Created",
-            "description": "Provisioning State Type Created"
-          },
-          {
             "name": "Creating",
             "value": "Creating",
             "description": "Provisioning State Type Creating"
-          },
-          {
-            "name": "Deleted",
-            "value": "Deleted",
-            "description": "Provisioning State Type Deleted"
           },
           {
             "name": "Deleting",
@@ -5534,11 +5494,6 @@
             "name": "NotSpecified",
             "value": "NotSpecified",
             "description": "Provisioning State Type NotSpecified"
-          },
-          {
-            "name": "Ready",
-            "value": "Ready",
-            "description": "Provisioning State Type Ready"
           },
           {
             "name": "Running",
@@ -5618,7 +5573,7 @@
         "resourceAction"
       ]
     },
-    "RequestMetadataPatchModel": {
+    "RequestMetadataUpdatableProperties": {
       "type": "object",
       "description": "Request Metadata patch properties.",
       "properties": {
@@ -5784,7 +5739,7 @@
         },
         "id": {
           "$ref": "#/definitions/SubnetResourceId",
-          "description": "Subnet ID.",
+          "description": "Subnet Resource ID.",
           "readOnly": true
         },
         "networkPrefixSize": {
@@ -6032,7 +5987,64 @@
         ]
       }
     },
-    "VirtualEnclaveModel": {
+    "VirtualEnclavePatchModel": {
+      "type": "object",
+      "description": "Virtual Enclave Patch Model",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/VirtualEnclavePatchProperties",
+          "description": "Virtual Enclave Patch properties"
+        },
+        "identity": {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
+          "description": "The managed service identities assigned to this resource."
+        },
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "VirtualEnclavePatchProperties": {
+      "type": "object",
+      "description": "Virtual Enclave Patchable Properties",
+      "properties": {
+        "enclaveVirtualNetwork": {
+          "$ref": "#/definitions/EnclaveVirtualNetworkModel",
+          "description": "Virtual Network."
+        },
+        "bastionEnabled": {
+          "type": "boolean",
+          "description": "Deploy Bastion service (True or False)."
+        },
+        "enclaveRoleAssignments": {
+          "type": "array",
+          "description": "Enclave role assignments",
+          "items": {
+            "$ref": "#/definitions/RoleAssignmentItem"
+          }
+        },
+        "workloadRoleAssignments": {
+          "type": "array",
+          "description": "Workload role assignments",
+          "items": {
+            "$ref": "#/definitions/RoleAssignmentItem"
+          }
+        },
+        "enclaveDefaultSettings": {
+          "$ref": "#/definitions/EnclaveDefaultSettingsPatchModel",
+          "description": "Enclave default settings."
+        },
+        "maintenanceModeConfiguration": {
+          "$ref": "#/definitions/MaintenanceModeConfigurationPatchModel",
+          "description": "Maintenance Mode configuration."
+        }
+      }
+    },
+    "VirtualEnclaveProperties": {
       "type": "object",
       "description": "Virtual Enclave Resource properties",
       "properties": {
@@ -6105,63 +6117,6 @@
         "enclaveVirtualNetwork",
         "communityResourceId"
       ]
-    },
-    "VirtualEnclavePatchModel": {
-      "type": "object",
-      "description": "Virtual Enclave Patch Model",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/VirtualEnclavePatchProperties",
-          "description": "Virtual Enclave Patch properties"
-        },
-        "identity": {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.ManagedServiceIdentityUpdate",
-          "description": "The managed service identities assigned to this resource."
-        },
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "VirtualEnclavePatchProperties": {
-      "type": "object",
-      "description": "Virtual Enclave Patchable Properties",
-      "properties": {
-        "enclaveVirtualNetwork": {
-          "$ref": "#/definitions/EnclaveVirtualNetworkModel",
-          "description": "Virtual Network."
-        },
-        "bastionEnabled": {
-          "type": "boolean",
-          "description": "Deploy Bastion service (True or False)."
-        },
-        "enclaveRoleAssignments": {
-          "type": "array",
-          "description": "Enclave role assignments",
-          "items": {
-            "$ref": "#/definitions/RoleAssignmentItem"
-          }
-        },
-        "workloadRoleAssignments": {
-          "type": "array",
-          "description": "Workload role assignments",
-          "items": {
-            "$ref": "#/definitions/RoleAssignmentItem"
-          }
-        },
-        "enclaveDefaultSettings": {
-          "$ref": "#/definitions/EnclaveDefaultSettingsPatchModel",
-          "description": "Enclave default settings."
-        },
-        "maintenanceModeConfiguration": {
-          "$ref": "#/definitions/MaintenanceModeConfigurationPatchModel",
-          "description": "Maintenance Mode configuration."
-        }
-      }
     },
     "VirtualNetworkResourceId": {
       "type": "string",
