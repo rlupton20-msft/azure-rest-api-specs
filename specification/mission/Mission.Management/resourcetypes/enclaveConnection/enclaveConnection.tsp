@@ -4,6 +4,7 @@ import "@typespec/rest";
 import "@typespec/versioning";
 
 using TypeSpec.Versioning;
+using Azure.Core;
 
 @doc("Microsoft Mission Resource Provider management API.")
 namespace Microsoft.Mission;
@@ -66,7 +67,8 @@ model EnclaveConnectionProperties {
 
   @doc("List of resource ids modified by enclave Connections.")
   @visibility(Lifecycle.Read)
-  resourceCollection?: string[];
+  @typeChangedFrom(Microsoft.Mission.Versions.v2025_05_01_preview, string[])
+  resourceCollection?: armResourceIdentifier[];
 }
 
 @doc("Enclave Connection patchable Properties")
