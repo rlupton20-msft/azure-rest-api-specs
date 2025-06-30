@@ -17,13 +17,19 @@ using Azure.ResourceManager;
 })
 @versioned(Versions)
 @doc("ZeroTrustSegmentation resource provider API.")
-namespace Private.ZeroTrustSegmentation;
+namespace Microsoft.ZeroTrustSegmentation;
 
 /** ZeroTrustSegmentation API versions */
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2025_02_01_preview: "2025-02-01-preview",
+
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_08_01_preview: "2025-08-01-preview",
 }
 
 @doc("A zero trust segmentation resource. this resource defines the SegmentationManager.")
@@ -59,6 +65,18 @@ model SegmentationManagerProperties {
 
   @doc("The description of the segmentation manager")
   description?: string;
+
+  @doc("ARM Resource ID of the Log Analytics Workspace where graph data will be stored")
+  @added(Versions.v2025_08_01_preview)
+  logAnalyticsWorkspaceId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.OperationalInsights/workspaces";
+    }
+  ]>;
+
+  @doc("Internal metadata for DCR/DCE resource management")
+  @added(Versions.v2025_08_01_preview)
+  internalMetadata?: InternalMetadata;
 
   ...DefaultProvisioningStateProperty;
   ...ManagedByProperty;
@@ -225,6 +243,21 @@ model TrafficWeights {
   outConnectionWeight: float32;
 }
 
+@doc("Internal metadata for DCR/DCE resource management")
+model InternalMetadata {
+  @doc("Data Collection Rule Immutable ID")
+  dcrImmutableId?: string;
+
+  @doc("Data Collection Endpoint URL")
+  dceEndpoint?: string;
+
+  @doc("ARM Resource ID of the Data Collection Rule")
+  dcrResourceId?: string;
+
+  @doc("ARM Resource ID of the Data Collection Endpoint")
+  dceResourceId?: string;
+}
+
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @armResourceOperations
@@ -244,6 +277,7 @@ interface SegmentationManagers {
     SetLabelsRequest
   >;
 
+  #deprecated "Use KQL queries directly against the Log Analytics Workspace instead"
   getGraph is ArmResourceActionSync<
     SegmentationManager,
     GetGraphRequest,
