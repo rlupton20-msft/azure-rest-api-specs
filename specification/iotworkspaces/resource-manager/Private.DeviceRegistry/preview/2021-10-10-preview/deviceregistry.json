@@ -2317,6 +2317,66 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/namespaces/{namespaceName}/credentials/default/policies/{policyName}/revokeDevice": {
+      "post": {
+        "operationId": "Policies_RevokeDevice",
+        "tags": [
+          "Policies"
+        ],
+        "description": "A synchronous resource action that returns no content.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "namespaceName",
+            "in": "path",
+            "description": "Namespace name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "policyName",
+            "in": "path",
+            "description": "The name of the Policy tracked resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[0-9a-zA-Z][a-zA-Z0-9-]*$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RevokeDeviceRequest"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Action completed successfully."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/namespaces/{namespaceName}/credentials/default/synchronize": {
       "post": {
         "operationId": "Credentials_Synchronize",
@@ -8783,6 +8843,16 @@
         ]
       },
       "readOnly": true
+    },
+    "RevokeDeviceRequest": {
+      "type": "object",
+      "description": "Body for Revoke Device API request.",
+      "properties": {
+        "resourceId": {
+          "type": "string",
+          "description": "ResourceId of the device to revoke credentials for."
+        }
+      }
     },
     "Schema": {
       "type": "object",

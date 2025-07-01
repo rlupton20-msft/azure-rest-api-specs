@@ -89,6 +89,13 @@ model LeafCertificateConfiguration {
 }
 
 @added(Versions.v2025_08_01_preview)
+@doc("Body for Revoke Device API request.")
+model RevokeDeviceRequest {
+  @doc("ResourceId of the device to revoke credentials for.")
+  resourceId?: string;
+}
+
+@added(Versions.v2025_08_01_preview)
 @armResourceOperations
 interface Policies {
   get is ArmResourceRead<Policy>;
@@ -97,4 +104,6 @@ interface Policies {
   update is ArmResourcePatchAsync<Policy, PolicyProperties>;
   listByResourceGroup is ArmResourceListByParent<Policy>;
   listBySubscription is ArmListBySubscription<Policy>;
+
+  revokeDevice is ArmResourceActionNoContentSync<Policy, RevokeDeviceRequest>;
 }
