@@ -17,5 +17,5 @@ using TypeSpec.Versioning;
 @armProviderNamespace
 @service(#{ title: "StorageDiscoveryClient" })
 @versioned(ApiVersion)
-@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
+@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Private.StorageDiscovery;
