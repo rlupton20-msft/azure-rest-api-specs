@@ -10,7 +10,7 @@ using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.Versioning;
 
-namespace Private.StorageDiscovery;
+namespace Microsoft.StorageDiscovery;
 
 @added(ApiVersion.v2025_06_01_preview)
 @parentResource(StorageDiscoveryWorkspace)

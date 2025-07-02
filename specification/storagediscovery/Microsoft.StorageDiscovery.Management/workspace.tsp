@@ -12,7 +12,7 @@ using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 using TypeSpec.Versioning;
 
-namespace Private.StorageDiscovery;
+namespace Microsoft.StorageDiscovery;
 
 /**
  * Storage Discovery Workspace Properties

@@ -11,6 +11,6 @@ using Private.StorageDiscovery;
   "!(python,javascript,go,java,csharp)"
 );
 @@scope(Report.get, "!(python,javascript,go,java,csharp)");
-@@scope(Report.report, "!(python,javascript,go,java,csharp)");
+@@scope(Report.generateReport, "!(python,javascript,go,java,csharp)");
 @@scope(Report.listByResourceGroup, "!(python,javascript,go,java,csharp)");
 @@scope(Report.listBySubscription, "!(python,javascript,go,java,csharp)");

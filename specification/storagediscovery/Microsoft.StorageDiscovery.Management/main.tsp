@@ -18,4 +18,4 @@ using TypeSpec.Versioning;
 @service(#{ title: "StorageDiscoveryClient" })
 @versioned(ApiVersion)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
-namespace Private.StorageDiscovery;
+namespace Microsoft.StorageDiscovery;
