@@ -17,7 +17,7 @@ using Azure.ClientGenerator.Core;
 using Azure.ResourceManager;
 using Azure.Portal;
 
-#suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Supress missing operations endpoint as the same is defined ../operations/main.tsp."
+#suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Suppress missing operations endpoint as the same is defined ../operations/main.tsp."
 @armProviderNamespace
 @service(#{ title: "Microsoft.GcpConnector" })
 @doc("Microsoft.GcpConnector Resource Provider management API.")
@@ -32,7 +32,7 @@ enum Versions {
   `2025-12-01-preview`,
 }
 
-#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in GCP."
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the name is defined in GCP."
 @about({
   displayNames: {
     singular: "Storage Bucket",
@@ -50,10 +50,10 @@ model StorageBucket is TrackedResource<BucketProperties> {
   name: string;
 }
 
-#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in GCP."
-#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in GCP"
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in GCP"
-#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "GCPConnector will not generate SDK. So, supressing this error"
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property name is defined in GCP."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in GCP"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in GCP"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "GCPConnector will not generate SDK. So, Suppressing this error"
 @doc("Definition of BucketProperties")
 model BucketProperties {
   @doc("GCP Properties")
@@ -65,8 +65,8 @@ model BucketProperties {
 /**
  * A bucket.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
-#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in gcp."
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property name is defined in gcp."
 model GcpBucketProperties {
   /**
    * Access controls on the bucket.
@@ -245,7 +245,7 @@ model GcpBucketProperties {
   /**
    * The project number of the project the bucket belongs to.
    */
-  projectNumber?: int64;
+  projectNumber?: string;
 
   /**
    * The bucket's retention policy. The retention policy enforces a minimum retention time for all objects contained in the bucket, based on their creation time. Any attempt to overwrite or delete objects younger than the retention period will result in a PERMISSION_DENIED error. An unlocked retention policy can be modified or removed from the bucket via a storage.buckets.update operation. A locked retention policy cannot be removed or shortened in duration for the lifetime of the bucket. Attempting to remove or decrease period of a locked retention policy will result in a PERMISSION_DENIED error.
@@ -253,7 +253,7 @@ model GcpBucketProperties {
   retentionPolicy?: {
     effectiveTime?: utcDateTime;
     isLocked?: boolean;
-    retentionPeriod?: int64;
+    retentionPeriod?: string;
   };
 
   /**
@@ -432,7 +432,7 @@ model ObjectAccessControl {
   /**
    * The content generation of the object, if applied to an object.
    */
-  generation?: int64;
+  generation?: string;
 
   /**
    * The ID of the access-control entry.
@@ -468,7 +468,7 @@ model ObjectAccessControl {
   selfLink?: string;
 }
 
-#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in GCP."
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the name is defined in GCP."
 @armResourceOperations
 interface StorageBuckets {
   get is ArmResourceRead<StorageBucket>;
