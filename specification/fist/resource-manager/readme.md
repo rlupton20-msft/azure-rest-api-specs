@@ -48,25 +48,6 @@ input-file:
   - Microsoft.IoTFirmwareDefense/preview/2025-04-01-preview/iotfirmwaredefense.json
 ```
 
-### Tag: package-2024-01-10
-
-These settings apply only when `--tag=package-2024-01-10` is specified on the command line.
-
-```yaml $(tag) == 'package-2024-01-10'
-input-file:
-  - Microsoft.IoTFirmwareDefense/stable/2024-01-10/binaryHardeningResults.json
-  - Microsoft.IoTFirmwareDefense/stable/2024-01-10/common.json
-  - Microsoft.IoTFirmwareDefense/stable/2024-01-10/cryptoCertificates.json
-  - Microsoft.IoTFirmwareDefense/stable/2024-01-10/cryptoKeys.json
-  - Microsoft.IoTFirmwareDefense/stable/2024-01-10/cves.json
-  - Microsoft.IoTFirmwareDefense/stable/2024-01-10/firmwares.json
-  - Microsoft.IoTFirmwareDefense/stable/2024-01-10/operations.json
-  - Microsoft.IoTFirmwareDefense/stable/2024-01-10/passwordHashes.json
-  - Microsoft.IoTFirmwareDefense/stable/2024-01-10/sbomComponents.json
-  - Microsoft.IoTFirmwareDefense/stable/2024-01-10/summaries.json
-  - Microsoft.IoTFirmwareDefense/stable/2024-01-10/workspaces.json
-```
-
 ### Tag: package-2023-02-08-preview
 
 These settings apply only when `--tag=package-2023-02-08-preview` is specified on the command line.
