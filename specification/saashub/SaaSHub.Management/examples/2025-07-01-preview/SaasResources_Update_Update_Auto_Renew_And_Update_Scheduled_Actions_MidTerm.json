@@ -4,11 +4,25 @@
     "api-version": "2025-07-01-preview",
     "properties": {
       "properties": {
-        "autoRenew": "On",
-        "renewalTerm": {
-          "productCode": "000081e7-0000-0080-1728-3d9b92e2305f",
-          "quantity": 9
-        }
+        "autoRenew": "Once",
+        "scheduleActions": [
+          {
+            "type": "Absolute",
+            "effectiveDate": "2023-05-27T17:00:00-07:00",
+            "productCode": "000081e7-0000-0080-1728-3d9b92e2305f",
+            "quantity": 9,
+            "resourceTokens": [
+              {
+                "type": "billingToken",
+                "value": "billing-token-value"
+              },
+              {
+                "type": "availabilityToken",
+                "value": "availability-token-value"
+              }
+            ]
+          }
+        ]
       }
     }
   },
@@ -19,7 +33,7 @@
         "type": "Microsoft.SaaSHub/SaasResources",
         "id": "/providers/Microsoft.SaaSHub/saasResources/myResourceName",
         "properties": {
-          "autoRenew": "On",
+          "autoRenew": "Once",
           "billingScope": "/providers/Microsoft.Billing/billingAccounts/{baId}/billingProfiles/{bfId}/invoiceSections/{isId}",
           "billingSubscriptionId": "/providers/Microsoft.Billing/billingAccounts/1111:2222/billingSubscriptions/Id",
           "licenseData": "000089d5-0000-0080-2654-64a36bcef7ba",
@@ -28,12 +42,24 @@
           "offerType": "Paid",
           "provisioningState": "Succeeded",
           "quantity": 20,
-          "renewalTerm": {
-            "billingFrequency": "P1Y",
-            "productCode": "000081e7-0000-0080-1728-3d9b92e2305f",
-            "quantity": 9,
-            "termUnit": "P3Y"
-          },
+          "scheduleActions": [
+            {
+              "type": "Absolute",
+              "effectiveDate": "2023-05-27T17:00:00-07:00",
+              "productCode": "000081e7-0000-0080-1728-3d9b92e2305f",
+              "quantity": 9,
+              "resourceTokens": [
+                {
+                  "type": "billingToken",
+                  "value": "billing-token-value"
+                },
+                {
+                  "type": "availabilityToken",
+                  "value": "availability-token-value"
+                }
+              ]
+            }
+          ],
           "skuDescription": "Microsoft 365 E5",
           "status": "Active",
           "systemOverrides": {
@@ -58,5 +84,5 @@
     }
   },
   "operationId": "SaasResources_Update",
-  "title": "Update Auto Renew and Update Renewal Term Details at the same time"
+  "title": "Update Auto Renew and Update Scheduled Actions with absolute effectiveDate"
 }
