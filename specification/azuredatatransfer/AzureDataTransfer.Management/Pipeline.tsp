@@ -115,6 +115,15 @@ interface Pipelines {
   >;
 
   /**
+   * Lists the Flow Profiles for the specified connection in a pipeline.
+   */
+  listFlowProfiles is ArmResourceActionSync<
+    Pipeline,
+    void,
+    ArmResponse<FlowProfileListProperties>
+  >;
+
+  /**
    * Rejects the specified connection request in a pipeline.
    */
   rejectConnection is ArmResourceActionAsync<

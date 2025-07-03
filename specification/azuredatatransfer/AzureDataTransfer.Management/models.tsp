@@ -2,11 +2,9 @@ import "@typespec/rest";
 import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-client-generator-core";
+import "./FlowProfileResource/FlowProfileModel.tsp";
 
-using TypeSpec.Rest;
-using TypeSpec.Http;
 using Azure.ResourceManager;
-using Azure.ClientGenerator.Core;
 using Azure.ResourceManager.Foundations;
 
 namespace Private.AzureDataTransfer;
@@ -143,7 +141,7 @@ union LinkStatus {
 }
 
 /**
- * Flow type for the specified resource
+ * DEPRECATED: Please create a FlowType resource.
  */
 union FlowType {
   string,
@@ -264,6 +262,40 @@ union OperationStatusEnum {
 }
 
 /**
+ * TODO
+ */
+union FlowProfileStatus {
+  string,
+
+  /**
+   * TODO
+   */
+  Obsolete: "Obsolete",
+
+  /**
+   * TODO
+   */
+  Enabled: "Enabled",
+}
+
+/**
+ * TODO
+ */
+union EnablementStatus {
+  string,
+
+  /**
+   * TODO
+   */
+  Enabled: "Enabled",
+
+  /**
+   * TODO
+   */
+  Disabled: "Disabled",
+}
+
+/**
  * Status of the current pipeline
  */
 union PipelineStatus {
@@ -298,20 +330,138 @@ union FlowStatus {
 }
 
 /**
- * Transfer Storage Blobs or Tables
+ * Data class used to define the replication scenario.
  */
-union DataType {
+union DataClassType {
   string,
 
   /**
-   * The flow uses Azure Storage blobs to send or receive data.
+   * Replication using service bus & event hub.
+   */
+  "LowLatency",
+
+  /**
+   * Query service using an API endpoint.
+   */
+  "Query",
+
+  /**
+   * Streaming replication service.
+   */
+  "Video",
+
+  /**
+   * Object replication service for Azure blobs, tables, and files.
+   */
+  "HighThroughput"
+}
+
+/**
+ * Allowed data class.
+ */
+union DataClass {
+  string,
+
+  /**
+   * Service bus based replication.
+   */
+  "ServiceBus",
+
+  /**
+   * Event hub based replication.
+   */
+  "EventHub",
+
+  /**
+   * API based low latency transfer.
+   */
+  "API",
+
+  /**
+   * SDK based low latency transfer.
+   */
+  "SDK",
+
+  /**
+   * Used to auto-assign low latency transfer type.
+   */
+  "ALL",
+
+  /**
+   * Replication scenario using Azure Storage blobs.
+   */
+  "Blob",
+
+  /**
+   * Replication scenario using Azure Storage tables.
+   */
+  "Table",
+
+  /**
+   * Replication scenario using Azure Storage Files.
+   */
+  "Files",
+}
+
+/**
+ * Allowed scenarios for low latency replications.
+ */
+union LowLatencyType {
+  string,
+
+  /**
+   * Service bus based replication.
+   */
+  ServiceBus: "ServiceBus",
+
+  /**
+   * Event hub based replication.
+   */
+  EventHub: "EventHub",
+}
+
+/**
+ * Allowed scenarios for query replications.
+ */
+union QueryType {
+  string,
+
+  /**
+   * API based low latency transfer.
+   */
+  API: "API",
+
+  /**
+   * SDK based low latency transfer.
+   */
+  SDK: "SDK",
+
+  /**
+   * Used to auto-assign low latency transfer type.
+   */
+  ALL: "ALL"
+}
+
+/**
+ * Allowed scenarios for high throughput replications.
+ */
+union HighThroughputType {
+  string,
+
+  /**
+   * Replication scenario using Azure Storage blobs.
    */
   Blob: "Blob",
 
   /**
-   * The flow uses Azure Storage tables to send or receive data.
+   * Replication scenario using Azure Storage tables.
    */
   Table: "Table",
+
+  /**
+   * Replication scenario using Azure Storage Files.
+   */
+  Files: "Files",
 }
 
 /**
@@ -550,14 +700,14 @@ model ConnectionProperties {
   linkedConnectionId?: string;
 
   /**
-   * The flow types being requested for this connection
+   * DEPRECATED: Please create a FlowProfile resource.
    */
   flowTypes?: FlowType[];
 
   /**
-   * The policy names
+   * The Policies being requested for this connection
    */
-  policyNames?: string[];
+  flowProfileList?: FlowProfileListProperties[];
 
   /**
    * Requirement ID of the connection
@@ -603,17 +753,17 @@ model ConnectionProperties {
   provisioningState?: ProvisioningState;
 
   /**
-   * The policies for this connection
+   * DEPRECATED: Please create a FlowType resource.
    */
   policies?: string[];
 
   /**
-   * The schemas for this connection
+   * DEPRECATED: Please create a FlowType resource.
    */
   schemas?: Schema[];
 
   /**
-   * The schema URIs for this connection
+   * DEPRECATED: Please create a FlowType resource.
    */
   schemaUris?: url[];
 }
@@ -652,17 +802,17 @@ model PipelineProperties {
   provisioningState?: ProvisioningState;
 
   /**
-   * The policies for this pipeline
+   * DEPRECATED: Please create a FlowType resource.
    */
   policies?: string[];
 
   /**
-   * The flow types allowed for this pipeline
+   * DEPRECATED: Please create a FlowType resource.
    */
   flowTypes?: FlowType[];
 
   /**
-   * The flow types that are disabled for this pipeline
+   * DEPRECATED: Please create a FlowType resource.
    */
   disabledFlowTypes?: FlowType[];
 
@@ -886,14 +1036,19 @@ model FlowProperties {
   ]>;
 
   /**
-   * The flow type for this flow
+   * Type of FlowProfile to use for transfer via the flow.
    */
-  flowType?: FlowType;
+  flowProfile?: FlowProfileListProperties;
 
   /**
-   * Type of data to transfer via the flow.
+   * The Flow's data class.
    */
-  dataType?: DataType;
+  dataClass?: DataClass;
+
+  /**
+   * DEPRECATED: Please create a FlowType resource instead.
+   */
+  flowType?: FlowType;
 
   /**
    * Provisioning state of the flow
@@ -902,12 +1057,12 @@ model FlowProperties {
   provisioningState?: ProvisioningState;
 
   /**
-   * The policies for this flow
+   * DEPRECATED: Please create a FlowType resource instead.
    */
   policies?: string[];
 
   /**
-   * The selected schema for this flow
+   * DEPRECATED: Please create a FlowType resource instead.
    */
   schema?: Schema;
 
@@ -1238,7 +1393,7 @@ model PipelinesPatch {
  */
 model PipelinesPatchProperties {
   /**
-   * The flow types allowed for this pipeline
+   * DEPRECATED: Please create a FlowType resource.
    */
   flowTypes?: FlowType[];
 }
