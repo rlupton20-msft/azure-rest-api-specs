@@ -87,7 +87,7 @@ interface Connections {
       @bodyRoot
       flowProfileList?: FlowProfileMetadata[];
     },
-    ArmConnectionResponse
+    ArmResponse<Connection>
   >;
 
   /**

@@ -7,7 +7,7 @@ import "../models.tsp";
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 
-namespace Microsoft.AzureDataTransfer;
+namespace Private.AzureDataTransfer;
 
 /**
  * The FlowProfile resource patch definition.

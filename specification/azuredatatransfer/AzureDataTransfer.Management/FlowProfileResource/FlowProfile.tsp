@@ -10,7 +10,7 @@ using TypeSpec.Rest;
 using Azure.ResourceManager;
 using TypeSpec.Http;
 
-namespace Microsoft.AzureDataTransfer;
+namespace Private.AzureDataTransfer;
 /**
  * The FlowProfile resource definition.
  */
