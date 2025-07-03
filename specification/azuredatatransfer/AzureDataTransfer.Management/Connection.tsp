@@ -76,6 +76,21 @@ interface Connections {
   >;
 
   /**
+   * Links the connection to its pending connection.
+   */
+  updateFlowProfiles is ArmResourceActionAsync<
+    Connection,
+    {
+      /**
+       * New list of FlowProfiles(s)
+       */
+      @bodyRoot
+      flowProfileList?: FlowProfileMetadata[];
+    },
+    ArmConnectionResponse
+  >;
+
+  /**
    * Lists all pending remote connections that are linkable to this connection.
    */
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."

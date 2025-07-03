@@ -115,12 +115,12 @@ interface Pipelines {
   >;
 
   /**
-   * Lists the Flow Profiles for the specified connection in a pipeline.
+   * Lists the Flow Profiles for the specified pipeline.
    */
   listFlowProfiles is ArmResourceActionSync<
     Pipeline,
     void,
-    ArmResponse<FlowProfileListProperties>
+    ArmResponse<FlowProfileMetadata>
   >;
 
   /**

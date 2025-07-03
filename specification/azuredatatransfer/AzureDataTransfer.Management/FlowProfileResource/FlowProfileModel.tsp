@@ -47,17 +47,12 @@ model FlowProfilePatchProperties {
 /**
  * Properties for listing FlowProfiles.
  */
-model FlowProfileListProperties {
+model FlowProfileMetadata {
 
   /**
    * The FlowProfile's name.
    */
   name: string;
-
-  /**
-   * The description of the FlowProfile.
-   */
-  description: string;
 
   /**
    * The data class type for the FlowProfile.

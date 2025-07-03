@@ -707,7 +707,7 @@ model ConnectionProperties {
   /**
    * The Policies being requested for this connection
    */
-  flowProfileList?: FlowProfileListProperties[];
+  flowProfileList?: FlowProfileMetadata[];
 
   /**
    * Requirement ID of the connection
@@ -766,6 +766,70 @@ model ConnectionProperties {
    * DEPRECATED: Please create a FlowType resource.
    */
   schemaUris?: url[];
+}
+
+/**
+ * Properties of connection patch
+ */
+model ConnectionPatchProperties {
+  /**
+   * Pipeline to use to transfer data
+   */
+  pipeline: string;
+
+  /**
+   * Direction of data movement
+   */
+  direction?: Direction;
+
+  /**
+   * Justification for the connection request
+   */
+  justification?: string;
+
+  /**
+   * Status of the connection
+   */
+  @visibility(Lifecycle.Read)
+  status?: ConnectionStatus;
+
+  /**
+   * Force disablement status of the current connection
+   */
+  @visibility(Lifecycle.Read)
+  forceDisabledStatus?: ForceDisabledStatus[];
+
+  /**
+   * Reason for status
+   */
+  @visibility(Lifecycle.Read)
+  statusReason?: string;
+
+  /**
+   * Requirement ID of the connection
+   */
+  requirementId?: string;
+
+  /**
+   * Subscription ID to link cloud subscriptions together
+   */
+  remoteSubscriptionId?: string;
+
+  /**
+   * The primary contact for this connection request
+   */
+  primaryContact?: string;
+
+  /**
+   * The secondary contacts for this connection request
+   */
+  secondaryContacts?: string[];
+
+  /**
+   * Provisioning state of the connection
+   */
+  @visibility(Lifecycle.Read)
+  provisioningState?: ProvisioningState;
 }
 
 /**
@@ -955,6 +1019,11 @@ model Subscriber {
  * The connections resource patch definition.
  */
 model ConnectionsPatch {
+  /**
+   * Properties of Connections patch body.
+   */
+  properties?: ConnectionPatchProperties;
+
   ...ManagedServiceIdentityProperty;
   ...ArmTagsProperty;
 }
@@ -1038,7 +1107,7 @@ model FlowProperties {
   /**
    * Type of FlowProfile to use for transfer via the flow.
    */
-  flowProfile?: FlowProfileListProperties;
+  flowProfile?: FlowProfileMetadata;
 
   /**
    * The Flow's data class.
@@ -1065,6 +1134,129 @@ model FlowProperties {
    * DEPRECATED: Please create a FlowType resource instead.
    */
   schema?: Schema;
+
+  /**
+   * The messaging options for this flow
+   */
+  messagingOptions?: MessagingOptions;
+
+  /**
+   * The API Flow configuration options for Azure Data Transfer API Flow type.
+   */
+  apiFlowOptions?: ApiFlowOptions;
+
+  /**
+   * The URI to the customer managed key for this flow
+   */
+  customerManagedKeyVaultUri?: url;
+
+  /**
+   * The flow stream identifier
+   */
+  streamId?: string;
+
+  /**
+   * The protocol of the stream
+   */
+  streamProtocol?: StreamProtocol;
+
+  /**
+   * The latency of the stream in milliseconds
+   */
+  streamLatency?: int64;
+
+  /**
+   * The passphrase used for SRT streams
+   */
+  passphrase?: string;
+
+  /**
+   * The source IP address and CIDR ranges of the stream
+   */
+  sourceAddresses?: StreamSourceAddresses;
+
+  /**
+   * The destination endpoints of the stream
+   */
+  destinationEndpoints?: string[];
+
+  /**
+   * The destination endpoint ports of the stream
+   */
+  destinationEndpointPorts?: int64[];
+
+  /**
+   * Event Hub ID
+   */
+  eventHubId?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.EventHub/namespaces/eventhubs";
+    }
+  ]>;
+
+  /**
+   * Event Hub Consumer Group
+   */
+  consumerGroup?: string;
+}
+
+/**
+ * Properties of flow patch
+ */
+model FlowPatchProperties {
+  /**
+   * The connection associated with this flow
+   */
+  connection?: SelectedResource;
+
+  /**
+   * URI to a Key Vault Secret containing a SAS token.
+   */
+  keyVaultUri?: string;
+
+  /**
+   * Status of the current flow
+   */
+  status?: FlowStatus;
+
+  /**
+   * Force disablement status of the current flow
+   */
+  @visibility(Lifecycle.Read)
+  forceDisabledStatus?: ForceDisabledStatus[];
+
+  /**
+   * Storage Account
+   */
+  storageAccountName?: string;
+
+  /**
+   * Storage Account ID
+   */
+  storageAccountId?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.Storage/storageAccounts";
+    }
+  ]>;
+
+  /**
+   * Storage Container Name
+   */
+  storageContainerName?: string;
+
+  /**
+   * Storage Table Name
+   */
+  storageTableName?: string;
+
+  /**
+   * Service Bus Queue ID
+   */
+  serviceBusQueueId?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.Storage/namespaces/queues";
+    }
+  ]>;
 
   /**
    * The messaging options for this flow
@@ -1252,6 +1444,12 @@ model Plan {
  */
 #suppress "@azure-tools/typespec-azure-resource-manager/patch-envelope" "Supressing rule to match prior OpenAPI v2 JSON specification, consideration is given on adding the ResourcePlanProperty in future updates."
 model FlowsPatch {
+
+  /**
+   * Properties of Connections patch body.
+   */
+  properties?: FlowPatchProperties;
+
   ...ManagedServiceIdentityProperty;
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
 }
