@@ -5,6 +5,7 @@ import "./status.tsp";
 
 using TypeSpec.Versioning;
 using OpenAPI;
+using Azure.Core;
 
 namespace Private.DeviceRegistry;
 @doc("Defines the device base properties.")
@@ -149,7 +150,11 @@ model CredentialsMetadata {
 @doc("Defines the Policy used to issue device certificates if any.")
 model DeviceCredentialPolicy {
   @doc("Resource Id of the Policy.")
-  resourceId?: string;
+  resourceId?: armResourceIdentifier<[
+    {
+      type: "Microsoft.DeviceRegistry/namespaces/credentials/policies";
+    }
+  ]>;
 }
 
 @doc("The backing AAD identity for the device used for authentication to other services.")

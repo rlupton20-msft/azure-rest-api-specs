@@ -92,7 +92,11 @@ model LeafCertificateConfiguration {
 @doc("Body for Revoke Device API request.")
 model RevokeDeviceRequest {
   @doc("ResourceId of the device to revoke credentials for.")
-  resourceId?: string;
+  resourceId?: armResourceIdentifier<[
+    {
+      type: "Microsoft.DeviceRegistry/namespaces/devices";
+    }
+  ]>;
 }
 
 @added(Versions.v2025_08_01_preview)
