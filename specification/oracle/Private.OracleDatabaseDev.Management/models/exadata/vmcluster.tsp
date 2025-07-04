@@ -124,6 +124,18 @@ union CloudVmClusterLifecycleState {
   string,
 }
 
+@added(Versions.v20250801_preview)
+@doc("Specifies the type of storage management for the Cloud VM Cluster if its ASM or Exascale.")
+union ExadataVmClusterStorageManagementType {
+  @doc("Indicates that storage management for the Cloud VM Cluster is ASM")
+  ASM: "ASM",
+
+  @doc("Indicates that storage management for the Cloud VM Cluster is Exascale")
+  Exascale: "Exascale",
+
+  string,
+}
+
 @doc("CloudVmCluster resource definition")
 model CloudVmCluster is TrackedResource<CloudVmClusterProperties> {
   @doc("CloudVmCluster name")
