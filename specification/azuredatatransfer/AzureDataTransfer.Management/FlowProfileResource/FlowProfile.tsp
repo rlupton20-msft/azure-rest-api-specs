@@ -57,7 +57,7 @@ interface FlowProfiles {
   /**
    * Deletes the FlowProfile resource.
    */
-  delete is ArmResourceDeleteWithoutOkAsync<FlowProfile>;
+  delete is ArmResourceDeleteSync<FlowProfile>;
 
   /**
    * Get FlowProfiles in a pipeline
