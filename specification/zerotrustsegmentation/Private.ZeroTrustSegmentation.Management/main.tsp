@@ -30,6 +30,11 @@ enum Versions {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2025_08_01_preview: "2025-08-01-preview",
+  
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_07_01_preview: "2025-07-01-preview",
 }
 
 @doc("A zero trust segmentation resource. this resource defines the SegmentationManager.")
@@ -39,8 +44,31 @@ model SegmentationManager is TrackedResource<SegmentationManagerProperties> {
   @pattern("^[a-zA-Z0-9-]{3,250}$")
   @path
   @segment("segmentationManagers")
-  name: string;
+  name: string;  
+  
+  @added(Versions.v2025_07_01_preview)
+  @doc("The managed service identities assigned to this resource.")
+  identity?: SegmentationManagerManagedServiceIdentity;
 }
+
+@added(Versions.v2025_07_01_preview)
+model SegmentationManagerManagedServiceIdentity {
+  @doc("The type of managed service identity.")
+  type: SegmentationManagerManagedServiceIdentityType;
+
+  @doc("The user assigned identities associated with the resource.")
+  userAssignedIdentities?: SegmentationManagerUserAssignedIdentity
+}
+
+@added(Versions.v2025_07_01_preview)
+union SegmentationManagerManagedServiceIdentityType {
+  "None",
+  "UserAssigned",
+  string,
+}
+
+@added(Versions.v2025_07_01_preview)
+model SegmentationManagerUserAssignedIdentity is Record<Azure.ResourceManager.CommonTypes.UserAssignedIdentity | null>;
 
 @doc("Segmentation manager properties")
 model SegmentationManagerProperties {
@@ -74,9 +102,9 @@ model SegmentationManagerProperties {
     }
   ]>;
 
-  @doc("Internal metadata for DCR/DCE resource management")
+  @doc("Managed-On-Behalf-Of configuration for MRGv2 support. This read-only property identifies the moboBroker resource created for this Manager Resource.")
   @added(Versions.v2025_08_01_preview)
-  internalMetadata?: InternalMetadata;
+  managedOnBehalfOfConfiguration?: Azure.ResourceManager.CommonTypes.ManagedOnBehalfOfConfiguration;
 
   ...DefaultProvisioningStateProperty;
   ...ManagedByProperty;
@@ -243,31 +271,16 @@ model TrafficWeights {
   outConnectionWeight: float32;
 }
 
-@doc("Internal metadata for DCR/DCE resource management")
-model InternalMetadata {
-  @doc("Data Collection Rule Immutable ID")
-  dcrImmutableId?: string;
-
-  @doc("Data Collection Endpoint URL")
-  dceEndpoint?: string;
-
-  @doc("ARM Resource ID of the Data Collection Rule")
-  dcrResourceId?: string;
-
-  @doc("ARM Resource ID of the Data Collection Endpoint")
-  dceResourceId?: string;
-}
-
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @armResourceOperations
 interface SegmentationManagers {
   get is ArmResourceRead<SegmentationManager>;
-  createOrReplace is ArmResourceCreateOrReplaceSync<SegmentationManager>;
+  createOrReplace is ArmResourceCreateOrReplaceSync<
+    SegmentationManager>;
   update is ArmResourcePatchSync<
     SegmentationManager,
-    SegmentationManagerProperties
-  >;
+    SegmentationManagerProperties>;
   delete is ArmResourceDeleteSync<SegmentationManager>;
   listByResourceGroup is ArmResourceListByParent<SegmentationManager>;
   listBySubscription is ArmListBySubscription<SegmentationManager>;
@@ -277,7 +290,6 @@ interface SegmentationManagers {
     SetLabelsRequest
   >;
 
-  #deprecated "Use KQL queries directly against the Log Analytics Workspace instead"
   getGraph is ArmResourceActionSync<
     SegmentationManager,
     GetGraphRequest,
