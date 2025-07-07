@@ -76,9 +76,9 @@ interface Connections {
   >;
 
   /**
-   * Links the connection to its pending connection.
+   * Updates the list of FlowProfiles.
    */
-  updateFlowProfiles is ArmResourceActionAsync<
+  updateFlowProfileList is ArmResourceActionAsync<
     Connection,
     {
       /**
@@ -124,6 +124,7 @@ interface Connections {
 @@doc(Connections.createOrUpdate::parameters.resource, "Connection body");
 @@doc(Connections.update::parameters.properties, "Connection body");
 @@doc(Connections.link::parameters.body, "Connection body");
+@@doc(Connections.updateFlowProfileList::parameters.body, "Connection body");
 
 @@clientName(Connections.createOrUpdate::parameters.resource, "connection");
 @@clientName(Connections.update::parameters.properties, "connection");

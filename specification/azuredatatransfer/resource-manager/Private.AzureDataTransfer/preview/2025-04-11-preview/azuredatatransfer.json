@@ -95,6 +95,46 @@
         }
       }
     },
+    "/providers/Private.AzureDataTransfer/listFlowProfiles": {
+      "post": {
+        "operationId": "AzureDataTransfer_listFlowProfiles",
+        "description": "Lists FlowProfile resources for a Azure Data Transfer Pipeline resource.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "pipelines",
+            "in": "body",
+            "description": "Pipeline(s) to retrieve flows of",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FlowProfileMetadata"
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/providers/Private.AzureDataTransfer/operations": {
       "get": {
         "operationId": "Operations_List",
@@ -2000,13 +2040,13 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/connections/{connectionName}/updateFlowProfiles": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/connections/{connectionName}/updateFlowProfileList": {
       "post": {
-        "operationId": "Connections_UpdateFlowProfiles",
+        "operationId": "Connections_UpdateFlowProfileList",
         "tags": [
           "Connections"
         ],
-        "description": "Links the connection to its pending connection.",
+        "description": "Updates the list of FlowProfiles.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2590,7 +2630,7 @@
         "tags": [
           "FlowProfiles"
         ],
-        "description": "Gets FlowProfile resource.",
+        "description": "Gets the FlowProfile resource.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2840,70 +2880,11 @@
           }
         ],
         "responses": {
-          "202": {
-            "description": "Resource deletion accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
+          "200": {
+            "description": "Resource deleted successfully."
           },
           "204": {
             "description": "Resource does not exist."
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/pipelines/{pipelineName}/listFlowProfiles": {
-      "post": {
-        "operationId": "Pipelines_ListFlowProfiles",
-        "tags": [
-          "Pipelines"
-        ],
-        "description": "Lists the Flow Profiles for the specified pipeline.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "pipelineName",
-            "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 64,
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/FlowProfileMetadata"
-            }
           },
           "default": {
             "description": "An unexpected error response.",
@@ -3363,11 +3344,11 @@
     },
     "ConnectionPatchProperties": {
       "type": "object",
-      "description": "Properties of connection patch",
+      "description": "Properties allowed to be patched for a Connection",
       "properties": {
         "pipeline": {
           "type": "string",
-          "description": "Pipeline to use to transfer data"
+          "description": "Pipeline to used to transfer data"
         },
         "direction": {
           "$ref": "#/definitions/Direction",
@@ -3426,7 +3407,7 @@
     },
     "ConnectionProperties": {
       "type": "object",
-      "description": "Properties of connection",
+      "description": "Properties of a connection resource",
       "properties": {
         "pipeline": {
           "type": "string",
@@ -3477,7 +3458,7 @@
         },
         "flowProfileList": {
           "type": "array",
-          "description": "The Policies being requested for this connection",
+          "description": "The FlowProfiles allowed for this connection",
           "items": {
             "$ref": "#/definitions/FlowProfileMetadata"
           }
@@ -3745,7 +3726,7 @@
     },
     "EnablementStatus": {
       "type": "string",
-      "description": "TODO",
+      "description": "Enablement statuses",
       "enum": [
         "Enabled",
         "Disabled"
@@ -3757,12 +3738,12 @@
           {
             "name": "Enabled",
             "value": "Enabled",
-            "description": "TODO"
+            "description": "Represents an enabled status."
           },
           {
             "name": "Disabled",
             "value": "Disabled",
-            "description": "TODO"
+            "description": "Represents a disabled status."
           }
         ]
       }
@@ -3867,7 +3848,7 @@
     },
     "FlowPatchProperties": {
       "type": "object",
-      "description": "Properties of flow patch",
+      "description": "Properties allowed to update for a flow patch request",
       "properties": {
         "connection": {
           "$ref": "#/definitions/SelectedResource",
@@ -4036,6 +4017,10 @@
       "type": "object",
       "description": "Properties for listing FlowProfiles.",
       "properties": {
+        "pipeline": {
+          "type": "string",
+          "description": "The pipeline that the FlowProfile is created under."
+        },
         "name": {
           "type": "string",
           "description": "The FlowProfile's name."
@@ -4050,6 +4035,7 @@
         }
       },
       "required": [
+        "pipeline",
         "name",
         "dataClass"
       ]
@@ -4172,7 +4158,7 @@
     },
     "FlowProfileStatus": {
       "type": "string",
-      "description": "TODO",
+      "description": "The allowed statuses of a FlowProfile.",
       "enum": [
         "Obsolete",
         "Enabled"
@@ -4184,12 +4170,12 @@
           {
             "name": "Obsolete",
             "value": "Obsolete",
-            "description": "TODO"
+            "description": "Defines a FlowProfile that can no longer be selected."
           },
           {
             "name": "Enabled",
             "value": "Enabled",
-            "description": "TODO"
+            "description": "Defines a FlowProfile that is enabled."
           }
         ]
       }
@@ -4827,7 +4813,7 @@
         },
         "flowProfileList": {
           "type": "array",
-          "description": "The Policies being requested for this connection",
+          "description": "The FlowProfiles allowed for this connection",
           "items": {
             "$ref": "#/definitions/FlowProfileMetadata"
           }

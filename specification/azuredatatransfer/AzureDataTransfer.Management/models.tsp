@@ -2,7 +2,7 @@ import "@typespec/rest";
 import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-client-generator-core";
-import "./FlowProfileResource/FlowProfileModel.tsp";
+import "./models.flowprofile.tsp";
 
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
@@ -262,35 +262,35 @@ union OperationStatusEnum {
 }
 
 /**
- * TODO
+ * The allowed statuses of a FlowProfile.
  */
 union FlowProfileStatus {
   string,
 
   /**
-   * TODO
+   * Defines a FlowProfile that can no longer be selected.
    */
   Obsolete: "Obsolete",
 
   /**
-   * TODO
+   * Defines a FlowProfile that is enabled.
    */
   Enabled: "Enabled",
 }
 
 /**
- * TODO
+ * Enablement statuses
  */
 union EnablementStatus {
   string,
 
   /**
-   * TODO
+   * Represents an enabled status.
    */
   Enabled: "Enabled",
 
   /**
-   * TODO
+   * Represents a disabled status.
    */
   Disabled: "Disabled",
 }
@@ -651,7 +651,7 @@ model ValidateSchemaResult {
 }
 
 /**
- * Properties of connection
+ * Properties of a connection resource
  */
 model ConnectionProperties {
   /**
@@ -705,7 +705,7 @@ model ConnectionProperties {
   flowTypes?: FlowType[];
 
   /**
-   * The Policies being requested for this connection
+   * The FlowProfiles allowed for this connection
    */
   flowProfileList?: FlowProfileMetadata[];
 
@@ -769,11 +769,11 @@ model ConnectionProperties {
 }
 
 /**
- * Properties of connection patch
+ * Properties allowed to be patched for a Connection
  */
 model ConnectionPatchProperties {
   /**
-   * Pipeline to use to transfer data
+   * Pipeline to used to transfer data
    */
   pipeline: string;
 
@@ -1201,7 +1201,7 @@ model FlowProperties {
 }
 
 /**
- * Properties of flow patch
+ * Properties allowed to update for a flow patch request
  */
 model FlowPatchProperties {
   /**

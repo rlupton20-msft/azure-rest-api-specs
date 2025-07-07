@@ -2,9 +2,9 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "@typespec/rest";
-import "../models.tsp";
-import "../Pipeline.tsp";
-import "./FlowProfileModel.tsp";
+import "./models.tsp";
+import "./Pipeline.tsp";
+import "./models.flowprofile.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
@@ -31,7 +31,7 @@ model ArmFlowProfileResponse is ArmResponse<FlowProfile>;
 @armResourceOperations
 interface FlowProfiles {
   /**
-   * Gets FlowProfile resource.
+   * Gets the FlowProfile resource.
    */
   get is ArmResourceRead<FlowProfile>;
 

@@ -11,6 +11,7 @@ using TypeSpec.Rest;
 using Azure.ResourceManager;
 using Azure.ClientGenerator.Core;
 using TypeSpec.OpenAPI;
+using TypeSpec.Http;
 
 namespace Private.AzureDataTransfer;
 
@@ -26,6 +27,32 @@ interface AzureDataTransfer {
     Request = ListApprovedSchemasRequest,
     Response = SchemasListResult
   >;
+
+  /**
+   * Lists FlowProfile resources for a Azure Data Transfer Pipeline resource.
+   */
+  #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
+  @operationId("AzureDataTransfer_listFlowProfiles")
+  @autoRoute
+  listFlowProfiles is ArmProviderActionSync<
+    Request = 
+    {
+      /**
+       * Pipeline(s) to retrieve flows of
+       */
+      @bodyRoot
+      pipelines?: string[];
+    },
+    Response =
+    {
+      /**
+       * List of FlowProfiles(s)
+       */
+      @bodyRoot
+      flowProfileList?: FlowProfileMetadata[];
+    }
+  >;
+
   /**
    * Validates a schema for Azure Data Transfer.
    */

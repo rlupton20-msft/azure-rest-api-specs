@@ -2,7 +2,7 @@ import "@typespec/rest";
 import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-client-generator-core";
-import "../models.tsp";
+import "./models.tsp";
 
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
@@ -48,6 +48,10 @@ model FlowProfilePatchProperties {
  * Properties for listing FlowProfiles.
  */
 model FlowProfileMetadata {
+  /**
+   * The pipeline that the FlowProfile is created under.
+   */
+  pipeline: string;
 
   /**
    * The FlowProfile's name.
@@ -78,8 +82,6 @@ model FlowProfileProperties {
   /**
    * The FlowProfile guid assigned by the backend.
    */
-  // TODO: do they need to know? idts
-  // Store in internal metadata? Can we? if so, move to metadata. yay.
   flowProfileId?: string;
 
   /**
