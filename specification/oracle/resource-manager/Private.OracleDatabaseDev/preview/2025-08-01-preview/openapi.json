@@ -10816,12 +10816,10 @@
       "type": "object",
       "description": "DNS forwarding rule properties",
       "properties": {
-        "domainName": {
+        "domainNames": {
           "type": "string",
-          "description": "Domain name",
+          "description": "Comma-separated domain names",
           "x-ms-mutability": [
-            "read",
-            "update",
             "create"
           ]
         },
@@ -10829,14 +10827,12 @@
           "type": "string",
           "description": "Forwarding ip address",
           "x-ms-mutability": [
-            "read",
-            "update",
             "create"
           ]
         }
       },
       "required": [
-        "domainName",
+        "domainNames",
         "forwardingIpAddress"
       ]
     },
@@ -12819,7 +12815,7 @@
             "create"
           ]
         },
-        "isOracleToAzureDnsZoneSyncEnabled": {
+        "oracleToAzureDnsZoneSyncEnabled": {
           "type": "boolean",
           "description": "Indicates whether DNS zone sync from OCI to Azure is enabled",
           "default": false,
@@ -12829,7 +12825,7 @@
             "create"
           ]
         },
-        "isOracleDnsListeningEndpointEnabled": {
+        "oracleDnsListeningEndpointEnabled": {
           "type": "boolean",
           "description": "Indicates whether the Oracle DNS listening endpoint is enabled",
           "default": false,
@@ -12839,7 +12835,7 @@
             "create"
           ]
         },
-        "isOracleDnsForwardingEndpointEnabled": {
+        "oracleDnsForwardingEndpointEnabled": {
           "type": "boolean",
           "description": "Indicates whether the Oracle DNS forwarding endpoint is enabled",
           "default": false,
@@ -12857,8 +12853,13 @@
           },
           "x-ms-identifiers": [],
           "x-ms-mutability": [
-            "read",
-            "update",
+            "create"
+          ]
+        },
+        "dnsListeningEndpointAllowedCidrs": {
+          "type": "string",
+          "description": "Comma-separated list of CIDRs that are allowed to send requests to the DNS listening endpoint",
+          "x-ms-mutability": [
             "create"
           ]
         },
@@ -12870,6 +12871,21 @@
         "dnsForwardingEndpointIpAddress": {
           "type": "string",
           "description": "DNS forwarding endpoint IP address",
+          "readOnly": true
+        },
+        "dnsForwardingRulesUrl": {
+          "type": "string",
+          "description": "Deep link to OCI console DNS Forwarding rules page",
+          "readOnly": true
+        },
+        "dnsListeningEndpointNsgRulesUrl": {
+          "type": "string",
+          "description": "Deep link to OCI console DNS Listening endpoint NSG rules",
+          "readOnly": true
+        },
+        "dnsForwardingEndpointNsgRulesUrl": {
+          "type": "string",
+          "description": "Deep link to OCI console DNS Forwarding endpoint NSG rules",
           "readOnly": true
         }
       },
@@ -12915,7 +12931,7 @@
             "create"
           ]
         },
-        "isOracleToAzureDnsZoneSyncEnabled": {
+        "oracleToAzureDnsZoneSyncEnabled": {
           "type": "boolean",
           "description": "Indicates whether DNS zone sync from OCI to Azure is enabled",
           "default": false,
@@ -12925,7 +12941,7 @@
             "create"
           ]
         },
-        "isOracleDnsListeningEndpointEnabled": {
+        "oracleDnsListeningEndpointEnabled": {
           "type": "boolean",
           "description": "Indicates whether the Oracle DNS listening endpoint is enabled",
           "default": false,
@@ -12935,23 +12951,10 @@
             "create"
           ]
         },
-        "isOracleDnsForwardingEndpointEnabled": {
+        "oracleDnsForwardingEndpointEnabled": {
           "type": "boolean",
           "description": "Indicates whether the Oracle DNS forwarding endpoint is enabled",
           "default": false,
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "dnsForwardingRules": {
-          "type": "array",
-          "description": "DNS forwarding rules",
-          "items": {
-            "$ref": "#/definitions/DnsForwardingRule"
-          },
-          "x-ms-identifiers": [],
           "x-ms-mutability": [
             "read",
             "update",
