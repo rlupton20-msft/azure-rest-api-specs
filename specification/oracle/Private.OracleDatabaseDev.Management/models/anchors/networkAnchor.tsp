@@ -56,23 +56,28 @@ model NetworkAnchorProperties {
   @added(Versions.v20250701_preview)
   @doc("Indicates whether DNS zone sync from OCI to Azure is enabled")
   @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
-  isOracleToAzureDnsZoneSyncEnabled?: boolean = false;
+  oracleToAzureDnsZoneSyncEnabled?: boolean = false;
 
   @added(Versions.v20250701_preview)
   @doc("Indicates whether the Oracle DNS listening endpoint is enabled")
   @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
-  isOracleDnsListeningEndpointEnabled?: boolean = false;
+  oracleDnsListeningEndpointEnabled?: boolean = false;
 
   @added(Versions.v20250701_preview)
   @doc("Indicates whether the Oracle DNS forwarding endpoint is enabled")
   @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
-  isOracleDnsForwardingEndpointEnabled?: boolean = false;
+  oracleDnsForwardingEndpointEnabled?: boolean = false;
 
   @added(Versions.v20250701_preview)
   @doc("DNS forwarding rules")
-  @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
+  @visibility(Lifecycle.Create)
   @OpenAPI.extension("x-ms-identifiers", #[])
   dnsForwardingRules?: DnsForwardingRule[];
+
+  @added(Versions.v20250701_preview)
+  @doc("Comma-separated list of CIDRs that are allowed to send requests to the DNS listening endpoint")
+  @visibility(Lifecycle.Create)
+  dnsListeningEndpointAllowedCidrs?: string;
 
   @added(Versions.v20250701_preview)
   @doc("DNS listening endpoint IP address")
@@ -83,16 +88,31 @@ model NetworkAnchorProperties {
   @doc("DNS forwarding endpoint IP address")
   @visibility(Lifecycle.Read)
   dnsForwardingEndpointIpAddress?: string;
+
+  @added(Versions.v20250701_preview)
+  @doc("Deep link to OCI console DNS Forwarding rules page")
+  @visibility(Lifecycle.Read)
+  dnsForwardingRulesUrl?: string;
+
+  @added(Versions.v20250701_preview)
+  @doc("Deep link to OCI console DNS Listening endpoint NSG rules")
+  @visibility(Lifecycle.Read)
+  dnsListeningEndpointNsgRulesUrl?: string;
+
+  @added(Versions.v20250701_preview)
+  @doc("Deep link to OCI console DNS Forwarding endpoint NSG rules")
+  @visibility(Lifecycle.Read)
+  dnsForwardingEndpointNsgRulesUrl?: string;
 }
 
 @added(Versions.v20250701_preview)
 @doc("DNS forwarding rule properties")
 model DnsForwardingRule {
-  @doc("Domain name")
-  @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
-  domainName: string;
+  @doc("Comma-separated domain names")
+  @visibility(Lifecycle.Create)
+  domainNames: string;
 
   @doc("Forwarding ip address")
-  @visibility(Lifecycle.Create, Lifecycle.Update, Lifecycle.Read)
+  @visibility(Lifecycle.Create)
   forwardingIpAddress: string;
 }
