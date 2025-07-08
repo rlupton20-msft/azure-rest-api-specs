@@ -184,7 +184,7 @@ model VirtualEnclaveBaseModel {
 }
 
 @doc("Virtual Enclave Resource properties")
-model VirtualEnclaveModel is VirtualEnclaveBaseModel {
+model VirtualEnclaveProperties is VirtualEnclaveBaseModel {
   @doc("Enclave default settings.")
   enclaveDefaultSettings?: EnclaveDefaultSettingsModel;
 

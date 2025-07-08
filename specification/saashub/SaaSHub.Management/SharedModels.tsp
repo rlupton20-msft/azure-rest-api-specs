@@ -31,6 +31,12 @@ union AutoRenew {
    * Auto renew is turned on
    */
   On: "On",
+
+  /**
+   * Auto renew is turned on for the next term only
+   */
+  @added(SaaSHubVersions.v2025_07_01_preview)
+  Once: "Once",
 }
 
 /**
@@ -211,6 +217,13 @@ model SystemOverrides {
   @visibility(Lifecycle.Read)
   @added(SaaSHubVersions.v2025_07_01_preview)
   startDateOnCurrentProductCode?: utcDateTime;
+
+  /**
+   * Number of days in the license reassignment period for the current term.
+   */
+  @visibility(Lifecycle.Read)
+  @added(SaaSHubVersions.v2025_07_01_preview)
+  licenseReassignmentDays?: int32 = 0;
 }
 
 /**
@@ -300,12 +313,6 @@ model TermDetails {
    * End date of the term in UTC time. When there is a value passed in for PUT scenario, it is to support co-term scenario. When there is a value passed in for PATCH scenario, it is to support extend trial scenario. The time part passed in will be ignored
    */
   endDate?: utcDateTime;
-
-  /**
-   * Number of days in the grace period for the current term. Optional property, defaults to 0 if not specified.
-   */
-  @added(SaaSHubVersions.v2025_07_01_preview)
-  gracePeriodInDays?: int32 = 0;
 }
 
 /**
@@ -720,11 +727,13 @@ model SeatBasedResourceProperties {
   /**
    * Billing token for current term transaction.
    */
+  @removed(SaaSHubVersions.v2025_07_01_preview)
   billingToken?: string;
 
   /**
    * Availability token for current term transaction.
    */
+  @removed(SaaSHubVersions.v2025_07_01_preview)
   availabilityToken?: string;
 
   /**
@@ -774,6 +783,7 @@ model SeatBasedResourceProperties {
   /**
    * Renewal term details of the resource.
    */
+  @removed(SaaSHubVersions.v2025_07_01_preview)
   renewalTerm?: RenewalTermDetails;
 
   /**
@@ -813,6 +823,20 @@ model SeatBasedResourceProperties {
    * System imposed policies that regulate behavior of the resource.
    */
   systemOverrides?: SystemOverrides;
+
+  /**
+   * Resource tokens for various authorization and context purposes.
+   */
+  @added(SaaSHubVersions.v2025_07_01_preview)
+  @OpenAPI.extension("x-ms-identifiers", #["type"])
+  resourceTokens?: ResourceToken[];
+
+  /**
+   * Schedule actions for future terms and changes
+   */
+  @added(SaaSHubVersions.v2025_07_01_preview)
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  scheduleActions?: ScheduleAction[];
 }
 
 /**
@@ -831,14 +855,61 @@ model MergeSourceSeatBasedResource {
   validationError?: string;
 
   /**
-   * Billing token for merge source transaction.
+   * Resource tokens for various authorization and context purposes (for merge source).
    */
   @added(SaaSHubVersions.v2025_07_01_preview)
-  billingToken?: string;
+  @OpenAPI.extension("x-ms-identifiers", #["type"])
+  resourceTokens?: ResourceToken[];
+}
+
+/**
+ * Resource token containing type and value for various authorization and context purposes.
+ */
+model ResourceToken {
+  /**
+   * The type of the resource token. Examples: "availabilityToken", "billingToken"
+   */
+  type?: string;
 
   /**
-   * Availability token for merge source transaction.
+   * The value of the resource token.
    */
-  @added(SaaSHubVersions.v2025_07_01_preview)
-  availabilityToken?: string;
+  value?: string;
+}
+
+/**
+ * Schedule action for resource operations
+ */
+@added(SaaSHubVersions.v2025_07_01_preview)
+model ScheduleAction {
+  /**
+   * The type of schedule action
+   */
+  type?: string;
+
+  /**
+   * The effective date for the schedule action
+   */
+  effectiveDate?: utcDateTime;
+
+  /**
+   * Product code for the schedule action
+   */
+  productCode?: string;
+
+  /**
+   * The quantity for the schedule action
+   */
+  quantity?: int64;
+
+  /**
+   * The end date for the schedule action
+   */
+  endDate?: utcDateTime;
+
+  /**
+   * Resource tokens for various authorization and context purposes.
+   */
+  @OpenAPI.extension("x-ms-identifiers", #["type"])
+  resourceTokens?: ResourceToken[];
 }

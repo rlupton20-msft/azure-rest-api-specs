@@ -17,7 +17,7 @@ using Azure.ClientGenerator.Core;
 using Azure.ResourceManager;
 using Azure.Portal;
 
-#suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Supress missing operations endpoint as the same is defined ../operations/main.tsp."
+#suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Suppress missing operations endpoint as the same is defined ../operations/main.tsp."
 @armProviderNamespace
 @service(#{ title: "Microsoft.GcpConnector" })
 @doc("Microsoft.GcpConnector Resource Provider management API.")
@@ -32,7 +32,7 @@ enum Versions {
   `2025-12-01-preview`,
 }
 
-#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in GCP."
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the name is defined in GCP."
 @about({
   displayNames: {
     singular: "Cloud Function",
@@ -50,10 +50,10 @@ model CloudFunction is TrackedResource<FunctionProperties> {
   name: string;
 }
 
-#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the property name is defined in GCP."
-#suppress "@azure-tools/typespec-azure-core/no-unknown" "Supress no-unknown to handle the datatype object used in GCP"
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in GCP"
-#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "GCPConnector will not generate SDK. So, supressing this error"
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property name is defined in GCP."
+#suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in GCP"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in GCP"
+#suppress "@azure-tools/typespec-azure-core/property-name-conflict" "GCPConnector will not generate SDK. So, Suppressing this error"
 @doc("Definition of FunctionProperties")
 model FunctionProperties {
   @doc("GCP Properties")
@@ -66,13 +66,13 @@ model FunctionProperties {
  * Security patches are applied automatically to the runtime without requiring the function to be redeployed.
  */
 #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "This model is intentionally empty and used as a base type."
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
 model AutomaticUpdatePolicy {}
 
 /**
  * Describes the Build step of the function that builds a container from the given source.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
 model BuildConfig {
   /**
    * AutomaticUpdatePolicy of BuildConfig.
@@ -145,7 +145,7 @@ model BuildConfig {
 /**
  * Filters events based on exact matches on the CloudEvents attributes.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
 model EventFilter {
   /**
    * Required. The name of a CloudEvents attribute.
@@ -166,7 +166,7 @@ model EventFilter {
 /**
  * Describes EventTrigger, used to request events to be sent from another service.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
 model EventTrigger {
   /**
    * Optional. The name of the channel associated with the trigger in `projects/{project}/locations/{location}/channels/{channel}` format. You must provide a channel to receive events from Eventarc SaaS partners.
@@ -220,7 +220,7 @@ model EventTrigger {
 /**
  * Describes a Cloud Function that contains user computation executed in response to an event. It encapsulates function and trigger configurations.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
 model GcpFunctionProperties {
   /**
    * Describes the Build step of the function that builds a container from the given source.
@@ -266,6 +266,11 @@ model GcpFunctionProperties {
   satisfiesPzs?: boolean;
 
   /**
+   * Output only. Reserved for future use.
+   */
+  satisfiesPzi?: boolean;
+
+  /**
    * Describes the Service being deployed. Currently deploys services to Cloud Run (fully managed).
    */
   serviceConfig?: ServiceConfig;
@@ -294,11 +299,6 @@ model GcpFunctionProperties {
   updateTime?: string;
 
   /**
-   * Output only. UpgradeInfo for this Cloud Function
-   */
-  upgradeInfo?: UpgradeInfo;
-
-  /**
    * Output only. The deployed url for the function.
    */
   url?: string;
@@ -307,7 +307,7 @@ model GcpFunctionProperties {
 /**
  * Informational messages about the state of the Cloud Function or Operation.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
 model GoogleCloudFunctionsV2StateMessage {
   /**
    * The message.
@@ -328,7 +328,7 @@ model GoogleCloudFunctionsV2StateMessage {
 /**
  * Security patches are only applied when a function is redeployed.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
 model OnDeployUpdatePolicy {
   /**
    * Output only. contains the runtime version which was used during latest function deployment.
@@ -338,7 +338,7 @@ model OnDeployUpdatePolicy {
 /**
  * Location of the source in a Google Cloud Source Repository.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
 model RepoSource {
   /**
    * Regex matching branches to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax
@@ -374,7 +374,7 @@ model RepoSource {
 /**
  * Configuration for a secret environment variable. It has the information necessary to fetch the secret value from secret manager and expose it as an environment variable.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
 model SecretEnvVar {
   /**
    * Name of the environment variable.
@@ -400,7 +400,7 @@ model SecretEnvVar {
 /**
  * Configuration for a single version.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
 model SecretVersion {
   /**
    * Relative path of the file under the mount path where the secret value for this version will be fetched and made available. For example, setting the mount_path as '/etc/secrets' and path as `secret_foo` would mount the secret value file at `/etc/secrets/secret_foo`.
@@ -416,7 +416,7 @@ model SecretVersion {
 /**
  * Configuration for a secret volume. It has the information necessary to fetch the secret value from secret manager and make it available as files mounted at the requested paths within the application container.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
 model SecretVolume {
   /**
    * The path within the container to mount the secret volume. For example, setting the mount_path as `/etc/secrets` would mount the secret value files under the `/etc/secrets` directory. This directory will also be completely shadowed and unavailable to mount any other secrets. Recommended mount path: /etc/secrets
@@ -443,7 +443,7 @@ model SecretVolume {
 /**
  * Describes the Service being deployed. Currently Supported : Cloud Run (fully managed).
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
 model ServiceConfig {
   /**
    * Whether 100% of traffic is routed to the latest revision. On CreateFunction and UpdateFunction, when set to true, the revision being deployed will serve 100% of traffic, ignoring any traffic split settings, if any. On GetFunction, true will be returned if the latest revision is serving 100% of traffic.
@@ -550,7 +550,7 @@ model ServiceConfig {
 /**
  * The location of the function source code.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
 model Source {
   /**
    * If provided, get the source from GitHub repository. This option is valid only for GCF 1st Gen function. Example: https://github.com///blob//
@@ -571,7 +571,7 @@ model Source {
 /**
  * Provenance of the source. Ways to find the original source, or verify that some source was used for this build.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
 model SourceProvenance {
   /**
    * A copy of the build's `source.git_uri`, if exists, with any commits resolved.
@@ -592,7 +592,7 @@ model SourceProvenance {
 /**
  * Location of the source in an archive file in Google Cloud Storage.
  */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in gcp"
 model StorageSource {
   /**
    * Google Cloud Storage bucket containing the source (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)).
@@ -610,44 +610,7 @@ model StorageSource {
   object?: string;
 }
 
-/**
- * Information related to: * A function's eligibility for 1st Gen to 2nd Gen migration * Current state of migration for function undergoing migration.
- */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Supress arm-no-record to handle the datatype object used in gcp"
-model UpgradeInfo {
-  /**
-   * Describes the Build step of the function that builds a container to prepare for 2nd gen upgrade.
-   */
-  buildConfig?: BuildConfig;
-
-  /**
-   * Describes the Event trigger which has been setup to prepare for 2nd gen upgrade.
-   */
-  eventTrigger?: EventTrigger;
-
-  /**
-   * Describes the Cloud Run service which has been setup to prepare for 2nd gen upgrade.
-   */
-  serviceConfig?: ServiceConfig;
-
-  /**
-   * UpgradeState of the function
-   */
-  upgradeState?:
-    | "UPGRADE_STATE_UNSPECIFIED"
-    | "ELIGIBLE_FOR_2ND_GEN_UPGRADE"
-    | "UPGRADE_OPERATION_IN_PROGRESS"
-    | "SETUP_FUNCTION_UPGRADE_CONFIG_SUCCESSFUL"
-    | "SETUP_FUNCTION_UPGRADE_CONFIG_ERROR"
-    | "ABORT_FUNCTION_UPGRADE_ERROR"
-    | "REDIRECT_FUNCTION_UPGRADE_TRAFFIC_SUCCESSFUL"
-    | "REDIRECT_FUNCTION_UPGRADE_TRAFFIC_ERROR"
-    | "ROLLBACK_FUNCTION_UPGRADE_TRAFFIC_ERROR"
-    | "COMMIT_FUNCTION_UPGRADE_ERROR"
-    | string;
-}
-
-#suppress "@azure-tools/typespec-azure-core/casing-style" "Supress casing style as the name is defined in GCP."
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the name is defined in GCP."
 @armResourceOperations
 interface CloudFunctions {
   get is ArmResourceRead<CloudFunction>;

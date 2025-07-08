@@ -10,21 +10,13 @@
       }
     ]
   },
-  "schemes": [
-    "https"
-  ],
+  "schemes": ["https"],
   "host": "management.azure.com",
-  "produces": [
-    "application/json"
-  ],
-  "consumes": [
-    "application/json"
-  ],
+  "produces": ["application/json"],
+  "consumes": ["application/json"],
   "security": [
     {
-      "azure_auth": [
-        "user_impersonation"
-      ]
+      "azure_auth": ["user_impersonation"]
     }
   ],
   "securityDefinitions": {
@@ -50,9 +42,7 @@
     "/providers/Private.StorageDiscovery/operations": {
       "get": {
         "operationId": "Operations_List",
-        "tags": [
-          "Operations"
-        ],
+        "tags": ["Operations"],
         "description": "List the operations for the provider",
         "parameters": [
           {
@@ -86,9 +76,7 @@
     "/subscriptions/{subscriptionId}/providers/Private.StorageDiscovery/storageDiscoveryWorkspaces": {
       "get": {
         "operationId": "StorageDiscoveryWorkspaces_ListBySubscription",
-        "tags": [
-          "StorageDiscoveryWorkspaces"
-        ],
+        "tags": ["StorageDiscoveryWorkspaces"],
         "description": "List StorageDiscoveryWorkspace resources by subscription ID",
         "parameters": [
           {
@@ -125,9 +113,7 @@
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDiscovery/storageDiscoveryWorkspaces": {
       "get": {
         "operationId": "StorageDiscoveryWorkspaces_ListByResourceGroup",
-        "tags": [
-          "StorageDiscoveryWorkspaces"
-        ],
+        "tags": ["StorageDiscoveryWorkspaces"],
         "description": "List StorageDiscoveryWorkspace resources by resource group",
         "parameters": [
           {
@@ -167,9 +153,7 @@
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDiscovery/storageDiscoveryWorkspaces/{storageDiscoveryWorkspaceName}": {
       "get": {
         "operationId": "StorageDiscoveryWorkspaces_Get",
-        "tags": [
-          "StorageDiscoveryWorkspaces"
-        ],
+        "tags": ["StorageDiscoveryWorkspaces"],
         "description": "Get a StorageDiscoveryWorkspace",
         "parameters": [
           {
@@ -214,9 +198,7 @@
       },
       "put": {
         "operationId": "StorageDiscoveryWorkspaces_CreateOrUpdate",
-        "tags": [
-          "StorageDiscoveryWorkspaces"
-        ],
+        "tags": ["StorageDiscoveryWorkspaces"],
         "description": "Create a StorageDiscoveryWorkspace",
         "parameters": [
           {
@@ -276,9 +258,7 @@
       },
       "patch": {
         "operationId": "StorageDiscoveryWorkspaces_Update",
-        "tags": [
-          "StorageDiscoveryWorkspaces"
-        ],
+        "tags": ["StorageDiscoveryWorkspaces"],
         "description": "Update a StorageDiscoveryWorkspace",
         "parameters": [
           {
@@ -332,9 +312,7 @@
       },
       "delete": {
         "operationId": "StorageDiscoveryWorkspaces_Delete",
-        "tags": [
-          "StorageDiscoveryWorkspaces"
-        ],
+        "tags": ["StorageDiscoveryWorkspaces"],
         "description": "Delete a StorageDiscoveryWorkspace",
         "parameters": [
           {
@@ -402,11 +380,7 @@
     "Azure.ResourceManager.ResourceProvisioningState": {
       "type": "string",
       "description": "The provisioning state of a resource type.",
-      "enum": [
-        "Succeeded",
-        "Failed",
-        "Canceled"
-      ],
+      "enum": ["Succeeded", "Failed", "Canceled"],
       "x-ms-enum": {
         "name": "ResourceProvisioningState",
         "modelAsString": true,
@@ -433,10 +407,7 @@
     "DataExportState": {
       "type": "string",
       "description": "The state of storage discovery data export",
-      "enum": [
-        "Stopped",
-        "Running"
-      ],
+      "enum": ["Stopped", "Running"],
       "x-ms-enum": {
         "name": "DataExportState",
         "modelAsString": true,
@@ -491,20 +462,15 @@
           }
         }
       },
-      "required": [
-        "locations"
-      ]
+      "required": ["locations"]
     },
     "StorageDiscoveryScope": {
       "type": "object",
-      "description": "Storage Discovery Scope",
+      "description": "Storage Discovery Scope V1",
       "properties": {
         "displayName": {
           "type": "string",
-          "description": "Display name of the scope",
-          "minLength": 4,
-          "maxLength": 64,
-          "pattern": "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$"
+          "description": "Display name of the scope"
         },
         "resourceTypes": {
           "type": "array",
@@ -541,6 +507,32 @@
         "storageAccountFilters"
       ]
     },
+    "StorageDiscoveryTier": {
+      "type": "string",
+      "description": "Storage Discovery Sku",
+      "enum": ["Basic", "Standard", "Premium"],
+      "x-ms-enum": {
+        "name": "StorageDiscoveryTier",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Basic",
+            "value": "Basic",
+            "description": "Basic Sku"
+          },
+          {
+            "name": "Standard",
+            "value": "Standard",
+            "description": "Standard Sku"
+          },
+          {
+            "name": "Premium",
+            "value": "Premium",
+            "description": "Premium Sku"
+          }
+        ]
+      }
+    },
     "StorageDiscoveryWorkspace": {
       "type": "object",
       "description": "A Storage Discovery Workspace resource. This resource configures the collection of storage account metrics.",
@@ -573,44 +565,15 @@
           "description": "The link to the next page of items"
         }
       },
-      "required": [
-        "value"
-      ]
+      "required": ["value"]
     },
     "StorageDiscoveryWorkspaceProperties": {
       "type": "object",
       "description": "Storage Discovery Workspace Properties",
       "properties": {
         "tier": {
-          "type": "string",
-          "description": "The storage discovery sku.",
-          "default": "Standard",
-          "enum": [
-            "Basic",
-            "Standard",
-            "Premium"
-          ],
-          "x-ms-enum": {
-            "name": "StorageDiscoveryTier",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Basic",
-                "value": "Basic",
-                "description": "Basic Sku"
-              },
-              {
-                "name": "Standard",
-                "value": "Standard",
-                "description": "Standard Sku"
-              },
-              {
-                "name": "Premium",
-                "value": "Premium",
-                "description": "Premium Sku"
-              }
-            ]
-          }
+          "$ref": "#/definitions/StorageDiscoveryTier",
+          "description": "The storage discovery sku."
         },
         "exportState": {
           "$ref": "#/definitions/DataExportState",
@@ -626,9 +589,7 @@
           "items": {
             "$ref": "#/definitions/StorageDiscoveryScope"
           },
-          "x-ms-identifiers": [
-            "displayName"
-          ]
+          "x-ms-identifiers": ["displayName"]
         },
         "destinations": {
           "$ref": "#/definitions/StorageDiscoveryDestination",
@@ -640,46 +601,15 @@
           "readOnly": true
         }
       },
-      "required": [
-        "exportState",
-        "scopes",
-        "destinations"
-      ]
+      "required": ["tier", "exportState", "scopes", "destinations"]
     },
     "StorageDiscoveryWorkspacePropertiesUpdate": {
       "type": "object",
       "description": "Storage Discovery Workspace Properties",
       "properties": {
         "tier": {
-          "type": "string",
-          "description": "The storage discovery sku.",
-          "default": "Standard",
-          "enum": [
-            "Basic",
-            "Standard",
-            "Premium"
-          ],
-          "x-ms-enum": {
-            "name": "StorageDiscoveryTier",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Basic",
-                "value": "Basic",
-                "description": "Basic Sku"
-              },
-              {
-                "name": "Standard",
-                "value": "Standard",
-                "description": "Standard Sku"
-              },
-              {
-                "name": "Premium",
-                "value": "Premium",
-                "description": "Premium Sku"
-              }
-            ]
-          }
+          "$ref": "#/definitions/StorageDiscoveryTier",
+          "description": "The storage discovery sku."
         },
         "exportState": {
           "$ref": "#/definitions/DataExportState",
@@ -695,9 +625,7 @@
           "items": {
             "$ref": "#/definitions/StorageDiscoveryScope"
           },
-          "x-ms-identifiers": [
-            "displayName"
-          ]
+          "x-ms-identifiers": ["displayName"]
         },
         "destinations": {
           "$ref": "#/definitions/StorageDiscoveryDestination",

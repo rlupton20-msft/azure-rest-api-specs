@@ -292,7 +292,13 @@
             "$ref": "./examples/CloudService_Update_AutoRenew_On.json"
           },
           "Update a SaaSHub cloud service - update renewal term details with auto renew on": {
-            "$ref": "./examples/CloudService_Update_AutoRenew_On_UpdateRenewalTermDetails.json"
+            "$ref": "./examples/CloudService_Update_AutoRenew_On_UpdateNextTerm.json"
+          },
+          "Update a SaaSHub cloud service - update renewal term details with auto renew once": {
+            "$ref": "./examples/CloudService_Update_AutoRenew_Once_UpdateMidTerm.json"
+          },
+          "Update a SaaSHub cloud service with schedule actions": {
+            "$ref": "./examples/CloudService_Update_ScheduleActions.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -906,11 +912,17 @@
           "Turn Auto Renew On": {
             "$ref": "./examples/SaasResources_Update_Turn_Auto_Renew_On.json"
           },
-          "Update Auto Renew and Update Renewal Term Details at the same time": {
-            "$ref": "./examples/SaasResources_Update_Update_Auto_Renew_And_Update_Renewal_Term_Details_At_The_Same_Time.json"
+          "Update Auto Renew and Update Scheduled Actions at the same time": {
+            "$ref": "./examples/SaasResources_Update_Update_Auto_Renew_And_Update_Scheduled_Actions_NextTerm.json"
+          },
+          "Update Auto Renew and Update Scheduled Actions with absolute effectiveDate": {
+            "$ref": "./examples/SaasResources_Update_Update_Auto_Renew_And_Update_Scheduled_Actions_MidTerm.json"
           },
           "Update Provisioning Tenant": {
             "$ref": "./examples/SaasResources_Update_Update_Provisioning_Tenant.json"
+          },
+          "Update a SaaSHub saas resource with schedule actions": {
+            "$ref": "./examples/SaasResources_Update_ScheduleActions.json"
           },
           "Update renewal term - Microsoft Customer Agreement Enterprise scenario": {
             "$ref": "./examples/SaasResources_Update_Microsoft_Customer_Agreement_Enterprise_Renewal.json"
@@ -1435,7 +1447,8 @@
       "description": "Indicates whether auto renewal is turned on or off for a SaaSHub saas resource. The default value will be 'On' for products that support autorenew.",
       "enum": [
         "Off",
-        "On"
+        "On",
+        "Once"
       ],
       "x-ms-enum": {
         "name": "AutoRenew",
@@ -1450,6 +1463,11 @@
             "name": "On",
             "value": "On",
             "description": "Auto renew is turned on"
+          },
+          {
+            "name": "Once",
+            "value": "Once",
+            "description": "Auto renew is turned on for the next term only"
           }
         ]
       }
@@ -1900,14 +1918,6 @@
           "type": "string",
           "description": "The end customer billing account in CSP scenario, will full format like /providers/Microsoft.Billing/billingAccounts/1111:2222"
         },
-        "billingToken": {
-          "type": "string",
-          "description": "Billing token for current term transaction."
-        },
-        "availabilityToken": {
-          "type": "string",
-          "description": "Availability token for current term transaction."
-        },
         "displayName": {
           "type": "string",
           "description": "The name of the seat-based resource."
@@ -1945,10 +1955,6 @@
           "format": "int64",
           "description": "The number of licenses purchased for the resource"
         },
-        "renewalTerm": {
-          "$ref": "#/definitions/RenewalTermDetails",
-          "description": "Renewal term details of the resource."
-        },
         "skuDescription": {
           "type": "string",
           "description": "The SKU description of the product for which the resource is purchased.",
@@ -1982,6 +1988,24 @@
         "systemOverrides": {
           "$ref": "#/definitions/SystemOverrides",
           "description": "System imposed policies that regulate behavior of the resource."
+        },
+        "resourceTokens": {
+          "type": "array",
+          "description": "Resource tokens for various authorization and context purposes.",
+          "items": {
+            "$ref": "#/definitions/ResourceToken"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
+        },
+        "scheduleActions": {
+          "type": "array",
+          "description": "Schedule actions for future terms and changes",
+          "items": {
+            "$ref": "#/definitions/ScheduleAction"
+          },
+          "x-ms-identifiers": []
         },
         "originalResourceUri": {
           "type": "string",
@@ -2146,13 +2170,15 @@
             "$ref": "#/definitions/MergeSourceCloudService"
           }
         },
-        "billingToken": {
-          "type": "string",
-          "description": "Billing token for merge target transaction."
-        },
-        "availabilityToken": {
-          "type": "string",
-          "description": "Availability token for merge target transaction."
+        "resourceTokens": {
+          "type": "array",
+          "description": "Resource tokens for various authorization and context purposes (for merge target).",
+          "items": {
+            "$ref": "#/definitions/ResourceToken"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
         }
       },
       "required": [
@@ -2170,13 +2196,15 @@
             "$ref": "#/definitions/MergeSourceSaasResource"
           }
         },
-        "billingToken": {
-          "type": "string",
-          "description": "Billing token for merge target transaction."
-        },
-        "availabilityToken": {
-          "type": "string",
-          "description": "Availability token for merge target transaction."
+        "resourceTokens": {
+          "type": "array",
+          "description": "Resource tokens for various authorization and context purposes (for merge target).",
+          "items": {
+            "$ref": "#/definitions/ResourceToken"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
         }
       }
     },
@@ -2194,13 +2222,15 @@
           "description": "The validation error it ran into. Null when validation passed.",
           "readOnly": true
         },
-        "billingToken": {
-          "type": "string",
-          "description": "Billing token for merge source transaction."
-        },
-        "availabilityToken": {
-          "type": "string",
-          "description": "Availability token for merge source transaction."
+        "resourceTokens": {
+          "type": "array",
+          "description": "Resource tokens for various authorization and context purposes (for merge source).",
+          "items": {
+            "$ref": "#/definitions/ResourceToken"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
         },
         "id": {
           "type": "string",
@@ -2230,13 +2260,15 @@
           "description": "The validation error it ran into. Null when validation passed.",
           "readOnly": true
         },
-        "billingToken": {
-          "type": "string",
-          "description": "Billing token for merge source transaction."
-        },
-        "availabilityToken": {
-          "type": "string",
-          "description": "Availability token for merge source transaction."
+        "resourceTokens": {
+          "type": "array",
+          "description": "Resource tokens for various authorization and context purposes (for merge source).",
+          "items": {
+            "$ref": "#/definitions/ResourceToken"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
         },
         "id": {
           "type": "string",
@@ -2394,45 +2426,17 @@
         }
       }
     },
-    "RenewalTermDetails": {
+    "ResourceToken": {
       "type": "object",
-      "description": "Renewal term details of the saas resource.",
+      "description": "Resource token containing type and value for various authorization and context purposes.",
       "properties": {
-        "quantity": {
-          "type": "integer",
-          "format": "int64",
-          "description": "The number of licenses purchased for the saas resource"
-        },
-        "productCode": {
+        "type": {
           "type": "string",
-          "description": "Upn value of the product, which can be used to resolve product Id/sku Id/availability Id/term Id"
+          "description": "The type of the resource token. Examples: \"availabilityToken\", \"billingToken\""
         },
-        "billingFrequency": {
+        "value": {
           "type": "string",
-          "description": "Billing frequency of the product under the saas resource. Example P1Y and P1M",
-          "readOnly": true
-        },
-        "termUnit": {
-          "type": "string",
-          "description": "The duration for which you can use the saas resource. Example P1Y and P1M",
-          "readOnly": true
-        },
-        "endDate": {
-          "type": "string",
-          "format": "date-time",
-          "description": "End date of the renewal term in UTC time. It can be patched for co-term scenario, the time part passed in will be ignored"
-        },
-        "linkedResources": {
-          "$ref": "#/definitions/LinkedResources",
-          "description": "Linked resources for the saas resource"
-        },
-        "billingToken": {
-          "type": "string",
-          "description": "Billing token for renewal term transaction."
-        },
-        "availabilityToken": {
-          "type": "string",
-          "description": "Availability token for renewal term transaction."
+          "description": "The value of the resource token."
         }
       }
     },
@@ -2484,14 +2488,6 @@
           "type": "string",
           "description": "The end customer billing account in CSP scenario, will full format like /providers/Microsoft.Billing/billingAccounts/1111:2222"
         },
-        "billingToken": {
-          "type": "string",
-          "description": "Billing token for current term transaction."
-        },
-        "availabilityToken": {
-          "type": "string",
-          "description": "Availability token for current term transaction."
-        },
         "displayName": {
           "type": "string",
           "description": "The name of the seat-based resource."
@@ -2529,10 +2525,6 @@
           "format": "int64",
           "description": "The number of licenses purchased for the resource"
         },
-        "renewalTerm": {
-          "$ref": "#/definitions/RenewalTermDetails",
-          "description": "Renewal term details of the resource."
-        },
         "skuDescription": {
           "type": "string",
           "description": "The SKU description of the product for which the resource is purchased.",
@@ -2567,6 +2559,24 @@
           "$ref": "#/definitions/SystemOverrides",
           "description": "System imposed policies that regulate behavior of the resource."
         },
+        "resourceTokens": {
+          "type": "array",
+          "description": "Resource tokens for various authorization and context purposes.",
+          "items": {
+            "$ref": "#/definitions/ResourceToken"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
+        },
+        "scheduleActions": {
+          "type": "array",
+          "description": "Schedule actions for future terms and changes",
+          "items": {
+            "$ref": "#/definitions/ScheduleAction"
+          },
+          "x-ms-identifiers": []
+        },
         "billingScope": {
           "type": "string",
           "description": "The billing scope to use for purchasing the resource. Needs full billing scope to invoice section level like: providers/Microsoft.Billing/billingAccounts/{baId}/billingProfiles/{bfId}/invoiceSections/{isId}"
@@ -2587,6 +2597,45 @@
               }
             ]
           }
+        }
+      }
+    },
+    "ScheduleAction": {
+      "type": "object",
+      "description": "Schedule action for resource operations",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of schedule action"
+        },
+        "effectiveDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The effective date for the schedule action"
+        },
+        "productCode": {
+          "type": "string",
+          "description": "Product code for the schedule action"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The quantity for the schedule action"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The end date for the schedule action"
+        },
+        "resourceTokens": {
+          "type": "array",
+          "description": "Resource tokens for various authorization and context purposes.",
+          "items": {
+            "$ref": "#/definitions/ResourceToken"
+          },
+          "x-ms-identifiers": [
+            "type"
+          ]
         }
       }
     },
@@ -2699,6 +2748,13 @@
           "format": "date-time",
           "description": "The start date in UTC time on the current product code.",
           "readOnly": true
+        },
+        "licenseReassignmentDays": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of days in the license reassignment period for the current term.",
+          "default": 0,
+          "readOnly": true
         }
       }
     },
@@ -2725,12 +2781,6 @@
           "type": "string",
           "format": "date-time",
           "description": "End date of the term in UTC time. When there is a value passed in for PUT scenario, it is to support co-term scenario. When there is a value passed in for PATCH scenario, it is to support extend trial scenario. The time part passed in will be ignored"
-        },
-        "gracePeriodInDays": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Number of days in the grace period for the current term. Optional property, defaults to 0 if not specified.",
-          "default": 0
         }
       }
     }
