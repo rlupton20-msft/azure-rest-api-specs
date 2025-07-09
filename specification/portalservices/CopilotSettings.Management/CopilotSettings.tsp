@@ -6,7 +6,6 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "./models.tsp";
 
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
@@ -29,7 +28,16 @@ model CopilotSettingsResource
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   name: string;
 
-  ...Azure.ResourceManager.ManagedServiceIdentityProperty;
+  /**
+   * Describes the managed identities for an Azure resource.
+   */
+  ...ManagedSystemAssignedIdentityProperty;
+
+  /**
+   * The Azure Region where the resource lives (will be set to "global" for this global proxy resource)
+   */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Backwards compatibility with existing spec"
+  location?: string;
 }
 
 @armResourceOperations
