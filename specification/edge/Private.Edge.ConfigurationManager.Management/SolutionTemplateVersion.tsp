@@ -58,7 +58,7 @@ model BulkDeploySolutionParameter {
   @doc("Targets")
   @Azure.ResourceManager.identifiers(#[])
   targets: BulkDeployTargetDetails[];
-  
+
   @removed(Versions.v2025_06_01)
   @doc("Solution instance name")
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")

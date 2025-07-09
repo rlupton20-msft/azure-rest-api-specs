@@ -35,7 +35,10 @@ model DynamicConfigurationVersionProperties {
 @resource("versions")
 model DynamicConfigurationVersion
   is ProxyResource<DynamicConfigurationVersionProperties> {
-  ...ResourceNameParameter<DynamicConfigurationVersion>;
+  ...ResourceNameParameter<
+    DynamicConfigurationVersion,
+    NamePattern = "^[a-zA-Z0-9.-]{3,24}$"
+  >;
 }
 
 @armResourceOperations
