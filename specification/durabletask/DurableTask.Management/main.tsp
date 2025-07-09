@@ -63,10 +63,14 @@ model SchedulerProperties {
   @doc("SKU of the durable task scheduler")
   sku: SchedulerSku;
 
+  @added(Versions.v2025_05_04_Preview)
+  @doc("Gets or sets allow or disallow public network access to durable task scheduler")
+  publicNetworkAccess?: PublicNetworkAccess;
+
   /** The private endpoints exposed by this resource */
   @added(Versions.v2025_05_04_Preview)
   @visibility(Lifecycle.Read)
-  endpoints?: PrivateEndpoint[];
+  privateEndpointConnections?: PrivateEndpointConnection[];
 }
 
 /** Holder for private endpoint connections */
@@ -77,22 +81,8 @@ model PrivateEndpointConnectionResource
   ...PrivateEndpointConnectionParameter;
 }
 
-/** Private connection operations */
-@added(Versions.v2025_05_04_Preview)
-@armResourceOperations(PrivateEndpointConnectionResource)
-interface PrivateEndpointConnections {
-  /** List existing private connections */
-  listByTestTrackedResource is ArmResourceListByParent<PrivateEndpointConnectionResource>;
-  /** Get a specific private connection */
-  get is ArmResourceRead<PrivateEndpointConnectionResource>;
-  /** Create a Private endpoint connection */
-  create is ArmResourceCreateOrReplaceSync<PrivateEndpointConnectionResource>;
-  /** Delete the private endpoint connection */
-  delete is ArmResourceDeleteSync<PrivateEndpointConnectionResource>;
-}
-
-/** Private Links for TestRackedResource */
-// #suppress "@azure-tools/typespec-providerhub-controller/no-resource-operations" "Expected for private links"
+/** Private Link Resource for Schedulers */
+// #suppress "@azure-tools/typespec-providerhub-controller/no-resource-operations" "Expected for private link resources"
 @added(Versions.v2025_05_04_Preview)
 @parentResource(Scheduler)
 model PrivateLinkResource is ProxyResource<PrivateLinkResourceProperties> {
@@ -248,6 +238,18 @@ model SchedulerPropertiesUpdate {
   sku?: SchedulerSkuUpdate;
 }
 
+@doc("State of the public network access.")
+@added(Versions.v2025_05_04_Preview)
+union PublicNetworkAccess {
+  string,
+
+  @doc("The public network access is enabled")
+  Enabled: "Enabled",
+
+  @doc("The public network access is disabled")
+  Disabled: "Disabled",
+}
+
 @doc("The SKU (Stock Keeping Unit) properties to be updated")
 @added(Versions.v2024_10_01_Preview)
 model SchedulerSkuUpdate {
@@ -315,10 +317,25 @@ interface RetentionPolicies {
   listByScheduler is ArmResourceListByParent<RetentionPolicy>;
 }
 
-/** Operations for private links on TestTrackedResource */
+/** Private endpoint connections operations */
+@added(Versions.v2025_05_04_Preview)
+@armResourceOperations(PrivateEndpointConnectionResource)
+interface PrivateEndpointConnections {
+  /** List existing private endpoint connections */
+  list is ArmResourceListByParent<PrivateEndpointConnectionResource>;
+  /** Get a specific private endpoint connection */
+  get is ArmResourceRead<PrivateEndpointConnectionResource>;
+  /** Create a private endpoint connection */
+  create is ArmResourceCreateOrReplaceSync<PrivateEndpointConnectionResource>;
+  /** Delete the private endpoint connection */
+  delete is ArmResourceDeleteSync<PrivateEndpointConnectionResource>;
+}
+
+/** Operations for private link resources on Scheduler */
 @added(Versions.v2025_05_04_Preview)
 @armResourceOperations(PrivateLinkResource)
-interface PrivateLinks {
-  /** list private links on the given resource */
-  listByTestTrackedResource is ArmResourceListByParent<PrivateLinkResource>;
+interface PrivateLinkResources {
+  /** list private link resources on the given resource */
+  list is ArmResourceListByParent<PrivateLinkResource>;
+  get is ArmResourceRead<PrivateLinkResource>;
 }
