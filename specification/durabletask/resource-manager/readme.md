@@ -36,7 +36,6 @@ These settings apply only when `--tag=package-2024-10-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2024-10-01-preview'
 input-file:
-  - Microsoft.DurableTask/preview/2024-10-01-preview/durabletask.json
   - Private.DurableTask/preview/2024-10-01-preview/durabletask.json
 ```
 
@@ -44,7 +43,6 @@ input-file:
 
 ```yaml $(tag) == 'package-2025-04-01-preview'
 input-file:
-  - Microsoft.DurableTask/preview/2025-04-01-preview/durabletask.json
   - Private.DurableTask/preview/2025-04-01-preview/durabletask.json
 ```
 
@@ -52,7 +50,6 @@ input-file:
 
 ```yaml $(tag) == 'package-2025-05-04-preview'
 input-file:
-  - Microsoft.DurableTask/preview/2025-05-04-preview/durabletask.json
   - Private.DurableTask/preview/2025-05-04-preview/durabletask.json
 ```
 
