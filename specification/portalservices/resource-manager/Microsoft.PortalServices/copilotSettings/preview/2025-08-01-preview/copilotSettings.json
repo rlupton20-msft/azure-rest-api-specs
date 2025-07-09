@@ -235,6 +235,26 @@
     }
   },
   "definitions": {
+    "Azure.ResourceManager.ManagedSystemAssignedIdentityProperty": {
+      "type": "object",
+      "description": "Managed identity for services that are constrained to system-assigned managed identities.",
+      "properties": {
+        "identity": {
+          "$ref": "../../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/SystemAssignedServiceIdentity",
+          "description": "The managed service identities assigned to this resource."
+        }
+      }
+    },
+    "Azure.ResourceManager.ManagedSystemAssignedIdentityPropertyUpdate": {
+      "type": "object",
+      "description": "Managed identity for services that are constrained to system-assigned managed identities.",
+      "properties": {
+        "identity": {
+          "$ref": "../../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/SystemAssignedServiceIdentity",
+          "description": "The managed service identities assigned to this resource."
+        }
+      }
+    },
     "Azure.ResourceManager.ResourceProvisioningState": {
       "type": "string",
       "description": "The provisioning state of a resource type.",
@@ -328,16 +348,12 @@
           "x-ms-client-flatten": true
         },
         "identity": {
-          "$ref": "../../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/SystemAssignedServiceIdentity",
-          "description": "The managed service identities assigned to this resource."
+          "$ref": "#/definitions/Azure.ResourceManager.ManagedSystemAssignedIdentityProperty",
+          "description": "Describes the managed identities for an Azure resource."
         },
         "location": {
           "type": "string",
-          "description": "The Azure Region where the resource lives (will be set to \"global\" for this global proxy resource)",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
+          "description": "The Azure Region where the resource lives (will be set to \"global\" for this global proxy resource)"
         }
       },
       "allOf": [
@@ -356,8 +372,12 @@
           "x-ms-client-flatten": true
         },
         "identity": {
-          "$ref": "../../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/SystemAssignedServiceIdentity",
-          "description": "The managed service identities assigned to this resource."
+          "$ref": "#/definitions/Azure.ResourceManager.ManagedSystemAssignedIdentityPropertyUpdate",
+          "description": "Describes the managed identities for an Azure resource."
+        },
+        "location": {
+          "type": "string",
+          "description": "The Azure Region where the resource lives (will be set to \"global\" for this global proxy resource)"
         }
       },
       "allOf": [
