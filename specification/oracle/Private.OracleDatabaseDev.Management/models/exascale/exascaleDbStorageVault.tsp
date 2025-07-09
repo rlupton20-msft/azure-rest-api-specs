@@ -87,6 +87,17 @@ model ExascaleDbStorageVaultProperties {
   @doc("HTTPS link to OCI resources exposed to Azure Customer via Azure Interface.")
   @visibility(Lifecycle.Read)
   ociUrl?: url;
+
+  @doc("Cloud Exadata infrastructure ID")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  @added(Versions.v20250801_preview)
+  exadataInfrastructureId?: string;
+
+  @doc("The shapeAttribute of the Exadata VM cluster(s) associated with the Exadata Database Storage Vault.")
+  @visibility(Lifecycle.Read)
+  @maxItems(2)
+  @added(Versions.v20250801_preview)
+  attachedShapeAttributes?: ShapeAttribute[];
 }
 
 @added(Versions.v20241201_preview)
