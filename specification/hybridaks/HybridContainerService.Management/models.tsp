@@ -272,6 +272,11 @@ model ProvisionedClusterProperties {
   networkProfile?: NetworkProfile;
 
   /**
+   * The security configuration profile for the provisioned cluster.
+   */
+  securityProfile?: SecurityProfile;
+
+  /**
    * The storage configuration profile for the provisioned cluster.
    */
   storageProfile?: StorageProfile;
@@ -424,6 +429,26 @@ model NetworkProfileLoadBalancerProfile {
    */
   count?: int32;
 }
+
+/**
+ * The security configuration profile for the provisioned cluster.
+ */
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Initial suppression to prevent breaking change"
+model SecurityProfile {
+  /**
+   * The list of base64 encoded certificate strings that will be added to the node trust store. At most 10 certificates can be provided.
+   */
+  customCATrustCertificates?: SecurityProfileCustomCATrustCertificates;
+}
+
+/**
+ * The list of base64 encoded certificate strings that will be added to the node trust store. At most 10 certificates can be provided. Certificates will be added to trust stores of all the nodes in the cluster. If updated, the new list of certificates will be installed in the trust store in place of the old certificates. Updating the value of this field will result in nodes being reimaged.
+ */
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Initial suppression to prevent breaking change, CA is an acronym"
+#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Initial suppression to prevent breaking change"
+@minItems(0)
+@maxItems(10)
+model SecurityProfileCustomCATrustCertificates is bytes[];
 
 /**
  * The storage configuration profile for the provisioned cluster.
