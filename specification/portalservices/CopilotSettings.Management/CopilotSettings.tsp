@@ -31,8 +31,7 @@ model CopilotSettingsResource
   /**
    * Describes the managed identities for an Azure resource.
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Backwards compatibility with existing spec"
-  identity?: ManagedSystemAssignedIdentityProperty;
+  ...ManagedSystemAssignedIdentityProperty;
 
   /**
    * The Azure Region where the resource lives (will be set to "global" for this global proxy resource)
