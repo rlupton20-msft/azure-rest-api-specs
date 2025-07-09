@@ -8,9 +8,9 @@ using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 @armProviderNamespace
-@service(#{ title: "Microsoft.DurableTask" })
+@service(#{ title: "Private.DurableTask" })
 @versioned(Versions)
-namespace Microsoft.DurableTask;
+namespace Private.DurableTask;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
