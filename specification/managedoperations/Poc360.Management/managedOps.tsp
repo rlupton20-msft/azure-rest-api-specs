@@ -14,6 +14,7 @@ namespace global.Private.Poc360;
 
 @doc("The Managed Operations resource.")
 @subscriptionResource
+@added(Versions.v2024_08_01_preview)
 model ManagedOp is ProxyResource<ManagedOpsProperties> {
   /** Fix the name of the resource to ensure it is a singleton */
   @doc("Name of the resource.")
@@ -26,6 +27,7 @@ model ManagedOp is ProxyResource<ManagedOpsProperties> {
 
 /** The operations that can be performed on our resource */
 @armResourceOperations(ManagedOp)
+@added(Versions.v2024_08_01_preview)
 interface ManagedOps {
   @doc("Gets the information of the ManagedOps instance.")
   get is ArmResourceRead<ManagedOp>;
@@ -47,6 +49,7 @@ interface ManagedOps {
 }
 
 @doc("Properties of the ManagedOps resource.")
+@added(Versions.v2024_08_01_preview)
 model ManagedOpsProperties {
   @doc("Product plan details of this resource.")
   @visibility(Lifecycle.Read)
@@ -70,6 +73,7 @@ model ManagedOpsProperties {
 }
 
 @doc("Services provisioned by this resource.")
+@added(Versions.v2024_08_01_preview)
 model ManagedOpsServiceInformation {
   @doc("Change Tracking and Inventory service information.")
   @visibility(Lifecycle.Read)
@@ -97,6 +101,7 @@ model ManagedOpsServiceInformation {
 }
 
 @doc("Policy assignments created for managing services.")
+@added(Versions.v2024_08_01_preview)
 model PolicyAssignmentProperties {
   @doc("Policy initiative assignment ID.")
   policyInitiativeAssignmentId: armResourceIdentifier<[
@@ -109,6 +114,7 @@ model PolicyAssignmentProperties {
 alias enablementState = "Enabled" | "Disabled" | string;
 
 @doc("Change Tracking and Inventory service information.")
+@added(Versions.v2024_08_01_preview)
 model ManagedOpsChangeTrackingInformation {
   @doc("ID of Data Collection Rule (DCR) associated with this service.")
   dcrId: armResourceIdentifier<[
@@ -122,12 +128,14 @@ model ManagedOpsChangeTrackingInformation {
 }
 
 @doc("Azure Monitor Insights service information.")
+@added(Versions.v2024_08_01_preview)
 model ManagedOpsAzureMonitorInformation {
   @doc("Indicates whether the service is enabled.")
   enablementStatus: enablementState;
 }
 
 @doc("Azure Update Manager service information.")
+@added(Versions.v2024_08_01_preview)
 model ManagedOpsUpdateManagerInformation {
   @doc("ID of Data Collection Rule (DCR) associated with this service.")
   dcrId: armResourceIdentifier<[
@@ -148,24 +156,28 @@ model ManagedOpsUpdateManagerInformation {
 }
 
 @doc("Azure Policy and Machine Configuration service information.")
+@added(Versions.v2024_08_01_preview)
 model ManagedOpsGuestConfigurationInformation {
   @doc("Indicates whether the service is enabled.")
   enablementStatus: enablementState;
 }
 
 @doc("Defender for Servers service information.")
+@added(Versions.v2024_08_01_preview)
 model DefenderForServersInformation {
   @doc("Indicates whether the service is enabled.")
   enablementStatus: enablementState;
 }
 
 @doc("Defender CSPM service information.")
+@added(Versions.v2024_08_01_preview)
 model DefenderCspmInformation {
   @doc("Indicates whether the service is enabled.")
   enablementStatus: enablementState;
 }
 
 @doc("Specifies the service plan for this resource.")
+@added(Versions.v2024_08_01_preview)
 model ManagedOpsSku {
   @doc("Name of the SKU.")
   name: string;
@@ -175,6 +187,7 @@ model ManagedOpsSku {
 }
 
 @doc("Initial configuration parameters.")
+@added(Versions.v2024_08_01_preview)
 model ManagedOpsInitialConfiguration {
   @doc("Configuration for the Change Tracking and Inventory service.")
   changeTrackingAndInventory: ManagedOpsChangeTrackingConfiguration;
@@ -191,6 +204,7 @@ model ManagedOpsInitialConfiguration {
 }
 
 @doc("Configuration for the Change Tracking and Inventory service.")
+@added(Versions.v2024_08_01_preview)
 model ManagedOpsChangeTrackingConfiguration {
   @doc("Log analytics workspace resource ID used by the service.")
   logAnalyticsWorkspaceId: armResourceIdentifier<[
@@ -201,6 +215,7 @@ model ManagedOpsChangeTrackingConfiguration {
 }
 
 @doc("Configuration for the Azure Monitor service.")
+@added(Versions.v2024_08_01_preview)
 model AzureMonitorConfiguration {
   @doc("Log analytics workspace resource ID used by the service.")
   azureMonitorWorkspaceId: armResourceIdentifier<[
@@ -212,6 +227,7 @@ model AzureMonitorConfiguration {
 
 @doc("The provisioning state of a resource.")
 @lroStatus
+@added(Versions.v2024_08_01_preview)
 union ManagedOpsProvisioningState {
   string,
   ResourceProvisioningState,
