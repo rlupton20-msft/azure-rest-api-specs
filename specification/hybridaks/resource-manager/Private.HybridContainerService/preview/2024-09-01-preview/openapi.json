@@ -140,7 +140,7 @@
         }
       },
       "put": {
-        "operationId": "KubernetesVersionProfiles_PutKubernetesVersions",
+        "operationId": "KubernetesVersionProfiles_CreateKubernetesVersions",
         "tags": [
           "KubernetesVersionProfiles"
         ],
@@ -191,11 +191,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "KubernetesVersionProfiles_PutKubernetesVersions": {
-            "$ref": "./examples/KubernetesVersionProfiles_PutKubernetesVersions_MaximumSet_Gen.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -735,7 +730,7 @@
         }
       },
       "put": {
-        "operationId": "HybridIdentityMetadataOperationGroup_Put",
+        "operationId": "HybridIdentityMetadataOperationGroup_Create",
         "tags": [
           "HybridIdentityMetadataOperationGroup"
         ],
@@ -775,11 +770,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "HybridIdentityMetadataOperationGroup_Put": {
-            "$ref": "./examples/HybridIdentityMetadataOperationGroup_Put_MaximumSet_Gen.json"
           }
         }
       },
@@ -941,6 +931,64 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/{connectedClusterResourceUri}/providers/Private.HybridContainerService/provisionedClusterInstances/default/rotateClusterCa": {
+      "post": {
+        "operationId": "ProvisionedClusters_RotateClusterCa",
+        "tags": [
+          "ProvisionedClusters"
+        ],
+        "description": "Rotate the cluster certificate authority",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ConnectedClusterResourceUriParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RotateClusterCaRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/RotateClusterCaResponse"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/{connectedClusterResourceUri}/providers/Private.HybridContainerService/provisionedClusterInstances/default/upgradeProfiles/default": {
       "get": {
         "operationId": "ProvisionedClusterUpgradeProfiles_GetUpgradeProfile",
@@ -1052,7 +1100,7 @@
         }
       },
       "put": {
-        "operationId": "VmSkuProfiles_PutVmSkus",
+        "operationId": "VmSkuProfiles_CreateVmSkus",
         "tags": [
           "VmSkuProfiles"
         ],
@@ -1103,11 +1151,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "VmSkuProfiles_PutVmSkus": {
-            "$ref": "./examples/VmSkuProfiles_PutVmSkus_MaximumSet_Gen.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -1284,7 +1327,7 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.HybridContainerService/virtualNetworks/{virtualNetworkName}": {
       "get": {
-        "operationId": "VirtualNetworks_Retrieve",
+        "operationId": "VirtualNetworks_Get",
         "tags": [
           "VirtualNetworks"
         ],
@@ -1322,11 +1365,6 @@
             "schema": {
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
-          }
-        },
-        "x-ms-examples": {
-          "VirtualNetworks_Retrieve": {
-            "$ref": "./examples/VirtualNetworks_Retrieve_MaximumSet_Gen.json"
           }
         }
       },
@@ -1787,6 +1825,27 @@
         }
       }
     },
+    "AzureBlobWitnessProfile": {
+      "type": "object",
+      "description": "Schema of witness properties to support provisioned cluster with 2 control plane nodes when the witness type is AzureBlob.",
+      "properties": {
+        "sasToken": {
+          "type": "string",
+          "description": "The SAS token to access the Azure Blob storage as the witness.",
+          "x-ms-mutability": [
+            "update",
+            "create"
+          ],
+          "x-ms-secret": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/WitnessProfile"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureBlob"
+    },
     "CloudProviderProfile": {
       "type": "object",
       "description": "The profile for the underlying cloud infrastructure provider for the provisioned cluster.",
@@ -1814,7 +1873,7 @@
                   "type": "Microsoft.AzureStackHCI/logicalNetworks"
                 },
                 {
-                  "type": "Private.HybridContainerService/virtualNetworks"
+                  "type": "Microsoft.HybridContainerService/virtualNetworks"
                 },
                 {
                   "type": "Microsoft.NetworkCloud/cloudServicesNetworks"
@@ -1851,7 +1910,7 @@
         "count": {
           "type": "integer",
           "format": "int32",
-          "description": "Number of control plane nodes. The default value is 1, and the count should be an odd number",
+          "description": "Number of control plane nodes. The default value is 1, and the count can be either 2 or odd numbers.",
           "default": 1
         },
         "vmSize": {
@@ -1861,6 +1920,10 @@
         "controlPlaneEndpoint": {
           "$ref": "#/definitions/ControlPlaneProfileControlPlaneEndpoint",
           "description": "IP Address of the Kubernetes API server"
+        },
+        "witness": {
+          "$ref": "#/definitions/WitnessProfile",
+          "description": "Profile of witness to support 2 control plane nodes for provisioned cluster."
         }
       }
     },
@@ -2402,7 +2465,7 @@
                 "type": "Microsoft.AzureStackHCI/logicalNetworks"
               },
               {
-                "type": "Private.HybridContainerService/virtualNetworks"
+                "type": "Microsoft.HybridContainerService/virtualNetworks"
               },
               {
                 "type": "Microsoft.NetworkCloud/cloudServicesNetworks"
@@ -2431,6 +2494,16 @@
           "description": "Number of HA Proxy load balancer VMs. The default value is 0."
         }
       }
+    },
+    "NfsWitnessProfile": {
+      "type": "object",
+      "description": "Schema of witness properties to support provisioned cluster with 2 control plane nodes when the witness type is NFS.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/WitnessProfile"
+        }
+      ],
+      "x-ms-discriminator-value": "NFS"
     },
     "OSSKU": {
       "type": "string",
@@ -2634,10 +2707,6 @@
           "$ref": "#/definitions/StorageProfile",
           "description": "The storage configuration profile for the provisioned cluster."
         },
-        "mockProperty": {
-          "type": "string",
-          "description": "A mock property for Private RP only."
-        },
         "clusterVMAccessProfile": {
           "$ref": "#/definitions/ClusterVMAccessProfile",
           "description": "The SSH restricted access profile for the VMs in the provisioned cluster."
@@ -2685,10 +2754,7 @@
           "$ref": "#/definitions/ProvisionedClusterPropertiesAutoScalerProfile",
           "description": "Parameters to be applied to the cluster-autoscaler when auto scaling is enabled for the provisioned cluster."
         }
-      },
-      "required": [
-        "mockProperty"
-      ]
+      }
     },
     "ProvisionedClusterPropertiesAutoScalerProfile": {
       "type": "object",
@@ -2968,6 +3034,113 @@
         ]
       },
       "readOnly": true
+    },
+    "RotateClusterCaProperties": {
+      "type": "object",
+      "description": "The properties for rotating cluster ca response.",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Message for rotation ca succeeded."
+        }
+      }
+    },
+    "RotateClusterCaRequest": {
+      "type": "object",
+      "description": "The request body to rotate cluster ca.",
+      "properties": {
+        "forceMode": {
+          "type": "boolean",
+          "description": "enable force mode in cluster ca rotation"
+        }
+      },
+      "required": [
+        "forceMode"
+      ]
+    },
+    "RotateClusterCaResponse": {
+      "type": "object",
+      "description": "The rotate cluster ca response.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Operation Id",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "description": "Operation Name",
+          "readOnly": true
+        },
+        "resourceId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "ARM Resource Id of the provisioned cluster instance",
+          "readOnly": true,
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.HybridContainerService/provisionedClusterInstances"
+              }
+            ]
+          }
+        },
+        "status": {
+          "$ref": "#/definitions/ResourceProvisioningState",
+          "description": "Provisioning state of the resource",
+          "readOnly": true
+        },
+        "error": {
+          "$ref": "#/definitions/RotateClusterCaResponseError",
+          "description": "Error For Rotate CLuster CA Response."
+        },
+        "properties": {
+          "$ref": "#/definitions/RotateClusterCaProperties",
+          "description": "Message for rotation ca succeeded."
+        }
+      }
+    },
+    "RotateClusterCaResponseError": {
+      "type": "object",
+      "description": "The error for rotating cluster ca response.",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The error code."
+        },
+        "message": {
+          "type": "string",
+          "description": "The error message."
+        }
+      }
+    },
+    "SMBWitnessProfile": {
+      "type": "object",
+      "description": "Schema of witness properties to support provisioned cluster with 2 control plane nodes when the witness type is SMB.",
+      "properties": {
+        "userName": {
+          "type": "string",
+          "description": "The username to access the SMB file share as the witness."
+        },
+        "password": {
+          "type": "string",
+          "description": "The password to access the SMB file share as the witness.",
+          "x-ms-mutability": [
+            "update",
+            "create"
+          ],
+          "x-ms-secret": true
+        }
+      },
+      "required": [
+        "userName"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/WitnessProfile"
+        }
+      ],
+      "x-ms-discriminator-value": "SMB"
     },
     "StorageProfile": {
       "type": "object",
@@ -3361,6 +3534,55 @@
           "description": "The size of the VM SKU",
           "readOnly": true
         }
+      }
+    },
+    "WitnessProfile": {
+      "type": "object",
+      "description": "Schema of common witness property to support provisioned cluster with 2 control plane nodes.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/WitnessType",
+          "description": "Specifies the witness type used for provisioned cluster with 2 control plane nodes."
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "The endpoint of witness for provisioned cluster with 2 control plane nodes."
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type",
+        "endpoint"
+      ]
+    },
+    "WitnessType": {
+      "type": "string",
+      "description": "Schema of supported witness types for provisioned cluster with 2 control plane nodes.",
+      "enum": [
+        "NFS",
+        "SMB",
+        "AzureBlob"
+      ],
+      "x-ms-enum": {
+        "name": "WitnessType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "NFS",
+            "value": "NFS",
+            "description": "Use NFS file share as the witness type."
+          },
+          {
+            "name": "SMB",
+            "value": "SMB",
+            "description": "Use SMB file share as the witness type."
+          },
+          {
+            "name": "AzureBlob",
+            "value": "AzureBlob",
+            "description": "Use Azure Blob storage as the witness type."
+          }
+        ]
       }
     }
   },

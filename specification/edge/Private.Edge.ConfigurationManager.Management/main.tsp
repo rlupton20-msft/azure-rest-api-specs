@@ -3,19 +3,33 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-import "./CapabilityList.tsp";
-import "./DeploymentTarget.tsp";
 import "./DynamicSchema.tsp";
 import "./DynamicSchemaVersion.tsp";
-import "./HierarchyList.tsp";
 import "./Schema.tsp";
 import "./SchemaVersion.tsp";
 import "./SchemaReference.tsp";
 import "./Solution.tsp";
-import "./SolutionBinding.tsp";
-import "./SolutionBindingConfiguration.tsp";
-import "./SolutionInstance.tsp";
 import "./SolutionVersion.tsp";
+import "./Target.tsp";
+import "./TargetTemplate.tsp";
+import "./SolutionTemplate.tsp";
+import "./SolutionTemplateVersion.tsp";
+import "./Instance.tsp";
+import "./InstanceHistory.tsp";
+import "./ConfigTemplate.tsp";
+import "./ConfigurationTemplate.tsp";
+import "./ConfigTemplateVersion.tsp";
+import "./ConfigurationTemplateVersion.tsp";
+import "./Workflow.tsp";
+import "./WorkflowVersion.tsp";
+import "./WorkflowTemplate.tsp";
+import "./WorkflowTemplateVersion.tsp";
+import "./Execution.tsp";
+import "./Job.tsp";
+import "./Diagnostics.tsp";
+import "./Context.tsp";
+import "./SiteReference.tsp";
+import "./EventGridFilters.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -26,17 +40,19 @@ using Azure.ResourceManager;
 /** Private.Edge Resource Provider management API. */
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Operations API is published as part of same RP in edge folder."
 @armProviderNamespace
-@service({
-  title: "Private.Edge",
-})
+@service(#{ title: "Private.Edge" })
 @versioned(Versions)
 namespace Private.Edge;
 
 /** The available API versions. */
 enum Versions {
-  /** 2024-08-01-preview version */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-  v2024_08_01_preview: "2024-08-01-preview",
+  v2025_01_01_preview: "2025-01-01-preview",
+
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_06_01: "2025-06-01",
 }

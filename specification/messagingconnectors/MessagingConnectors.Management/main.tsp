@@ -3,9 +3,26 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-import "./connectors.tsp";
-import "./dataPreview.tsp";
-import "./models.tsp";
-import "./common.tsp";
-import "./fetchCdcSchema.tsp";
-import "./fetchCdcSchemaModel.tsp";
+import "./operations/connectors.tsp";
+import "./operations/dataPreview.tsp";
+import "./operations/fetchCdcSchema.tsp";
+import "./operations/validation.tsp";
+
+using TypeSpec.Versioning;
+using Azure.ResourceManager;
+
+@doc("Private.MessagingConnectors Resource Provider management API.")
+@armProviderNamespace
+@service(#{ title: "Private.MessagingConnectors management service" })
+@versioned(Versions)
+namespace Private.MessagingConnectors;
+
+@doc("Private.MessagingConnectors api versions.")
+enum Versions {
+  @doc("2025-07-01-preview version")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_07_01_preview: "2025-07-01-preview",
+}
+
+interface Operations extends Azure.ResourceManager.Operations {}

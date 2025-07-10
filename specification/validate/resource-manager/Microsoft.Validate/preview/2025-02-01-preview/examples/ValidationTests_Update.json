@@ -1,0 +1,107 @@
+{
+  "title": "ValidationTests_Update",
+  "operationId": "ValidationTests_Update",
+  "parameters": {
+    "api-version": "2025-02-01-preview",
+    "subscriptionId": "00000000-0000-0000-0000-000000000000",
+    "resourceGroupName": "ccrg",
+    "validationTestName": "myValidationTest1",
+    "properties": {
+      "properties": {
+        "overallState": "Published",
+        "categories": [
+          "myCategory11"
+        ]
+      },
+      "tags": {
+        "key1": "value 11",
+        "key2": "value 21"
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "body": {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Validate/validationTests/myValidationTest1",
+        "name": "myValidationTest1",
+        "type": "Microsoft.Validate/validationTest",
+        "location": "East US 2",
+        "properties": {
+          "description": "A package to measure the performance of the network between two Azure VMs using iPerf.",
+          "enabled": true,
+          "overallState": "Published",
+          "provisioningState": "Succeeded",
+          "categories": [
+            "myCategory11"
+          ],
+          "kind": "CheckTool",
+          "testConfiguration": [
+            {
+              "author": "abc@microsoft.com",
+              "version": "1.0.0",
+              "license": "MIT",
+              "inputConfiguration": {
+                "retries": 10,
+                "runType": "string",
+                "runSchedule": "string"
+              },
+              "outputMetrics": [
+                {
+                  "name": "Availability",
+                  "description": "Measures the availability of the network connection between the two VMs.",
+                  "unit": "percentage"
+                },
+                {
+                  "name": "Latency",
+                  "description": "Measures the latency between the two VMs.",
+                  "unit": "milliseconds"
+                },
+                {
+                  "name": "Throughput",
+                  "description": "Measures the throughput between the two VMs.",
+                  "unit": "Mbps"
+                }
+              ],
+              "resources": [
+                {
+                  "resourceType": [
+                    "Microsoft.Compute/virtualMachines",
+                    "Microsoft.Compute/virtualMachineScaleSet"
+                  ],
+                  "count": 2
+                }
+              ],
+              "dependencies": {
+                "iperf3": "3.9.0"
+              },
+              "executor": "VirtualClient",
+              "language": "PowerShell",
+              "commands": {},
+              "installationCommand": "Install-Module -Name Az -AllowClobber -Force; Invoke-WebRequest -Uri 'https://iperf.fr/download/iperf_3.9.0/iperf3.exe' -OutFile 'C:\\iperf3.exe'",
+              "executionCommand": "VirtualClient --profile=AVAILABILITY-OPENSSL.json --iterations=1",
+              "cleanupCommand": "Remove-Item -Path 'C:\\iperf3.exe'; Uninstall-Module -Name Az -Force"
+            }
+          ]
+        },
+        "systemData": {
+          "createdBy": "user@microsoft.com",
+          "createdByType": "User",
+          "createdAt": "2024-07-26T01:13:43.267+00:00",
+          "lastModifiedBy": "Validate",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2024-08-26T01:13:43.267+00:00"
+        },
+        "tags": {
+          "key1": "value 11",
+          "key2": "value 22"
+        }
+      }
+    },
+    "202": {
+      "headers": {
+        "Retry-After": 30,
+        "location": "https://eastus2euap.management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Validate/locations/EASTUS2/operationStatuses/sample-op-status?api-version=2025-02-01-preview"
+      }
+    }
+  }
+}

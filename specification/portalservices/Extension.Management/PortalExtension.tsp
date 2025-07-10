@@ -26,7 +26,7 @@ model PortalExtension
   @path
   @key("portalExtensionName")
   @segment("extensions")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   name: string;
 }
 
@@ -45,7 +45,7 @@ interface PortalExtensions {
   /**
    * Updates an existing portal extension.
    */
-  @parameterVisibility
+  @patch(#{ implicitOptionality: false })
   @Azure.Core.useFinalStateVia("azure-async-operation")
   update is ArmCustomPatchAsync<
     PortalExtension,

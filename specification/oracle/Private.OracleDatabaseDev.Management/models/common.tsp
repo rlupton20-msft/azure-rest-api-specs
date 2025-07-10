@@ -82,6 +82,12 @@ model DayOfWeek {
 @maxLength(255)
 scalar Ocid extends string;
 
+@added(Versions.v20250701_preview)
+@doc("SshPublicKey string")
+@minLength(1)
+@maxLength(1024)
+scalar SshPublicKey extends string;
+
 @doc("LicenseModel enum")
 union LicenseModel {
   @doc("License included")
@@ -93,24 +99,10 @@ union LicenseModel {
   string,
 }
 
-@doc("DbIormConfig for cloud vm cluster")
-model DbIormConfig {
-  @doc("The database name. For the default DbPlan, the dbName is default.")
-  dbName?: string;
-
-  @doc("The flash cache limit for this database. This value is internally configured based on the share value assigned to the database.")
-  flashCacheLimit?: string;
-
-  @doc("The relative priority of this database.")
-  @minValue(1)
-  @maxValue(32)
-  share?: int32;
-}
-
 @doc("ExadataIormConfig for cloud vm cluster")
 model ExadataIormConfig {
   @doc("An array of IORM settings for all the database in the Exadata DB system.")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   dbPlans?: DbIormConfig[];
 
   @doc("Additional information about the current lifecycleState.")
@@ -121,46 +113,6 @@ model ExadataIormConfig {
 
   @doc("The current value for the IORM objective. The default is AUTO.")
   objective?: Objective;
-}
-
-@doc("IORMLifecycleState enum")
-union IormLifecycleState {
-  @doc("BOOTSTRAPPING value")
-  BootStrapping: "BootStrapping",
-
-  @doc("ENABLED value")
-  Enabled: "Enabled",
-
-  @doc("DISABLED value")
-  Disabled: "Disabled",
-
-  @doc("UPDATING value")
-  Updating: "Updating",
-
-  @doc("FAILED value")
-  Failed: "Failed",
-
-  string,
-}
-
-@doc("Objective enum")
-union Objective {
-  @doc("LOW_LATENCY value")
-  LowLatency: "LowLatency",
-
-  @doc("HIGH_THROUGHPUT value")
-  HighThroughput: "HighThroughput",
-
-  @doc("BALANCED value")
-  Balanced: "Balanced",
-
-  @doc("AUTO value")
-  Auto: "Auto",
-
-  @doc("BASIC value")
-  Basic: "Basic",
-
-  string,
 }
 
 @doc("validation result")
@@ -305,4 +257,82 @@ model CreateValidationDetails<T extends TypeSpec.Reflection.Model> {
 // only properties are passed for Patch Validation extension
 model PatchValidationDetails<T extends TypeSpec.Reflection.Model> {
   properties: T;
+}
+
+@doc("Compute model enum")
+union ComputeModel {
+  @doc("ECPU model type")
+  ECPU: "ECPU",
+
+  @doc("OCPU model type")
+  OCPU: "OCPU",
+
+  string,
+}
+
+@added(Versions.v20241201_preview)
+@doc("Allowed values for System Shapes")
+union SystemShapes {
+  @doc("Exadata X9M shape")
+  ExadataX9M: "Exadata.X9M",
+
+  @added(Versions.v20250101_preview)
+  @doc("Exadata X11M shape")
+  ExadataX11M: "Exadata.X11M",
+
+  @doc("Exadata DB on Exascale Infrastructure shape")
+  ExaDbXs: "ExaDbXS",
+
+  string,
+}
+
+@added(Versions.v20250701_preview)
+@doc("Allowed values for BaseDb System Shapes")
+union BaseDbSystemShapes {
+  @doc("Vm Standard E5 Flex shape")
+  VMStandardE5Flex: "VM.Standard.E5.Flex",
+
+  @doc("Vm Standard X86")
+  VMStandardX86: "VM.Standard.x86",
+
+  string,
+}
+
+@added(Versions.v20250701_preview)
+@doc("Storage Management type enum.")
+union StorageManagementType {
+  @doc("Logical Volume management")
+  LVM: "LVM",
+
+  string,
+}
+
+@added(Versions.v20250701_preview)
+@doc("Allowed values for shape family.")
+union ShapeFamilyType {
+  @doc("Family value for Exadata Shape")
+  Exadata: "EXADATA",
+
+  @doc("Family value for Exadb XS Shape")
+  ExadbXs: "EXADB_XS",
+
+  @doc("Family value for Single Node Shape")
+  SingleNode: "SINGLENODE",
+
+  @doc("Family value for Virtual Machine Shape")
+  VirtualMachine: "VIRTUALMACHINE",
+
+  string,
+}
+
+@doc("The type of Exascale storage used for Exadata VM cluster. The default is SMART_STORAGE which supports Oracle Database 23ai and later")
+@added(Versions.v20250801_preview)
+union ShapeAttribute {
+  @doc("Smart storage")
+  SMART_STORAGE: "SMART_STORAGE",
+
+  @doc("block storage")
+  BLOCK_STORAGE: "BLOCK_STORAGE",
+
+  string,
 }

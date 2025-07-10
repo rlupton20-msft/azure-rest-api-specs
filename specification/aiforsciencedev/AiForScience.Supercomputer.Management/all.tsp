@@ -1,1 +1,0 @@
-import "./supercomputer.tsp";

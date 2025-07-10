@@ -316,11 +316,160 @@
           "type": "string",
           "description": "The signed resource types that are accessible with the account SAS. Service (s)/Container (c)/Object (o)."
         }
-      }
+      },
+      "required": [
+        "rootPath",
+        "name",
+        "dsmsLocation",
+        "signedPermissions",
+        "signedServices",
+        "signedResourceTypes"
+      ]
     },
     "Azure.Core.azureLocation": {
       "type": "string",
       "description": "Represents an Azure geography region where supported resource providers live."
+    },
+    "BlobIndexMatch": {
+      "type": "object",
+      "description": "Blob Index Match filter.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Filter tag name."
+        },
+        "operator": {
+          "type": "string",
+          "description": "Comparison operator."
+        },
+        "value": {
+          "type": "string",
+          "description": "Filter tag value."
+        }
+      },
+      "required": [
+        "name",
+        "operator",
+        "value"
+      ]
+    },
+    "DualStackEndpointPreference": {
+      "type": "object",
+      "description": "Dual Stack Endpoint Preference.",
+      "properties": {
+        "defaultDualStackEndpoints": {
+          "type": "boolean",
+          "description": "Enable default dual stack endpoints."
+        },
+        "publishIpv4Endpoint": {
+          "type": "boolean",
+          "description": "Publish IPv4 endpoint."
+        },
+        "publishIpv6Endpoint": {
+          "type": "boolean",
+          "description": "Publish IPv6 endpoint."
+        }
+      }
+    },
+    "LcmActionPolicy": {
+      "type": "object",
+      "description": "Lifecycle Management Policy details for a specific action in a rule.",
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "Action to be performed. Acceptable values: 'tierToCool', 'tierToArchive', 'tierToCold', 'tierToHot', 'delete'."
+        },
+        "daysAfterModificationGreaterThan": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Days after modification greater than."
+        },
+        "daysAfterLastAccessTimeGreaterThan": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Days after last access time greater than."
+        },
+        "daysAfterLastTierChangeGreaterThan": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Days after last tier change greater than (specific to tierToArchive action)."
+        },
+        "daysAfterCreationGreaterThan": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Days after creation greater than."
+        }
+      },
+      "required": [
+        "action"
+      ]
+    },
+    "LifecycleManagementPolicyRule": {
+      "type": "object",
+      "description": "Lifecycle Management Policy Rule for Storage Account.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the policy rule."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Indicates whether the rule is enabled."
+        },
+        "baseBlobPolicy": {
+          "type": "array",
+          "description": "Policy for base blobs.",
+          "items": {
+            "$ref": "#/definitions/LcmActionPolicy"
+          },
+          "x-ms-identifiers": []
+        },
+        "snapshotPolicy": {
+          "type": "array",
+          "description": "Policy for snapshots.",
+          "items": {
+            "$ref": "#/definitions/LcmActionPolicy"
+          },
+          "x-ms-identifiers": []
+        },
+        "versionPolicy": {
+          "type": "array",
+          "description": "Policy for versions.",
+          "items": {
+            "$ref": "#/definitions/LcmActionPolicy"
+          },
+          "x-ms-identifiers": []
+        },
+        "blobTypesFilter": {
+          "type": "string",
+          "description": "A string, containing BlobTypes to filter, separated with a semicolon. Acceptable values: 'blockBlob', 'appendBlob'."
+        },
+        "prefixMatchFilter": {
+          "type": "array",
+          "description": "List of prefixes to filter by.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blobIndexMatchFilter": {
+          "type": "array",
+          "description": "List of blob index match filters.",
+          "items": {
+            "$ref": "#/definitions/BlobIndexMatch"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "name",
+        "enabled",
+        "baseBlobPolicy",
+        "snapshotPolicy",
+        "versionPolicy",
+        "blobTypesFilter",
+        "prefixMatchFilter",
+        "blobIndexMatchFilter"
+      ]
     },
     "Replicate": {
       "type": "object",
@@ -334,7 +483,11 @@
           "type": "string",
           "description": "Regions the secret will be replicated to (Applicable when the type of replication is SpecifiedDsmsRegions). Regions are separated by semicolon."
         }
-      }
+      },
+      "required": [
+        "type",
+        "regions"
+      ]
     },
     "StorageAccountDsmsProvisioningState": {
       "type": "string",
@@ -449,10 +602,6 @@
           "type": "string",
           "description": "Name of the event to emit once the XStore account is created."
         },
-        "useCreateInsteadOfGenerate": {
-          "type": "boolean",
-          "description": "If True, will onboard the existing Storage Account to dSMS. If False, will generate dSMS object with random keys. Optional, False by default."
-        },
         "whitelists": {
           "$ref": "#/definitions/Whitelists",
           "description": "Storage account whitelist in dSMS."
@@ -480,7 +629,16 @@
         },
         "resourceProvider": {
           "type": "string",
-          "description": "Storage Account resource provider. Acceptable values: Classic (for RDFE Storage Accounts), ARM (StorageV2 (general purpose v2) on Azure Portal), Xstore, Invalid (can be used to create dummy Storage Accounts in dSMS)."
+          "description": "Storage Account resource provider. Acceptable values: 'Classic' (for RDFE Storage Accounts), 'ARM' (StorageV2 (general purpose v2) on Azure Portal), 'Xstore', 'Invalid' (used to create a dummy account in dSMS).",
+          "enum": [
+            "Classic",
+            "ARM",
+            "Xstore",
+            "Invalid"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
         },
         "pilotXstoreResourceProvider": {
           "type": "boolean",
@@ -494,33 +652,56 @@
           },
           "x-ms-identifiers": []
         },
-        "refreshInDsms": {
-          "type": "boolean",
-          "description": "Set to False to prevent refreshing in dSMS after creating Storage Account. Optional, True by default."
-        },
-        "originalResourceProvider": {
-          "type": "string",
-          "description": "The original resource provider from StorageAccountDsmsTemplate, which would be used if not pilot Xstore resource provider. Add the property to support transition from Classic to Xstore/ARM resource provider."
-        },
         "residencyBoundary": {
           "type": "string",
-          "description": "Residency boundary. Acceptable values: Worldwide, National."
+          "description": "Residency boundary. Acceptable values: 'Worldwide', 'National'.",
+          "enum": [
+            "Worldwide",
+            "National"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
         },
         "resiliencyMinimum": {
           "type": "string",
-          "description": "Minimum account replication type, e.g. Standard_LRS. If it's set, it will enable VRS feature for the Storage Account, and the 'AccountReplicationType' property will not be used."
+          "description": "Minimum account replication type, e.g. 'Standard_LRS'. If it's set, it will enable VRS feature for the Storage Account, and the 'AccountReplicationType' property will not be used."
         },
         "resiliencyMaximum": {
           "type": "string",
-          "description": "Maximum account replication type, e.g. Standard_ZRS."
+          "description": "Maximum account replication type, e.g. 'Standard_ZRS'."
         },
         "resilienciesProgressionId": {
           "type": "string",
-          "description": "Resiliencies progression id, e.g. Default, PremiumDefault, Zonal."
+          "description": "Resiliencies progression id. Acceptable values: 'Default', 'PremiumDefault', 'Zonal'.",
+          "enum": [
+            "Default",
+            "PremiumDefault",
+            "Zonal"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
         },
         "additionalLocations": {
           "type": "string",
-          "description": "Additional locations to support resiliency, e.g. primary."
+          "description": "Additional locations to support resiliency, e.g. 'primary'."
+        },
+        "dualStackEndpointPreference": {
+          "$ref": "#/definitions/DualStackEndpointPreference",
+          "description": "Dual Stack Endpoint Preference."
+        },
+        "lifecycleManagementPolicy": {
+          "type": "array",
+          "description": "An array of Lifecycle Management Policy rules.",
+          "items": {
+            "$ref": "#/definitions/LifecycleManagementPolicyRule"
+          },
+          "x-ms-identifiers": []
+        },
+        "requireInfrastructureEncryption": {
+          "type": "boolean",
+          "description": "Defines if Infrastructure Encryption is required."
         },
         "properties": {
           "type": "object",
@@ -552,7 +733,7 @@
         },
         "storageAccountRdfeCreationTime": {
           "type": "string",
-          "description": "Storage Account rdfe creation time; a part of provisioning ResultData output.",
+          "description": "Storage Account RDFE creation time; a part of provisioning ResultData output.",
           "readOnly": true
         },
         "storageAccountXstoreCreationTime": {
@@ -560,9 +741,19 @@
           "description": "Storage Account XStore creation time; a part of provisioning ResultData output.",
           "readOnly": true
         },
-        "provisionStartTime": {
+        "provisionStartTime_dsmsAccountTemplate": {
           "type": "string",
-          "description": "Resource template provision start time; a part of provisioning ResultData output.",
+          "description": "DsmsAccountTemplate provision start time; a part of provisioning ResultData output.",
+          "readOnly": true
+        },
+        "provisionStartTime_storageAccountTemplate": {
+          "type": "string",
+          "description": "StorageAccountTemplate provision start time; a part of provisioning ResultData output.",
+          "readOnly": true
+        },
+        "provisionStartTime_storageAccountSyncTemplate": {
+          "type": "string",
+          "description": "StorageAccountSyncTemplate provision start time; a part of provisioning ResultData output.",
           "readOnly": true
         }
       },
@@ -584,7 +775,11 @@
           "type": "string",
           "description": "Values of the whitelist, separated by semicolon."
         }
-      }
+      },
+      "required": [
+        "type",
+        "values"
+      ]
     },
     "Whitelists": {
       "type": "object",
@@ -598,7 +793,10 @@
           },
           "x-ms-identifiers": []
         }
-      }
+      },
+      "required": [
+        "whitelist"
+      ]
     }
   },
   "parameters": {}

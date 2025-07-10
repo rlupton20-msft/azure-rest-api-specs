@@ -14,7 +14,7 @@ interface ExadbVmClusters
   @doc("Remove VMs from the VM Cluster")
   removeVms is ArmResourceActionAsync<
     ExadbVmCluster,
-    DbNodeDetails,
+    RemoveVirtualMachineFromExadbVmClusterDetails,
     ExadbVmCluster
   >;
 }

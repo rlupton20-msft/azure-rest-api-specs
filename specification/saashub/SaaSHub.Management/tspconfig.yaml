@@ -1,5 +1,8 @@
 emit:
   - "@azure-tools/typespec-autorest"
+parameters:
+  service-dir:
+    default: "sdk/saashub"
 options:
   "@azure-tools/typespec-autorest":
     use-read-only-status-schema: true
@@ -7,6 +10,39 @@ options:
     emitter-output-dir: "{project-root}/.."
     azure-resource-provider-folder: "resource-manager"
     output-file: "{azure-resource-provider-folder}/{service-name}/{version-status}/{version}/openapi.json"
+  "@azure-tools/typespec-java":
+    flavor: azure
+    package-dir: "azure-resourcemanager-saashub"
+    namespace: "com.azure.resourcemanager.saashub"
+  "@azure-tools/typespec-ts":
+    flavor: azure
+    experimental-extensible-enums: true
+    package-dir: "arm-saashub"
+    package-name: "@azure/arm-saashub"
+    package-details:
+      name: "@azure/arm-saashub"
+  "@azure-tools/typespec-go":
+    service-dir: "sdk/resourcemanager/saashub"
+    package-dir: "armsaashub"
+    module: "github.com/Azure/azure-sdk-for-go/{service-dir}/{package-dir}"
+    fix-const-stuttering: true
+    generate-examples: true
+    generate-samples: true
+    generate-fakes: true
+    head-as-boolean: true
+    inject-spans: true
+  "@azure-tools/typespec-python":
+    flavor: azure
+    package-dir: "azure-mgmt-saashub"
+    package-name: "{package-dir}"
+    namespace: "azure.mgmt.saashub"
+    generate-test: true
+    generate-sample: true
+  "@azure-tools/typespec-csharp":
+    flavor: azure
+    package-dir: "Azure.ResourceManager.SaasHub"
+    namespace: "{package-dir}"
+    clear-output-folder: true
 linter:
   extends:
     - "@azure-tools/typespec-azure-rulesets/resource-manager"

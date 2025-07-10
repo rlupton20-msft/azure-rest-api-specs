@@ -1,7 +1,6 @@
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
-import "@azure-tools/typespec-providerhub";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
@@ -16,6 +15,7 @@ using Azure.ResourceManager;
   title: "Microsoft.ManufacturingPlatform",
 })
 @versioned(Microsoft.ManufacturingPlatform.Versions)
+@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.ManufacturingPlatform;
 
 @doc("Supported API versions for the Microsoft.ManufacturingPlatform resource provider.")
@@ -27,13 +27,17 @@ enum Versions {
   @doc("The 2024-02-01-preview version.")
   @Versioning.useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   v2024_02_01_preview: "2024-02-01-preview",
+
+  @doc("The 2025-03-01 version.")
+  @Versioning.useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  v2025_03_01: "2025-03-01",
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
 
 @doc("A ManufacturingPlatformProviderHub resource")
 model MdsResource is TrackedResource<MdsResourceProperties> {
-  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @pattern("^[a-zA-Z0-9-]{3,23}$")
   @key("mdsResourceName")
   @segment("manufacturingDataServices")
   @doc("Name.")
@@ -51,20 +55,51 @@ model MdsResource is TrackedResource<MdsResourceProperties> {
 @Azure.Core.lroStatus
 union ProvisioningState {
   string,
+
   /** Resource has been created. */
-  Succeeded:"Succeeded",
+  Succeeded: "Succeeded",
+
   /** Resource creation failed. */
-  Failed:"Failed",
+  Failed: "Failed",
+
   /** Resource creation was canceled. */
-  Canceled:"Canceled",
+  Canceled: "Canceled",
+
   /** The resource is being provisioned */
-  Provisioning:"Provisioning",
+  Provisioning: "Provisioning",
+
   /** The resource is updating */
-  Updating:"Updating",
+  Updating: "Updating",
+
   /** The resource is being deleted */
-  Deleting:"Deleting",
+  Deleting: "Deleting",
+
   /** The resource create request has been accepted */
-  Accepted:"Accepted"
+  Accepted: "Accepted",
+}
+
+@doc("The current state of the resource")
+@added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+union ResourceState {
+  string,
+
+  /** Resource is in active state */
+  Active: "Active",
+
+  /** Resource is in inactive state */
+  Inactive: "Inactive",
+}
+
+@doc("The redundancy state of the resource")
+@added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+union RedundancyState {
+  string,
+
+  /** Resource is zone redundant */
+  Zonal: "Zonal",
+
+  /** Resource is not redundant */
+  None: "None",
 }
 
 @doc("Details of the ManufacturingPlatform MdsResource.")
@@ -79,6 +114,7 @@ model MdsResourceProperties {
 
   @visibility("read", "create", "update")
   @doc("Enable Teams Notification.")
+  @removed(Microsoft.ManufacturingPlatform.Versions.v2025_03_01)
   enableTeamsNotification?: boolean;
 
   @visibility("read", "create", "update")
@@ -104,6 +140,7 @@ model MdsResourceProperties {
   @visibility("read", "create")
   @doc("Continuous Export Period.")
   @madeOptional(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  @removed(Microsoft.ManufacturingPlatform.Versions.v2025_03_01)
   continuousExportPeriod?: int32 = 0;
 
   @visibility("read")
@@ -161,7 +198,7 @@ model MdsResourceProperties {
   functionAppProfile?: FunctionAppProfile;
 
   #suppress "@azure-tools/typespec-azure-core/casing-style" "AI is a well-known abbreviation"
-  @visibility("read","create", "update")
+  @visibility("read", "create", "update")
   @doc("Profile of OpenAI Resource.")
   openAIProfile?: OpenAIProfile;
 
@@ -177,16 +214,19 @@ model MdsResourceProperties {
   @visibility("read", "create", "update")
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @doc("Profile of Azure Machine Learning Resource.")
+  @removed(Microsoft.ManufacturingPlatform.Versions.v2025_03_01)
   amlProfile?: AmlProfile;
 
   @doc("Profile of User Managed Database.")
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @visibility("read", "create")
+  @removed(Microsoft.ManufacturingPlatform.Versions.v2025_03_01)
   userManagedDatabaseProfile?: UserManagedDatabaseProfile;
 
   @doc("Profile of User Managed Adx.")
   @added(Versions.v2024_02_01_preview)
   @visibility("read", "create")
+  @removed(Microsoft.ManufacturingPlatform.Versions.v2025_03_01)
   userManagedAdxProfile?: UserManagedAdxProfile;
 
   @visibility("read", "create")
@@ -208,7 +248,17 @@ model MdsResourceProperties {
   @doc("Deny Assignments exclusion list.")
   @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
   @visibility("read", "update")
-  denyAssignmentExclusions?: denyAssignmentExclusion[];
+  denyAssignmentExclusions?: DenyAssignmentExclusion[];
+
+  @doc("State of the resource")
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  @visibility("read", "update")
+  resourceState?: ResourceState;
+
+  @doc("Zone redundancy state for resources")
+  @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+  @visibility("read", "create")
+  redundancyState?: RedundancyState;
 }
 
 @doc("The properties related to Aks Resource")
@@ -262,6 +312,7 @@ model AdtProfile {
 
 @doc("The properties related to User Managed Database Resource")
 @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+@removed(Microsoft.ManufacturingPlatform.Versions.v2025_03_01)
 model UserManagedDatabaseProfile {
   @doc("Resource Id of Cosmos Resource")
   @visibility("read", "create")
@@ -270,6 +321,7 @@ model UserManagedDatabaseProfile {
 
 @doc("The properties related to User Managed Azure Data Explorer (Adx) Resource")
 @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+@removed(Microsoft.ManufacturingPlatform.Versions.v2025_03_01)
 model UserManagedAdxProfile {
   @doc("Resource Id of Adx Resource")
   @visibility("read", "create")
@@ -401,13 +453,13 @@ model OpenAIProfile {
 
 @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
 @doc("The properties related to Deny Assignment Exclusions")
-model denyAssignmentExclusion {
+model DenyAssignmentExclusion {
   @doc("Object Id of Identity")
-  @visibility("read","update")
+  @visibility("read", "update")
   id: string;
 
   @doc("Type of Identity")
-  @visibility("read","update")
+  @visibility("read", "update")
   type: string;
 }
 
@@ -438,6 +490,7 @@ model MoboBrokerResource {
 
 @doc("The properties related to Azure Machine Learning Resource")
 @added(Microsoft.ManufacturingPlatform.Versions.v2024_02_01_preview)
+@removed(Microsoft.ManufacturingPlatform.Versions.v2025_03_01)
 model AmlProfile {
   @doc("Resource Id of Azure Machine Learning Resource")
   @visibility("read", "create", "update")
@@ -487,7 +540,7 @@ model UserManagedOpenAIProfile {
   @doc("Embedding Model Deployment Name")
   @visibility("read", "create", "update")
   embeddingModelDeploymentName: string;
-  
+
   @doc("Embedding Model Type")
   @visibility("read")
   embeddingModelType?: string;
@@ -499,13 +552,13 @@ interface ManufacturingDataServices {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<MdsResource>;
   // update is ArmResourcePatchAsync<MdsResource, MdsResourceProperties>;
   //temporary fix until typespec fix the issue of generating update classes
-  update is ArmCustomPatchAsync<MdsResource,Azure.ResourceManager.Foundations.ResourceUpdateModel<MdsResource, MdsResourceProperties>>;
+  update is ArmCustomPatchAsync<MdsResource,Azure.ResourceManager.Foundations.ResourceUpdateModel<MdsResource,MdsResourceProperties>>;
   delete is ArmResourceDeleteWithoutOkAsync<MdsResource>;
   listByResourceGroup is ArmResourceListByParent<MdsResource>;
   listBySubscription is ArmListBySubscription<MdsResource>;
 
   @doc("Returns the list of available versions")
-  listAvailableVersions is ArmResourceListActionSync<MdsResource, AvailableVersionListResult>;
+  listAvailableVersions is ArmResourceListActionSync<MdsResource,AvailableVersionListResult>;
 }
 
 // note this is a template for an empty body resource action, which will be added to the library at some point
@@ -538,8 +591,7 @@ model ApplicationVersion {
 
   @doc("Is Preview")
   isPreview: boolean;
-  
+
   @doc("Is Deprecated")
   isDeprecated: boolean;
-
 }

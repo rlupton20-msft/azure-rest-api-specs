@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-// <copyright file="accessPointRessource.tsp" company="Microsoft Corporation">
+// <copyright file="AccessPointAccount.tsp" company="Microsoft Corporation">
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -42,7 +42,7 @@ model AccessPointAccountProperties {
   accountTags: Record<string>;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

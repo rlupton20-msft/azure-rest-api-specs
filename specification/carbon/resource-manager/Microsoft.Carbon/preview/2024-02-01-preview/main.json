@@ -578,7 +578,8 @@
         "LatestMonthEmissions",
         "PreviousMonthEmissions",
         "MonthOverMonthEmissionsChangeRatio",
-        "MonthlyEmissionsChangeValue"
+        "MonthlyEmissionsChangeValue",
+        "ResourceGroup"
       ],
       "x-ms-enum": {
         "name": "OrderByColumnEnum",
@@ -608,6 +609,11 @@
             "name": "MonthlyEmissionsChangeValue",
             "value": "MonthlyEmissionsChangeValue",
             "description": "The monthlyEmissionsChangeValue filed in ItemDetailsReport result, see CarbonEmissionItemDetailData for more information."
+          },
+          {
+            "name": "ResourceGroup",
+            "value": "ResourceGroup",
+            "description": "The resourceGroup filed in ResourceCarbonEmissionItemDetailData result, see ResourceCarbonEmissionItemDetailData for more information."
           }
         ]
       }
@@ -639,40 +645,35 @@
           "description": "List of subscription IDs for which carbon emissions data is requested. Required. Each subscription ID should be in lowercase format. The max length of list is 100.",
           "items": {
             "type": "string"
-          },
-          "x-ms-identifiers": []
+          }
         },
         "resourceGroupUrlList": {
           "type": "array",
           "description": "List of resource group URLs for carbon emissions data. Optional. Each URL must follow the format '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroup}', and should be in all lowercase.",
           "items": {
             "type": "string"
-          },
-          "x-ms-identifiers": []
+          }
         },
         "resourceTypeList": {
           "type": "array",
           "description": "List of resource types for carbon emissions data. Optional. Each resource type should be specified in lowercase, following the format 'microsoft.{service}/{resourceType}', e.g., 'microsoft.storage/storageaccounts'.",
           "items": {
             "type": "string"
-          },
-          "x-ms-identifiers": []
+          }
         },
         "locationList": {
           "type": "array",
-          "description": "List of locations for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional.",
+          "description": "List of locations(Azure Region Display Name) for carbon emissions data, with each location specified in lowercase (e.g., 'east us'). Optional. You can use the command 'az account list-locations -o table' to find Azure Region Display Names.",
           "items": {
             "type": "string"
-          },
-          "x-ms-identifiers": []
+          }
         },
         "carbonScopeList": {
           "type": "array",
           "description": "List of carbon emission scopes. Required. Accepts one or more values from EmissionScopeEnum (e.g., Scope1, Scope2, Scope3) in list form. The output will include the total emissions for the specified scopes.",
           "items": {
             "$ref": "#/definitions/EmissionScopeEnum"
-          },
-          "x-ms-identifiers": []
+          }
         }
       },
       "discriminator": "reportType",
@@ -751,7 +752,7 @@
         },
         "location": {
           "type": "string",
-          "description": "Resource Location (e.g., 'east us')"
+          "description": "Resource Location (e.g., 'east us')."
         },
         "resourceType": {
           "type": "string",

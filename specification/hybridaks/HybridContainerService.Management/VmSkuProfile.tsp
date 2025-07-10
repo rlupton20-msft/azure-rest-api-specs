@@ -39,7 +39,7 @@ interface VmSkuProfiles {
    * Puts the default VM skus resource type (one time operation, before listing the VM skus)
    */
   #suppress "@azure-tools/typespec-azure-core/casing-style" ""
-  putVMSkus is ArmResourceCreateOrReplaceAsync<
+  createVMSkus is ArmResourceCreateOrReplaceAsync<
     VmSkuProfile,
     BaseParameters = CustomLocationResourceUriParameters
   >;
@@ -62,6 +62,6 @@ interface VmSkuProfiles {
   >;
 }
 
-@@doc(VmSkuProfiles.putVMSkus::parameters.resource,
+@@doc(VmSkuProfiles.createVMSkus::parameters.resource,
   "VM SKUs resource definition"
 );

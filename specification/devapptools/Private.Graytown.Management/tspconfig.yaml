@@ -1,0 +1,54 @@
+emit:
+  - "@azure-tools/typespec-autorest"
+options:
+  "@azure-tools/typespec-autorest":
+    use-read-only-status-schema: true
+    emitter-output-dir: "{project-root}/.."
+    azure-resource-provider-folder: "resource-manager"
+    output-file: "{azure-resource-provider-folder}/{service-name}/{version-status}/{version}/openapi.json"
+  "@azure-tools/typespec-csharp":
+    package-dir: "Azure.ResourceManager.devapptools"
+    clear-output-folder: true
+    model-namespace: false
+    namespace: "{package-dir}"
+    flavor: azure
+  "@azure-tools/typespec-python":
+    package-dir: "azure-mgmt-devapptools"
+    package-name: "{package-dir}"
+    namespace: "azure.mgmt.devapptools"
+    generate-test: true
+    generate-sample: true
+    flavor: azure
+  "@azure-tools/typespec-java":
+    package-dir: "azure-resourcemanager-devapptools"
+    namespace: "com.azure.resourcemanager.devapptools"
+    service-name: "devapptools"
+    flavor: azure
+  "@azure-tools/typespec-ts":
+    package-dir: "arm-devapptools"
+    azureSdkForJs: true
+    isModularLibrary: true
+    generateMetadata: true
+    hierarchyClient: false
+    experimentalExtensibleEnums: true
+    enableOperationGroup: true
+    flavor: azure
+    experimental-extensible-enums: true
+    package-details:
+      name: "@azure/arm-devapptools"
+  "@azure-tools/typespec-go":
+    service-dir: "sdk/resourcemanager/devapptools"
+    package-dir: "armdevapptools"
+    module: "github.com/Azure/azure-sdk-for-go/{service-dir}/{package-dir}"
+    fix-const-stuttering: true
+    generate-samples: true
+    generate-examples: true
+    generate-fakes: true
+    head-as-boolean: true
+    inject-spans: true
+linter:
+  extends:
+    - "@azure-tools/typespec-azure-rulesets/resource-manager"
+parameters:
+  service-dir:
+    default: "sdk/devapptools"

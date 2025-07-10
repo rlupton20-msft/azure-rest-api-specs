@@ -2,6 +2,7 @@ import "../common.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
+using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 namespace Private.OracleDatabaseDev;
@@ -17,18 +18,18 @@ model DbServer is ProxyResource<DbServerProperties> {
   name: Ocid;
 }
 
-@doc("Db Server patching status enum")
+@doc("DB Server patching status enum")
 union DbServerPatchingStatus {
-  @doc("SCHEDULED value")
+  @doc("Patching scheduled")
   Scheduled: "Scheduled",
 
-  @doc("MAINTENANCE_IN_PROGRESS value")
+  @doc("Patching in progress")
   MaintenanceInProgress: "MaintenanceInProgress",
 
-  @doc("FAILED value")
+  @doc("Patching failed")
   Failed: "Failed",
 
-  @doc("COMPLETE value")
+  @doc("Patching completed")
   Complete: "Complete",
 
   string,
@@ -37,21 +38,21 @@ union DbServerPatchingStatus {
 @doc("DbServer Patching Properties")
 model DbServerPatchingDetails {
   @doc("Estimated Patch Duration")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @minValue(1)
   @maxValue(3000)
   estimatedPatchDuration?: int32;
 
   @doc("Patching Status")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   patchingStatus?: DbServerPatchingStatus;
 
   @doc("Time Patching Ended")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   timePatchingEnded?: utcDateTime;
 
   @doc("Time Patching Started")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   timePatchingStarted?: utcDateTime;
 }
 
@@ -59,108 +60,113 @@ model DbServerPatchingDetails {
 @doc("DbServer resource properties")
 model DbServerProperties {
   @doc("Db server name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   ocid?: Ocid;
 
   @doc("The name for the Db Server.")
   @minLength(1)
   @maxLength(255)
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   displayName?: string;
 
   @doc("The OCID of the compartment.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   compartmentId?: Ocid;
 
   @doc("The OCID of the Exadata infrastructure.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   exadataInfrastructureId?: Ocid;
 
   @doc("The number of CPU cores enabled on the Db server.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   cpuCoreCount?: int32;
 
   @doc("dbServerPatching details of the Db server.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   dbServerPatchingDetails?: DbServerPatchingDetails;
 
   @doc("The total memory available in GBs.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   maxMemoryInGbs?: int32;
 
   @doc("The allocated local node storage in GBs on the Db server.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   dbNodeStorageSizeInGbs?: int32;
 
   @doc("The OCID of the VM Clusters associated with the Db server.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   vmClusterIds?: Ocid[];
 
   @doc("The OCID of the Db nodes associated with the Db server.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   dbNodeIds?: Ocid[];
 
   @doc("Lifecycle details of dbServer.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   lifecycleDetails?: string;
 
   @doc("DbServer provisioning state.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   lifecycleState?: DbServerProvisioningState;
 
   @doc("The total number of CPU cores available.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   maxCpuCount?: int32;
 
   @doc("The list of OCIDs of the Autonomous VM Clusters associated with the Db server.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   autonomousVmClusterIds?: Ocid[];
 
   @doc("The list of OCIDs of the Autonomous Virtual Machines associated with the Db server.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   autonomousVirtualMachineIds?: Ocid[];
 
   @doc("The total max dbNode storage in GBs.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   maxDbNodeStorageInGbs?: int32;
 
   @doc("The total memory size in GBs.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   memorySizeInGbs?: int32;
 
   @doc("The shape of the Db server. The shape determines the amount of CPU, storage, and memory resources available.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @minLength(1)
   @maxLength(255)
   shape?: string;
 
   @doc("The date and time that the Db Server was created.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   timeCreated?: utcDateTime;
 
   @doc("Azure resource provisioning state.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ResourceProvisioningState;
+
+  @added(Versions.v20250101_preview)
+  @doc("The compute model of the Exadata Infrastructure")
+  @visibility(Lifecycle.Read)
+  computeModel?: ComputeModel;
 }
 
 @doc("DbServerProvisioningState enum")
 union DbServerProvisioningState {
-  @doc("CREATING value")
+  @doc("Indicates that resource in Creating state")
   Creating: "Creating",
 
-  @doc("AVAILABLE value")
+  @doc("Indicates that resource in Available state")
   Available: "Available",
 
-  @doc("UNAVAILABLE value")
+  @doc("Indicates that resource in Unavailable state")
   Unavailable: "Unavailable",
 
-  @doc("DELETING value")
+  @doc("Indicates that resource in Deleting state")
   Deleting: "Deleting",
 
-  @doc("DELETED value")
+  @doc("Indicates that resource in Deleted state")
   Deleted: "Deleted",
 
-  @doc("MAINTENANCE_IN_PROGRESS value")
+  @doc("Indicates that resource maintenance in progress state")
   MaintenanceInProgress: "MaintenanceInProgress",
 
   string,

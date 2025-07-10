@@ -6,19 +6,19 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "./extendedLocation.tsp";
 import "./provisioningState.tsp";
 import "./authenticationMethod.tsp";
+import "./sharedDeviceProperties.tsp";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Azure.ResourceManager;
 using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the Asset Endpoint Profile properties.")
 model AssetEndpointProfileProperties {
   @doc("Globally unique, immutable, non-reusable id.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   uuid?: string;
 
   @doc("The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration.")
@@ -44,20 +44,22 @@ model AssetEndpointProfileProperties {
   additionalConfiguration?: string;
 
   @doc("Reference to a discovered asset endpoint profile. Populated only if the asset endpoint profile has been created from discovery flow. Discovered asset endpoint profile name must be provided.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   @added(Versions.v2024_07_01_preview)
   discoveredAssetEndpointProfileRef?: string;
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @added(Versions.v2024_07_01_preview)
   status?: AssetEndpointProfileStatus;
 
   @doc("Provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Definition of the client authentication mechanism to the server.")
 @renamedFrom(Versions.v2024_07_01_preview, "UserAuthentication")
 model Authentication {
@@ -73,41 +75,11 @@ model Authentication {
   x509Credentials?: X509Credentials;
 }
 
-@doc("The credentials for authentication mode UsernamePassword.")
-model UsernamePasswordCredentials {
-  @doc("A reference to secret containing the username.")
-  @removed(Versions.v2024_07_01_preview)
-  usernameReference: string;
-
-  @doc("The name of the secret containing the username.")
-  @added(Versions.v2024_07_01_preview)
-  usernameSecretName: string;
-
-  @doc("A reference to secret containing the password.")
-  @removed(Versions.v2024_07_01_preview)
-  passwordReference: string;
-
-  @doc("The name of the secret containing the password.")
-  @added(Versions.v2024_07_01_preview)
-  passwordSecretName: string;
-}
-
-@doc("The x509 certificate for authentication mode Certificate.")
-model X509Credentials {
-  @doc("A reference to secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).")
-  @removed(Versions.v2024_07_01_preview)
-  certificateReference: string;
-
-  @doc("The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx).")
-  @added(Versions.v2024_07_01_preview)
-  certificateSecretName: string;
-}
-
 @doc("Definition of the authentication mechanism for the southbound connector.")
 @removed(Versions.v2024_07_01_preview)
 model TransportAuthentication {
   @doc("Defines a reference to a secret which contains all certificates and private keys that can be used by the southbound connector connecting to the shop floor/OT device. The accepted extensions are .der for certificates and .pfx/.pem for private keys.")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   @removed(Versions.v2024_07_01_preview)
   ownCertificates: OwnCertificate[];
 }
@@ -127,21 +99,25 @@ model OwnCertificate {
 
 @doc("Defines the asset endpoint profile status properties.")
 @added(Versions.v2024_07_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 model AssetEndpointProfileStatus {
   @doc("Array object to transfer and persist errors that originate from the Edge.")
-  @extension("x-ms-identifiers", [])
-  @visibility("read")
+  @extension("x-ms-identifiers", #[])
+  @visibility(Lifecycle.Read)
   errors?: AssetEndpointProfileStatusError[];
 }
 
 @doc("Defines the asset endpoint profile status error properties.")
 @added(Versions.v2024_07_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 model AssetEndpointProfileStatusError {
   @doc("Error code for classification of errors (ex: 400, 404, 500, etc.).")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   code?: int32;
 
   @doc("Human readable helpful error message to provide additional context for error (ex: “targetAddress 'foo' is not a valid url”).")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   message?: string;
 }

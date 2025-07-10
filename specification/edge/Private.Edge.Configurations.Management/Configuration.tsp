@@ -14,16 +14,21 @@ using Azure.ResourceManager;
 
 namespace Private.Edge;
 
-@doc("Configuration Resource")
-model Configuration is TrackedResource<ConfigurationProperties> {
-  ...ResourceNameParameter<Configuration>;
-}
-
 @doc("Configuration Properties")
 model ConfigurationProperties {
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ResourceProvisioningState;
+}
+
+@doc("Configuration Resource")
+model Configuration is TrackedResource<ConfigurationProperties> {
+  @doc("Name of the Configuration")
+  @pattern("^(?!.*\\.\\.)[a-zA-Z0-9-][a-zA-Z0-9._-]{1,68}[a-zA-Z0-9-]$")
+  @path
+  @key("configurationName")
+  @segment("configurations")
+  name: string;
 }
 
 @armResourceOperations
@@ -56,7 +61,7 @@ model ConfigurationReference
 @doc("Properties for ConfigurationReference Resource")
 model ConfigurationReferenceProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ResourceProvisioningState;
 
   @doc("ArmId of Configuration resource")

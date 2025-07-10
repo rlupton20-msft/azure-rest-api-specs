@@ -4,21 +4,22 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./common/provisioningState.tsp";
-import "./common/discoveredAssetProperties.tsp";
+import "./common/ns_discoveredAssetProperties.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
-@doc("Namespace Discovered Asset definition.")
+@doc("Discovered asset definition.")
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
+@added(Versions.v2025_07_01_preview)
 @parentResource(Namespace)
-model NamespaceDiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
+model NamespaceDiscoveredAsset
+  is TrackedResource<NamespaceDiscoveredAssetProperties> {
   @doc("Namespace Discovered Asset name parameter.")
   @key("discoveredAssetName")
   @segment("discoveredAssets")
@@ -31,12 +32,25 @@ model NamespaceDiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("The extended location.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   extendedLocation: ExtendedLocation;
 }
 
+alias NamespaceDiscoveredAssetPropertiesUpdate = {
+  ...OptionalProperties<UpdateableProperties<OmitProperties<
+    NamespaceDiscoveredAssetProperties,
+    "defaultTopic"
+  >>>;
+
+  @added(Versions.v2024_10_01_preview)
+  @removed(Versions.v2025_07_01_preview)
+  @doc("Object that describes the default topic information for the discovered asset.")
+  defaultTopic?: OptionalProperties<OmitDefaults<Topic>>;
+};
+
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
+@added(Versions.v2025_07_01_preview)
 @armResourceOperations
 interface NamespaceDiscoveredAssets {
   get is ArmResourceRead<NamespaceDiscoveredAsset>;
@@ -45,10 +59,9 @@ interface NamespaceDiscoveredAssets {
     NamespaceDiscoveredAsset,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       NamespaceDiscoveredAsset,
-      DiscoveredAssetProperties
+      NamespaceDiscoveredAssetPropertiesUpdate
     >
   >;
   delete is ArmResourceDeleteWithoutOkAsync<NamespaceDiscoveredAsset>;
   listByResourceGroup is ArmResourceListByParent<NamespaceDiscoveredAsset>;
-  listBySubscription is ArmListBySubscription<NamespaceDiscoveredAsset>;
 }

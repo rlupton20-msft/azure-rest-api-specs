@@ -39,14 +39,14 @@ model SecurityConfiguration is ProxyResource<SecurityConfigurationProperties> {
 @doc("SecurityConfiguration Properties")
 model SecurityConfigurationProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ResourceProvisioningState;
 
   @doc("Scenario in which this configuration is used")
   scenario: Scenario;
 
-  @doc("References for the secrets from keyvaults")
-  @extension("x-ms-identifiers", ["secretUri"])
+  @doc("References for the secrets from keyvault")
+  @Azure.ResourceManager.identifiers(#["secretUri"])
   secretReferences: SecretReference[];
 }
 
@@ -60,7 +60,7 @@ model SecretReference {
   ]>;
 
   @doc("vaultUri of the keyvault")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   vaultUri: url;
 
   @doc("uri of the secret")
@@ -70,7 +70,7 @@ model SecretReference {
   purpose: SecretPurpose;
 }
 
-@doc("Vairous purposes for the secrets")
+@doc("Various purposes for the secrets")
 union SecretPurpose {
   @doc("LocalAdminCredential Secret")
   LocalAdminCredential: "LocalAdminCredential",

@@ -24,22 +24,27 @@ model DynamicConfigurationProperties {
   currentVersion: string;
 
   @doc("Type of dynamic configuration")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   dynamicConfigurationType?: ConfigurationType;
 
   @doc("Type of dynamic configuration model")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   dynamicConfigurationModel?: ConfigurationModel;
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
 @doc("Dynamic Configuration Resource")
 @parentResource(Configuration)
 model DynamicConfiguration is ProxyResource<DynamicConfigurationProperties> {
-  ...ResourceNameParameter<DynamicConfiguration>;
+  @doc("Name of the dynamic configuration")
+  @pattern("^(?!.*\\.\\.)[a-zA-Z0-9-][a-zA-Z0-9._-]{1,68}[a-zA-Z0-9-]$")
+  @path
+  @key("dynamicConfigurationName")
+  @segment("dynamicConfigurations")
+  name: string;
 }
 
 @armResourceOperations

@@ -316,6 +316,10 @@
             }
           }
         },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
         "x-ms-examples": {
           "Grafana_Update": {
             "$ref": "./examples/Grafana_Update.json"
@@ -1540,6 +1544,10 @@
           "description": "The api key setting of the Grafana instance.",
           "$ref": "#/definitions/ApiKey"
         },
+        "creatorCanAdmin": {
+          "description": "The creator will have admin access for the Grafana instance.",
+          "$ref": "#/definitions/CreatorCanAdmin"
+        },
         "deterministicOutboundIP": {
           "description": "Whether a Grafana instance uses deterministic outbound IPs.",
           "$ref": "#/definitions/DeterministicOutboundIP"
@@ -1621,6 +1629,10 @@
         "apiKey": {
           "description": "The api key setting of the Grafana instance.",
           "$ref": "#/definitions/ApiKey"
+        },
+        "creatorCanAdmin": {
+          "description": "The creator can admin setting of the Grafana instance.",
+          "$ref": "#/definitions/CreatorCanAdmin"
         },
         "deterministicOutboundIP": {
           "description": "Whether a Grafana instance uses deterministic outbound IPs.",
@@ -1706,6 +1718,17 @@
         "name": "ApiKey"
       }
     },
+    "CreatorCanAdmin": {
+      "enum": [
+        "Disabled",
+        "Enabled"
+      ],
+      "type": "string",
+      "x-ms-enum": {
+        "modelAsString": true,
+        "name": "CreatorCanAdmin"
+      }
+    },
     "DeterministicOutboundIP": {
       "enum": [
         "Disabled",
@@ -1761,6 +1784,9 @@
         },
         "security": {
           "$ref": "#/definitions/Security"
+        },
+        "unifiedAlertingScreenshots": {
+          "$ref": "#/definitions/UnifiedAlertingScreenshots"
         }
       }
     },
@@ -1820,6 +1846,10 @@
         "viewersCanEdit": {
           "description": "Set to true so viewers can access and use explore and perform temporary edits on panels in dashboards they have access to. They cannot save their changes.",
           "type": "boolean"
+        },
+        "editorsCanAdmin": {
+          "description": "Set to true so editors can administrate dashboards, folders and teams they create.",
+          "type": "boolean"
         }
       }
     },
@@ -1829,6 +1859,16 @@
       "properties": {
         "csrfAlwaysCheck": {
           "description": "Set to true to execute the CSRF check even if the login cookie is not in a request (default false).",
+          "type": "boolean"
+        }
+      }
+    },
+    "UnifiedAlertingScreenshots": {
+      "description": "Grafana Unified Alerting Screenshots settings",
+      "type": "object",
+      "properties": {
+        "captureEnabled": {
+          "description": "Set to false to disable capture screenshot in Unified Alert due to performance issue.",
           "type": "boolean"
         }
       }

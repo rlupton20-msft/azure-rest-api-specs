@@ -7,17 +7,14 @@ import "./extendedLocation.tsp";
 import "./provisioningState.tsp";
 import "./authenticationMethod.tsp";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Azure.ResourceManager;
 using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
 @doc("Defines the Discovered Asset Endpoint Profile properties.")
 @added(Versions.v2024_07_01_preview)
-@removed(Versions.v2024_11_01)
+@removed(Versions.v2025_07_01_preview)
 model DiscoveredAssetEndpointProfileProperties {
   @doc("The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration.")
   targetAddress: url;
@@ -26,7 +23,7 @@ model DiscoveredAssetEndpointProfileProperties {
   additionalConfiguration?: string;
 
   @doc("List of supported authentication methods supported by the target server.")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   supportedAuthenticationMethods?: AuthenticationMethod[];
 
   @doc("Defines the configuration for the connector type that is being used with the endpoint profile.")
@@ -39,6 +36,6 @@ model DiscoveredAssetEndpointProfileProperties {
   version: int64;
 
   @doc("Provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
