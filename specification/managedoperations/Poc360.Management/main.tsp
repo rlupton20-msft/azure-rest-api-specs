@@ -46,7 +46,7 @@ model ExtManagedOperation is ExtensionResource<ExtManagedOperationsProperties> {
 @doc("Properties of the Managed Ops resource.")
 model ExtManagedOperationsProperties {
   @doc("SKU details for this resource.")
-  sku: Sku;
+  sku?: Sku;
 
   @doc("Provisioning state of the resource.")
   @visibility(Lifecycle.Read)
