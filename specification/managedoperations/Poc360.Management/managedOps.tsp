@@ -123,6 +123,12 @@ model ManagedOpsChangeTrackingInformation {
 
 @doc("Azure Monitor Insights service information.")
 model ManagedOpsAzureMonitorInformation {
+  @doc("Indicates whether the service is enabled.")
+  enablementStatus: enablementState;
+}
+
+@doc("Azure Update Manager service information.")
+model ManagedOpsUpdateManagerInformation {
   @doc("ID of Data Collection Rule (DCR) associated with this service.")
   dcrId: armResourceIdentifier<[
     {
@@ -137,12 +143,6 @@ model ManagedOpsAzureMonitorInformation {
     }
   ]>;
 
-  @doc("Indicates whether the service is enabled.")
-  enablementStatus: enablementState;
-}
-
-@doc("Azure Update Manager service information.")
-model ManagedOpsUpdateManagerInformation {
   @doc("Indicates whether the service is enabled.")
   enablementStatus: enablementState;
 }
