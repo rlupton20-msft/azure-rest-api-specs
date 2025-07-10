@@ -57,7 +57,7 @@ model ExtManagedOperationsProperties {
 
   @doc("Services provisioned by this resource.")
   @visibility(Lifecycle.Read)
-  services: ServiceInformation;
+  services?: ServiceInformation;
 }
 
 @doc("Specifies the service plan for this resource.")
