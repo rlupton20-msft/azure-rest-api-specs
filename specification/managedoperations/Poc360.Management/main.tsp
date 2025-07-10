@@ -46,7 +46,7 @@ model ExtManagedOperation is ExtensionResource<ExtManagedOperationsProperties> {
 @doc("Properties of the Managed Ops resource.")
 model ExtManagedOperationsProperties {
   @doc("SKU details for this resource.")
-  sku: Sku;
+  sku?: Sku;
 
   @doc("Provisioning state of the resource.")
   @visibility(Lifecycle.Read)
@@ -57,7 +57,7 @@ model ExtManagedOperationsProperties {
 
   @doc("Services provisioned by this resource.")
   @visibility(Lifecycle.Read)
-  services: ServiceInformation;
+  services?: ServiceInformation;
 }
 
 @doc("Specifies the service plan for this resource.")
@@ -84,63 +84,79 @@ model ChangeTrackingConfiguration {
 @doc("Services provisioned by this resource.")
 model ServiceInformation {
   @doc("Change Tracking and Inventory service's information.")
+  @visibility(Lifecycle.Read)
   changeTrackingAndInventory: ChangeTrackingInformation;
 
   @doc("Azure Monitor Insights service's information.")
+  @visibility(Lifecycle.Read)
   azureMonitorInsights: AzureMonitorInformation;
 
   @doc("Azure Update Manager service's information.")
+  @visibility(Lifecycle.Read)
   azureUpdateManager: UpdateManagerInformation;
 
   @doc("Azure Policy and Machine Configuration service's information.")
+  @visibility(Lifecycle.Read)
   azurePolicyAndMachineConfiguration: GuestConfigurationInformation;
 }
 
 @doc("Change Tracking and Inventory service's information.")
 model ChangeTrackingInformation {
   @doc("Resource ID of the Change Tracking extension.")
+  @visibility(Lifecycle.Read)
   resourceId?: string;
 
   @doc("Provisioning state of the Change Tracking service.")
+  @visibility(Lifecycle.Read)
   provisioningState: ProvisioningState;
 
   @doc("If the provisioning state is 'Failed', contains the error leading to failure.")
+  @visibility(Lifecycle.Read)
   error?: ProvisioningError;
 }
 
 @doc("Azure Monitor Insights service's information.")
 model AzureMonitorInformation {
   @doc("Resource ID of the Azure Monitor extension.")
+  @visibility(Lifecycle.Read)
   resourceId?: string;
 
   @doc("Provisioning state of the Azure Monitor service.")
+  @visibility(Lifecycle.Read)
   provisioningState: ProvisioningState;
 
   @doc("If the provisioning state is 'Failed', contains the error leading to failure.")
+  @visibility(Lifecycle.Read)
   error?: ProvisioningError;
 }
 
 @doc("Azure Update Manager service's information.")
 model UpdateManagerInformation {
   @doc("Resource ID of the Update Manager extension.")
+  @visibility(Lifecycle.Read)
   resourceId?: string;
 
   @doc("Provisioning state of the Update Manager service.")
+  @visibility(Lifecycle.Read)
   provisioningState: ProvisioningState;
 
   @doc("If the provisioning state is 'Failed', contains the error leading to failure.")
+  @visibility(Lifecycle.Read)
   error?: ProvisioningError;
 }
 
 @doc("Azure Policy and Machine Configuration service's information.")
 model GuestConfigurationInformation {
   @doc("Resource ID of the Guest Configuration extension. Null for Arc machines as the extension is built into the machine.")
+  @visibility(Lifecycle.Read)
   resourceId?: string;
 
   @doc("Provisioning state of the Guest Configuration service.")
+  @visibility(Lifecycle.Read)
   provisioningState: ProvisioningState;
 
   @doc("If the provisioning state is 'Failed', contains the error leading to failure.")
+  @visibility(Lifecycle.Read)
   error?: ProvisioningError;
 }
 
@@ -148,9 +164,11 @@ model GuestConfigurationInformation {
 @error
 model ProvisioningError {
   @doc("Code corresponding to the type of provisioning failure.")
+  @visibility(Lifecycle.Read)
   code: string;
 
   @doc("Detailed message explaining the cause of the provisioning failure.")
+  @visibility(Lifecycle.Read)
   message: string;
 }
 
