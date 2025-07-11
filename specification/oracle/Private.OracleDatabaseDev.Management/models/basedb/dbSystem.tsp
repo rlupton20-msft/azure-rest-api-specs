@@ -53,7 +53,7 @@ model DbSystemProperties extends DbSystemBaseProperties {
   dbVersion: string;
 
   @doc("The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database name should not be same as database name.")
-  @visibility("create")
+  @visibility(Lifecycle.Create)
   pdbName?: string;
 }
 
