@@ -51,6 +51,10 @@ model DbSystemProperties extends DbSystemBaseProperties {
   @doc("A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   dbVersion: string;
+
+  @doc("The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database name should not be same as database name.")
+  @visibility("create")
+  pdbName?: string;
 }
 
 //OCI Reference: https://docs.oracle.com/en-us/iaas/api/#/en/database/20160918/datatypes/LaunchDbSystemBase
