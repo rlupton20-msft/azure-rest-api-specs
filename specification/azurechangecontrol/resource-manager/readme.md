@@ -27,7 +27,7 @@ These are the global settings for the ChangeSafety.
 
 ```yaml
 openapi-type: arm
-tag: package-2025-03-01-preview
+tag: package-2025-07-01-preview
 openapi-subtype: providerHub
 ```
 
@@ -48,6 +48,15 @@ These settings apply only when `--tag=package-2025-03-01-preview` is specified o
 input-file:
   - Private.AzureChangeControl/ChangeControl/preview/2025-03-01-preview/ChangeControl.json
 ```
+
+### Tag: package-2025-07-01-preview
+
+These settings apply only when `--tag=package-2025-07-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-07-01-preview'
+input-file:
+  - Private.AzureChangeControl/ChangeControl/preview/2025-07-01-preview/ChangeControl.json
+```
 ---
 
 ## Suppression
@@ -58,15 +67,45 @@ directive:
     reason: Need to use Record for key-value pair properties, got sign-off during design meeting.
     from: ChangeControl.json
     where:
+      # ChangeState properties
       - $.definitions.ChangeStateProperties.properties.stageParameters
+      - $.definitions.ChangeStateProperties.properties.parameters
+      - $.definitions.ChangeStateProperties.properties.additionalData
+      
+      # Parameter types
       - $.definitions.Parameter.properties.metadata
       - $.definitions.ParameterUpdate.properties.metadata
+      - $.definitions.StringParameter.properties.metadata
+      - $.definitions.NumberParameter.properties.metadata
+      - $.definitions.ArrayParameter.properties.metadata
+      - $.definitions.ArrayParameter.properties.defaultValue
+      - $.definitions.ObjectParameter.properties.metadata
+      - $.definitions.ObjectParameter.properties.defaultValue
+      - $.definitions.ObjectParameter.properties.schema
+      
+      # Stage and StageMap properties
       - $.definitions.Stage.properties.parameterValues
-      - $.definitions.StageProgressionProperties.properties.parameterValues
-      - $.definitions.StageProgressionPropertiesUpdate.properties.parameterValues
-      - $.definitions.RetrieveNextStagesResponseItem.properties.parameterValues
+      - $.definitions.Stage.properties.stageVariables
       - $.definitions.StageMapProperties.properties.parameters
-      - $.definitions.StageMapPropertiesUpdate.properties.parameters    
+      - $.definitions.StageMapPropertiesUpdate.properties.parameters
+      
+      # StageProgression properties
+      - $.definitions.StageProgressionProperties.properties.parameterValues
+      - $.definitions.StageProgressionProperties.properties.additionalData
+      - $.definitions.StageProgressionPropertiesUpdate.properties.parameterValues
+      - $.definitions.StageProgressionPropertiesUpdate.properties.additionalData
+      
+      # RetrieveNextStages response properties
+      - $.definitions.RetrieveNextStagesResponseItem.properties.parameterValues
+      - $.definitions.RetrieveNextStagesResponseItem.properties.stageVariables
+      - $.definitions.RetrieveNextStagesResponseItem.properties.additionalData
+      
+      # ChangeDefinition properties
+      - $.definitions.ChangeDefinition.properties.details
+      
+      # Operation content properties
+      - $.definitions.OperationContent.properties.properties
+      - $.definitions.ResourceContent.properties.properties
 ```
 
 ---

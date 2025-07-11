@@ -2,10 +2,12 @@ import "@typespec/rest";
 import "@typespec/http";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/versioning";
 import "./commonmodels.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
+using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
@@ -37,7 +39,8 @@ model StageMapProperties {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning of operation parameters should not be of type Record as per ARM."
   @doc("StageMap parameters schema for each stage.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  parameters?: Record<Parameter>;
+  @typeChangedFrom(Versions.v2025_07_01_preview, Record<Parameter>)
+  parameters?: ParametersCollection;
 }
 
 @doc("Defines details about each stage in the stage map resource.")
@@ -55,14 +58,28 @@ model Stage {
   sequence: int32;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: We need list of parameters in key:value format."
-  #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need the Parameters to be strong type. So need to provide all the supported types which are string & int for now."
+  #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need the Parameters to be strong type. So need to provide all the supported types which are string, int, array, and object for now."
   @doc("Parameters to apply on the change of that stage. Key value pairs of parameter and values.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  parameterValues?: Record<string | int32>;
+  @removed(Versions.v2025_07_01_preview)
+  parameterValues?: Record<
+    | string
+    | int32>;
 
   @doc("Stage Map resource Id.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @removed(Versions.v2025_07_01_preview)
   nestedStageMapResourceId?: StageMapResourceId;
+
+  @doc("Variables to apply on the change of that stage. Key value pairs supporting any JSON values.")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @added(Versions.v2025_07_01_preview)
+  stageVariables?: StageVariables;
+
+  @doc("Nested stage map details.")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @added(Versions.v2025_07_01_preview)
+  nestedStageMap?: NestedStageMap;
 }
 
 @doc("Azure resource Id of a stage map.")
@@ -84,6 +101,17 @@ interface StageMaps {
       ...SubscriptionIdParameter;
     }
   >;
+  @added(Versions.v2025_07_01_preview)
+  getAtManagementGroupLevel is ArmResourceRead<
+    StageMap,
+    {
+      ...ApiVersionParameter;
+
+      @path
+      @doc("The ID of the target management group.")
+      managementGroupId: string;
+    }
+  >;
 
   createOrUpdate is ArmResourceCreateOrReplaceSync<StageMap>;
   createOrUpdateAtSubscriptionLevel is ArmResourceCreateOrReplaceSync<
@@ -91,6 +119,17 @@ interface StageMaps {
     {
       ...ApiVersionParameter;
       ...SubscriptionIdParameter;
+    }
+  >;
+  @added(Versions.v2025_07_01_preview)
+  createOrUpdateAtManagementGroupLevel is ArmResourceCreateOrReplaceSync<
+    StageMap,
+    {
+      ...ApiVersionParameter;
+
+      @path
+      @doc("The ID of the target management group.")
+      managementGroupId: string;
     }
   >;
 
@@ -103,6 +142,18 @@ interface StageMaps {
       ...SubscriptionIdParameter;
     }
   >;
+  @added(Versions.v2025_07_01_preview)
+  updateAtManagementGroupLevel is ArmResourcePatchSync<
+    StageMap,
+    StageMapProperties,
+    {
+      ...ApiVersionParameter;
+
+      @path
+      @doc("The ID of the target management group.")
+      managementGroupId: string;
+    }
+  >;
 
   delete is ArmResourceDeleteSync<StageMap>;
   deleteAtSubscriptionLevel is ArmResourceDeleteSync<
@@ -112,7 +163,31 @@ interface StageMaps {
       ...SubscriptionIdParameter;
     }
   >;
+  @added(Versions.v2025_07_01_preview)
+  deleteAtManagementGroupLevel is ArmResourceDeleteSync<
+    StageMap,
+    {
+      ...ApiVersionParameter;
+
+      @path
+      @doc("The ID of the target management group.")
+      managementGroupId: string;
+    }
+  >;
 
   list is ArmResourceListAtScope<StageMap>;
   listBySubscription is ArmListBySubscription<StageMap>;
+
+  @doc("List StageMap resources by management group.")
+  @added(Versions.v2025_07_01_preview)
+  listByManagementGroup is ArmResourceListByParent<
+    StageMap,
+    {
+      ...ApiVersionParameter;
+
+      @path
+      @doc("The ID of the target management group.")
+      managementGroupId: string;
+    }
+  >;
 }

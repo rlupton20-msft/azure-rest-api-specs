@@ -35,6 +35,13 @@ model ChangeStateProperties {
 
   @visibility(Lifecycle.Read, Lifecycle.Create)
   @doc("Describes the type of the change.")
+  @renamedFrom(Versions.v2025_07_01_preview, "changeType")
+  @removed(Versions.v2025_07_01_preview)
+  changeTypeOld: ChangeType;
+
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @added(Versions.v2025_07_01_preview)
+  @doc("Describes the nature of the change.")
   changeType: ChangeType;
 
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
@@ -44,22 +51,27 @@ model ChangeStateProperties {
 
   @visibility(Lifecycle.Read, Lifecycle.Create)
   @doc("Azure resource Id of the referenced StageMap.")
+  @removed(Versions.v2025_07_01_preview)
   stageMapResourceId: StageMapResourceId;
 
   @visibility(Lifecycle.Read, Lifecycle.Create)
   @doc("Object that describes the change payload.")
+  @removed(Versions.v2025_07_01_preview)
   changeArtifact: ChangeArtifact;
 
   @visibility(Lifecycle.Read, Lifecycle.Create)
   @doc("Change is expected to be expired by date, in ISO 8601 format.")
+  @removed(Versions.v2025_07_01_preview)
   expirationDate: utcDateTime;
 
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("URI to the external service catalog reference.")
+  @removed(Versions.v2025_07_01_preview)
   serviceCatalogReference?: url;
 
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("URI to the work item related to this change.")
+  @removed(Versions.v2025_07_01_preview)
   workItemReference?: url;
 
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
@@ -75,6 +87,7 @@ model ChangeStateProperties {
   #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need the Parameters to be strong type. So need to provide all the supported types which are string & int for now."
   @doc("Schema of parameters that will be provided for each stageProgression.")
   @visibility(Lifecycle.Read, Lifecycle.Create)
+  @removed(Versions.v2025_07_01_preview)
   stageParameters: Record<Parameter>;
 
   #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need to have a strong type for the stagemap snapshot. So need to provide all the supported types which are string & StageMap for now."
@@ -82,6 +95,57 @@ model ChangeStateProperties {
   @doc("Referenced stagemap snapshot.")
   @visibility(Lifecycle.Read)
   stageMapSnapshot?: Array<string | StageMap>;
+
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  @doc("Reference to the StageMap, defining progression.")
+  @added(Versions.v2025_07_01_preview)
+  stageMap: NestedStageMap;
+
+  @doc("Schema of parameters that will be provided for each stageProgression.")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @added(Versions.v2025_07_01_preview)
+  parameters?: ParametersCollection;
+  
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @doc("Describes the type of the rollout used for the change.")
+  @added(Versions.v2025_07_01_preview)
+  rolloutType: RolloutType;
+
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @doc("Collection of payloads defining what will be deployed.")
+  @OpenAPI.extension("x-ms-identifiers", #["name"])
+  @added(Versions.v2025_07_01_preview)
+  changeDefinitions: ChangeDefinition[];  
+
+  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @doc("Label for the release associated with this change.")
+  @added(Versions.v2025_07_01_preview)
+  releaseLabel?: string;
+
+  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @doc("Expected start time when the change execution should begin, in ISO 8601 format.")
+  @added(Versions.v2025_07_01_preview)
+  anticipatedStartTime: utcDateTime;
+
+  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @doc("Expected completion time when the change should be finished, in ISO 8601 format.")
+  @added(Versions.v2025_07_01_preview)
+  anticipatedEndTime: utcDateTime;
+
+  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @doc("Tool used for deployment orchestration of this change.")
+  @added(Versions.v2025_07_01_preview)
+  orchestrationTool?: string;
+
+  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @doc("Collection of related links for the change.")
+  @added(Versions.v2025_07_01_preview)
+  links?: ChangeLinks;
+
+  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @doc("Additional metadata for the change required for various orchestration tools.")
+  @added(Versions.v2025_07_01_preview)
+  additionalData?: ObjectValue;
 }
 
 @doc("RetrieveNextStages POST Action response.")
@@ -98,7 +162,7 @@ model RetrieveNextStagesResponse {
   lastStageProgressionSequence: int32;
 
   @doc("StageProgression resources that are ready to put in 'InProgress' state.")
-  @Azure.ResourceManager.identifiers(#["stageReference"])
+  @OpenAPI.extension("x-ms-identifiers", #["stageReference"])
   nextStages: Array<RetrieveNextStagesResponseItem>;
 }
 
@@ -112,10 +176,42 @@ model RetrieveNextStagesResponseItem {
   #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need the Parameters to be strong type. So need to provide all the supported types which are string & int for now."
   @doc("Parameters to apply on the change for the stage.")
   @visibility(Lifecycle.Read)
+  @removed(Versions.v2025_07_01_preview)
   parameterValues: Record<string | int32>;
+
+  @doc("Variables to apply on the change for the stage. Key value pairs supporting any JSON values.")
+  @visibility(Lifecycle.Read)
+  @added(Versions.v2025_07_01_preview)
+  stageVariables: StageVariables;
+
+   @doc("Current state of the stage progression.")
+  @visibility(Lifecycle.Read)
+  @added(Versions.v2025_07_01_preview)
+  state?: StageProgressionState;
+
+  @visibility(Lifecycle.Read)
+  @doc("The sequence of the stageProgression resource.")
+  @added(Versions.v2025_07_01_preview)
+  sequence?: int32;
+
+  @doc("Comments about the stage progression.")
+  @visibility(Lifecycle.Read)
+  @added(Versions.v2025_07_01_preview)
+  comments?: string;
+
+  @doc("Collection of related links for the stageprogression.")
+  @visibility(Lifecycle.Read)
+  @added(Versions.v2025_07_01_preview)
+  links?: ChangeLinks;
+
+  @visibility(Lifecycle.Read)
+  @doc("Additional metadata related to the StageProgression resource.")
+  @added(Versions.v2025_07_01_preview)
+  additionalData?: ObjectValue;
 }
 
 @doc("Resource operation model.")
+@removed(Versions.v2025_07_01_preview)
 model ResourceOperation {
   @doc("The uri of the operation.")
   uri: url;
@@ -129,6 +225,7 @@ model ResourceOperation {
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
 @doc("Resource operation content model.")
+@removed(Versions.v2025_07_01_preview)
 model ResourceContent {
   @doc("The name of the resource.")
   name?: string;
@@ -154,7 +251,12 @@ union ChangeStatus {
   Completed: "Completed",
 
   @doc("Resource is Abandoned.")
+  @removed(Versions.v2025_07_01_preview)
   Abandoned: "Abandoned",
+
+  @doc("Resource is Cancelled.")
+  @added(Versions.v2025_07_01_preview)
+  Cancelled: "Cancelled",
 
   @doc("Resource is in Paused state.")
   Paused: "Paused",
@@ -168,17 +270,37 @@ union ChangeType {
   string,
 
   @doc("Regular resource change.")
+  @removed(Versions.v2025_07_01_preview)
   Normal: "Normal",
 
   @doc("An Emergency type resource change.")
+  @removed(Versions.v2025_07_01_preview)
   Emergency: "Emergency",
 
   @doc("Breakglass level resource change.")
+  @removed(Versions.v2025_07_01_preview)
   Breakglass: "Breakglass",
+
+  @doc("Application deployment change.")
+  @added(Versions.v2025_07_01_preview)
+  AppDeployment: "AppDeployment",
+
+  @doc("Configuration change.")
+  @added(Versions.v2025_07_01_preview)
+  Config: "Config",
+
+  @doc("Policy deployment change.")
+  @added(Versions.v2025_07_01_preview)
+  PolicyDeployment: "PolicyDeployment",
+
+  @doc("Manual touch change.")
+  @added(Versions.v2025_07_01_preview)
+  ManualTouch: "ManualTouch",
 }
 
 @doc("Base type for the ChangeArtifact, which is polymorphic based on ArtifactType")
 @discriminator("artifactType")
+@removed(Versions.v2025_07_01_preview)
 model ChangeArtifact {
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Artifact label.")
@@ -189,8 +311,10 @@ model ChangeArtifact {
   artifactType: ArtifactType;
 }
 
+
 /* ChangeArtifact for InlineArmTemplate. */
 @doc("Describes the change payload for InlineArmTemplate or InlineBicep")
+@removed(Versions.v2025_07_01_preview)
 model InlineArmTemplateChangeArtifact extends ChangeArtifact {
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("The type of the artifact.")
@@ -203,6 +327,7 @@ model InlineArmTemplateChangeArtifact extends ChangeArtifact {
 
 /* ChangeArtifact for InlineBicep. */
 @doc("Describes the change payload for InlineBicep")
+@removed(Versions.v2025_07_01_preview)
 model InlineBicepTemplateChangeArtifact extends ChangeArtifact {
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("The type of the artifact.")
@@ -215,6 +340,7 @@ model InlineBicepTemplateChangeArtifact extends ChangeArtifact {
 
 /* ChangeArtifact for ArmOperation. */
 @doc("Describes the change payload for artifactType='ArmOperation'")
+@removed(Versions.v2025_07_01_preview)
 model ArmOperationChangeArtifact extends ChangeArtifact {
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("The type of the artifact.")
@@ -227,6 +353,7 @@ model ArmOperationChangeArtifact extends ChangeArtifact {
 
 /* ChangeArtifact for external ARM Template.*/
 @doc("Describes the change payload for External ArmTemplate file.")
+@removed(Versions.v2025_07_01_preview)
 model ExternalArmTemplateChangeArtifact extends ChangeArtifact {
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("The type of the artifact.")
@@ -239,6 +366,7 @@ model ExternalArmTemplateChangeArtifact extends ChangeArtifact {
 
 /* ChangeArtifact for external bicep file.*/
 @doc("Describes the change payload for External Bicep file.")
+@removed(Versions.v2025_07_01_preview)
 model ExternalBicepTemplateChangeArtifact extends ChangeArtifact {
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("The type of the artifact.")
@@ -251,6 +379,7 @@ model ExternalBicepTemplateChangeArtifact extends ChangeArtifact {
 
 /* ChangeArtifact for TemplateSpec.*/
 @doc("Describes the change payload for artifactType=External & artifactType='ArmTemplate' or Bicep.")
+@removed(Versions.v2025_07_01_preview)
 model TemplateSpecChangeArtifact extends ChangeArtifact {
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("TemplateSpec Artifact type.")
@@ -263,6 +392,7 @@ model TemplateSpecChangeArtifact extends ChangeArtifact {
 
 /* Various content type definitions, based on the artifactType. */
 @doc("Artifact content model for Inline template or bicep content.")
+@removed(Versions.v2025_07_01_preview)
 model InlineArtifactContent {
   @removed(Versions.v2025_03_01_preview)
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
@@ -276,6 +406,7 @@ model InlineArtifactContent {
 }
 
 @doc("Artifact model when artifactType is ArmOperation.")
+@removed(Versions.v2025_07_01_preview)
 model ArmOperationArtifactContent {
   #suppress "deprecated" "back compat"
   @removed(Versions.v2025_03_01_preview)
@@ -321,6 +452,7 @@ model ArmOperationResource {
 }
 
 @doc("Artifact content model for External ArmTemplates or Bicep files.")
+@removed(Versions.v2025_07_01_preview)
 model ExternalArtifactContent {
   @removed(Versions.v2025_03_01_preview)
   @doc("URI for the external ARM template or Bicep file.")
@@ -334,6 +466,7 @@ model ExternalArtifactContent {
 }
 
 @doc("Artifact content model for TemplateSpec resource.")
+@removed(Versions.v2025_07_01_preview)
 model TemplateSpecArtifactContent {
   @removed(Versions.v2025_03_01_preview)
   @doc("TemplateSpec resource Id in ARM.")
@@ -356,6 +489,17 @@ model VerifyChangeValidityRequest {
   @doc("The stage progression Id.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   stageProgressionId?: armResourceIdentifier;
+
+  @doc("The stage progression resource Id.")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @added(Versions.v2025_07_01_preview)
+  stageProgressionResourceId?: StageProgressionResourceId;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
+  @doc("The context of the verify change validity request.")
+  @added(Versions.v2025_07_01_preview)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  context?: ObjectValue;
 }
 
 @added(Versions.v2025_03_01_preview)
@@ -391,6 +535,7 @@ model VerifyChangeValidityResponse {
 
 /* Different ChangeArtifact types */
 @doc("Defines the type of change artifact.")
+@removed(Versions.v2025_07_01_preview)
 union ArtifactType {
   string,
 
@@ -415,7 +560,6 @@ union ArtifactType {
   TemplateSpec: "TemplateSpec",
 }
 
-/* Supported ARM Operations Enum string. */
 @doc("Supported ARM Operations.")
 union ArmOperation {
   string,
@@ -432,7 +576,6 @@ union ArmOperation {
   PATCH: "PATCH",
 }
 
-/* Supported validation outcome Enum string. */
 @added(Versions.v2025_03_01_preview)
 @doc("Supported validation outcomes.")
 union ValidationOutcome {
@@ -541,3 +684,47 @@ interface ChangeStates {
     }
   >;
 }
+
+@doc("Defines the type of rollout for the change.")
+@added(Versions.v2025_07_01_preview)
+union RolloutType {
+  string,
+
+  @doc("Normal rollout type.")
+  Normal: "Normal",
+
+  @doc("Hotfix rollout type.")
+  Hotfix: "Hotfix",
+
+  @doc("Emergency rollout type.")
+  Emergency: "Emergency",
+}
+
+@doc("Model that defines the change definition with name, type, and details.")
+@added(Versions.v2025_07_01_preview)
+model ChangeDefinition {
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @doc("Name of the change definition.")
+  name: string;
+
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @doc("Type of the change definition.")
+  type: ChangeDefinitionType;
+
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @doc("Free form object containing additional details for the change definition.")
+  details: ObjectValue;
+}
+
+@doc("Defines the type of change definition.")
+@added(Versions.v2025_07_01_preview)
+union ChangeDefinitionType {
+  string,
+
+  @doc("ARM operation type.")
+  ArmOperation: "ArmOperation",
+
+  @doc("Scope type with ARM resource selectors.")
+  ArmScope: "Scope",
+}
+
