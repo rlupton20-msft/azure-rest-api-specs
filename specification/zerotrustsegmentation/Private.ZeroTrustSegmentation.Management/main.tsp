@@ -7,17 +7,13 @@ import "@azure-tools/typespec-azure-resource-manager";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Azure.Core;
-using Azure.Core.Foundations;
 using Azure.ResourceManager;
 
 @armProviderNamespace
-@service({
-  title: "ZeroTrustSegmentationClient",
-})
+@service(#{ title: "ZeroTrustSegmentationClient" })
 @versioned(Versions)
 @doc("ZeroTrustSegmentation resource provider API.")
-namespace Microsoft.ZeroTrustSegmentation;
+namespace Private.ZeroTrustSegmentation;
 
 /** ZeroTrustSegmentation API versions */
 enum Versions {
@@ -44,31 +40,36 @@ model SegmentationManager is TrackedResource<SegmentationManagerProperties> {
   @pattern("^[a-zA-Z0-9-]{3,250}$")
   @path
   @segment("segmentationManagers")
-  name: string;  
-  
+  name: string;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Adding property for versioning"
   @added(Versions.v2025_07_01_preview)
   @doc("The managed service identities assigned to this resource.")
   identity?: SegmentationManagerManagedServiceIdentity;
 }
 
 @added(Versions.v2025_07_01_preview)
+@doc("Managed service identity for the segmentation manager.")
 model SegmentationManagerManagedServiceIdentity {
   @doc("The type of managed service identity.")
   type: SegmentationManagerManagedServiceIdentityType;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Following ARM pattern for user assigned identities"
   @doc("The user assigned identities associated with the resource.")
-  userAssignedIdentities?: SegmentationManagerUserAssignedIdentity
+  userAssignedIdentities?: Record<Azure.ResourceManager.CommonTypes.UserAssignedIdentity | null>;
 }
 
 @added(Versions.v2025_07_01_preview)
+@doc("The type of managed service identity.")
 union SegmentationManagerManagedServiceIdentityType {
+  @doc("No managed identity is assigned to this resource.")
   "None",
+
+  @doc("User Assigned Managed Identity")
   "UserAssigned",
+
   string,
 }
-
-@added(Versions.v2025_07_01_preview)
-model SegmentationManagerUserAssignedIdentity is Record<Azure.ResourceManager.CommonTypes.UserAssignedIdentity | null>;
 
 @doc("Segmentation manager properties")
 model SegmentationManagerProperties {
@@ -141,7 +142,7 @@ model SetLabelRecord {
   macAddress: string;
 
   @doc("Labels as key-value pairs")
-  @OpenAPI.extension("x-ms-identifiers", [])
+  @OpenAPI.extension("x-ms-identifiers", #[])
   labels?: LabelPair[];
 }
 
@@ -157,7 +158,7 @@ model LabelPair {
 @doc("The request model for the SetLabels API")
 model SetLabelsRequest {
   @doc("List of labels that need to be updated")
-  @OpenAPI.extension("x-ms-identifiers", [])
+  @OpenAPI.extension("x-ms-identifiers", #[])
   labels: SetLabelRecord[];
 }
 
@@ -182,7 +183,7 @@ model Graph {
   vertices: Vertex[];
 
   @doc("List of edges connecting the vertices in the graph")
-  @OpenAPI.extension("x-ms-identifiers", [])
+  @OpenAPI.extension("x-ms-identifiers", #[])
   edges: Edge[];
 
   @doc("Total weights for all edges in the graph")
@@ -210,7 +211,7 @@ model Vertex {
   name?: string;
 
   @doc("Labels associated with the vertex as key-value pairs")
-  @OpenAPI.extension("x-ms-identifiers", [])
+  @OpenAPI.extension("x-ms-identifiers", #[])
   labels: LabelPair[];
 }
 
@@ -276,11 +277,11 @@ interface Operations extends Azure.ResourceManager.Operations {}
 @armResourceOperations
 interface SegmentationManagers {
   get is ArmResourceRead<SegmentationManager>;
-  createOrReplace is ArmResourceCreateOrReplaceSync<
-    SegmentationManager>;
+  createOrReplace is ArmResourceCreateOrReplaceSync<SegmentationManager>;
   update is ArmResourcePatchSync<
     SegmentationManager,
-    SegmentationManagerProperties>;
+    SegmentationManagerProperties
+  >;
   delete is ArmResourceDeleteSync<SegmentationManager>;
   listByResourceGroup is ArmResourceListByParent<SegmentationManager>;
   listBySubscription is ArmListBySubscription<SegmentationManager>;
