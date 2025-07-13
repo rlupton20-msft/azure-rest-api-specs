@@ -36,34 +36,6 @@ model SegmentationManager is TrackedResource<SegmentationManagerProperties> {
   @path
   @segment("segmentationManagers")
   name: string;
-
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Adding property for versioning"
-  @added(Versions.v2025_07_01_preview)
-  @doc("The managed service identities assigned to this resource.")
-  identity?: SegmentationManagerManagedServiceIdentity;
-}
-
-@added(Versions.v2025_07_01_preview)
-@doc("Managed service identity for the segmentation manager.")
-model SegmentationManagerManagedServiceIdentity {
-  @doc("The type of managed service identity.")
-  type: SegmentationManagerManagedServiceIdentityType;
-
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Following ARM pattern for user assigned identities"
-  @doc("The user assigned identities associated with the resource.")
-  userAssignedIdentities?: Record<Azure.ResourceManager.CommonTypes.UserAssignedIdentity | null>;
-}
-
-@added(Versions.v2025_07_01_preview)
-@doc("The type of managed service identity.")
-union SegmentationManagerManagedServiceIdentityType {
-  @doc("No managed identity is assigned to this resource.")
-  "None",
-
-  @doc("User Assigned Managed Identity")
-  "UserAssigned",
-
-  string,
 }
 
 @doc("Segmentation manager properties")
