@@ -101,12 +101,12 @@ model ChangeStateProperties {
   @added(Versions.v2025_07_01_preview)
   stageMap: NestedStageMap;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Provides a flexible object schema to support different types of parameters including string, int, and object."
   @doc("Schema of parameters that will be provided for each stageProgression.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @added(Versions.v2025_07_01_preview)
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Provides a flexible object schema to support different types of parameters including string, int, and object."
   parameters?: {};
-  
+
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Describes the type of the rollout used for the change.")
   @added(Versions.v2025_07_01_preview)
@@ -116,37 +116,37 @@ model ChangeStateProperties {
   @doc("Collection of payloads defining what will be deployed.")
   @OpenAPI.extension("x-ms-identifiers", #["name"])
   @added(Versions.v2025_07_01_preview)
-  changeDefinitions: ChangeDefinition[];  
+  changeDefinitions: ChangeDefinition[];
 
-  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Label for the release associated with this change.")
   @added(Versions.v2025_07_01_preview)
   releaseLabel?: string;
 
-  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Expected start time when the change execution should begin, in ISO 8601 format.")
   @added(Versions.v2025_07_01_preview)
   anticipatedStartTime: utcDateTime;
 
-  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Expected completion time when the change should be finished, in ISO 8601 format.")
   @added(Versions.v2025_07_01_preview)
   anticipatedEndTime: utcDateTime;
 
-  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Tool used for deployment orchestration of this change.")
   @added(Versions.v2025_07_01_preview)
   orchestrationTool?: string;
 
-  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Collection of related links for the change.")
   @added(Versions.v2025_07_01_preview)
   links?: ChangeLinks;
 
-  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Defines a flexible placeholder for tool-specific metadata for diverse orchestration and change scenarios."
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Additional metadata for the change required for various orchestration tools.")
   @added(Versions.v2025_07_01_preview)
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Defines a flexible placeholder for tool-specific metadata for diverse orchestration and change scenarios."
   additionalData?: {};
 }
 
@@ -186,7 +186,7 @@ model RetrieveNextStagesResponseItem {
   @added(Versions.v2025_07_01_preview)
   stageVariables: StageVariables;
 
-   @doc("Current state of the stage progression.")
+  @doc("Current state of the stage progression.")
   @visibility(Lifecycle.Read)
   @added(Versions.v2025_07_01_preview)
   state?: StageProgressionState;
@@ -206,10 +206,10 @@ model RetrieveNextStagesResponseItem {
   @added(Versions.v2025_07_01_preview)
   links?: ChangeLinks;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Provides flexible object schema for stage-specific orchestration metadata and dynamic tool-specific configuration data."
   @visibility(Lifecycle.Read)
   @doc("Additional metadata related to the StageProgression resource.")
   @added(Versions.v2025_07_01_preview)
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Provides flexible object schema for stage-specific orchestration metadata and dynamic tool-specific configuration data."
   additionalData?: {};
 }
 
@@ -313,7 +313,6 @@ model ChangeArtifact {
   @doc("The type of the artifact.")
   artifactType: ArtifactType;
 }
-
 
 /* ChangeArtifact for InlineArmTemplate. */
 @doc("Describes the change payload for InlineArmTemplate or InlineBicep")
@@ -499,11 +498,10 @@ model VerifyChangeValidityRequest {
   @added(Versions.v2025_07_01_preview)
   stageProgressionResourceId?: StageProgressionResourceId;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Enables an extensible object schema to provide additional context data for the verification request."
   @doc("The context of the verify change validity request.")
   @added(Versions.v2025_07_01_preview)
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Enables an extensible object schema to provide additional context data for the verification request."
   context?: {};
 }
 
@@ -716,9 +714,9 @@ model ChangeDefinition {
   @doc("Type of the change definition.")
   type: ChangeDefinitionType;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Allows for an extensible object structure to support diverse change scenarios."
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Free form object containing additional details for the change definition.")
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Allows for an extensible object structure to support diverse change scenarios."
   details: {};
 }
 
@@ -733,4 +731,3 @@ union ChangeDefinitionType {
   @doc("Scope type with ARM resource selectors.")
   ArmScope: "ArmScope",
 }
-

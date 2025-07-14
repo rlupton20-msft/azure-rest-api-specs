@@ -61,51 +61,50 @@ input-file:
 
 ## Suppression
 
-``` yaml
+```yaml
 directive:
   - suppress: AvoidAdditionalProperties
-    reason: Need to use Record for key-value pair properties, got sign-off during design meeting.
+    reason: Flexible object schemas are required for extensible parameter storage and dynamic metadata. These enable support for diverse deployment scenarios while maintaining ARM compliance. Approved for flexible object parameters in Azure Change Control service design.
     from: ChangeControl.json
     where:
-      # ChangeState properties
-      - $.definitions.ChangeStateProperties.properties.stageParameters
+      # ChangeState properties - flexible parameter and metadata storage
       - $.definitions.ChangeStateProperties.properties.parameters
       - $.definitions.ChangeStateProperties.properties.additionalData
       
-      # Parameter types
+      # Parameter types - flexible metadata and value storage
       - $.definitions.Parameter.properties.metadata
-      - $.definitions.ParameterUpdate.properties.metadata
       - $.definitions.StringParameter.properties.metadata
       - $.definitions.NumberParameter.properties.metadata
       - $.definitions.ArrayParameter.properties.metadata
       - $.definitions.ArrayParameter.properties.defaultValue
+      - $.definitions.ArrayParameter.properties.allowedValues
       - $.definitions.ObjectParameter.properties.metadata
       - $.definitions.ObjectParameter.properties.defaultValue
-      - $.definitions.ObjectParameter.properties.schema
+      - $.definitions.ObjectParameter.properties.allowedValues
       
-      # Stage and StageMap properties
-      - $.definitions.Stage.properties.parameterValues
+      # Stage and StageMap properties - flexible variable and parameter storage
       - $.definitions.Stage.properties.stageVariables
       - $.definitions.StageMapProperties.properties.parameters
       - $.definitions.StageMapPropertiesUpdate.properties.parameters
       
-      # StageProgression properties
-      - $.definitions.StageProgressionProperties.properties.parameterValues
+      # StageProgression properties - flexible variable and metadata storage
+      - $.definitions.StageProgressionProperties.properties.stageVariables
       - $.definitions.StageProgressionProperties.properties.additionalData
-      - $.definitions.StageProgressionPropertiesUpdate.properties.parameterValues
+      - $.definitions.StageProgressionPropertiesUpdate.properties.stageVariables
       - $.definitions.StageProgressionPropertiesUpdate.properties.additionalData
       
-      # RetrieveNextStages response properties
-      - $.definitions.RetrieveNextStagesResponseItem.properties.parameterValues
+      # RetrieveNextStages response properties - flexible variable and metadata storage
       - $.definitions.RetrieveNextStagesResponseItem.properties.stageVariables
       - $.definitions.RetrieveNextStagesResponseItem.properties.additionalData
       
-      # ChangeDefinition properties
+      # ChangeDefinition properties - flexible deployment details storage
       - $.definitions.ChangeDefinition.properties.details
       
-      # Operation content properties
+      # Operation content properties - flexible ARM resource properties
       - $.definitions.OperationContent.properties.properties
-      - $.definitions.ResourceContent.properties.properties
+      
+      # Verify change validity request context - flexible validation context
+      - $.definitions.VerifyChangeValidityRequest.properties.context
 ```
 
 ---

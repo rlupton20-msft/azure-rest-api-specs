@@ -62,9 +62,7 @@ model Stage {
   @doc("Parameters to apply on the change of that stage. Key value pairs of parameter and values.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @removed(Versions.v2025_07_01_preview)
-  parameterValues?: Record<
-    | string
-    | int32>;
+  parameterValues?: Record<string | int32>;
 
   @doc("Stage Map resource Id.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)

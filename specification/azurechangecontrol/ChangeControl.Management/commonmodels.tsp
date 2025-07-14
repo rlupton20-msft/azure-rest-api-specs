@@ -77,7 +77,7 @@ model StringParameter extends Parameter {
   type: ParameterType.String;
 
   @doc("Default value for the parameter.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)  
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   @renamedFrom(Versions.v2025_07_01_preview, "defaultValue")
   @removed(Versions.v2025_07_01_preview)
   defaultValueOld?: string;
@@ -88,7 +88,7 @@ model StringParameter extends Parameter {
   defaultValue?: string;
 
   @doc("Allowed list of the values for the parameter.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)  
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   @renamedFrom(Versions.v2025_07_01_preview, "allowedValues")
   @removed(Versions.v2025_07_01_preview)
   allowedValuesOld: Array<string>;
@@ -106,24 +106,24 @@ model NumberParameter extends Parameter {
   type: ParameterType.Number;
 
   @doc("Default value for the parameter.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)  
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   @renamedFrom(Versions.v2025_07_01_preview, "defaultValue")
   @removed(Versions.v2025_07_01_preview)
   defaultValueOld?: int32;
 
   @doc("Default value for the parameter.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)  
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @added(Versions.v2025_07_01_preview)
   defaultValue?: int32;
 
   @doc("Allowed list of the values for the parameter.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)  
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   @renamedFrom(Versions.v2025_07_01_preview, "allowedValues")
   @removed(Versions.v2025_07_01_preview)
   allowedValuesOld: Array<int32>;
 
   @doc("Allowed list of the values for the parameter.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)  
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @added(Versions.v2025_07_01_preview)
   allowedValues?: Array<int32>;
 }
@@ -154,15 +154,15 @@ model ObjectParameter extends Parameter {
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   type: ParameterType.Object;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Suppressing no-empty-model: Empty object literal required to generate OpenAPI schema with additionalProperties:true for flexible object parameter values that accept arbitrary JSON structures."
   @doc("Default value for the parameter.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Suppressing no-empty-model: Empty object literal required to generate OpenAPI schema with additionalProperties:true for flexible object parameter values that accept arbitrary JSON structures."
   defaultValue?: {};
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Suppressing no-empty-model: Empty object literal required to generate OpenAPI schema with additionalProperties:true for flexible object parameter constraint validation."
   @doc("Allowed list of the values for the parameter.")
   @OpenAPI.extension("x-ms-identifiers", #[])
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Suppressing no-empty-model: Empty object literal required to generate OpenAPI schema with additionalProperties:true for flexible object parameter constraint validation."
   allowedValues?: Array<{}>;
 }
 
@@ -199,37 +199,37 @@ model Link {
 @added(Versions.v2025_07_01_preview)
 model ChangeLinks {
   @doc("Link to work tracking item.")
-  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   workTrackingItem?: Link;
 
   @doc("Link to approval request.")
-  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   approvalRequest?: Link;
 
   @doc("Link to support incident.")
-  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   supportIncident?: Link;
 
   @doc("Link to access elevation request.")
-  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   accessElevationRequest?: Link;
 
   @doc("Link to related change state.")
-  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   relatedChangeState?: Link;
 
   @doc("Link to test results.")
-  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   testResults?: Link;
 
   @doc("Link to service catalog.")
-  @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   serviceCatalog?: Link;
 }
 
+#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Intentionally empty model for flexible stage variables storage."
 @doc("Stage variables object type that allows flexible key-value pairs")
 @added(Versions.v2025_07_01_preview)
-#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Intentionally empty model for flexible stage variables storage."
 model StageVariables {
   // Flexible object model for stage variables - allows any properties
 }
