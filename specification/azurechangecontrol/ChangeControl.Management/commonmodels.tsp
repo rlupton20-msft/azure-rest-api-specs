@@ -156,12 +156,14 @@ model ObjectParameter extends Parameter {
 
   @doc("Default value for the parameter.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  defaultValue?: ObjectValue;
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Suppressing no-empty-model: Empty object literal required to generate OpenAPI schema with additionalProperties:true for flexible object parameter values that accept arbitrary JSON structures."
+  defaultValue?: {};
 
   @doc("Allowed list of the values for the parameter.")
   @OpenAPI.extension("x-ms-identifiers", #[])
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  allowedValues?: Array<ObjectValue>;
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Suppressing no-empty-model: Empty object literal required to generate OpenAPI schema with additionalProperties:true for flexible object parameter constraint validation."
+  allowedValues?: Array<{}>;
 }
 
 @doc("Nested stage map reference.")
@@ -169,11 +171,7 @@ model ObjectParameter extends Parameter {
 model NestedStageMap {
   @doc("ARM resource ID for the nested stagemap resource.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  resourceId?: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Private.AzureChangeControl/stageMaps";
-    }
-  ]>;
+  resourceId?: string;
 }
 
 @doc("Link model for related resources and references.")
@@ -234,19 +232,4 @@ model ChangeLinks {
 #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Intentionally empty model for flexible stage variables storage."
 model StageVariables {
   // Flexible object model for stage variables - allows any properties
-}
-
-@doc("Parameters collection for stage progression schema")
-#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Intentionally flexible model for parameter definitions."
-@added(Versions.v2025_07_01_preview)
-model ParametersCollection {
-  // Flexible object model for parameter definitions - allows Parameter objects as values
-}
-
-@doc("Object type with no additional properties allowed")
-@added(Versions.v2025_07_01_preview)
-#suppress "@azure-tools/typespec-azure-core/no-openapi" "Suppressing the warning: Using OpenAPI extension to explicitly set additionalProperties to false for object parameters to comply with AvoidAdditionalProperties lint rule."
-#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Suppressing the warning: This is an intentionally empty object model used to represent object types that disallow additional properties."
-model ObjectValue {
-  // Empty object model that explicitly disallows additional properties
 }

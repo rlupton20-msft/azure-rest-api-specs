@@ -104,7 +104,8 @@ model ChangeStateProperties {
   @doc("Schema of parameters that will be provided for each stageProgression.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @added(Versions.v2025_07_01_preview)
-  parameters?: ParametersCollection;
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Provides a flexible object schema to support different types of parameters including string, int, and object."
+  parameters?: {};
   
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Describes the type of the rollout used for the change.")
@@ -145,7 +146,8 @@ model ChangeStateProperties {
   @visibility(Lifecycle.Read, Lifecycle.Create,Lifecycle.Update)
   @doc("Additional metadata for the change required for various orchestration tools.")
   @added(Versions.v2025_07_01_preview)
-  additionalData?: ObjectValue;
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Defines a flexible placeholder for tool-specific metadata for diverse orchestration and change scenarios."
+  additionalData?: {};
 }
 
 @doc("RetrieveNextStages POST Action response.")
@@ -207,7 +209,8 @@ model RetrieveNextStagesResponseItem {
   @visibility(Lifecycle.Read)
   @doc("Additional metadata related to the StageProgression resource.")
   @added(Versions.v2025_07_01_preview)
-  additionalData?: ObjectValue;
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Provides flexible object schema for stage-specific orchestration metadata and dynamic tool-specific configuration data."
+  additionalData?: {};
 }
 
 @doc("Resource operation model.")
@@ -488,6 +491,7 @@ model VerifyChangeValidityRequest {
 
   @doc("The stage progression Id.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @removed(Versions.v2025_07_01_preview)
   stageProgressionId?: armResourceIdentifier;
 
   @doc("The stage progression resource Id.")
@@ -499,7 +503,8 @@ model VerifyChangeValidityRequest {
   @doc("The context of the verify change validity request.")
   @added(Versions.v2025_07_01_preview)
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  context?: ObjectValue;
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Enables an extensible object schema to provide additional context data for the verification request."
+  context?: {};
 }
 
 @added(Versions.v2025_03_01_preview)
@@ -514,7 +519,7 @@ model OperationContent {
   location?: string;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: This properties are varying based on different resources. We need list of parameters in key:value format."
-  #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need to provide the paramters of the properties to be string and int."
+  #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need to provide the parameters of the properties to be string and int."
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("The properties of the resource.")
   properties: Record<string | int32>;
@@ -713,7 +718,8 @@ model ChangeDefinition {
 
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Free form object containing additional details for the change definition.")
-  details: ObjectValue;
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Allows for an extensible object structure to support diverse change scenarios."
+  details: {};
 }
 
 @doc("Defines the type of change definition.")
@@ -725,6 +731,6 @@ union ChangeDefinitionType {
   ArmOperation: "ArmOperation",
 
   @doc("Scope type with ARM resource selectors.")
-  ArmScope: "Scope",
+  ArmScope: "ArmScope",
 }
 

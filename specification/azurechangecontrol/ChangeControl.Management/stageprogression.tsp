@@ -80,7 +80,8 @@ model StageProgressionProperties {
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Additional metadata for the stageProgression resource.")
   @added(Versions.v2025_07_01_preview)
-  additionalData?: ObjectValue;
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Defines a flexible placeholder for stage specific meta data for diverse orchestration and change scenarios."
+  additionalData?: {};
 }
 
 @doc("Indicates the current status of the progression of the change within the stage.")

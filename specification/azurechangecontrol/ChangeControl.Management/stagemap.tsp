@@ -36,11 +36,11 @@ model StageMapProperties {
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   stages: Stage[];
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning of operation parameters should not be of type Record as per ARM."
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Provides a flexible object schema to support different types of parameters including string, int, and object."
   @doc("StageMap parameters schema for each stage.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @typeChangedFrom(Versions.v2025_07_01_preview, Record<Parameter>)
-  parameters?: ParametersCollection;
+  parameters?: {};
 }
 
 @doc("Defines details about each stage in the stage map resource.")
@@ -106,10 +106,7 @@ interface StageMaps {
     StageMap,
     {
       ...ApiVersionParameter;
-
-      @path
-      @doc("The ID of the target management group.")
-      managementGroupId: string;
+      ...Azure.ResourceManager.CommonTypes.ManagementGroupNameParameter;
     }
   >;
 
@@ -126,10 +123,7 @@ interface StageMaps {
     StageMap,
     {
       ...ApiVersionParameter;
-
-      @path
-      @doc("The ID of the target management group.")
-      managementGroupId: string;
+      ...Azure.ResourceManager.CommonTypes.ManagementGroupNameParameter;
     }
   >;
 
@@ -168,10 +162,7 @@ interface StageMaps {
     StageMap,
     {
       ...ApiVersionParameter;
-
-      @path
-      @doc("The ID of the target management group.")
-      managementGroupId: string;
+      ...Azure.ResourceManager.CommonTypes.ManagementGroupNameParameter;
     }
   >;
 
@@ -184,10 +175,7 @@ interface StageMaps {
     StageMap,
     {
       ...ApiVersionParameter;
-
-      @path
-      @doc("The ID of the target management group.")
-      managementGroupId: string;
+      ...Azure.ResourceManager.CommonTypes.ManagementGroupNameParameter;
     }
   >;
 }
