@@ -103,7 +103,7 @@ model SegmentationManagerProperties {
     }
   ]>;
 
-  @doc("Managed-On-Behalf-Of configuration for MRGv2 support.")
+  @doc("Managed-On-Behalf-Of configuration.")
   @added(Versions.v2025_08_01_preview)
   @visibility(Lifecycle.Read)
   managedOnBehalfOfConfiguration?: CommonTypes.ManagedOnBehalfOfConfiguration;
