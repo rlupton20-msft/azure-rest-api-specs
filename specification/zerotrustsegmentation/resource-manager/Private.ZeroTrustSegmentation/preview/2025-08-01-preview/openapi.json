@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "ZeroTrustSegmentationClient",
-    "version": "2025-02-01-preview",
+    "version": "2025-08-01-preview",
     "description": "ZeroTrustSegmentation resource provider API.",
     "x-typespec-generated": [
       {
@@ -672,6 +672,10 @@
         "properties": {
           "$ref": "#/definitions/SegmentationManagerProperties",
           "description": "The resource-specific properties for this resource."
+        },
+        "identity": {
+          "$ref": "#/definitions/SegmentationManagerManagedServiceIdentity",
+          "description": "The managed service identities assigned to this resource."
         }
       },
       "allOf": [
@@ -700,6 +704,69 @@
       "required": [
         "value"
       ]
+    },
+    "SegmentationManagerManagedServiceIdentity": {
+      "type": "object",
+      "description": "Managed service identity for the segmentation manager.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/SegmentationManagerManagedServiceIdentityType",
+          "description": "The type of managed service identity."
+        },
+        "userAssignedIdentities": {
+          "type": "object",
+          "description": "The user assigned identities associated with the resource.",
+          "additionalProperties": {
+            "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity",
+            "x-nullable": true
+          }
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "SegmentationManagerManagedServiceIdentityType": {
+      "type": "string",
+      "description": "The type of managed service identity.",
+      "enum": [
+        "None",
+        "UserAssigned"
+      ],
+      "x-ms-enum": {
+        "name": "SegmentationManagerManagedServiceIdentityType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "None",
+            "value": "None",
+            "description": "No managed identity is assigned to this resource."
+          },
+          {
+            "name": "UserAssigned",
+            "value": "UserAssigned",
+            "description": "User Assigned Managed Identity"
+          }
+        ]
+      }
+    },
+    "SegmentationManagerManagedServiceIdentityUpdate": {
+      "type": "object",
+      "description": "Managed service identity for the segmentation manager.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/SegmentationManagerManagedServiceIdentityType",
+          "description": "The type of managed service identity."
+        },
+        "userAssignedIdentities": {
+          "type": "object",
+          "description": "The user assigned identities associated with the resource.",
+          "additionalProperties": {
+            "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity",
+            "x-nullable": true
+          }
+        }
+      }
     },
     "SegmentationManagerProperties": {
       "type": "object",
@@ -743,6 +810,23 @@
           "type": "string",
           "description": "The description of the segmentation manager"
         },
+        "logAnalyticsWorkspaceId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "ARM Resource ID of the Log Analytics Workspace where graph data will be stored",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.OperationalInsights/workspaces"
+              }
+            ]
+          }
+        },
+        "managedOnBehalfOfConfiguration": {
+          "$ref": "../../../../../common-types/resource-management/v5/mobo.json#/definitions/ManagedOnBehalfOfConfiguration",
+          "description": "Managed-On-Behalf-Of configuration for MRGv2 support.",
+          "readOnly": true
+        },
         "provisioningState": {
           "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
           "description": "The provisioning state of the resource.",
@@ -756,7 +840,8 @@
       "required": [
         "logSources",
         "analysisRunType",
-        "segmentationMode"
+        "segmentationMode",
+        "logAnalyticsWorkspaceId"
       ]
     },
     "SegmentationManagerPropertiesUpdate": {
@@ -801,6 +886,18 @@
           "type": "string",
           "description": "The description of the segmentation manager"
         },
+        "logAnalyticsWorkspaceId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "ARM Resource ID of the Log Analytics Workspace where graph data will be stored",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.OperationalInsights/workspaces"
+              }
+            ]
+          }
+        },
         "managedBy": {
           "type": "string",
           "description": "The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource."
@@ -814,6 +911,10 @@
         "properties": {
           "$ref": "#/definitions/SegmentationManagerPropertiesUpdate",
           "description": "The resource-specific properties for this resource."
+        },
+        "identity": {
+          "$ref": "#/definitions/SegmentationManagerManagedServiceIdentityUpdate",
+          "description": "The managed service identities assigned to this resource."
         }
       },
       "allOf": [
