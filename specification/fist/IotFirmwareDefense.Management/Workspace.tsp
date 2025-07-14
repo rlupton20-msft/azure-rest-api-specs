@@ -55,14 +55,7 @@ interface Workspaces {
   /**
    * The operation to delete a firmware analysis workspace.
    */
-  @added(Versions.v2025_07_01)
-  @sharedRoute
   delete is ArmResourceDeleteWithoutOkAsync<Workspace>;
-
-  @removed(Versions.v2025_07_01)
-  @renamedFrom(Versions.v2025_07_01, "delete")
-  @sharedRoute
-  deleteSync is ArmResourceDeleteSync<Workspace>;
 
   /**
    * Lists all of the firmware analysis workspaces in the specified resource group.
