@@ -103,7 +103,10 @@ model SegmentationManagerProperties {
     }
   ]>;
 
-  ...ManagedOnBehalfOfConfiguration;
+  @doc("Managed-On-Behalf-Of configuration for MRGv2 support.")
+  @added(Versions.v2025_08_01_preview)
+  managedOnBehalfOfConfiguration?: Azure.ResourceManager.CommonTypes.ManagedOnBehalfOfConfiguration;
+
   ...DefaultProvisioningStateProperty;
   ...ManagedByProperty;
 }
