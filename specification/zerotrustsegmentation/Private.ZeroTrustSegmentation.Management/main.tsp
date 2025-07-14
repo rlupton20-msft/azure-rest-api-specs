@@ -103,10 +103,7 @@ model SegmentationManagerProperties {
     }
   ]>;
 
-  @doc("Managed-On-Behalf-Of configuration for MRGv2 support. This read-only property identifies the moboBroker resource created for this Manager Resource.")
-  @added(Versions.v2025_08_01_preview)
-  managedOnBehalfOfConfiguration?: Azure.ResourceManager.CommonTypes.ManagedOnBehalfOfConfiguration;
-
+  ...ManagedOnBehalfOfConfiguration;
   ...DefaultProvisioningStateProperty;
   ...ManagedByProperty;
 }
