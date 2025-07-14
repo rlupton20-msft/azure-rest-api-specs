@@ -7,6 +7,7 @@ import "./Firmware.tsp";
 import "./BinaryHardeningResource.tsp";
 import "./CryptoCertificateResource.tsp";
 import "./CryptoKeyResource.tsp";
+import "./LegacyCveResource.tsp";
 import "./CveResource.tsp";
 import "./PasswordHashResource.tsp";
 import "./SbomComponentResource.tsp";

@@ -349,6 +349,15 @@ model CveResult {
   @doc("Name of the CVE.")
   cveName?: string;
 
+  @doc("CVSS 2 score. Only valid for legacy CVE.")
+  cvss2Score?: string;
+
+  @doc("CVSS 3 score. Only valid for legacy CVE.")
+  cvss3Score?: string;
+
+  @doc("Most recent CVSS version that was populated. Only valid for legacy CVE.")
+  cvssVersion?: string;
+
   @doc("The most recent CVSS score of the CVE.")
   effectiveCvssScore?: float32;
 
