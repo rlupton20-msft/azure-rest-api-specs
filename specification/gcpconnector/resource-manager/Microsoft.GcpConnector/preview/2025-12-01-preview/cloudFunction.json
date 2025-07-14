@@ -672,6 +672,10 @@
           "type": "boolean",
           "description": "Output only. Reserved for future use."
         },
+        "satisfiesPzi": {
+          "type": "boolean",
+          "description": "Output only. Reserved for future use."
+        },
         "serviceConfig": {
           "$ref": "#/definitions/ServiceConfig",
           "description": "Describes the Service being deployed. Currently deploys services to Cloud Run (fully managed)."
@@ -702,10 +706,6 @@
         "updateTime": {
           "type": "string",
           "description": "Output only. The last update timestamp of a Cloud Function."
-        },
-        "upgradeInfo": {
-          "$ref": "#/definitions/UpgradeInfo",
-          "description": "Output only. UpgradeInfo for this Cloud Function"
         },
         "url": {
           "type": "string",
@@ -1066,43 +1066,6 @@
         "object": {
           "type": "string",
           "description": "Google Cloud Storage object containing the source. This object must be a gzipped archive file (`.tar.gz`) containing source to build."
-        }
-      }
-    },
-    "UpgradeInfo": {
-      "type": "object",
-      "description": "Information related to: * A function's eligibility for 1st Gen to 2nd Gen migration * Current state of migration for function undergoing migration.",
-      "properties": {
-        "buildConfig": {
-          "$ref": "#/definitions/BuildConfig",
-          "description": "Describes the Build step of the function that builds a container to prepare for 2nd gen upgrade."
-        },
-        "eventTrigger": {
-          "$ref": "#/definitions/EventTrigger",
-          "description": "Describes the Event trigger which has been setup to prepare for 2nd gen upgrade."
-        },
-        "serviceConfig": {
-          "$ref": "#/definitions/ServiceConfig",
-          "description": "Describes the Cloud Run service which has been setup to prepare for 2nd gen upgrade."
-        },
-        "upgradeState": {
-          "type": "string",
-          "description": "UpgradeState of the function",
-          "enum": [
-            "UPGRADE_STATE_UNSPECIFIED",
-            "ELIGIBLE_FOR_2ND_GEN_UPGRADE",
-            "UPGRADE_OPERATION_IN_PROGRESS",
-            "SETUP_FUNCTION_UPGRADE_CONFIG_SUCCESSFUL",
-            "SETUP_FUNCTION_UPGRADE_CONFIG_ERROR",
-            "ABORT_FUNCTION_UPGRADE_ERROR",
-            "REDIRECT_FUNCTION_UPGRADE_TRAFFIC_SUCCESSFUL",
-            "REDIRECT_FUNCTION_UPGRADE_TRAFFIC_ERROR",
-            "ROLLBACK_FUNCTION_UPGRADE_TRAFFIC_ERROR",
-            "COMMIT_FUNCTION_UPGRADE_ERROR"
-          ],
-          "x-ms-enum": {
-            "modelAsString": true
-          }
         }
       }
     }

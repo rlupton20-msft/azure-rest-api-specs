@@ -29,6 +29,11 @@ model GiVersionProperties {
 @doc("Provides GiVersion query parameter for list operations.")
 model GiVersionFilter {
   @query
+  @doc("Filters the result for the given Shape Attribute")
+  @added(Versions.v20250801_preview)
+  shapeAttribute?: string;
+
+  @query
   @doc("If provided, filters the results for the given shape")
   @minLength(1)
   @maxLength(255)

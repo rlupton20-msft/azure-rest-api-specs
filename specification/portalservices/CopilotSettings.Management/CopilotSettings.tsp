@@ -1,5 +1,13 @@
+import "@typespec/http";
+import "@typespec/rest";
+import "@typespec/versioning";
+import "@azure-tools/typespec-azure-core";
+import "@azure-tools/typespec-azure-resource-manager";
+import "./models.tsp";
+
 using TypeSpec.Rest;
 using Azure.ResourceManager;
+using Azure.ResourceManager.Foundations;
 using TypeSpec.Http;
 
 namespace Microsoft.PortalServices;
@@ -10,7 +18,8 @@ namespace Microsoft.PortalServices;
 @doc("The copilot settings tenant resource definition.")
 @singleton
 @tenantResource
-model CopilotSettingsResource is ProxyResource<CopilotSettingsProperties> {
+model CopilotSettingsResource
+  is Azure.ResourceManager.ProxyResource<CopilotSettingsProperties> {
   @doc("The default copilot settings, applying to entire tenant.")
   @segment("copilotSettings")
   @key
@@ -18,18 +27,32 @@ model CopilotSettingsResource is ProxyResource<CopilotSettingsProperties> {
   @path
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   name: string;
+
+  /**
+   * Describes the managed identities for an Azure resource.
+   */
+  ...ManagedSystemAssignedIdentityProperty;
+
+  /**
+   * The Azure Region where the resource lives (will be set to "global" for this global proxy resource)
+   */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Backwards compatibility with existing spec"
+  location?: string;
 }
 
 @armResourceOperations
 interface CopilotSettings {
   get is ArmResourceRead<CopilotSettingsResource>;
-  createOrUpdate is ArmResourceCreateOrReplaceSync<CopilotSettingsResource>;
-  update is ArmCustomPatchSync<
+  createOrUpdate is ArmResourceCreateOrReplaceSync<
     CopilotSettingsResource,
-    Azure.ResourceManager.Foundations.ResourceUpdateModel<
-      CopilotSettingsResource,
-      CopilotSettingsProperties
-    >
+    TenantBaseParameters
   >;
-  delete is ArmResourceDeleteSync<CopilotSettingsResource>;
+  update is ArmResourcePatchSync<
+    CopilotSettingsResource,
+    CopilotSettingsProperties
+  >;
+  delete is ArmResourceDeleteSync<
+    CopilotSettingsResource,
+    TenantBaseParameters
+  >;
 }

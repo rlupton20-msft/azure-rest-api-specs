@@ -87,14 +87,10 @@ model MergeCloudServiceRequest {
   sourceResources: MergeSourceCloudService[];
 
   /**
-   * Billing token for merge target transaction.
+   * Resource tokens for various authorization and context purposes (for merge target).
    */
-  billingToken?: string;
-
-  /**
-   * Availability token for merge target transaction.
-   */
-  availabilityToken?: string;
+  @OpenAPI.extension("x-ms-identifiers", #["type"])
+  resourceTokens?: ResourceToken[];
 }
 
 /**
