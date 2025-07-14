@@ -348,7 +348,7 @@ union DataClassType {
   /**
    * Streaming replication service.
    */
-  "Video",
+  "Stream",
 
   /**
    * Object replication service for Azure blobs, tables, and files.
@@ -363,42 +363,47 @@ union DataClass {
   string,
 
   /**
-   * Service bus based replication.
+   * (Low Latency) Service bus based replication.
    */
   "ServiceBus",
 
   /**
-   * Event hub based replication.
+   * (Low Latency) Event hub based replication.
    */
   "EventHub",
 
   /**
-   * API based low latency transfer.
+   * (Query) API based low latency transfer.
    */
   "API",
 
   /**
-   * SDK based low latency transfer.
+   * (Query) SDK based low latency transfer.
    */
   "SDK",
 
   /**
-   * Used to auto-assign low latency transfer type.
+   * (Query) Used to auto-assign low latency transfer type.
    */
   "ALL",
 
   /**
-   * Replication scenario using Azure Storage blobs.
+   * (Stream) Used to auto-assign low latency transfer type.
+   */
+  "Video",
+
+  /**
+   * (HighThroughput) Replication scenario using Azure Storage blobs.
    */
   "Blob",
 
   /**
-   * Replication scenario using Azure Storage tables.
+   * (HighThroughput) Replication scenario using Azure Storage tables.
    */
   "Table",
 
   /**
-   * Replication scenario using Azure Storage Files.
+   * (HighThroughput) Replication scenario using Azure Storage Files.
    */
   "Files",
 }

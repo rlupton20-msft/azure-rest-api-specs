@@ -39,6 +39,11 @@ model FlowProfilePatchProperties {
   description: string;
 
   /**
+   * The FlowProfile guid assigned by the backend.
+   */
+  flowProfileId?: string;
+
+  /**
    * The Rulesets applied to this FlowProfile
    */
   rulesets: FlowProfileRulesets;
@@ -61,7 +66,7 @@ model FlowProfileMetadata {
   /**
    * The data class type for the FlowProfile.
    */
-  dataClass: DataClassType;
+  dataClassType: DataClassType;
 
   /**
    * The FlowProfile guid assigned by the backend.
@@ -85,19 +90,14 @@ model FlowProfileProperties {
   flowProfileId?: string;
 
   /**
-   * The data class applied to this FlowProfile.
+   * The data class type applied to this FlowProfile.
    */
-  dataClass: DataClassType;
+  dataClassType: DataClassType;
 
   /**
    * The status of this FlowProfile.
    */
   status: FlowProfileStatus;
-
-  /**
-   * The direction of replication for the FlowProfile.
-   */
-  direction?: Direction;
 
   /**
    * The description for this FlowProfile.

@@ -80,13 +80,7 @@ interface Connections {
    */
   updateFlowProfileList is ArmResourceActionAsync<
     Connection,
-    {
-      /**
-       * New list of FlowProfiles(s)
-       */
-      @bodyRoot
-      flowProfileList?: FlowProfileMetadata[];
-    },
+    Connection,
     ArmResponse<Connection>
   >;
 
