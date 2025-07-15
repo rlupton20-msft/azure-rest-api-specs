@@ -41,7 +41,7 @@ interface AzureDataTransfer {
        * Pipeline(s) to retrieve flows of
        */
       @bodyRoot
-      pipelines?: string[];
+      pipeline?: string;
     },
     Response =
     {

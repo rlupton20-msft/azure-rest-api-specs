@@ -76,15 +76,6 @@ interface Connections {
   >;
 
   /**
-   * Updates the list of FlowProfiles.
-   */
-  updateFlowProfileList is ArmResourceActionAsync<
-    Connection,
-    Connection,
-    ArmResponse<Connection>
-  >;
-
-  /**
    * Lists all pending remote connections that are linkable to this connection.
    */
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
@@ -118,7 +109,6 @@ interface Connections {
 @@doc(Connections.createOrUpdate::parameters.resource, "Connection body");
 @@doc(Connections.update::parameters.properties, "Connection body");
 @@doc(Connections.link::parameters.body, "Connection body");
-@@doc(Connections.updateFlowProfileList::parameters.body, "Connection body");
 
 @@clientName(Connections.createOrUpdate::parameters.resource, "connection");
 @@clientName(Connections.update::parameters.properties, "connection");

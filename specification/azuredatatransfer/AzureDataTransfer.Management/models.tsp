@@ -142,6 +142,7 @@ union LinkStatus {
 
 /**
  * DEPRECATED: Please create a FlowType resource.
+ * TODO: DO WE JUST WANT TO USE THIS???
  */
 union FlowType {
   string,
@@ -357,7 +358,8 @@ union DataClassType {
 }
 
 /**
- * Allowed data class.
+ * Allowed data class. 
+ * TODO: how are we going to determine whether a BatchEngine flow is Complex, DSo, Disk Image, Mission...etc..?
  */
 union DataClass {
   string,
@@ -774,70 +776,6 @@ model ConnectionProperties {
 }
 
 /**
- * Properties allowed to be patched for a Connection
- */
-model ConnectionPatchProperties {
-  /**
-   * Pipeline to used to transfer data
-   */
-  pipeline: string;
-
-  /**
-   * Direction of data movement
-   */
-  direction?: Direction;
-
-  /**
-   * Justification for the connection request
-   */
-  justification?: string;
-
-  /**
-   * Status of the connection
-   */
-  @visibility(Lifecycle.Read)
-  status?: ConnectionStatus;
-
-  /**
-   * Force disablement status of the current connection
-   */
-  @visibility(Lifecycle.Read)
-  forceDisabledStatus?: ForceDisabledStatus[];
-
-  /**
-   * Reason for status
-   */
-  @visibility(Lifecycle.Read)
-  statusReason?: string;
-
-  /**
-   * Requirement ID of the connection
-   */
-  requirementId?: string;
-
-  /**
-   * Subscription ID to link cloud subscriptions together
-   */
-  remoteSubscriptionId?: string;
-
-  /**
-   * The primary contact for this connection request
-   */
-  primaryContact?: string;
-
-  /**
-   * The secondary contacts for this connection request
-   */
-  secondaryContacts?: string[];
-
-  /**
-   * Provisioning state of the connection
-   */
-  @visibility(Lifecycle.Read)
-  provisioningState?: ProvisioningState;
-}
-
-/**
  * Properties of pipeline
  */
 model PipelineProperties {
@@ -1024,11 +962,6 @@ model Subscriber {
  * The connections resource patch definition.
  */
 model ConnectionsPatch {
-  /**
-   * Properties of Connections patch body.
-   */
-  properties?: ConnectionPatchProperties;
-
   ...ManagedServiceIdentityProperty;
   ...ArmTagsProperty;
 }

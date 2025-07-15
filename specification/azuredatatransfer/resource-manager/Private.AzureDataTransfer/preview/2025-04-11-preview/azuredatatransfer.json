@@ -99,20 +99,20 @@
       "post": {
         "operationId": "AzureDataTransfer_listFlowProfiles",
         "description": "Lists FlowProfile resources for a Azure Data Transfer Pipeline resource.",
+        "consumes": [
+          "text/plain"
+        ],
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "name": "pipelines",
+            "name": "pipeline",
             "in": "body",
             "description": "Pipeline(s) to retrieve flows of",
             "required": false,
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "type": "string"
             }
           }
         ],
@@ -2040,81 +2040,6 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/connections/{connectionName}/updateFlowProfileList": {
-      "post": {
-        "operationId": "Connections_UpdateFlowProfileList",
-        "tags": [
-          "Connections"
-        ],
-        "description": "Updates the list of FlowProfiles.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "connectionName",
-            "in": "path",
-            "description": "The name for the connection to perform the operation on.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 64,
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          },
-          {
-            "name": "flowProfileList",
-            "in": "body",
-            "description": "New list of FlowProfiles(s)",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/FlowProfileMetadata"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/Connection"
-            }
-          },
-          "202": {
-            "description": "Resource operation accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location",
-          "final-state-schema": "#/definitions/Azure.ResourceManager.ArmResponse%3CConnection%3E"
-        },
-        "x-ms-long-running-operation": true
-      }
-    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/pipelines": {
       "get": {
         "operationId": "Pipelines_ListByResourceGroup",
@@ -3342,69 +3267,6 @@
         "value"
       ]
     },
-    "ConnectionPatchProperties": {
-      "type": "object",
-      "description": "Properties allowed to be patched for a Connection",
-      "properties": {
-        "pipeline": {
-          "type": "string",
-          "description": "Pipeline to used to transfer data"
-        },
-        "direction": {
-          "$ref": "#/definitions/Direction",
-          "description": "Direction of data movement"
-        },
-        "justification": {
-          "type": "string",
-          "description": "Justification for the connection request"
-        },
-        "status": {
-          "$ref": "#/definitions/ConnectionStatus",
-          "description": "Status of the connection",
-          "readOnly": true
-        },
-        "forceDisabledStatus": {
-          "type": "array",
-          "description": "Force disablement status of the current connection",
-          "items": {
-            "$ref": "#/definitions/ForceDisabledStatus"
-          },
-          "readOnly": true
-        },
-        "statusReason": {
-          "type": "string",
-          "description": "Reason for status",
-          "readOnly": true
-        },
-        "requirementId": {
-          "type": "string",
-          "description": "Requirement ID of the connection"
-        },
-        "remoteSubscriptionId": {
-          "type": "string",
-          "description": "Subscription ID to link cloud subscriptions together"
-        },
-        "primaryContact": {
-          "type": "string",
-          "description": "The primary contact for this connection request"
-        },
-        "secondaryContacts": {
-          "type": "array",
-          "description": "The secondary contacts for this connection request",
-          "items": {
-            "type": "string"
-          }
-        },
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "Provisioning state of the connection",
-          "readOnly": true
-        }
-      },
-      "required": [
-        "pipeline"
-      ]
-    },
     "ConnectionProperties": {
       "type": "object",
       "description": "Properties of a connection resource",
@@ -3569,10 +3431,6 @@
       "type": "object",
       "description": "The connections resource patch definition.",
       "properties": {
-        "properties": {
-          "$ref": "#/definitions/ConnectionPatchProperties",
-          "description": "Properties of Connections patch body."
-        },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
           "description": "The managed service identities assigned to this resource."
@@ -3595,6 +3453,7 @@
         "API",
         "SDK",
         "ALL",
+        "Video",
         "Blob",
         "Table",
         "Files"
@@ -3606,42 +3465,47 @@
           {
             "name": "ServiceBus",
             "value": "ServiceBus",
-            "description": "Service bus based replication."
+            "description": "(Low Latency) Service bus based replication."
           },
           {
             "name": "EventHub",
             "value": "EventHub",
-            "description": "Event hub based replication."
+            "description": "(Low Latency) Event hub based replication."
           },
           {
             "name": "API",
             "value": "API",
-            "description": "API based low latency transfer."
+            "description": "(Query) API based low latency transfer."
           },
           {
             "name": "SDK",
             "value": "SDK",
-            "description": "SDK based low latency transfer."
+            "description": "(Query) SDK based low latency transfer."
           },
           {
             "name": "ALL",
             "value": "ALL",
-            "description": "Used to auto-assign low latency transfer type."
+            "description": "(Query) Used to auto-assign low latency transfer type."
+          },
+          {
+            "name": "Video",
+            "value": "Video",
+            "description": "(Stream) Used to auto-assign low latency transfer type."
           },
           {
             "name": "Blob",
             "value": "Blob",
-            "description": "Replication scenario using Azure Storage blobs."
+            "description": "(HighThroughput) Replication scenario using Azure Storage blobs."
           },
           {
             "name": "Table",
             "value": "Table",
-            "description": "Replication scenario using Azure Storage tables."
+            "description": "(HighThroughput) Replication scenario using Azure Storage tables."
           },
           {
             "name": "Files",
             "value": "Files",
-            "description": "Replication scenario using Azure Storage Files."
+            "description": "(HighThroughput) Replication scenario using Azure Storage Files."
           }
         ]
       }
@@ -3652,7 +3516,7 @@
       "enum": [
         "LowLatency",
         "Query",
-        "Video",
+        "Stream",
         "HighThroughput"
       ],
       "x-ms-enum": {
@@ -3670,8 +3534,8 @@
             "description": "Query service using an API endpoint."
           },
           {
-            "name": "Video",
-            "value": "Video",
+            "name": "Stream",
+            "value": "Stream",
             "description": "Streaming replication service."
           },
           {
@@ -4025,7 +3889,7 @@
           "type": "string",
           "description": "The FlowProfile's name."
         },
-        "dataClass": {
+        "dataClassType": {
           "$ref": "#/definitions/DataClassType",
           "description": "The data class type for the FlowProfile."
         },
@@ -4037,7 +3901,7 @@
       "required": [
         "pipeline",
         "name",
-        "dataClass"
+        "dataClassType"
       ]
     },
     "FlowProfilePatch": {
@@ -4075,6 +3939,10 @@
           "description": "The FlowProfile description.",
           "readOnly": true
         },
+        "flowProfileId": {
+          "type": "string",
+          "description": "The FlowProfile guid assigned by the backend."
+        },
         "rulesets": {
           "$ref": "#/definitions/FlowProfileRulesets",
           "description": "The Rulesets applied to this FlowProfile"
@@ -4098,17 +3966,13 @@
           "type": "string",
           "description": "The FlowProfile guid assigned by the backend."
         },
-        "dataClass": {
+        "dataClassType": {
           "$ref": "#/definitions/DataClassType",
-          "description": "The data class applied to this FlowProfile."
+          "description": "The data class type applied to this FlowProfile."
         },
         "status": {
           "$ref": "#/definitions/FlowProfileStatus",
           "description": "The status of this FlowProfile."
-        },
-        "direction": {
-          "$ref": "#/definitions/Direction",
-          "description": "The direction of replication for the FlowProfile."
         },
         "description": {
           "type": "string",
@@ -4121,7 +3985,7 @@
         }
       },
       "required": [
-        "dataClass",
+        "dataClassType",
         "status",
         "description"
       ]
