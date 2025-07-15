@@ -36,5 +36,5 @@ These settings apply only when `--tag=package-2024-10-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2024-10-01-preview'
 input-file:
-  - Microsoft.ArcContainerStorage/preview/2024-10-01-preview/arccontainerstorage.json
+  - Private.ArcContainerStorage/preview/2024-10-01-preview/arccontainerstorage.json
 ```

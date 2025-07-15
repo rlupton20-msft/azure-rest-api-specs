@@ -7,7 +7,7 @@ import "./provisioningState.tsp";
 
 using Azure.ResourceManager;
 
-namespace Microsoft.ArcContainerStorage;
+namespace Private.ArcContainerStorage;
 
 //    generation: "7"
 

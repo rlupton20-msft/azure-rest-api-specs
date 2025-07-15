@@ -14,15 +14,15 @@ using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 
 @armProviderNamespace
-@service(#{ title: "Microsoft.ArcContainerStorage management service" })
-@doc("Microsoft.ArcContainerStorage Resource Provider management API.")
+@service(#{ title: "Private.ArcContainerStorage management service" })
+@doc("Private.ArcContainerStorage Resource Provider management API.")
 @versioned(Versions)
-namespace Microsoft.ArcContainerStorage;
+namespace Private.ArcContainerStorage;
 
 /** API versions */
-@doc("Microsoft.ArcContainerStorage Resource Provider supported API versions.")
+@doc("Private.ArcContainerStorage Resource Provider supported API versions.")
 enum Versions {
-  @doc("Microsoft.ArcContainerStorage Resource Provider management API version 2023-11-01-preview.")
+  @doc("Private.ArcContainerStorage Resource Provider management API version 2023-11-01-preview.")
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
   v2024_10_01_preview: "2024-10-01-preview",
@@ -41,7 +41,7 @@ interface OperationStatus {
     @path
     @segment("providers")
     @doc("The provider namespace (this parameter will not show up in operations).")
-    provider: "Microsoft.ArcContainerStorage",
+    provider: "Private.ArcContainerStorage",
 
     ...LocationParameter,
     ...Foundations.OperationIdParameter,
