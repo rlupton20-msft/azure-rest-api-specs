@@ -35,18 +35,23 @@ model FlowProfilePatchProperties {
   /**
    * The FlowProfile description.
    */
-  @visibility(Lifecycle.Read)
   description: string;
 
   /**
    * The FlowProfile guid assigned by the backend.
    */
+  @visibility(Lifecycle.Read)
   flowProfileId?: string;
 
   /**
    * The Rulesets applied to this FlowProfile
    */
   rulesets: FlowProfileRulesets;
+
+  /**
+   * The status of this FlowProfile.
+   */
+  status: FlowProfileStatus;
 }
 
 /**
@@ -56,22 +61,26 @@ model FlowProfileMetadata {
   /**
    * The pipeline that the FlowProfile is created under.
    */
+  @visibility(Lifecycle.Read)
   pipeline: string;
 
   /**
    * The FlowProfile's name.
    */
+  @visibility(Lifecycle.Read)
   name: string;
 
   /**
    * The data class type for the FlowProfile.
    */
+  @visibility(Lifecycle.Read)
   dataClassType: DataClassType;
 
   /**
    * The FlowProfile guid assigned by the backend.
    */
-  flowProfileId?: string;
+  @visibility(Lifecycle.Read)
+  flowProfileId: string;
 }
 
 /**
@@ -87,11 +96,13 @@ model FlowProfileProperties {
   /**
    * The FlowProfile guid assigned by the backend.
    */
+  @visibility(Lifecycle.Read)
   flowProfileId?: string;
 
   /**
    * The data class type applied to this FlowProfile.
    */
+  @visibility(Lifecycle.Read)
   dataClassType: DataClassType;
 
   /**
@@ -102,7 +113,6 @@ model FlowProfileProperties {
   /**
    * The description for this FlowProfile.
    */
-  @visibility(Lifecycle.Read)
   description: string;
 
   /**

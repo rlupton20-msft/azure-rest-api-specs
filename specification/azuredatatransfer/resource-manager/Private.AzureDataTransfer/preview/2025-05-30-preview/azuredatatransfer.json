@@ -3446,7 +3446,7 @@
     },
     "DataClass": {
       "type": "string",
-      "description": "Allowed data class.",
+      "description": "Allowed data class. \nTODO: how are we going to determine whether a BatchEngine flow is Complex, DSo, Disk Image, Mission...etc..?",
       "enum": [
         "ServiceBus",
         "EventHub",
@@ -3710,133 +3710,6 @@
         "value"
       ]
     },
-    "FlowPatchProperties": {
-      "type": "object",
-      "description": "Properties allowed to update for a flow patch request",
-      "properties": {
-        "connection": {
-          "$ref": "#/definitions/SelectedResource",
-          "description": "The connection associated with this flow"
-        },
-        "keyVaultUri": {
-          "type": "string",
-          "description": "URI to a Key Vault Secret containing a SAS token."
-        },
-        "status": {
-          "$ref": "#/definitions/FlowStatus",
-          "description": "Status of the current flow"
-        },
-        "forceDisabledStatus": {
-          "type": "array",
-          "description": "Force disablement status of the current flow",
-          "items": {
-            "$ref": "#/definitions/ForceDisabledStatus"
-          },
-          "readOnly": true
-        },
-        "storageAccountName": {
-          "type": "string",
-          "description": "Storage Account"
-        },
-        "storageAccountId": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "Storage Account ID",
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.Storage/storageAccounts"
-              }
-            ]
-          }
-        },
-        "storageContainerName": {
-          "type": "string",
-          "description": "Storage Container Name"
-        },
-        "storageTableName": {
-          "type": "string",
-          "description": "Storage Table Name"
-        },
-        "serviceBusQueueId": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "Service Bus Queue ID",
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.Storage/namespaces/queues"
-              }
-            ]
-          }
-        },
-        "messagingOptions": {
-          "$ref": "#/definitions/MessagingOptions",
-          "description": "The messaging options for this flow"
-        },
-        "apiFlowOptions": {
-          "$ref": "#/definitions/ApiFlowOptions",
-          "description": "The API Flow configuration options for Azure Data Transfer API Flow type."
-        },
-        "customerManagedKeyVaultUri": {
-          "type": "string",
-          "format": "uri",
-          "description": "The URI to the customer managed key for this flow"
-        },
-        "streamId": {
-          "type": "string",
-          "description": "The flow stream identifier"
-        },
-        "streamProtocol": {
-          "$ref": "#/definitions/StreamProtocol",
-          "description": "The protocol of the stream"
-        },
-        "streamLatency": {
-          "type": "integer",
-          "format": "int64",
-          "description": "The latency of the stream in milliseconds"
-        },
-        "passphrase": {
-          "type": "string",
-          "description": "The passphrase used for SRT streams"
-        },
-        "sourceAddresses": {
-          "$ref": "#/definitions/StreamSourceAddresses",
-          "description": "The source IP address and CIDR ranges of the stream"
-        },
-        "destinationEndpoints": {
-          "type": "array",
-          "description": "The destination endpoints of the stream",
-          "items": {
-            "type": "string"
-          }
-        },
-        "destinationEndpointPorts": {
-          "type": "array",
-          "description": "The destination endpoint ports of the stream",
-          "items": {
-            "type": "integer",
-            "format": "int64"
-          }
-        },
-        "eventHubId": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "Event Hub ID",
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.EventHub/namespaces/eventhubs"
-              }
-            ]
-          }
-        },
-        "consumerGroup": {
-          "type": "string",
-          "description": "Event Hub Consumer Group"
-        }
-      }
-    },
     "FlowProfile": {
       "type": "object",
       "description": "The FlowProfile resource definition.",
@@ -3883,25 +3756,30 @@
       "properties": {
         "pipeline": {
           "type": "string",
-          "description": "The pipeline that the FlowProfile is created under."
+          "description": "The pipeline that the FlowProfile is created under.",
+          "readOnly": true
         },
         "name": {
           "type": "string",
-          "description": "The FlowProfile's name."
+          "description": "The FlowProfile's name.",
+          "readOnly": true
         },
         "dataClassType": {
           "$ref": "#/definitions/DataClassType",
-          "description": "The data class type for the FlowProfile."
+          "description": "The data class type for the FlowProfile.",
+          "readOnly": true
         },
         "flowProfileId": {
           "type": "string",
-          "description": "The FlowProfile guid assigned by the backend."
+          "description": "The FlowProfile guid assigned by the backend.",
+          "readOnly": true
         }
       },
       "required": [
         "pipeline",
         "name",
-        "dataClassType"
+        "dataClassType",
+        "flowProfileId"
       ]
     },
     "FlowProfilePatch": {
@@ -3936,21 +3814,26 @@
         },
         "description": {
           "type": "string",
-          "description": "The FlowProfile description.",
-          "readOnly": true
+          "description": "The FlowProfile description."
         },
         "flowProfileId": {
           "type": "string",
-          "description": "The FlowProfile guid assigned by the backend."
+          "description": "The FlowProfile guid assigned by the backend.",
+          "readOnly": true
         },
         "rulesets": {
           "$ref": "#/definitions/FlowProfileRulesets",
           "description": "The Rulesets applied to this FlowProfile"
+        },
+        "status": {
+          "$ref": "#/definitions/FlowProfileStatus",
+          "description": "The status of this FlowProfile."
         }
       },
       "required": [
         "description",
-        "rulesets"
+        "rulesets",
+        "status"
       ]
     },
     "FlowProfileProperties": {
@@ -3964,11 +3847,13 @@
         },
         "flowProfileId": {
           "type": "string",
-          "description": "The FlowProfile guid assigned by the backend."
+          "description": "The FlowProfile guid assigned by the backend.",
+          "readOnly": true
         },
         "dataClassType": {
           "$ref": "#/definitions/DataClassType",
-          "description": "The data class type applied to this FlowProfile."
+          "description": "The data class type applied to this FlowProfile.",
+          "readOnly": true
         },
         "status": {
           "$ref": "#/definitions/FlowProfileStatus",
@@ -3976,8 +3861,7 @@
         },
         "description": {
           "type": "string",
-          "description": "The description for this FlowProfile.",
-          "readOnly": true
+          "description": "The description for this FlowProfile."
         },
         "rulesets": {
           "$ref": "#/definitions/FlowProfileRulesets",
@@ -4121,11 +4005,19 @@
         },
         "flowProfile": {
           "$ref": "#/definitions/FlowProfileMetadata",
-          "description": "Type of FlowProfile to use for transfer via the flow."
+          "description": "Type of FlowProfile to use for transfer via the flow.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "dataClass": {
           "$ref": "#/definitions/DataClass",
-          "description": "The Flow's data class."
+          "description": "The Flow's data class.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "flowType": {
           "$ref": "#/definitions/FlowType",
@@ -4240,7 +4132,7 @@
     },
     "FlowType": {
       "type": "string",
-      "description": "DEPRECATED: Please create a FlowType resource.",
+      "description": "DEPRECATED: Please create a FlowType resource.\nTODO: DO WE JUST WANT TO USE THIS???",
       "enum": [
         "Unknown",
         "Complex",
@@ -4338,10 +4230,6 @@
       "type": "object",
       "description": "The flows resource patch definition.",
       "properties": {
-        "properties": {
-          "$ref": "#/definitions/FlowPatchProperties",
-          "description": "Properties of Connections patch body."
-        },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
           "description": "The managed service identities assigned to this resource."
@@ -4892,11 +4780,19 @@
         },
         "flowProfile": {
           "$ref": "#/definitions/FlowProfileMetadata",
-          "description": "Type of FlowProfile to use for transfer via the flow."
+          "description": "Type of FlowProfile to use for transfer via the flow.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "dataClass": {
           "$ref": "#/definitions/DataClass",
-          "description": "The Flow's data class."
+          "description": "The Flow's data class.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "flowType": {
           "$ref": "#/definitions/FlowType",
