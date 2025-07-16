@@ -43,13 +43,10 @@
       "name": "Operations"
     },
     {
-      "name": "FlowProfiles"
+      "name": "Connections"
     },
     {
       "name": "Pipelines"
-    },
-    {
-      "name": "Connections"
     },
     {
       "name": "Flows"
@@ -91,46 +88,6 @@
         "x-ms-examples": {
           "Performs action request": {
             "$ref": "./examples/postListApprovedSchemas.json"
-          }
-        }
-      }
-    },
-    "/providers/Private.AzureDataTransfer/listFlowProfiles": {
-      "post": {
-        "operationId": "AzureDataTransfer_listFlowProfiles",
-        "description": "Lists FlowProfile resources for a Azure Data Transfer Pipeline resource.",
-        "consumes": [
-          "text/plain"
-        ],
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "pipeline",
-            "in": "body",
-            "description": "Pipeline(s) to retrieve flows of",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/FlowProfileMetadata"
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -2502,324 +2459,6 @@
         "x-ms-long-running-operation": true
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/pipelines/{pipelineName}/flowprofiles": {
-      "get": {
-        "operationId": "FlowProfiles_ListByPipeline",
-        "tags": [
-          "FlowProfiles"
-        ],
-        "description": "Get FlowProfiles in a pipeline",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "pipelineName",
-            "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 64,
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/FlowProfileListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/pipelines/{pipelineName}/flowprofiles/{flowProfileName}": {
-      "get": {
-        "operationId": "FlowProfiles_Get",
-        "tags": [
-          "FlowProfiles"
-        ],
-        "description": "Gets the FlowProfile resource.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "pipelineName",
-            "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 64,
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          },
-          {
-            "name": "flowProfileName",
-            "in": "path",
-            "description": "The name for the FlowProfile to perform the operation on.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 64,
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/FlowProfile"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
-      },
-      "put": {
-        "operationId": "FlowProfiles_CreateOrUpdate",
-        "tags": [
-          "FlowProfiles"
-        ],
-        "description": "Creates or updates the FlowProfile resource.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "pipelineName",
-            "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 64,
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          },
-          {
-            "name": "flowProfileName",
-            "in": "path",
-            "description": "The name for the FlowProfile to perform the operation on.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 64,
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          },
-          {
-            "name": "resource",
-            "in": "body",
-            "description": "FlowProfile body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/FlowProfile"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resource 'FlowProfile' update operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/FlowProfile"
-            }
-          },
-          "201": {
-            "description": "Resource 'FlowProfile' create operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/FlowProfile"
-            },
-            "headers": {
-              "Azure-AsyncOperation": {
-                "type": "string",
-                "description": "A link to the status monitor"
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation",
-          "final-state-schema": "#/definitions/FlowProfile"
-        },
-        "x-ms-long-running-operation": true
-      },
-      "patch": {
-        "operationId": "FlowProfiles_Update",
-        "tags": [
-          "FlowProfiles"
-        ],
-        "description": "Updates the FlowProfile resource.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "pipelineName",
-            "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 64,
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          },
-          {
-            "name": "flowProfileName",
-            "in": "path",
-            "description": "The name for the FlowProfile to perform the operation on.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 64,
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          },
-          {
-            "name": "properties",
-            "in": "body",
-            "description": "FlowProfile body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/FlowProfilePatch"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/FlowProfile"
-            }
-          },
-          "202": {
-            "description": "The request has been accepted for processing, but processing has not yet completed.",
-            "schema": {
-              "$ref": "#/definitions/FlowProfile"
-            },
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      },
-      "delete": {
-        "operationId": "FlowProfiles_Delete",
-        "tags": [
-          "FlowProfiles"
-        ],
-        "description": "Deletes the FlowProfile resource.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "pipelineName",
-            "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 64,
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          },
-          {
-            "name": "flowProfileName",
-            "in": "path",
-            "description": "The name for the FlowProfile to perform the operation on.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 64,
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resource deleted successfully."
-          },
-          "204": {
-            "description": "Resource does not exist."
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/pipelines/{pipelineName}/listFlows": {
       "post": {
         "operationId": "ListFlowsByPipeline_List",
@@ -3069,20 +2708,6 @@
         ]
       }
     },
-    "AntivirusRuleset": {
-      "type": "object",
-      "description": "The Antivirus ruleset.",
-      "properties": {
-        "clamAv": {
-          "$ref": "#/definitions/EnablementStatus",
-          "description": "Clam ruleset."
-        },
-        "defender": {
-          "$ref": "#/definitions/EnablementStatus",
-          "description": "Defender ruleset."
-        }
-      }
-    },
     "ApiFlowOptions": {
       "type": "object",
       "description": "Properties specific to API Flow Type",
@@ -3139,36 +2764,6 @@
             "description": "The API flow will forward calls to a specified endpoint."
           }
         ]
-      }
-    },
-    "ArchiveRuleset": {
-      "type": "object",
-      "description": "The Archive ruleset.",
-      "properties": {
-        "minimumSizeForExpansion": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Minimum size for expansion in bytes (minimum is 0).",
-          "minimum": 0
-        },
-        "maximumExpansionSizeLimit": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Maximum allowed expansion size in bytes (minimum is 0).",
-          "minimum": 0
-        },
-        "maximumDepthLimit": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Maximum allowed archive depth (minimum is 0).",
-          "minimum": 0
-        },
-        "maximumCompressionRatioLimit": {
-          "type": "number",
-          "format": "double",
-          "description": "Maximum allowed compression ratio (minimum is 0).",
-          "minimum": 0
-        }
       }
     },
     "Azure.Core.armResourceType": {
@@ -3269,7 +2864,7 @@
     },
     "ConnectionProperties": {
       "type": "object",
-      "description": "Properties of a connection resource",
+      "description": "Properties of connection",
       "properties": {
         "pipeline": {
           "type": "string",
@@ -3313,16 +2908,9 @@
         },
         "flowTypes": {
           "type": "array",
-          "description": "DEPRECATED: Please create a FlowProfile resource.",
+          "description": "The flow types being requested for this connection",
           "items": {
             "$ref": "#/definitions/FlowType"
-          }
-        },
-        "flowProfileList": {
-          "type": "array",
-          "description": "The FlowProfiles allowed for this connection",
-          "items": {
-            "$ref": "#/definitions/FlowProfileMetadata"
           }
         },
         "requirementId": {
@@ -3366,21 +2954,21 @@
         },
         "policies": {
           "type": "array",
-          "description": "DEPRECATED: Please create a FlowType resource.",
+          "description": "The policies for this connection",
           "items": {
             "type": "string"
           }
         },
         "schemas": {
           "type": "array",
-          "description": "DEPRECATED: Please create a FlowType resource.",
+          "description": "The schemas for this connection",
           "items": {
             "$ref": "#/definitions/Schema"
           }
         },
         "schemaUris": {
           "type": "array",
-          "description": "DEPRECATED: Please create a FlowType resource.",
+          "description": "The schema URIs for this connection",
           "items": {
             "type": "string",
             "format": "uri"
@@ -3444,124 +3032,28 @@
         }
       }
     },
-    "DataClass": {
+    "DataType": {
       "type": "string",
-      "description": "Allowed data class.",
+      "description": "Transfer Storage Blobs or Tables",
       "enum": [
-        "ServiceBus",
-        "EventHub",
-        "API",
-        "SDK",
-        "ALL",
-        "Video",
         "Blob",
-        "Table",
-        "Files"
+        "Table"
       ],
       "x-ms-enum": {
-        "name": "DataClass",
+        "name": "DataType",
         "modelAsString": true,
         "values": [
           {
-            "name": "ServiceBus",
-            "value": "ServiceBus",
-            "description": "(Low Latency) Service bus based replication."
-          },
-          {
-            "name": "EventHub",
-            "value": "EventHub",
-            "description": "(Low Latency) Event hub based replication."
-          },
-          {
-            "name": "API",
-            "value": "API",
-            "description": "(Query) API based low latency transfer."
-          },
-          {
-            "name": "SDK",
-            "value": "SDK",
-            "description": "(Query) SDK based low latency transfer."
-          },
-          {
-            "name": "ALL",
-            "value": "ALL",
-            "description": "(Query) Used to auto-assign low latency transfer type."
-          },
-          {
-            "name": "Video",
-            "value": "Video",
-            "description": "(Stream) Used to auto-assign low latency transfer type."
-          },
-          {
             "name": "Blob",
             "value": "Blob",
-            "description": "(HighThroughput) Replication scenario using Azure Storage blobs."
+            "description": "The flow uses Azure Storage blobs to send or receive data."
           },
           {
             "name": "Table",
             "value": "Table",
-            "description": "(HighThroughput) Replication scenario using Azure Storage tables."
-          },
-          {
-            "name": "Files",
-            "value": "Files",
-            "description": "(HighThroughput) Replication scenario using Azure Storage Files."
+            "description": "The flow uses Azure Storage tables to send or receive data."
           }
         ]
-      }
-    },
-    "DataClassType": {
-      "type": "string",
-      "description": "Data class used to define the replication scenario.",
-      "enum": [
-        "LowLatency",
-        "Query",
-        "Stream",
-        "HighThroughput"
-      ],
-      "x-ms-enum": {
-        "name": "DataClassType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "LowLatency",
-            "value": "LowLatency",
-            "description": "Replication using service bus & event hub."
-          },
-          {
-            "name": "Query",
-            "value": "Query",
-            "description": "Query service using an API endpoint."
-          },
-          {
-            "name": "Stream",
-            "value": "Stream",
-            "description": "Streaming replication service."
-          },
-          {
-            "name": "HighThroughput",
-            "value": "HighThroughput",
-            "description": "Object replication service for Azure blobs, tables, and files."
-          }
-        ]
-      }
-    },
-    "DataSizeRuleset": {
-      "type": "object",
-      "description": "The Data Size ruleset.",
-      "properties": {
-        "maximum": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Maximum size ruleset (minimum is 0).",
-          "minimum": 0
-        },
-        "minimum": {
-          "type": "integer",
-          "format": "int64",
-          "description": "Minimum size ruleset (minimum is 0).",
-          "minimum": 0
-        }
       }
     },
     "Direction": {
@@ -3584,54 +3076,6 @@
             "name": "Receive",
             "value": "Receive",
             "description": "The direction is on the receiving side side of a pipeline, connection, or flow."
-          }
-        ]
-      }
-    },
-    "EnablementStatus": {
-      "type": "string",
-      "description": "Enablement statuses",
-      "enum": [
-        "Enabled",
-        "Disabled"
-      ],
-      "x-ms-enum": {
-        "name": "EnablementStatus",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Enabled",
-            "value": "Enabled",
-            "description": "Represents an enabled status."
-          },
-          {
-            "name": "Disabled",
-            "value": "Disabled",
-            "description": "Represents a disabled status."
-          }
-        ]
-      }
-    },
-    "FilterType": {
-      "type": "string",
-      "description": "Defines the allow or deny filter type.",
-      "enum": [
-        "Allow",
-        "Deny"
-      ],
-      "x-ms-enum": {
-        "name": "FilterType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Allow",
-            "value": "Allow",
-            "description": "Allow filter."
-          },
-          {
-            "name": "Deny",
-            "value": "Deny",
-            "description": "Deny filter."
           }
         ]
       }
@@ -3710,340 +3154,6 @@
         "value"
       ]
     },
-    "FlowPatchProperties": {
-      "type": "object",
-      "description": "Properties allowed to update for a flow patch request",
-      "properties": {
-        "connection": {
-          "$ref": "#/definitions/SelectedResource",
-          "description": "The connection associated with this flow"
-        },
-        "keyVaultUri": {
-          "type": "string",
-          "description": "URI to a Key Vault Secret containing a SAS token."
-        },
-        "status": {
-          "$ref": "#/definitions/FlowStatus",
-          "description": "Status of the current flow"
-        },
-        "forceDisabledStatus": {
-          "type": "array",
-          "description": "Force disablement status of the current flow",
-          "items": {
-            "$ref": "#/definitions/ForceDisabledStatus"
-          },
-          "readOnly": true
-        },
-        "storageAccountName": {
-          "type": "string",
-          "description": "Storage Account"
-        },
-        "storageAccountId": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "Storage Account ID",
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.Storage/storageAccounts"
-              }
-            ]
-          }
-        },
-        "storageContainerName": {
-          "type": "string",
-          "description": "Storage Container Name"
-        },
-        "storageTableName": {
-          "type": "string",
-          "description": "Storage Table Name"
-        },
-        "serviceBusQueueId": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "Service Bus Queue ID",
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.Storage/namespaces/queues"
-              }
-            ]
-          }
-        },
-        "messagingOptions": {
-          "$ref": "#/definitions/MessagingOptions",
-          "description": "The messaging options for this flow"
-        },
-        "apiFlowOptions": {
-          "$ref": "#/definitions/ApiFlowOptions",
-          "description": "The API Flow configuration options for Azure Data Transfer API Flow type."
-        },
-        "customerManagedKeyVaultUri": {
-          "type": "string",
-          "format": "uri",
-          "description": "The URI to the customer managed key for this flow"
-        },
-        "streamId": {
-          "type": "string",
-          "description": "The flow stream identifier"
-        },
-        "streamProtocol": {
-          "$ref": "#/definitions/StreamProtocol",
-          "description": "The protocol of the stream"
-        },
-        "streamLatency": {
-          "type": "integer",
-          "format": "int64",
-          "description": "The latency of the stream in milliseconds"
-        },
-        "passphrase": {
-          "type": "string",
-          "description": "The passphrase used for SRT streams"
-        },
-        "sourceAddresses": {
-          "$ref": "#/definitions/StreamSourceAddresses",
-          "description": "The source IP address and CIDR ranges of the stream"
-        },
-        "destinationEndpoints": {
-          "type": "array",
-          "description": "The destination endpoints of the stream",
-          "items": {
-            "type": "string"
-          }
-        },
-        "destinationEndpointPorts": {
-          "type": "array",
-          "description": "The destination endpoint ports of the stream",
-          "items": {
-            "type": "integer",
-            "format": "int64"
-          }
-        },
-        "eventHubId": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "Event Hub ID",
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.EventHub/namespaces/eventhubs"
-              }
-            ]
-          }
-        },
-        "consumerGroup": {
-          "type": "string",
-          "description": "Event Hub Consumer Group"
-        }
-      }
-    },
-    "FlowProfile": {
-      "type": "object",
-      "description": "The FlowProfile resource definition.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/FlowProfileProperties",
-          "description": "Properties of FlowProfile"
-        },
-        "identity": {
-          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
-          "description": "The managed service identities assigned to this resource."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-        }
-      ]
-    },
-    "FlowProfileListResult": {
-      "type": "object",
-      "description": "The response of a FlowProfile list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The FlowProfile items on this page",
-          "items": {
-            "$ref": "#/definitions/FlowProfile"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
-      ]
-    },
-    "FlowProfileMetadata": {
-      "type": "object",
-      "description": "Properties for listing FlowProfiles.",
-      "properties": {
-        "pipeline": {
-          "type": "string",
-          "description": "The pipeline that the FlowProfile is created under."
-        },
-        "name": {
-          "type": "string",
-          "description": "The FlowProfile's name."
-        },
-        "dataClassType": {
-          "$ref": "#/definitions/DataClassType",
-          "description": "The data class type for the FlowProfile."
-        },
-        "flowProfileId": {
-          "type": "string",
-          "description": "The FlowProfile guid assigned by the backend."
-        }
-      },
-      "required": [
-        "pipeline",
-        "name",
-        "dataClassType"
-      ]
-    },
-    "FlowProfilePatch": {
-      "type": "object",
-      "description": "The FlowProfile resource patch definition.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/FlowProfilePatchProperties",
-          "description": "Properties of FlowProfile patch body."
-        },
-        "identity": {
-          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
-          "description": "The managed service identities assigned to this resource."
-        },
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "FlowProfilePatchProperties": {
-      "type": "object",
-      "description": "Properties of a Patch FlowProfile.",
-      "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "Provisioning state of the flow.",
-          "readOnly": true
-        },
-        "description": {
-          "type": "string",
-          "description": "The FlowProfile description.",
-          "readOnly": true
-        },
-        "flowProfileId": {
-          "type": "string",
-          "description": "The FlowProfile guid assigned by the backend."
-        },
-        "rulesets": {
-          "$ref": "#/definitions/FlowProfileRulesets",
-          "description": "The Rulesets applied to this FlowProfile"
-        }
-      },
-      "required": [
-        "description",
-        "rulesets"
-      ]
-    },
-    "FlowProfileProperties": {
-      "type": "object",
-      "description": "Properties of a FlowProfile.",
-      "properties": {
-        "provisioningState": {
-          "$ref": "#/definitions/ProvisioningState",
-          "description": "Provisioning state of the flow.",
-          "readOnly": true
-        },
-        "flowProfileId": {
-          "type": "string",
-          "description": "The FlowProfile guid assigned by the backend."
-        },
-        "dataClassType": {
-          "$ref": "#/definitions/DataClassType",
-          "description": "The data class type applied to this FlowProfile."
-        },
-        "status": {
-          "$ref": "#/definitions/FlowProfileStatus",
-          "description": "The status of this FlowProfile."
-        },
-        "description": {
-          "type": "string",
-          "description": "The description for this FlowProfile.",
-          "readOnly": true
-        },
-        "rulesets": {
-          "$ref": "#/definitions/FlowProfileRulesets",
-          "description": "The Rulesets applied to this FlowProfile."
-        }
-      },
-      "required": [
-        "dataClassType",
-        "status",
-        "description"
-      ]
-    },
-    "FlowProfileRulesets": {
-      "type": "object",
-      "description": "The FlowProfile rulesets.",
-      "properties": {
-        "antivirus": {
-          "$ref": "#/definitions/AntivirusRuleset",
-          "description": "Options for enabling antivirus policies."
-        },
-        "archives": {
-          "$ref": "#/definitions/ArchiveRuleset",
-          "description": "Options for configuring archive related policies."
-        },
-        "dataSize": {
-          "$ref": "#/definitions/DataSizeRuleset",
-          "description": "Options for configuring data size related policies."
-        },
-        "mimeFilters": {
-          "$ref": "#/definitions/MimeFilterRuleset",
-          "description": "Options for configuring mime type based filter policies."
-        },
-        "xmlFilters": {
-          "$ref": "#/definitions/XmlFilterRuleset",
-          "description": "Options for uploading xml schema filtering policies."
-        },
-        "textMatching": {
-          "$ref": "#/definitions/TextMatchingRuleset",
-          "description": "Options for configuring text matching policies."
-        }
-      }
-    },
-    "FlowProfileStatus": {
-      "type": "string",
-      "description": "The allowed statuses of a FlowProfile.",
-      "enum": [
-        "Obsolete",
-        "Enabled"
-      ],
-      "x-ms-enum": {
-        "name": "FlowProfileStatus",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Obsolete",
-            "value": "Obsolete",
-            "description": "Defines a FlowProfile that can no longer be selected."
-          },
-          {
-            "name": "Enabled",
-            "value": "Enabled",
-            "description": "Defines a FlowProfile that is enabled."
-          }
-        ]
-      }
-    },
     "FlowProperties": {
       "type": "object",
       "description": "Properties of flow",
@@ -4119,17 +3229,13 @@
             ]
           }
         },
-        "flowProfile": {
-          "$ref": "#/definitions/FlowProfileMetadata",
-          "description": "Type of FlowProfile to use for transfer via the flow."
-        },
-        "dataClass": {
-          "$ref": "#/definitions/DataClass",
-          "description": "The Flow's data class."
-        },
         "flowType": {
           "$ref": "#/definitions/FlowType",
-          "description": "DEPRECATED: Please create a FlowType resource instead."
+          "description": "The flow type for this flow"
+        },
+        "dataType": {
+          "$ref": "#/definitions/DataType",
+          "description": "Type of data to transfer via the flow."
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -4138,14 +3244,14 @@
         },
         "policies": {
           "type": "array",
-          "description": "DEPRECATED: Please create a FlowType resource instead.",
+          "description": "The policies for this flow",
           "items": {
             "type": "string"
           }
         },
         "schema": {
           "$ref": "#/definitions/Schema",
-          "description": "DEPRECATED: Please create a FlowType resource instead."
+          "description": "The selected schema for this flow"
         },
         "messagingOptions": {
           "$ref": "#/definitions/MessagingOptions",
@@ -4240,7 +3346,7 @@
     },
     "FlowType": {
       "type": "string",
-      "description": "DEPRECATED: Please create a FlowType resource.",
+      "description": "Flow type for the specified resource",
       "enum": [
         "Unknown",
         "Complex",
@@ -4338,10 +3444,6 @@
       "type": "object",
       "description": "The flows resource patch definition.",
       "properties": {
-        "properties": {
-          "$ref": "#/definitions/FlowPatchProperties",
-          "description": "Properties of Connections patch body."
-        },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
           "description": "The managed service identities assigned to this resource."
@@ -4440,23 +3542,6 @@
         ]
       }
     },
-    "InternalMetadataProperties": {
-      "type": "object",
-      "description": "Internal metadata of the connection inside pipeline.",
-      "properties": {
-        "operationStatus": {
-          "$ref": "#/definitions/OperationStatusProperties",
-          "description": "Operation status associated with the last patch request",
-          "readOnly": true
-        },
-        "statusSetBy": {
-          "type": "string",
-          "description": "User that last set the approved status for this connection",
-          "readOnly": true
-        }
-      },
-      "additionalProperties": {}
-    },
     "LinkStatus": {
       "type": "string",
       "description": "Link status of the current pipeline, connection, flow.",
@@ -4538,41 +3623,6 @@
         }
       }
     },
-    "MimeFilterRuleset": {
-      "type": "object",
-      "description": "The File Type ruleset.",
-      "properties": {
-        "type": {
-          "$ref": "#/definitions/FilterType",
-          "description": "Filter type value."
-        },
-        "filters": {
-          "$ref": "#/definitions/MimeTypeFilter",
-          "description": "Filtered values."
-        }
-      }
-    },
-    "MimeTypeFilter": {
-      "type": "object",
-      "description": "Allow list of mime types.",
-      "properties": {
-        "mime": {
-          "type": "string",
-          "description": "File mime type value.",
-          "pattern": "^[a-z]+/[a-zA-Z0-9+\\-\\+.]+$"
-        },
-        "extensions": {
-          "type": "array",
-          "description": "File type extension list.",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "mime"
-      ]
-    },
     "OperationStatusEnum": {
       "type": "string",
       "description": "Operation status for the last patch request for this connection.",
@@ -4597,27 +3647,6 @@
         ]
       },
       "readOnly": true
-    },
-    "OperationStatusProperties": {
-      "type": "object",
-      "description": "Operation status associated with the last patch request",
-      "properties": {
-        "status": {
-          "$ref": "#/definitions/OperationStatusEnum",
-          "description": "Operation status for the last patch request for this connection.",
-          "readOnly": true
-        },
-        "id": {
-          "type": "string",
-          "description": "Operation status ID of the last patch request for this connection.",
-          "readOnly": true
-        },
-        "message": {
-          "type": "string",
-          "description": "Message for the operation for the last patch request for this connection.",
-          "readOnly": true
-        }
-      }
     },
     "PendingConnection": {
       "type": "object",
@@ -4670,16 +3699,9 @@
         },
         "flowTypes": {
           "type": "array",
-          "description": "DEPRECATED: Please create a FlowProfile resource.",
+          "description": "The flow types being requested for this connection",
           "items": {
             "$ref": "#/definitions/FlowType"
-          }
-        },
-        "flowProfileList": {
-          "type": "array",
-          "description": "The FlowProfiles allowed for this connection",
-          "items": {
-            "$ref": "#/definitions/FlowProfileMetadata"
           }
         },
         "requirementId": {
@@ -4723,21 +3745,21 @@
         },
         "policies": {
           "type": "array",
-          "description": "DEPRECATED: Please create a FlowType resource.",
+          "description": "The policies for this connection",
           "items": {
             "type": "string"
           }
         },
         "schemas": {
           "type": "array",
-          "description": "DEPRECATED: Please create a FlowType resource.",
+          "description": "The schemas for this connection",
           "items": {
             "$ref": "#/definitions/Schema"
           }
         },
         "schemaUris": {
           "type": "array",
-          "description": "DEPRECATED: Please create a FlowType resource.",
+          "description": "The schema URIs for this connection",
           "items": {
             "type": "string",
             "format": "uri"
@@ -4890,17 +3912,13 @@
             ]
           }
         },
-        "flowProfile": {
-          "$ref": "#/definitions/FlowProfileMetadata",
-          "description": "Type of FlowProfile to use for transfer via the flow."
-        },
-        "dataClass": {
-          "$ref": "#/definitions/DataClass",
-          "description": "The Flow's data class."
-        },
         "flowType": {
           "$ref": "#/definitions/FlowType",
-          "description": "DEPRECATED: Please create a FlowType resource instead."
+          "description": "The flow type for this flow"
+        },
+        "dataType": {
+          "$ref": "#/definitions/DataType",
+          "description": "Type of data to transfer via the flow."
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -4909,14 +3927,14 @@
         },
         "policies": {
           "type": "array",
-          "description": "DEPRECATED: Please create a FlowType resource instead.",
+          "description": "The policies for this flow",
           "items": {
             "type": "string"
           }
         },
         "schema": {
           "$ref": "#/definitions/Schema",
-          "description": "DEPRECATED: Please create a FlowType resource instead."
+          "description": "The selected schema for this flow"
         },
         "messagingOptions": {
           "$ref": "#/definitions/MessagingOptions",
@@ -5063,18 +4081,6 @@
         }
       ]
     },
-    "PipelineConnectionProperties": {
-      "type": "object",
-      "description": "Connection properties inside pipeline",
-      "properties": {
-        "internalMetadata": {
-          "$ref": "#/definitions/InternalMetadataProperties",
-          "description": "Internal metadata of the connection inside pipeline.",
-          "readOnly": true
-        }
-      },
-      "additionalProperties": {}
-    },
     "PipelineListResult": {
       "type": "object",
       "description": "The response of a Pipeline list operation.",
@@ -5134,21 +4140,21 @@
         },
         "policies": {
           "type": "array",
-          "description": "DEPRECATED: Please create a FlowType resource.",
+          "description": "The policies for this pipeline",
           "items": {
             "type": "string"
           }
         },
         "flowTypes": {
           "type": "array",
-          "description": "DEPRECATED: Please create a FlowType resource.",
+          "description": "The flow types allowed for this pipeline",
           "items": {
             "$ref": "#/definitions/FlowType"
           }
         },
         "disabledFlowTypes": {
           "type": "array",
-          "description": "DEPRECATED: Please create a FlowType resource.",
+          "description": "The flow types that are disabled for this pipeline",
           "items": {
             "$ref": "#/definitions/FlowType"
           }
@@ -5221,7 +4227,7 @@
       "properties": {
         "flowTypes": {
           "type": "array",
-          "description": "DEPRECATED: Please create a FlowType resource.",
+          "description": "The flow types allowed for this pipeline",
           "items": {
             "$ref": "#/definitions/FlowType"
           }
@@ -5294,13 +4300,57 @@
           "description": "Metadata pertaining to creation and last modification of the resource."
         },
         "properties": {
-          "$ref": "#/definitions/PipelineConnectionProperties",
+          "$ref": "#/definitions/ReadReadPipelineConnectionProperties",
           "description": "Connection properties inside pipeline"
         }
       },
       "required": [
         "id"
       ],
+      "additionalProperties": {}
+    },
+    "ReadReadInternalMetadataProperties": {
+      "type": "object",
+      "description": "Internal metadata of the connection inside pipeline.",
+      "properties": {
+        "operationStatus": {
+          "$ref": "#/definitions/ReadReadOperationStatusProperties",
+          "description": "Operation status associated with the last patch request"
+        },
+        "statusSetBy": {
+          "type": "string",
+          "description": "User that last set the approved status for this connection"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "ReadReadOperationStatusProperties": {
+      "type": "object",
+      "description": "Operation status associated with the last patch request",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/OperationStatusEnum",
+          "description": "Operation status for the last patch request for this connection."
+        },
+        "id": {
+          "type": "string",
+          "description": "Operation status ID of the last patch request for this connection."
+        },
+        "message": {
+          "type": "string",
+          "description": "Message for the operation for the last patch request for this connection."
+        }
+      }
+    },
+    "ReadReadPipelineConnectionProperties": {
+      "type": "object",
+      "description": "Connection properties inside pipeline",
+      "properties": {
+        "internalMetadata": {
+          "$ref": "#/definitions/ReadReadInternalMetadataProperties",
+          "description": "Internal metadata of the connection inside pipeline."
+        }
+      },
       "additionalProperties": {}
     },
     "ResourceBody": {
@@ -5587,89 +4637,6 @@
         ]
       }
     },
-    "TextMatch": {
-      "type": "object",
-      "description": "Text matching ruleset configuration options.",
-      "properties": {
-        "text": {
-          "type": "string",
-          "description": "The text to match and deny."
-        },
-        "matchType": {
-          "type": "string",
-          "description": "The text matching type.",
-          "default": "Partial",
-          "enum": [
-            "Partial",
-            "Complete"
-          ],
-          "x-ms-enum": {
-            "name": "MatchType",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Partial",
-                "value": "Partial",
-                "description": "Partial text comparison."
-              },
-              {
-                "name": "Complete",
-                "value": "Complete",
-                "description": "Complete text comparison."
-              }
-            ]
-          }
-        },
-        "caseSensitivity": {
-          "type": "string",
-          "description": "The text's cases sensitivity matching type.",
-          "default": "Insensitive",
-          "enum": [
-            "Insensitive",
-            "Sensitive"
-          ],
-          "x-ms-enum": {
-            "name": "Casing",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Insensitive",
-                "value": "Insensitive",
-                "description": "Casing insensitive comparison option."
-              },
-              {
-                "name": "Sensitive",
-                "value": "Sensitive",
-                "description": "Casing sensitive comparison option."
-              }
-            ]
-          }
-        }
-      },
-      "required": [
-        "text",
-        "matchType",
-        "caseSensitivity"
-      ]
-    },
-    "TextMatchingRuleset": {
-      "type": "object",
-      "description": "The Watchword ruleset.",
-      "properties": {
-        "deny": {
-          "type": "array",
-          "description": "Deny list of words.",
-          "items": {
-            "$ref": "#/definitions/TextMatch"
-          },
-          "x-ms-identifiers": [
-            "text",
-            "matchType",
-            "caseSensitivity"
-          ]
-        }
-      }
-    },
     "ValidateSchemaResult": {
       "type": "object",
       "description": "Result of the schema validation.",
@@ -5708,21 +4675,6 @@
         ]
       },
       "readOnly": true
-    },
-    "XmlFilterRuleset": {
-      "type": "object",
-      "description": "The xsd schema ruleset.",
-      "properties": {
-        "defaultNamespace": {
-          "type": "string",
-          "description": "The XSD namespace."
-        },
-        "schema": {
-          "type": "string",
-          "format": "byte",
-          "description": "The base64 encoded xsd byte value."
-        }
-      }
     }
   },
   "parameters": {}
