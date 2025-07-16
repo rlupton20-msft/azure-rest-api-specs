@@ -62,13 +62,13 @@ model ManagedOpsProperties {
   @visibility(Lifecycle.Read)
   provisioningState?: ManagedOpsProvisioningState;
 
-  @doc("Initial configuration used when provisioning the resource.")
-  @visibility(Lifecycle.Read, Lifecycle.Create)
-  initialConfiguration: ManagedOpsInitialConfiguration;
+  @doc("Desired configuration used when provisioning the resource.")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  desiredConfiguration: ManagedOpsDesiredConfiguration;
 
   @doc("Services provisioned by this resource.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  services: ManagedOpsServiceInformation;
+  @visibility(Lifecycle.Read)
+  services?: ManagedOpsServiceInformation;
 
   @doc("Policy assignments created for managing services.")
   @visibility(Lifecycle.Read)
@@ -83,10 +83,6 @@ model ManagedOpsServiceInformation {
   @visibility(Lifecycle.Read)
   changeTrackingAndInventory?: ManagedOpsChangeTrackingInformation;
 
-  @doc("Azure Monitor Insights service information.")
-  @visibility(Lifecycle.Read)
-  azureMonitorInsights?: ManagedOpsAzureMonitorInformation;
-
   @doc("Azure Update Manager service information.")
   @visibility(Lifecycle.Read)
   azureUpdateManager?: ManagedOpsUpdateManagerInformation;
@@ -96,12 +92,12 @@ model ManagedOpsServiceInformation {
   azurePolicyAndMachineConfiguration?: ManagedOpsGuestConfigurationInformation;
 
   @doc("Defender for Servers service information.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  defenderForServers: DefenderForServersInformation;
+  @visibility(Lifecycle.Read)
+  defenderForServers?: DefenderForServersInformation;
 
   @doc("Defender for Cloud's Cloud security posture management (CSPM) service information.")
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  defenderCspm: DefenderCspmInformation;
+  @visibility(Lifecycle.Read)
+  defenderCspm?: DefenderCspmInformation;
 }
 
 @doc("Policy assignments created for managing services.")
@@ -116,27 +112,24 @@ model PolicyAssignmentProperties {
   ]>;
 }
 
-alias enablementState = "Enabled" | "Disabled" | string;
+alias enablementState =
+  | "Enabled"
+  | "InProgress"
+  | "Failed"
+  | "Disabled"
+  | string;
 
 @doc("Change Tracking and Inventory service information.")
 @added(Versions.v2024_08_01_preview)
 @added(Versions.v2023_04_01_preview)
 model ManagedOpsChangeTrackingInformation {
   @doc("ID of Data Collection Rule (DCR) associated with this service.")
-  dcrId: armResourceIdentifier<[
+  dcrId?: armResourceIdentifier<[
     {
       type: "Microsoft.Insights/dataCollectionRules";
     }
   ]>;
 
-  @doc("Indicates whether the service is enabled.")
-  enablementStatus: enablementState;
-}
-
-@doc("Azure Monitor Insights service information.")
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
-model ManagedOpsAzureMonitorInformation {
   @doc("Indicates whether the service is enabled.")
   enablementStatus: enablementState;
 }
@@ -146,14 +139,14 @@ model ManagedOpsAzureMonitorInformation {
 @added(Versions.v2023_04_01_preview)
 model ManagedOpsUpdateManagerInformation {
   @doc("ID of Data Collection Rule (DCR) associated with this service.")
-  dcrId: armResourceIdentifier<[
+  dcrId?: armResourceIdentifier<[
     {
       type: "Microsoft.Insights/dataCollectionRules";
     }
   ]>;
 
   @doc("ID of Data Collection Endpoint (DCE) associated with this service.")
-  dceId: armResourceIdentifier<[
+  dceId?: armResourceIdentifier<[
     {
       type: "Microsoft.Insights/dataCollectionEndpoints";
     }
@@ -179,7 +172,7 @@ model DefenderForServersInformation {
   enablementStatus: enablementState;
 }
 
-@doc("Defender CSPM service information.")
+@doc("Defender Cloud Security Posture Management (CSPM) service information.")
 @added(Versions.v2024_08_01_preview)
 @added(Versions.v2023_04_01_preview)
 model DefenderCspmInformation {
@@ -198,15 +191,12 @@ model ManagedOpsSku {
   tier: string;
 }
 
-@doc("Initial configuration parameters.")
+@doc("Desired configuration parameters.")
 @added(Versions.v2024_08_01_preview)
 @added(Versions.v2023_04_01_preview)
-model ManagedOpsInitialConfiguration {
+model ManagedOpsDesiredConfiguration {
   @doc("Configuration for the Change Tracking and Inventory service.")
   changeTrackingAndInventory: ManagedOpsChangeTrackingConfiguration;
-
-  @doc("Configuration for the Azure Monitor service.")
-  azureMonitorInsights: AzureMonitorConfiguration;
 
   @doc("User assigned Managed Identity used to perform operations on machines managed by Ops360.")
   userAssignedManagedIdentityId: armResourceIdentifier<[
@@ -214,7 +204,17 @@ model ManagedOpsInitialConfiguration {
       type: "Microsoft.ManagedIdentity/userAssignedIdentities";
     }
   ]>;
+
+  @doc("Desired enablement state of the Defender For Servers service.")
+  @visibility(Lifecycle.Read, Lifecycle.Update, Lifecycle.Create)
+  defenderForServers?: desiredEnablementState;
+
+  @doc("Desired enablement state of the Defender Cloud Security Posture Management (CSPM) service.")
+  @visibility(Lifecycle.Read, Lifecycle.Update, Lifecycle.Create)
+  defenderCspm?: desiredEnablementState;
 }
+
+alias desiredEnablementState = "Enable" | "Disable" | string;
 
 @doc("Configuration for the Change Tracking and Inventory service.")
 @added(Versions.v2024_08_01_preview)
@@ -224,18 +224,6 @@ model ManagedOpsChangeTrackingConfiguration {
   logAnalyticsWorkspaceId: armResourceIdentifier<[
     {
       type: "Microsoft.OperationalInsights/workspaces";
-    }
-  ]>;
-}
-
-@doc("Configuration for the Azure Monitor service.")
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
-model AzureMonitorConfiguration {
-  @doc("Log analytics workspace resource ID used by the service.")
-  azureMonitorWorkspaceId: armResourceIdentifier<[
-    {
-      type: "Microsoft.Monitor/accounts";
     }
   ]>;
 }
