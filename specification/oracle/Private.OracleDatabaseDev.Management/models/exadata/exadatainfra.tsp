@@ -325,4 +325,9 @@ model CloudExadataInfrastructureProperties {
   @doc("The compute model of the Exadata Infrastructure")
   @visibility(Lifecycle.Read)
   computeModel?: ComputeModel;
+
+  @added(Versions.v20250801_preview)
+  @doc("The exascale config details for the cloud Exadata infrastructure")
+  @visibility(Lifecycle.Read)
+  exascaleConfig?: ExascaleConfigDetails;
 }

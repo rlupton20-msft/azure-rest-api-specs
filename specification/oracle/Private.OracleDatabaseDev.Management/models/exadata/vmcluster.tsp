@@ -368,6 +368,16 @@ model CloudVmClusterProperties {
   @doc("The compute model of the VM Cluster.")
   @visibility(Lifecycle.Read)
   computeModel?: ComputeModel;
+
+  @doc("Exadata Database Storage Vault ID")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  @added(Versions.v20250801_preview)
+  exascaleDbStorageVaultId?: string;
+
+  @doc("Specifies whether the type of storage management for the VM cluster is ASM or Exascale.")
+  @visibility(Lifecycle.Read)
+  @added(Versions.v20250801_preview)
+  storageManagementType?: ExadataVmClusterStorageManagementType;
 }
 
 @doc("Add/Remove (Virtual Machine) DbNode model")

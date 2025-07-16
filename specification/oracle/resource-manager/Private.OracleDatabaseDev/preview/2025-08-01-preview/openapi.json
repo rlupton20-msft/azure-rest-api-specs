@@ -785,6 +785,12 @@
           },
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "$ref": "#/parameters/DbSystemShapeFilter.shapeAttribute"
+          },
+          {
+            "$ref": "#/parameters/DbSystemShapeFilter.zone"
           }
         ],
         "responses": {
@@ -8242,6 +8248,11 @@
           "$ref": "#/definitions/ComputeModel",
           "description": "The compute model of the Exadata Infrastructure",
           "readOnly": true
+        },
+        "exascaleConfig": {
+          "$ref": "#/definitions/ExascaleConfigDetails",
+          "description": "The exascale config details for the cloud Exadata infrastructure",
+          "readOnly": true
         }
       },
       "required": [
@@ -8782,6 +8793,19 @@
         "computeModel": {
           "$ref": "#/definitions/ComputeModel",
           "description": "The compute model of the VM Cluster.",
+          "readOnly": true
+        },
+        "exascaleDbStorageVaultId": {
+          "type": "string",
+          "description": "Exadata Database Storage Vault ID",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "storageManagementType": {
+          "$ref": "#/definitions/ExadataVmClusterStorageManagementType",
+          "description": "Specifies whether the type of storage management for the VM cluster is ASM or Exascale.",
           "readOnly": true
         }
       },
@@ -10396,20 +10420,6 @@
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
-    },
-    "DbSystemShapeFilter": {
-      "type": "object",
-      "description": "Provides GiMinorVersion query parameter for list operations.",
-      "properties": {
-        "shapeAttribute": {
-          "type": "string",
-          "description": "Filters the result for the given Shape Attribute"
-        },
-        "zone": {
-          "type": "string",
-          "description": "Filters the result for the given Azure Availability Zone"
-        }
-      }
     },
     "DbSystemShapeListResult": {
       "type": "object",
@@ -14643,6 +14653,22 @@
     }
   },
   "parameters": {
+    "DbSystemShapeFilter.shapeAttribute": {
+      "name": "shapeAttribute",
+      "in": "query",
+      "description": "Filters the result for the given Shape Attribute",
+      "required": false,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "DbSystemShapeFilter.zone": {
+      "name": "zone",
+      "in": "query",
+      "description": "Filters the result for the given Azure Availability Zone",
+      "required": false,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
     "DbVersionFilter.dbSystemId": {
       "name": "dbSystemId",
       "in": "query",
