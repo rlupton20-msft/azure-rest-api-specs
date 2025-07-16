@@ -3,10 +3,8 @@ import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-client-generator-core";
 
-using TypeSpec.Rest;
-using TypeSpec.Http;
+using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using Azure.ClientGenerator.Core;
 using Azure.ResourceManager.Foundations;
 
 namespace Private.AzureDataTransfer;
@@ -611,6 +609,11 @@ model ConnectionProperties {
    * The schema URIs for this connection
    */
   schemaUris?: url[];
+
+  /**
+   * Hostname specific to API Flows
+   */
+  apiHostname?: string;
 }
 
 /**
@@ -1037,9 +1040,19 @@ model ApiFlowOptions {
   senderClientId?: string;
 
   /**
+   * Collection of senderClientIds
+   */
+  senderClientIds?: string[];
+
+  /**
    * Remote stub app registration Client ID
    */
   remoteCallingModeClientId?: string;
+
+  /**
+   * Collection of remoteCallingModeClientIds
+   */
+  remoteCallingModeClientIds?: string[];
 
   /**
    * Optional field to override the audience of the remote endpoint
