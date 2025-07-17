@@ -6,6 +6,7 @@ import "./models.flowprofile.tsp";
 
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
+using Versioning;
 
 namespace Private.AzureDataTransfer;
 
@@ -142,7 +143,7 @@ union LinkStatus {
 
 /**
  * DEPRECATED: Please create a FlowType resource.
- * TODO: DO WE JUST WANT TO USE THIS???
+ * TODO: DO WE JUST WANT REUSE THIS???
  */
 union FlowType {
   string,
@@ -709,6 +710,7 @@ model ConnectionProperties {
   /**
    * DEPRECATED: Please create a FlowProfile resource.
    */
+  @removed(Versions.v2025_05_30_preview)
   flowTypes?: FlowType[];
 
   /**
@@ -762,16 +764,19 @@ model ConnectionProperties {
   /**
    * DEPRECATED: Please create a FlowType resource.
    */
+  @removed(Versions.v2025_05_30_preview)
   policies?: string[];
 
   /**
    * DEPRECATED: Please create a FlowType resource.
    */
+  @removed(Versions.v2025_05_30_preview)
   schemas?: Schema[];
 
   /**
    * DEPRECATED: Please create a FlowType resource.
    */
+  @removed(Versions.v2025_05_30_preview)
   schemaUris?: url[];
 }
 
@@ -811,16 +816,19 @@ model PipelineProperties {
   /**
    * DEPRECATED: Please create a FlowType resource.
    */
+  @removed(Versions.v2025_05_30_preview)
   policies?: string[];
 
   /**
    * DEPRECATED: Please create a FlowType resource.
    */
+  @removed(Versions.v2025_05_30_preview)
   flowTypes?: FlowType[];
 
   /**
    * DEPRECATED: Please create a FlowType resource.
    */
+  @removed(Versions.v2025_05_30_preview)
   disabledFlowTypes?: FlowType[];
 
   /**
@@ -1057,6 +1065,7 @@ model FlowProperties {
   /**
    * DEPRECATED: Please create a FlowType resource instead.
    */
+  @removed(Versions.v2025_05_30_preview)
   flowType?: FlowType;
 
   /**
@@ -1068,11 +1077,13 @@ model FlowProperties {
   /**
    * DEPRECATED: Please create a FlowType resource instead.
    */
+  @removed(Versions.v2025_05_30_preview)
   policies?: string[];
 
   /**
    * DEPRECATED: Please create a FlowType resource instead.
    */
+  @removed(Versions.v2025_05_30_preview)
   schema?: Schema;
 
   /**
@@ -1391,6 +1402,7 @@ model PipelinesPatch {
   /**
    * Properties of pipelines patch body.
    */
+  @removed(Versions.v2025_05_30_preview)
   properties?: PipelinesPatchProperties;
 
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
@@ -1400,6 +1412,7 @@ model PipelinesPatch {
 /**
  * Properties of pipelines patch body.
  */
+@removed(Versions.v2025_05_30_preview)
 model PipelinesPatchProperties {
   /**
    * DEPRECATED: Please create a FlowType resource.
