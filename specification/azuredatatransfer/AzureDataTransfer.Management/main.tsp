@@ -17,10 +17,6 @@ import "./Pipeline.tsp";
 import "./Flow.tsp";
 import "./ProviderActions.tsp";
 
-using TypeSpec.Rest;
-using TypeSpec.Http;
-using Azure.ResourceManager.Foundations;
-using Azure.Core;
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
 /**
@@ -37,18 +33,11 @@ namespace Private.AzureDataTransfer;
  */
 enum Versions {
   /**
-   * The 2025-04-11-preview API version.
+   * The 2025-05-30 API version.
    */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
-  v2025_04_11_preview: "2025-04-11-preview",
-
-  /**
-   * The 2025-05-21 API version.
-   */
-  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  @useDependency(Azure.Core.Versions.v1_0_Preview_1)
-  v2025_05_21: "2025-05-21",
+  v2025_05_30_preview: "2025-05-30-preview",
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
