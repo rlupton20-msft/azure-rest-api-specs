@@ -611,11 +611,6 @@ model ConnectionProperties {
    * The schema URIs for this connection
    */
   schemaUris?: url[];
-
-  /**
-   * Hostname specific to API Flows
-   */
-  apiHostname?: string;
 }
 
 /**
@@ -1040,21 +1035,11 @@ model ApiFlowOptions {
    * Sender's app user assigned Manage Identity client ID
    */
   senderClientId?: string;
-  
-  /**
-   * Collection of senderClientIds
-   */
-  senderClientIds?: string[];
 
   /**
    * Remote stub app registration Client ID
    */
   remoteCallingModeClientId?: string;
-
-  /**
-   * Collection of remoteCallingModeClientIds
-   */
-  remoteCallingModeClientIds?: string[];
 
   /**
    * Optional field to override the audience of the remote endpoint
