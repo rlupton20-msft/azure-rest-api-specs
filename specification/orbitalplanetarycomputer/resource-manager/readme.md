@@ -27,20 +27,19 @@ These are the global settings for MPC Pro.
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2025-02-11-preview
+tag: package-2025-07-01-preview
 suppressions:
-    - code: AvoidAnonymousTypes
-      where:
-        - $.definitions["ManagedServiceIdentityUpdate"].properties["userAssignedIdentities"].additionalProperties
-      reason:
-        Issue with common-types
-    - code: OperationsAPIImplementation
-      where:
-        - $
-      reason:
-        Services that share a root manifest do not need to reimplement the Operations API.
-        Operations API for MPC Pro is shared with Microsoft.Orbital and is defined
-        at specification/orbital/resource-manager/Microsoft.Orbital/stable.
+  - code: AvoidAnonymousTypes
+    where:
+      - $.definitions["ManagedServiceIdentityUpdate"].properties["userAssignedIdentities"].additionalProperties
+    reason: Issue with common-types
+  - code: OperationsAPIImplementation
+    where:
+      - $
+    reason:
+      Services that share a root manifest do not need to reimplement the Operations API.
+      Operations API for MPC Pro is shared with Microsoft.Orbital and is defined
+      at specification/orbital/resource-manager/Microsoft.Orbital/stable.
 ```
 
 ### Tag: package-2024-01-31-preview
@@ -59,4 +58,13 @@ These settings apply only when `--tag=package-2025-02-11-preview` is specified o
 ```yaml $(tag) == 'package-2025-02-11-preview'
 input-file:
   - Microsoft.Orbital/preview/2025-02-11-preview/planetarycomputer.json
+```
+
+### Tag: package-2025-07-01-preview
+
+These settings apply only when `--tag=package-2025-07-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-07-01-preview'
+input-file:
+  - Microsoft.Orbital/preview/2025-07-01-preview/planetarycomputer.json
 ```

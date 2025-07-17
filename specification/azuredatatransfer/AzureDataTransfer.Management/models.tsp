@@ -778,6 +778,11 @@ model ConnectionProperties {
    */
   @removed(Versions.v2025_05_30_preview)
   schemaUris?: url[];
+
+  /**
+   * Hostname specific to API Flows
+   */
+  apiHostname?: string;
 }
 
 /**
@@ -1217,9 +1222,19 @@ model ApiFlowOptions {
   senderClientId?: string;
 
   /**
+   * Collection of senderClientIds
+   */
+  senderClientIds?: string[];
+
+  /**
    * Remote stub app registration Client ID
    */
   remoteCallingModeClientId?: string;
+
+  /**
+   * Collection of remoteCallingModeClientIds
+   */
+  remoteCallingModeClientIds?: string[];
 
   /**
    * Optional field to override the audience of the remote endpoint

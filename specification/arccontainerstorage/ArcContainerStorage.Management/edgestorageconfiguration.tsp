@@ -7,9 +7,9 @@ import "./provisioningState.tsp";
 
 using Azure.ResourceManager;
 
-namespace Private.ArcContainerStorage;
+namespace Microsoft.ArcContainerStorage;
 
-//    generation: "3"
+//    generation: "6"
 
 @doc("EdgeStorageConfiguration is a custom resource that defines the configuration for edge storage settings.")
 model EdgeStorageConfiguration
@@ -37,9 +37,6 @@ model EdgeStorageConfigurationProperties {
   @doc("Automatically failover edge volume consumers.")
   failoverEdgeVolumeConsumers?: boolean;
 
-  @doc("This indicates how to ensure mTLS")
-  serviceMesh?: ServiceMesh;
-
   @doc("Object containing optional workload identity information.")
   workloadIdentity?: WorkloadIdentity;
 
@@ -50,20 +47,6 @@ model EdgeStorageConfigurationProperties {
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
   @visibility(Lifecycle.Read)
   status?: EdgeStorageConfigurationStatus;
-}
-
-@doc("This indicates how to ensure mTLS (deprecated)")
-union ServiceMesh {
-  @doc("Open service mesh (deprecated)")
-  osm: "osm",
-
-  @doc("Cert manager is used to ensure mTLS")
-  `cert-manager`: "cert-manager",
-
-  @doc("No service mesh is used")
-  none: "none",
-
-  string,
 }
 
 @pattern("^[0-9a-fA-F-]{36}$") // basic check for UUID
@@ -91,9 +74,6 @@ model EdgeStorageConfigurationStatus {
 
   @doc("Additional details about the configuration's status.")
   details?: string;
-
-  @doc("Provisioning status of the resource.")
-  provisioningStatus?: ProvisioningStatus;
 }
 
 //

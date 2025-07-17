@@ -7,9 +7,9 @@ import "./provisioningState.tsp";
 
 using Azure.ResourceManager;
 
-namespace Private.ArcContainerStorage;
+namespace Microsoft.ArcContainerStorage;
 
-//    generation: "6"
+//    generation: "7"
 
 /**
  * EdgeVolume is a custom resource that defines the configuration for edge volume storage.
@@ -28,7 +28,6 @@ model EdgeVolume is ExtensionResource<EdgeVolumeProperties> {
 @doc("Defines the desired state (spec) of the EdgeVolume resource.")
 model EdgeVolumeProperties {
   @doc("Size of the EdgeVolume (example: 1Gi). Must be a valid storage size and is immutable once set.")
-  @pattern("^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   requestedSize: string;
 
@@ -44,7 +43,7 @@ model EdgeVolumeProperties {
 
   @doc("The provisioning state of the resource.")
   @visibility(Lifecycle.Read)
-  provisioningState?: provisioningState | provisioningStateVolume;
+  provisioningState?: provisioningState;
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
   @visibility(Lifecycle.Read)
@@ -73,23 +72,6 @@ model EdgeVolumeStatus {
 
   @doc("List of subvolumes (by name or ID) that have encountered errors.")
   subvolumesWithErrors?: string[];
-
-  @doc("Provisioning status of the resource.")
-  provisioningStatus?: ProvisioningStatus;
-}
-
-@doc("Adding provisioning state for EdgeVolume")
-union provisioningStateVolume {
-  @doc("deploying the edgevolume")
-  deploying: "deploying",
-
-  @doc("deployed the edgevolume")
-  deployed: "deployed",
-
-  @doc("deployment_deletion is in progress")
-  deployment_deletion: "deployment_deletion",
-
-  string,
 }
 
 /**

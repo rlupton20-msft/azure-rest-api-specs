@@ -42,9 +42,6 @@
       "name": "Operations"
     },
     {
-      "name": "PrivateEndpointConnections"
-    },
-    {
       "name": "Schedulers"
     },
     {
@@ -54,7 +51,10 @@
       "name": "RetentionPolicies"
     },
     {
-      "name": "PrivateLinks"
+      "name": "PrivateEndpointConnections"
+    },
+    {
+      "name": "PrivateLinkResources"
     }
   ],
   "paths": {
@@ -218,6 +218,9 @@
         "x-ms-examples": {
           "Schedulers_Get": {
             "$ref": "./examples/Schedulers_Get.json"
+          },
+          "Schedulers_Get_WithPrivateEndpointConnections": {
+            "$ref": "./examples/Schedulers_Get_WithPrivateEndpointConnections.json"
           }
         }
       },
@@ -431,11 +434,11 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DurableTask/schedulers/{schedulerName}/privateEndpointConnections": {
       "get": {
-        "operationId": "PrivateEndpointConnections_ListByTestTrackedResource",
+        "operationId": "PrivateEndpointConnections_List",
         "tags": [
           "PrivateEndpointConnections"
         ],
-        "description": "List existing private connections",
+        "description": "List existing private endpoint connections",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -470,8 +473,8 @@
           }
         },
         "x-ms-examples": {
-          "PrivateEndpointConnections_ListByTestTrackedResource_MaximumSet": {
-            "$ref": "./examples/PrivateEndpointConnections_ListByTestTrackedResource_MaximumSet_Gen.json"
+          "PrivateEndpointConnections_List_MaximumSet": {
+            "$ref": "./examples/PrivateEndpointConnections_List_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -485,7 +488,7 @@
         "tags": [
           "PrivateEndpointConnections"
         ],
-        "description": "Get a specific private connection",
+        "description": "Get a specific private endpoint connection",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -533,7 +536,7 @@
         "tags": [
           "PrivateEndpointConnections"
         ],
-        "description": "Create a Private endpoint connection",
+        "description": "Create a private endpoint connection",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -642,11 +645,11 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DurableTask/schedulers/{schedulerName}/privateLinkResources": {
       "get": {
-        "operationId": "PrivateLinks_ListByTestTrackedResource",
+        "operationId": "PrivateLinkResources_List",
         "tags": [
-          "PrivateLinks"
+          "PrivateLinkResources"
         ],
-        "description": "list private links on the given resource",
+        "description": "list private link resources on the given resource",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -681,12 +684,66 @@
           }
         },
         "x-ms-examples": {
-          "PrivateLinks_ListByTestTrackedResource_MaximumSet": {
-            "$ref": "./examples/PrivateLinks_ListByTestTrackedResource_MaximumSet_Gen.json"
+          "PrivateLinkResources_List_MaximumSet": {
+            "$ref": "./examples/PrivateLinkResources_List_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DurableTask/schedulers/{schedulerName}/privateLinkResources/{privateLinkResourceName}": {
+      "get": {
+        "operationId": "PrivateLinkResources_Get",
+        "tags": [
+          "PrivateLinkResources"
+        ],
+        "description": "Get a PrivateLinkResource",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "schedulerName",
+            "in": "path",
+            "description": "The name of the Scheduler",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,64}$"
+          },
+          {
+            "name": "privateLinkResourceName",
+            "in": "path",
+            "description": "The name of the private link associated with the Azure resource.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/PrivateLinkResource"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "PrivateLinkResources_Get_MaximumSet": {
+            "$ref": "./examples/PrivateLinkResources_Get_MaximumSet_Gen.json"
+          }
         }
       }
     },
@@ -1290,7 +1347,7 @@
     },
     "PrivateLinkResource": {
       "type": "object",
-      "description": "Private Links for TestRackedResource",
+      "description": "Private Link Resource for Schedulers",
       "properties": {
         "properties": {
           "$ref": "../../../../../common-types/resource-management/v5/privatelinks.json#/definitions/PrivateLinkResourceProperties",
@@ -1378,6 +1435,30 @@
         ]
       },
       "readOnly": true
+    },
+    "PublicNetworkAccess": {
+      "type": "string",
+      "description": "State of the public network access.",
+      "enum": [
+        "Enabled",
+        "Disabled"
+      ],
+      "x-ms-enum": {
+        "name": "PublicNetworkAccess",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Enabled",
+            "value": "Enabled",
+            "description": "The public network access is enabled"
+          },
+          {
+            "name": "Disabled",
+            "value": "Disabled",
+            "description": "The public network access is disabled"
+          }
+        ]
+      }
     },
     "PurgeableOrchestrationState": {
       "type": "string",
@@ -1591,11 +1672,15 @@
           "$ref": "#/definitions/SchedulerSku",
           "description": "SKU of the durable task scheduler"
         },
-        "endpoints": {
+        "publicNetworkAccess": {
+          "$ref": "#/definitions/PublicNetworkAccess",
+          "description": "Gets or sets allow or disallow public network access to durable task scheduler"
+        },
+        "privateEndpointConnections": {
           "type": "array",
           "description": "The private endpoints exposed by this resource",
           "items": {
-            "$ref": "../../../../../common-types/resource-management/v5/privatelinks.json#/definitions/PrivateEndpoint"
+            "$ref": "../../../../../common-types/resource-management/v5/privatelinks.json#/definitions/PrivateEndpointConnection"
           },
           "readOnly": true
         }

@@ -7,9 +7,10 @@ import "./provisioningState.tsp";
 
 using Azure.ResourceManager;
 
-namespace Private.ArcContainerStorage;
+namespace Microsoft.ArcContainerStorage;
 
-//    generation: "7"
+//    generation: "9"
+
 @doc("AcStorConfiguration defines the configuration for a storage system. It is a singleton which must be named 'acstor-configuration'.")
 model AcStorConfiguration is ExtensionResource<AcStorConfigurationProperties> {
   ...ResourceNameParameter<
@@ -26,7 +27,6 @@ model AcStorConfigurationProperties {
   diskMountPoint?: string;
 
   @doc("The capacity of the disk, including storage unit (e.g., 60Gi).")
-  @pattern("^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   diskCapacity: string;
 
@@ -116,9 +116,6 @@ model AcStorConfigurationStatus {
 
   @doc("Additional details about the configuration's status.")
   details?: string;
-
-  @doc("Provisioning status of the resource.")
-  provisioningStatus?: ProvisioningStatus;
 }
 
 // Define the operations for the AcStorConfiguration resource
