@@ -503,27 +503,6 @@
     }
   },
   "definitions": {
-    "AzureMonitorConfiguration": {
-      "type": "object",
-      "description": "Configuration for the Azure Monitor service.",
-      "properties": {
-        "azureMonitorWorkspaceId": {
-          "type": "string",
-          "format": "arm-id",
-          "description": "Log analytics workspace resource ID used by the service.",
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.Monitor/accounts"
-              }
-            ]
-          }
-        }
-      },
-      "required": [
-        "azureMonitorWorkspaceId"
-      ]
-    },
     "AzureMonitorInformation": {
       "type": "object",
       "description": "Azure Monitor Insights service's information.",
@@ -587,13 +566,15 @@
     },
     "DefenderCspmInformation": {
       "type": "object",
-      "description": "Defender CSPM service information.",
+      "description": "Defender Cloud Security Posture Management (CSPM) service information.",
       "properties": {
         "enablementStatus": {
           "type": "string",
           "description": "Indicates whether the service is enabled.",
           "enum": [
             "Enabled",
+            "InProgress",
+            "Failed",
             "Disabled"
           ],
           "x-ms-enum": {
@@ -604,23 +585,6 @@
       "required": [
         "enablementStatus"
       ]
-    },
-    "DefenderCspmInformationUpdate": {
-      "type": "object",
-      "description": "Defender CSPM service information.",
-      "properties": {
-        "enablementStatus": {
-          "type": "string",
-          "description": "Indicates whether the service is enabled.",
-          "enum": [
-            "Enabled",
-            "Disabled"
-          ],
-          "x-ms-enum": {
-            "modelAsString": true
-          }
-        }
-      }
     },
     "DefenderForServersInformation": {
       "type": "object",
@@ -631,6 +595,8 @@
           "description": "Indicates whether the service is enabled.",
           "enum": [
             "Enabled",
+            "InProgress",
+            "Failed",
             "Disabled"
           ],
           "x-ms-enum": {
@@ -641,23 +607,6 @@
       "required": [
         "enablementStatus"
       ]
-    },
-    "DefenderForServersInformationUpdate": {
-      "type": "object",
-      "description": "Defender for Servers service information.",
-      "properties": {
-        "enablementStatus": {
-          "type": "string",
-          "description": "Indicates whether the service is enabled.",
-          "enum": [
-            "Enabled",
-            "Disabled"
-          ],
-          "x-ms-enum": {
-            "modelAsString": true
-          }
-        }
-      }
     },
     "ExtManagedOperation": {
       "type": "object",
@@ -767,9 +716,9 @@
       "type": "object",
       "description": "The updatable properties of the ManagedOp.",
       "properties": {
-        "services": {
-          "$ref": "#/definitions/ManagedOpsServiceInformationUpdate",
-          "description": "Services provisioned by this resource.",
+        "desiredConfiguration": {
+          "$ref": "#/definitions/ManagedOpsDesiredConfigurationUpdate",
+          "description": "Desired configuration used when provisioning the resource.",
           "x-ms-mutability": [
             "read",
             "update",
@@ -777,26 +726,6 @@
           ]
         }
       }
-    },
-    "ManagedOpsAzureMonitorInformation": {
-      "type": "object",
-      "description": "Azure Monitor Insights service information.",
-      "properties": {
-        "enablementStatus": {
-          "type": "string",
-          "description": "Indicates whether the service is enabled.",
-          "enum": [
-            "Enabled",
-            "Disabled"
-          ],
-          "x-ms-enum": {
-            "modelAsString": true
-          }
-        }
-      },
-      "required": [
-        "enablementStatus"
-      ]
     },
     "ManagedOpsChangeTrackingConfiguration": {
       "type": "object",
@@ -819,6 +748,24 @@
         "logAnalyticsWorkspaceId"
       ]
     },
+    "ManagedOpsChangeTrackingConfigurationUpdate": {
+      "type": "object",
+      "description": "Configuration for the Change Tracking and Inventory service.",
+      "properties": {
+        "logAnalyticsWorkspaceId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "Log analytics workspace resource ID used by the service.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.OperationalInsights/workspaces"
+              }
+            ]
+          }
+        }
+      }
+    },
     "ManagedOpsChangeTrackingInformation": {
       "type": "object",
       "description": "Change Tracking and Inventory service information.",
@@ -840,27 +787,8 @@
           "description": "Indicates whether the service is enabled.",
           "enum": [
             "Enabled",
-            "Disabled"
-          ],
-          "x-ms-enum": {
-            "modelAsString": true
-          }
-        }
-      },
-      "required": [
-        "dcrId",
-        "enablementStatus"
-      ]
-    },
-    "ManagedOpsGuestConfigurationInformation": {
-      "type": "object",
-      "description": "Azure Policy and Machine Configuration service information.",
-      "properties": {
-        "enablementStatus": {
-          "type": "string",
-          "description": "Indicates whether the service is enabled.",
-          "enum": [
-            "Enabled",
+            "InProgress",
+            "Failed",
             "Disabled"
           ],
           "x-ms-enum": {
@@ -872,17 +800,13 @@
         "enablementStatus"
       ]
     },
-    "ManagedOpsInitialConfiguration": {
+    "ManagedOpsDesiredConfiguration": {
       "type": "object",
-      "description": "Initial configuration parameters.",
+      "description": "Desired configuration parameters.",
       "properties": {
         "changeTrackingAndInventory": {
           "$ref": "#/definitions/ManagedOpsChangeTrackingConfiguration",
           "description": "Configuration for the Change Tracking and Inventory service."
-        },
-        "azureMonitorInsights": {
-          "$ref": "#/definitions/AzureMonitorConfiguration",
-          "description": "Configuration for the Azure Monitor service."
         },
         "userAssignedManagedIdentityId": {
           "type": "string",
@@ -895,12 +819,119 @@
               }
             ]
           }
+        },
+        "defenderForServers": {
+          "type": "string",
+          "description": "Desired enablement state of the Defender For Servers service.",
+          "enum": [
+            "Enable",
+            "Disable"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "defenderCspm": {
+          "type": "string",
+          "description": "Desired enablement state of the Defender Cloud Security Posture Management (CSPM) service.",
+          "enum": [
+            "Enable",
+            "Disable"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
         }
       },
       "required": [
         "changeTrackingAndInventory",
-        "azureMonitorInsights",
         "userAssignedManagedIdentityId"
+      ]
+    },
+    "ManagedOpsDesiredConfigurationUpdate": {
+      "type": "object",
+      "description": "Desired configuration parameters.",
+      "properties": {
+        "changeTrackingAndInventory": {
+          "$ref": "#/definitions/ManagedOpsChangeTrackingConfigurationUpdate",
+          "description": "Configuration for the Change Tracking and Inventory service."
+        },
+        "userAssignedManagedIdentityId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "User assigned Managed Identity used to perform operations on machines managed by Ops360.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
+              }
+            ]
+          }
+        },
+        "defenderForServers": {
+          "type": "string",
+          "description": "Desired enablement state of the Defender For Servers service.",
+          "enum": [
+            "Enable",
+            "Disable"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "defenderCspm": {
+          "type": "string",
+          "description": "Desired enablement state of the Defender Cloud Security Posture Management (CSPM) service.",
+          "enum": [
+            "Enable",
+            "Disable"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "ManagedOpsGuestConfigurationInformation": {
+      "type": "object",
+      "description": "Azure Policy and Machine Configuration service information.",
+      "properties": {
+        "enablementStatus": {
+          "type": "string",
+          "description": "Indicates whether the service is enabled.",
+          "enum": [
+            "Enabled",
+            "InProgress",
+            "Failed",
+            "Disabled"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "enablementStatus"
       ]
     },
     "ManagedOpsProperties": {
@@ -917,22 +948,19 @@
           "description": "Provisioning state of the resource.",
           "readOnly": true
         },
-        "initialConfiguration": {
-          "$ref": "#/definitions/ManagedOpsInitialConfiguration",
-          "description": "Initial configuration used when provisioning the resource.",
+        "desiredConfiguration": {
+          "$ref": "#/definitions/ManagedOpsDesiredConfiguration",
+          "description": "Desired configuration used when provisioning the resource.",
           "x-ms-mutability": [
             "read",
+            "update",
             "create"
           ]
         },
         "services": {
           "$ref": "#/definitions/ManagedOpsServiceInformation",
           "description": "Services provisioned by this resource.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          "readOnly": true
         },
         "policyAssignmentProperties": {
           "$ref": "#/definitions/PolicyAssignmentProperties",
@@ -941,8 +969,7 @@
         }
       },
       "required": [
-        "initialConfiguration",
-        "services"
+        "desiredConfiguration"
       ]
     },
     "ManagedOpsProvisioningState": {
@@ -997,11 +1024,6 @@
           "description": "Change Tracking and Inventory service information.",
           "readOnly": true
         },
-        "azureMonitorInsights": {
-          "$ref": "#/definitions/ManagedOpsAzureMonitorInformation",
-          "description": "Azure Monitor Insights service information.",
-          "readOnly": true
-        },
         "azureUpdateManager": {
           "$ref": "#/definitions/ManagedOpsUpdateManagerInformation",
           "description": "Azure Update Manager service information.",
@@ -1015,48 +1037,12 @@
         "defenderForServers": {
           "$ref": "#/definitions/DefenderForServersInformation",
           "description": "Defender for Servers service information.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          "readOnly": true
         },
         "defenderCspm": {
           "$ref": "#/definitions/DefenderCspmInformation",
           "description": "Defender for Cloud's Cloud security posture management (CSPM) service information.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        }
-      },
-      "required": [
-        "defenderForServers",
-        "defenderCspm"
-      ]
-    },
-    "ManagedOpsServiceInformationUpdate": {
-      "type": "object",
-      "description": "Services provisioned by this resource.",
-      "properties": {
-        "defenderForServers": {
-          "$ref": "#/definitions/DefenderForServersInformationUpdate",
-          "description": "Defender for Servers service information.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
-        },
-        "defenderCspm": {
-          "$ref": "#/definitions/DefenderCspmInformationUpdate",
-          "description": "Defender for Cloud's Cloud security posture management (CSPM) service information.",
-          "x-ms-mutability": [
-            "read",
-            "update",
-            "create"
-          ]
+          "readOnly": true
         }
       }
     },
@@ -1111,6 +1097,8 @@
           "description": "Indicates whether the service is enabled.",
           "enum": [
             "Enabled",
+            "InProgress",
+            "Failed",
             "Disabled"
           ],
           "x-ms-enum": {
@@ -1119,8 +1107,6 @@
         }
       },
       "required": [
-        "dcrId",
-        "dceId",
         "enablementStatus"
       ]
     },
