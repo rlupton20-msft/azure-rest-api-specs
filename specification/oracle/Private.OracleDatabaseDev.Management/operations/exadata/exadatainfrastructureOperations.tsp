@@ -4,6 +4,7 @@ import "../../models/exadata/exadatainfra.tsp";
 using Azure.ResourceManager;
 using Autorest;
 
+using TypeSpec.Versioning;
 namespace Private.OracleDatabaseDev;
 
 @armResourceOperations(CloudExadataInfrastructure)
@@ -17,6 +18,14 @@ interface CloudExadataInfrastructures
   addStorageCapacity is ArmResourceActionAsync<
     CloudExadataInfrastructure,
     void,
+    CloudExadataInfrastructure
+  >;
+
+  @doc("Configures Exascale on Cloud exadata infrastructure resource")
+  @added(Versions.v20250801_preview)
+  configureExascale is ArmResourceActionAsync<
+    CloudExadataInfrastructure,
+    ConfigureExascaleCloudExadataInfrastructureDetails,
     CloudExadataInfrastructure
   >;
 }

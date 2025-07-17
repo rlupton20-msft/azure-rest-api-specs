@@ -7,14 +7,10 @@ import "@azure-tools/typespec-azure-resource-manager";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Azure.Core;
-using Azure.Core.Foundations;
 using Azure.ResourceManager;
 
 @armProviderNamespace
-@service({
-  title: "ZeroTrustSegmentationClient",
-})
+@service(#{ title: "ZeroTrustSegmentationClient" })
 @versioned(Versions)
 @doc("ZeroTrustSegmentation resource provider API.")
 namespace Private.ZeroTrustSegmentation;
@@ -22,8 +18,19 @@ namespace Private.ZeroTrustSegmentation;
 /** ZeroTrustSegmentation API versions */
 enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2025_02_01_preview: "2025-02-01-preview",
+
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_07_01_preview: "2025-07-01-preview",
+
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_08_01_preview: "2025-08-01-preview",
 }
 
 @doc("A zero trust segmentation resource. this resource defines the SegmentationManager.")
@@ -34,6 +41,34 @@ model SegmentationManager is TrackedResource<SegmentationManagerProperties> {
   @path
   @segment("segmentationManagers")
   name: string;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "Adding property for versioning"
+  @added(Versions.v2025_07_01_preview)
+  @doc("The managed service identities assigned to this resource.")
+  identity?: SegmentationManagerManagedServiceIdentity;
+}
+
+@added(Versions.v2025_07_01_preview)
+@doc("Managed service identity for the segmentation manager.")
+model SegmentationManagerManagedServiceIdentity {
+  @doc("The type of managed service identity.")
+  type: SegmentationManagerManagedServiceIdentityType;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Following ARM pattern for user assigned identities"
+  @doc("The user assigned identities associated with the resource.")
+  userAssignedIdentities?: Record<Azure.ResourceManager.CommonTypes.UserAssignedIdentity | null>;
+}
+
+@added(Versions.v2025_07_01_preview)
+@doc("The type of managed service identity.")
+union SegmentationManagerManagedServiceIdentityType {
+  @doc("No managed identity is assigned to this resource.")
+  "None",
+
+  @doc("User Assigned Managed Identity")
+  "UserAssigned",
+
+  string,
 }
 
 @doc("Segmentation manager properties")
@@ -59,6 +94,19 @@ model SegmentationManagerProperties {
 
   @doc("The description of the segmentation manager")
   description?: string;
+
+  @doc("ARM Resource ID of the Log Analytics Workspace where graph data will be stored")
+  @added(Versions.v2025_08_01_preview)
+  logAnalyticsWorkspaceId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.OperationalInsights/workspaces";
+    }
+  ]>;
+
+  @doc("Managed-On-Behalf-Of configuration.")
+  @added(Versions.v2025_08_01_preview)
+  @visibility(Lifecycle.Read)
+  managedOnBehalfOfConfiguration?: CommonTypes.ManagedOnBehalfOfConfiguration;
 
   ...DefaultProvisioningStateProperty;
   ...ManagedByProperty;
@@ -95,7 +143,7 @@ model SetLabelRecord {
   macAddress: string;
 
   @doc("Labels as key-value pairs")
-  @OpenAPI.extension("x-ms-identifiers", [])
+  @OpenAPI.extension("x-ms-identifiers", #[])
   labels?: LabelPair[];
 }
 
@@ -111,7 +159,7 @@ model LabelPair {
 @doc("The request model for the SetLabels API")
 model SetLabelsRequest {
   @doc("List of labels that need to be updated")
-  @OpenAPI.extension("x-ms-identifiers", [])
+  @OpenAPI.extension("x-ms-identifiers", #[])
   labels: SetLabelRecord[];
 }
 
@@ -136,7 +184,7 @@ model Graph {
   vertices: Vertex[];
 
   @doc("List of edges connecting the vertices in the graph")
-  @OpenAPI.extension("x-ms-identifiers", [])
+  @OpenAPI.extension("x-ms-identifiers", #[])
   edges: Edge[];
 
   @doc("Total weights for all edges in the graph")
@@ -164,7 +212,7 @@ model Vertex {
   name?: string;
 
   @doc("Labels associated with the vertex as key-value pairs")
-  @OpenAPI.extension("x-ms-identifiers", [])
+  @OpenAPI.extension("x-ms-identifiers", #[])
   labels: LabelPair[];
 }
 

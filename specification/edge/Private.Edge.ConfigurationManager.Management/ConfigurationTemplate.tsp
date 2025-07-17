@@ -20,6 +20,7 @@ using Azure.ResourceManager.Foundations;
 
 namespace Private.Edge;
 
+@removed(Versions.v2025_06_01)
 @doc("Configuration Template Properties")
 model ConfigurationTemplateProperties {
   @doc("Description of config template")
@@ -34,6 +35,7 @@ model ConfigurationTemplateProperties {
   provisioningState?: ProvisioningState;
 }
 
+@removed(Versions.v2025_06_01)
 @doc("Configuration Template Resource. Contains configuration expressions using the predefined expression language.")
 model ConfigurationTemplate
   is Azure.ResourceManager.TrackedResource<ConfigurationTemplateProperties> {
@@ -41,6 +43,7 @@ model ConfigurationTemplate
   ...EntityTagProperty;
 }
 
+@removed(Versions.v2025_06_01)
 @doc("Configuration Template Version With Update Type")
 model ConfigurationTemplateVersionWithUpdateType {
   @doc("Update type")
@@ -49,11 +52,12 @@ model ConfigurationTemplateVersionWithUpdateType {
   @doc("Version to create")
   @pattern("^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$")
   version?: string;
-  
+
   @doc("Configuration Template Version")
   configurationTemplateVersion: ConfigurationTemplateVersion;
 }
 
+@removed(Versions.v2025_06_01)
 @armResourceOperations
 interface ConfigurationTemplates {
   @doc("Get a Configuration Template Resource")
