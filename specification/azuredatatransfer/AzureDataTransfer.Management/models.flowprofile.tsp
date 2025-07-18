@@ -232,19 +232,17 @@ model MimeFilterRuleset {
   filters?: MimeTypeFilter;
 }
 
-
 /**
-  * Allow list of mime types.
-  */
+ * Allow list of mime types.
+ */
 model MimeTypeFilter {
+  /**
+   * File mime type value.
+   */
   @pattern(
     "^[a-z]+/[a-zA-Z0-9+\\-\\+.]+$",
     "String must be a valid IANA Mime type."
   )
-
-  /**
-   * File mime type value.
-   */
   mime: string;
 
   /**
@@ -292,7 +290,10 @@ model TextMatchingRuleset {
   /**
    * Deny list of words.
    */
-  @OpenAPI.extension("x-ms-identifiers", #["text", "matchType", "caseSensitivity"])
+  @OpenAPI.extension(
+    "x-ms-identifiers",
+    #["text", "matchType", "caseSensitivity"]
+  )
   deny?: {
     ...TextMatch;
   }[];
@@ -302,19 +303,19 @@ model TextMatchingRuleset {
  * Text matching ruleset configuration options.
  */
 model TextMatch {
-/**
- * The text to match and deny.
- */
+  /**
+   * The text to match and deny.
+   */
   text: string;
 
-/**
- * The text matching type.
- */
+  /**
+   * The text matching type.
+   */
   matchType: MatchType = MatchType.Partial;
 
-/**
- * The text's cases sensitivity matching type.
- */
+  /**
+   * The text's cases sensitivity matching type.
+   */
   caseSensitivity: Casing = Casing.Insensitive;
 }
 
@@ -324,14 +325,14 @@ model TextMatch {
 union MatchType {
   string,
 
-/**
- * Partial text comparison.
- */
+  /**
+   * Partial text comparison.
+   */
   Partial: "Partial",
 
-/**
- * Complete text comparison.
- */
+  /**
+   * Complete text comparison.
+   */
   Complete: "Complete",
 }
 
@@ -341,13 +342,13 @@ union MatchType {
 union Casing {
   string,
 
-/**
- * Casing insensitive comparison option.
- */
+  /**
+   * Casing insensitive comparison option.
+   */
   Insensitive: "Insensitive",
 
-/**
- * Casing sensitive comparison option.
- */
+  /**
+   * Casing sensitive comparison option.
+   */
   Sensitive: "Sensitive",
 }

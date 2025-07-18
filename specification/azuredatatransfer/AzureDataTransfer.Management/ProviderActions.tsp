@@ -35,16 +35,14 @@ interface AzureDataTransfer {
   @operationId("AzureDataTransfer_listFlowProfiles")
   @autoRoute
   listFlowProfiles is ArmProviderActionSync<
-    Request = 
-    {
+    Request = {
       /**
        * Pipeline(s) to retrieve flows of
        */
       @bodyRoot
       pipeline?: string;
     },
-    Response =
-    {
+    Response = {
       /**
        * List of FlowProfiles(s)
        */

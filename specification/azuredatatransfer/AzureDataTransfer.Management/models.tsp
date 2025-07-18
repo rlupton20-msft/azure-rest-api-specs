@@ -355,11 +355,11 @@ union DataClassType {
   /**
    * Object replication service for Azure blobs, tables, and files.
    */
-  "HighThroughput"
+  "HighThroughput",
 }
 
 /**
- * Allowed data class. 
+ * Allowed data class.
  * TODO: how are we going to determine whether a BatchEngine flow is Complex, DSo, Disk Image, Mission...etc..?
  */
 union DataClass {
@@ -447,7 +447,7 @@ union QueryType {
   /**
    * Used to auto-assign low latency transfer type.
    */
-  ALL: "ALL"
+  ALL: "ALL",
 }
 
 /**
