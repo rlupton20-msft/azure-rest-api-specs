@@ -18,8 +18,6 @@ namespace Microsoft.SaaSHub;
 /**
  * The properties of a SaaSHub cloud service.
  */
-@added(Microsoft.SaaSHub.SaaSHubVersions.v2025_07_01_preview)
-@removed(Microsoft.SaaSHub.SaaSHubVersions.v2024_09_30_preview)
 model CloudServiceProperties {
   // Include all the base properties from SeatBasedResourceProperties
   ...SeatBasedResourceProperties;
@@ -37,8 +35,6 @@ model CloudServiceProperties {
 /**
  * Request to check if the cloud service can be created
  */
-@added(Microsoft.SaaSHub.SaaSHubVersions.v2025_07_01_preview)
-@removed(Microsoft.SaaSHub.SaaSHubVersions.v2024_09_30_preview)
 model CanCreateCloudServiceRequest {
   /**
    * Resource name of the saas hub resource to be created.
@@ -59,8 +55,6 @@ model CanCreateCloudServiceRequest {
 /**
  * Cloud service to be used in merge operation as source.
  */
-@added(Microsoft.SaaSHub.SaaSHubVersions.v2025_07_01_preview)
-@removed(Microsoft.SaaSHub.SaaSHubVersions.v2024_09_30_preview)
 model MergeSourceCloudService {
   // Include all the base properties from MergeSourceSeatBasedResource
   ...MergeSourceSeatBasedResource;
@@ -78,8 +72,6 @@ model MergeSourceCloudService {
 /**
  * Request to merge multiple cloud service resources into one target cloud service resource
  */
-@added(Microsoft.SaaSHub.SaaSHubVersions.v2025_07_01_preview)
-@removed(Microsoft.SaaSHub.SaaSHubVersions.v2024_09_30_preview)
 model MergeCloudServiceRequest {
   /**
    * List of source resources to be merged into target resource.
@@ -96,8 +88,6 @@ model MergeCloudServiceRequest {
 /**
  * Validation result for canMerge operation on cloud service.
  */
-@added(Microsoft.SaaSHub.SaaSHubVersions.v2025_07_01_preview)
-@removed(Microsoft.SaaSHub.SaaSHubVersions.v2024_09_30_preview)
 model CloudServiceCanMergeResult {
   /**
    * Whether the validation passed/failed.

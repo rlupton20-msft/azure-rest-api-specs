@@ -17,8 +17,6 @@ namespace Microsoft.SaaSHub;
 /**
  * A SaaSHub cloud service.
  */
-@added(SaaSHubVersions.v2025_07_01_preview)
-@removed(SaaSHubVersions.v2024_09_30_preview)
 model CloudService
   is Azure.ResourceManager.TrackedResource<CloudServiceProperties> {
   ...ResourceNameParameter<
@@ -30,8 +28,6 @@ model CloudService
 }
 
 @armResourceOperations
-@added(SaaSHubVersions.v2025_07_01_preview)
-@removed(SaaSHubVersions.v2024_09_30_preview)
 interface CloudServices {
   /**
    * Gets a SaaSHub cloud service by its ID. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.

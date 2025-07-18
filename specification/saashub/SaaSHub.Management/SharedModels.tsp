@@ -35,7 +35,6 @@ union AutoRenew {
   /**
    * Auto renew is turned on for the next term only
    */
-  @added(SaaSHubVersions.v2025_07_01_preview)
   Once: "Once",
 }
 
@@ -208,21 +207,18 @@ model SystemOverrides {
    * The number of times the resource has been renewed.
    */
   @visibility(Lifecycle.Read)
-  @added(SaaSHubVersions.v2025_07_01_preview)
   renewalCount?: int32 = 0;
 
   /**
    * The start date in UTC time on the current product code.
    */
   @visibility(Lifecycle.Read)
-  @added(SaaSHubVersions.v2025_07_01_preview)
   startDateOnCurrentProductCode?: utcDateTime;
 
   /**
    * Number of days in the license reassignment period for the current term.
    */
   @visibility(Lifecycle.Read)
-  @added(SaaSHubVersions.v2025_07_01_preview)
   licenseReassignmentDays?: int32 = 0;
 }
 
@@ -725,18 +721,6 @@ model SeatBasedResourceProperties {
   endCustomerBillingAccount?: string;
 
   /**
-   * Billing token for current term transaction.
-   */
-  @removed(SaaSHubVersions.v2025_07_01_preview)
-  billingToken?: string;
-
-  /**
-   * Availability token for current term transaction.
-   */
-  @removed(SaaSHubVersions.v2025_07_01_preview)
-  availabilityToken?: string;
-
-  /**
    * The name of the seat-based resource.
    */
   displayName?: string;
@@ -781,12 +765,6 @@ model SeatBasedResourceProperties {
   quantity?: int64;
 
   /**
-   * Renewal term details of the resource.
-   */
-  @removed(SaaSHubVersions.v2025_07_01_preview)
-  renewalTerm?: RenewalTermDetails;
-
-  /**
    * The SKU description of the product for which the resource is purchased.
    */
   @visibility(Lifecycle.Read)
@@ -827,14 +805,12 @@ model SeatBasedResourceProperties {
   /**
    * Resource tokens for various authorization and context purposes.
    */
-  @added(SaaSHubVersions.v2025_07_01_preview)
   @OpenAPI.extension("x-ms-identifiers", #["type"])
   resourceTokens?: ResourceToken[];
 
   /**
    * Schedule actions for future terms and changes
    */
-  @added(SaaSHubVersions.v2025_07_01_preview)
   @OpenAPI.extension("x-ms-identifiers", #[])
   scheduleActions?: ScheduleAction[];
 }
@@ -857,7 +833,6 @@ model MergeSourceSeatBasedResource {
   /**
    * Resource tokens for various authorization and context purposes (for merge source).
    */
-  @added(SaaSHubVersions.v2025_07_01_preview)
   @OpenAPI.extension("x-ms-identifiers", #["type"])
   resourceTokens?: ResourceToken[];
 }
@@ -880,7 +855,6 @@ model ResourceToken {
 /**
  * Schedule action for resource operations
  */
-@added(SaaSHubVersions.v2025_07_01_preview)
 model ScheduleAction {
   /**
    * The type of schedule action

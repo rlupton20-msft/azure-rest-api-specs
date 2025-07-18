@@ -20,13 +20,11 @@ namespace Microsoft.SaaSHub;
 interface ProviderLevelActions {
   /**
    * Evaluates whether the request payload can create a new SaaS resource.
-   * Only available in API versions 2024-09-30-preview and 2025-07-01-preview.
+   * Not available in API versions 2023-01-01-preview.
    */
   @route("/providers/Microsoft.SaaSHub")
   @post
   @armResourceAction(Microsoft.SaaSHub.SaasResource)
-  @added(Microsoft.SaaSHub.SaaSHubVersions.v2024_09_30_preview)
-  @added(Microsoft.SaaSHub.SaaSHubVersions.v2025_07_01_preview)
   tenantLevelCanCreate(
     ...ApiVersionParameter,
 
@@ -44,8 +42,6 @@ interface ProviderLevelActions {
   @route("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SaaSHub")
   @post
   @armResourceAction(Microsoft.SaaSHub.CloudService)
-  @added(Microsoft.SaaSHub.SaaSHubVersions.v2025_07_01_preview)
-  @removed(Microsoft.SaaSHub.SaaSHubVersions.v2024_09_30_preview)
   resourceGroupLevelCanCreate(
     ...ApiVersionParameter,
     ...SubscriptionIdParameter,
