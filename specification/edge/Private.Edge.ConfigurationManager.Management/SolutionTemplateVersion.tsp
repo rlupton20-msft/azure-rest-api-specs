@@ -126,7 +126,23 @@ model BulkPublishTargetDetails {
 @doc("Apply Hierarchy parameter")
 model HierarchyDetails {
   @doc("ArmId of Hierarchy")
-  hierarchyId: string;
+  hierarchyIds: string[];
+}
+
+@doc("Configure Hierarchy parameter")
+model ConfigureHierarchy {
+  @doc("ArmId of Hierarchy")
+  hierarchyIds: string;
+
+  @doc("Configuration value")
+  configuration: string;
+}
+
+@doc("Configure Hierarchy Details")
+model ConfigureHierarchyDetails {
+  @doc("Configure Hierarchy Parameters")
+  @Azure.ResourceManager.identifiers(#[])
+  configs: ConfigureHierarchy[];
 }
 
 @armResourceOperations
@@ -150,8 +166,15 @@ interface SolutionTemplateVersions {
   >;
 
   @doc("Post request to apply")
-  applySolution is ArmResourceActionNoResponseContentAsync<
+  applySolution is ArmResourceActionAsync<
     SolutionTemplateVersion,
-    HierarchyDetails
+    HierarchyDetails,
+    ConfigureHierarchyDetails
+  >;
+
+  @doc("Post request to configure")
+  configureSolution is ArmResourceActionNoResponseContentAsync<
+    SolutionTemplateVersion,
+    ConfigureHierarchyDetails
   >;
 }
