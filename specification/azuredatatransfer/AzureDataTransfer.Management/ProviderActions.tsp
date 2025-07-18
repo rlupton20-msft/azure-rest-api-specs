@@ -12,6 +12,7 @@ using Azure.ResourceManager;
 using Azure.ClientGenerator.Core;
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
+using TypeSpec.Versioning;
 
 namespace Private.AzureDataTransfer;
 
@@ -20,6 +21,7 @@ interface AzureDataTransfer {
   /**
    * Lists approved schemas for Azure Data Transfer.
    */
+  @removed(Versions.v2025_05_30_preview)
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
   @operationId("AzureDataTransfer_listApprovedSchemas")
   @autoRoute
@@ -31,6 +33,7 @@ interface AzureDataTransfer {
   /**
    * Lists FlowProfile resources for a Azure Data Transfer Pipeline resource.
    */
+  @added(Versions.v2025_05_30_preview)
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
   @operationId("AzureDataTransfer_listFlowProfiles")
   @autoRoute
@@ -46,6 +49,7 @@ interface AzureDataTransfer {
       /**
        * List of FlowProfiles(s)
        */
+      @added(Versions.v2025_05_30_preview)
       @bodyRoot
       flowProfileList?: FlowProfileMetadata[];
     }
@@ -54,6 +58,7 @@ interface AzureDataTransfer {
   /**
    * Validates a schema for Azure Data Transfer.
    */
+  @removed(Versions.v2025_05_30_preview)
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
   @operationId("AzureDataTransfer_validateSchema")
   @autoRoute

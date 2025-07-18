@@ -145,6 +145,7 @@ union LinkStatus {
  * DEPRECATED: Please create a FlowType resource.
  * TODO: DO WE JUST WANT REUSE THIS???
  */
+@removed(Versions.v2025_05_30_preview)
 union FlowType {
   string,
 
@@ -334,6 +335,7 @@ union FlowStatus {
 /**
  * Data class used to define the replication scenario.
  */
+@added(Versions.v2025_05_30_preview)
 union DataClassType {
   string,
 
@@ -362,6 +364,7 @@ union DataClassType {
  * Allowed data class.
  * TODO: how are we going to determine whether a BatchEngine flow is Complex, DSo, Disk Image, Mission...etc..?
  */
+@added(Versions.v2025_05_30_preview)
 union DataClass {
   string,
 
@@ -414,6 +417,7 @@ union DataClass {
 /**
  * Allowed scenarios for low latency replications.
  */
+@added(Versions.v2025_05_30_preview)
 union LowLatencyType {
   string,
 
@@ -431,6 +435,7 @@ union LowLatencyType {
 /**
  * Allowed scenarios for query replications.
  */
+@added(Versions.v2025_05_30_preview)
 union QueryType {
   string,
 
@@ -453,6 +458,7 @@ union QueryType {
 /**
  * Allowed scenarios for high throughput replications.
  */
+@added(Versions.v2025_05_30_preview)
 union HighThroughputType {
   string,
 
@@ -470,6 +476,23 @@ union HighThroughputType {
    * Replication scenario using Azure Storage Files.
    */
   Files: "Files",
+}
+
+/**
+ * Transfer Storage Blobs or Tables
+ */
+union DataType {
+  string,
+
+  /**
+   * The flow uses Azure Storage blobs to send or receive data.
+   */
+  Blob: "Blob",
+
+  /**
+   * The flow uses Azure Storage tables to send or receive data.
+   */
+  Table: "Table",
 }
 
 /**
@@ -591,6 +614,7 @@ model ListApprovedSchemasRequest {
 /**
  * The schemas list result.
  */
+@removed(Versions.v2025_05_30_preview)
 model SchemasListResult {
   /**
    * Schemas array.
@@ -601,6 +625,7 @@ model SchemasListResult {
 /**
  * The schema object.
  */
+@removed(Versions.v2025_05_30_preview)
 model Schema {
   /**
    * ID associated with this schema
@@ -716,6 +741,7 @@ model ConnectionProperties {
   /**
    * The FlowProfiles allowed for this connection
    */
+  @added(Versions.v2025_05_30_preview)
   flowProfileList?: FlowProfileMetadata[];
 
   /**
@@ -782,6 +808,7 @@ model ConnectionProperties {
   /**
    * Hostname specific to API Flows
    */
+  @added(Versions.v2025_05_30_preview)
   apiHostname?: string;
 }
 
@@ -802,6 +829,7 @@ model PipelineProperties {
   /**
    * Connections associated with pipeline
    */
+  @typeChangedFrom(Versions.v2025_05_30_preview, ReadPipelineConnection[])
   @visibility(Lifecycle.Read)
   @OpenAPI.extension("x-ms-identifiers", #["id"])
   connections?: Read<PipelineConnection>[];
@@ -897,6 +925,7 @@ model PipelineConnection {
   /**
    * Connection properties inside pipeline
    */
+  @added(Versions.v2025_05_30_preview)
   @visibility(Lifecycle.Read)
   properties?: PipelineConnectionProperties;
 }
@@ -904,6 +933,7 @@ model PipelineConnection {
 /**
  * Connection properties inside pipeline
  */
+@added(Versions.v2025_05_30_preview)
 model PipelineConnectionProperties {
   ...Record<unknown>;
 
@@ -1058,12 +1088,14 @@ model FlowProperties {
   /**
    * Type of FlowProfile to use for transfer via the flow.
    */
+  @added(Versions.v2025_05_30_preview)
   @visibility(Lifecycle.Read)
   flowProfile?: FlowProfileMetadata;
 
   /**
    * The Flow's data class.
    */
+  @added(Versions.v2025_05_30_preview)
   @visibility(Lifecycle.Read)
   dataClass?: DataClass;
 
@@ -1072,6 +1104,12 @@ model FlowProperties {
    */
   @removed(Versions.v2025_05_30_preview)
   flowType?: FlowType;
+
+  /**
+   * Type of data to transfer via the flow.
+   */
+  @removed(Versions.v2025_05_30_preview)
+  dataType?: DataType;
 
   /**
    * Provisioning state of the flow
@@ -1224,6 +1262,7 @@ model ApiFlowOptions {
   /**
    * Collection of senderClientIds
    */
+  @added(Versions.v2025_05_30_preview)
   senderClientIds?: string[];
 
   /**
@@ -1234,6 +1273,7 @@ model ApiFlowOptions {
   /**
    * Collection of remoteCallingModeClientIds
    */
+  @added(Versions.v2025_05_30_preview)
   remoteCallingModeClientIds?: string[];
 
   /**
@@ -1541,4 +1581,98 @@ model AzureResourceManagerArmResponsePipeline {
    * The body type of the operation request or response.
    */
   body: Pipeline;
+}
+
+/**
+ * Read pipeline connection.
+ */
+model ReadPipelineConnection {
+  ...Record<unknown>;
+
+  /**
+   * The id.
+   */
+  id: string,
+
+  /**
+   * The name.
+   */
+  name?: string,
+
+  /**
+   * The type.
+   */
+  type?: string,
+
+  /**
+   * The location.
+   */
+  location?: string,
+
+  /**
+   * The etag..
+   */
+  etag?: string,
+
+  /**
+   * The systemData.
+   */
+  systemData?: SystemData,
+
+  /**
+   * The properties.
+   */
+  properties?: ReadReadPipelineConnectionProperties,
+}
+
+/**
+ * Connection properties inside pipeline
+ */
+//@removed(Versions.v2025_05_30_preview)
+model ReadReadPipelineConnectionProperties {
+  ...Record<unknown>;
+
+  /**
+   * Internal metadata of the connection inside pipeline.
+   */
+  internalMetadata?: ReadReadInternalMetadataProperties;
+}
+
+/**
+ * Internal metadata of the connection inside pipeline.
+ */
+//@removed(Versions.v2025_05_30_preview)
+model ReadReadInternalMetadataProperties {
+  ...Record<unknown>;
+
+  /**
+   * Operation status associated with the last patch request
+   */
+  operationStatus?: ReadReadOperationStatusProperties;
+
+  /**
+   * User that last set the approved status for this connection
+   */
+  statusSetBy?: string;
+}
+
+/**
+ * Operation status associated with the last patch request
+ */
+//@removed(Versions.v2025_05_30_preview)
+model ReadReadOperationStatusProperties {
+  /**
+   * Operation status for the last patch request for this connection.
+   */
+  status?: OperationStatusEnum;
+
+  /**
+   * Operation status ID of the last patch request for this connection.
+   */
+  id?: string;
+
+  /**
+   * Message for the operation for the last patch request for this connection.
+   */
+  message?: string;
 }

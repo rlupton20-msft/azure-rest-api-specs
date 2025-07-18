@@ -10,6 +10,7 @@ using Azure.ClientGenerator.Core;
 using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
+using TypeSpec.Versioning;
 
 namespace Private.AzureDataTransfer;
 /**
@@ -105,6 +106,7 @@ interface Pipelines {
   /**
    * Lists the schemas for the specified connection in a pipeline.
    */
+  @removed(Versions.v2025_05_30_preview)
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
   @action("listSchemas")
   @operationId("ListSchemas_List")

@@ -6,12 +6,14 @@ import "./models.tsp";
 
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
+using TypeSpec.Versioning;
 
 namespace Private.AzureDataTransfer;
 
 /**
  * The FlowProfile resource patch definition.
  */
+@added(Versions.v2025_05_30_preview)
 model FlowProfilePatch {
   /**
    * Properties of FlowProfile patch body.
@@ -25,6 +27,7 @@ model FlowProfilePatch {
 /**
  * Properties of a Patch FlowProfile.
  */
+@added(Versions.v2025_05_30_preview)
 model FlowProfilePatchProperties {
   /**
    * Provisioning state of the flow.
@@ -57,6 +60,7 @@ model FlowProfilePatchProperties {
 /**
  * Properties for listing FlowProfiles.
  */
+@added(Versions.v2025_05_30_preview)
 model FlowProfileMetadata {
   /**
    * The pipeline that the FlowProfile is created under.
@@ -86,6 +90,7 @@ model FlowProfileMetadata {
 /**
  * Properties of a FlowProfile.
  */
+@added(Versions.v2025_05_30_preview)
 model FlowProfileProperties {
   /**
    * Provisioning state of the flow.
@@ -124,6 +129,7 @@ model FlowProfileProperties {
 /**
  * The FlowProfile rulesets.
  */
+@added(Versions.v2025_05_30_preview)
 model FlowProfileRulesets {
   /**
    * Options for enabling antivirus policies.
@@ -159,6 +165,7 @@ model FlowProfileRulesets {
 /**
  * The Antivirus ruleset.
  */
+@added(Versions.v2025_05_30_preview)
 model AntivirusRuleset {
   /**
    * Clam ruleset.
@@ -174,6 +181,7 @@ model AntivirusRuleset {
 /**
  * The Archive ruleset.
  */
+@added(Versions.v2025_05_30_preview)
 model ArchiveRuleset {
   /**
    * Minimum size for expansion in bytes (minimum is 0).
@@ -203,6 +211,7 @@ model ArchiveRuleset {
 /**
  * The Data Size ruleset.
  */
+@added(Versions.v2025_05_30_preview)
 model DataSizeRuleset {
   /**
    * Maximum size ruleset (minimum is 0).
@@ -220,6 +229,7 @@ model DataSizeRuleset {
 /**
  * The File Type ruleset.
  */
+@added(Versions.v2025_05_30_preview)
 model MimeFilterRuleset {
   /**
    * Filter type value.
@@ -235,6 +245,7 @@ model MimeFilterRuleset {
 /**
  * Allow list of mime types.
  */
+@added(Versions.v2025_05_30_preview)
 model MimeTypeFilter {
   /**
    * File mime type value.
@@ -254,6 +265,7 @@ model MimeTypeFilter {
 /**
  * Defines the allow or deny filter type.
  */
+@added(Versions.v2025_05_30_preview)
 union FilterType {
   string,
 
@@ -271,6 +283,7 @@ union FilterType {
 /**
  * The xsd schema ruleset.
  */
+@added(Versions.v2025_05_30_preview)
 model XmlFilterRuleset {
   /**
    * The XSD namespace.
@@ -286,6 +299,7 @@ model XmlFilterRuleset {
 /**
  * The Watchword ruleset.
  */
+@added(Versions.v2025_05_30_preview)
 model TextMatchingRuleset {
   /**
    * Deny list of words.
@@ -311,17 +325,20 @@ model TextMatch {
   /**
    * The text matching type.
    */
+  @added(Versions.v2025_05_30_preview)
   matchType: MatchType = MatchType.Partial;
 
   /**
    * The text's cases sensitivity matching type.
    */
+  @added(Versions.v2025_05_30_preview)
   caseSensitivity: Casing = Casing.Insensitive;
 }
 
 /**
  * The matching types for texts.
  */
+@added(Versions.v2025_05_30_preview)
 union MatchType {
   string,
 
@@ -339,6 +356,7 @@ union MatchType {
 /**
  * Text casing comparision options.
  */
+@added(Versions.v2025_05_30_preview)
 union Casing {
   string,
 

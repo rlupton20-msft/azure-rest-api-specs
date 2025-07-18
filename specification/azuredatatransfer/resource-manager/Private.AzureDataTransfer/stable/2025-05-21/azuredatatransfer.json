@@ -3,7 +3,12 @@
   "info": {
     "title": "azuredatatransferrp",
     "version": "2025-05-21",
-    "description": "Azure Data Transfer service resource provider"
+    "description": "Azure Data Transfer service resource provider",
+    "x-typespec-generated": [
+      {
+        "emitter": "@azure-tools/typespec-autorest"
+      }
+    ]
   },
   "schemes": [
     "https"
@@ -38,10 +43,10 @@
       "name": "Operations"
     },
     {
-      "name": "Connections"
+      "name": "Pipelines"
     },
     {
-      "name": "Pipelines"
+      "name": "Connections"
     },
     {
       "name": "Flows"
@@ -2859,7 +2864,7 @@
     },
     "ConnectionProperties": {
       "type": "object",
-      "description": "Properties of connection",
+      "description": "Properties of a connection resource",
       "properties": {
         "pipeline": {
           "type": "string",
@@ -2903,7 +2908,7 @@
         },
         "flowTypes": {
           "type": "array",
-          "description": "The flow types being requested for this connection",
+          "description": "DEPRECATED: Please create a FlowProfile resource.",
           "items": {
             "$ref": "#/definitions/FlowType"
           }
@@ -2949,21 +2954,21 @@
         },
         "policies": {
           "type": "array",
-          "description": "The policies for this connection",
+          "description": "DEPRECATED: Please create a FlowType resource.",
           "items": {
             "type": "string"
           }
         },
         "schemas": {
           "type": "array",
-          "description": "The schemas for this connection",
+          "description": "DEPRECATED: Please create a FlowType resource.",
           "items": {
             "$ref": "#/definitions/Schema"
           }
         },
         "schemaUris": {
           "type": "array",
-          "description": "The schema URIs for this connection",
+          "description": "DEPRECATED: Please create a FlowType resource.",
           "items": {
             "type": "string",
             "format": "uri"
@@ -3226,7 +3231,7 @@
         },
         "flowType": {
           "$ref": "#/definitions/FlowType",
-          "description": "The flow type for this flow"
+          "description": "DEPRECATED: Please create a FlowType resource instead."
         },
         "dataType": {
           "$ref": "#/definitions/DataType",
@@ -3239,14 +3244,14 @@
         },
         "policies": {
           "type": "array",
-          "description": "The policies for this flow",
+          "description": "DEPRECATED: Please create a FlowType resource instead.",
           "items": {
             "type": "string"
           }
         },
         "schema": {
           "$ref": "#/definitions/Schema",
-          "description": "The selected schema for this flow"
+          "description": "DEPRECATED: Please create a FlowType resource instead."
         },
         "messagingOptions": {
           "$ref": "#/definitions/MessagingOptions",
@@ -3341,7 +3346,7 @@
     },
     "FlowType": {
       "type": "string",
-      "description": "Flow type for the specified resource",
+      "description": "DEPRECATED: Please create a FlowType resource.\nTODO: DO WE JUST WANT REUSE THIS???",
       "enum": [
         "Unknown",
         "Complex",
@@ -3694,7 +3699,7 @@
         },
         "flowTypes": {
           "type": "array",
-          "description": "The flow types being requested for this connection",
+          "description": "DEPRECATED: Please create a FlowProfile resource.",
           "items": {
             "$ref": "#/definitions/FlowType"
           }
@@ -3740,21 +3745,21 @@
         },
         "policies": {
           "type": "array",
-          "description": "The policies for this connection",
+          "description": "DEPRECATED: Please create a FlowType resource.",
           "items": {
             "type": "string"
           }
         },
         "schemas": {
           "type": "array",
-          "description": "The schemas for this connection",
+          "description": "DEPRECATED: Please create a FlowType resource.",
           "items": {
             "$ref": "#/definitions/Schema"
           }
         },
         "schemaUris": {
           "type": "array",
-          "description": "The schema URIs for this connection",
+          "description": "DEPRECATED: Please create a FlowType resource.",
           "items": {
             "type": "string",
             "format": "uri"
@@ -3909,7 +3914,7 @@
         },
         "flowType": {
           "$ref": "#/definitions/FlowType",
-          "description": "The flow type for this flow"
+          "description": "DEPRECATED: Please create a FlowType resource instead."
         },
         "dataType": {
           "$ref": "#/definitions/DataType",
@@ -3922,14 +3927,14 @@
         },
         "policies": {
           "type": "array",
-          "description": "The policies for this flow",
+          "description": "DEPRECATED: Please create a FlowType resource instead.",
           "items": {
             "type": "string"
           }
         },
         "schema": {
           "$ref": "#/definitions/Schema",
-          "description": "The selected schema for this flow"
+          "description": "DEPRECATED: Please create a FlowType resource instead."
         },
         "messagingOptions": {
           "$ref": "#/definitions/MessagingOptions",
@@ -4135,21 +4140,21 @@
         },
         "policies": {
           "type": "array",
-          "description": "The policies for this pipeline",
+          "description": "DEPRECATED: Please create a FlowType resource.",
           "items": {
             "type": "string"
           }
         },
         "flowTypes": {
           "type": "array",
-          "description": "The flow types allowed for this pipeline",
+          "description": "DEPRECATED: Please create a FlowType resource.",
           "items": {
             "$ref": "#/definitions/FlowType"
           }
         },
         "disabledFlowTypes": {
           "type": "array",
-          "description": "The flow types that are disabled for this pipeline",
+          "description": "DEPRECATED: Please create a FlowType resource.",
           "items": {
             "$ref": "#/definitions/FlowType"
           }
@@ -4222,7 +4227,7 @@
       "properties": {
         "flowTypes": {
           "type": "array",
-          "description": "The flow types allowed for this pipeline",
+          "description": "DEPRECATED: Please create a FlowType resource.",
           "items": {
             "$ref": "#/definitions/FlowType"
           }
@@ -4268,35 +4273,35 @@
     },
     "ReadPipelineConnection": {
       "type": "object",
-      "description": "",
+      "description": "Read pipeline connection.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Connection id inside pipeline"
+          "description": "The id."
         },
         "name": {
           "type": "string",
-          "description": "Connection name inside pipeline"
+          "description": "The name."
         },
         "type": {
           "type": "string",
-          "description": "Connection type inside pipeline"
+          "description": "The type."
         },
         "location": {
           "type": "string",
-          "description": "Connection location inside pipeline"
+          "description": "The location."
         },
         "etag": {
           "type": "string",
-          "description": "Connection etag inside pipeline"
+          "description": "The etag.."
         },
         "systemData": {
           "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/systemData",
-          "description": "Metadata pertaining to creation and last modification of the resource."
+          "description": "The systemData."
         },
         "properties": {
           "$ref": "#/definitions/ReadReadPipelineConnectionProperties",
-          "description": "Connection properties inside pipeline"
+          "description": "The properties."
         }
       },
       "required": [

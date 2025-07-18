@@ -9,7 +9,9 @@ import "./models.flowprofile.tsp";
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 using TypeSpec.Http;
+using TypeSpec.Versioning;
 
+@versioned(Versions)
 namespace Private.AzureDataTransfer;
 /**
  * The FlowProfile resource definition.
@@ -26,8 +28,10 @@ model FlowProfile
   ...Azure.ResourceManager.ManagedServiceIdentityProperty;
 }
 
+@added(Versions.v2025_05_30_preview)
 model ArmFlowProfileResponse is ArmResponse<FlowProfile>;
 
+@added(Versions.v2025_05_30_preview)
 @armResourceOperations
 interface FlowProfiles {
   /**
@@ -67,9 +71,7 @@ interface FlowProfiles {
 
 @@maxLength(FlowProfile.name, 64);
 @@minLength(FlowProfile.name, 3);
-@@doc(FlowProfile.name,
-  "The name for the FlowProfile to perform the operation on."
-);
+@@doc(FlowProfile.name, "The name for the FlowProfile to perform the operation on.");
 @@doc(FlowProfile.properties, "Properties of FlowProfile");
 @@doc(FlowProfiles.createOrUpdate::parameters.resource, "FlowProfile body");
 @@doc(FlowProfiles.update::parameters.properties, "FlowProfile body");

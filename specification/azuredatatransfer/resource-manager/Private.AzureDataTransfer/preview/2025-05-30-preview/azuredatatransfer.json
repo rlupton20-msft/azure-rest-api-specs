@@ -56,45 +56,6 @@
     }
   ],
   "paths": {
-    "/providers/Private.AzureDataTransfer/listApprovedSchemas": {
-      "post": {
-        "operationId": "AzureDataTransfer_listApprovedSchemas",
-        "description": "Lists approved schemas for Azure Data Transfer.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "pipeline",
-            "in": "body",
-            "description": "The request to list approved schemas.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ListApprovedSchemasRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "schema": {
-              "$ref": "#/definitions/SchemasListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Performs action request": {
-            "$ref": "./examples/postListApprovedSchemas.json"
-          }
-        }
-      }
-    },
     "/providers/Private.AzureDataTransfer/listFlowProfiles": {
       "post": {
         "operationId": "AzureDataTransfer_listFlowProfiles",
@@ -168,45 +129,6 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/providers/Private.AzureDataTransfer/validateSchema": {
-      "post": {
-        "operationId": "AzureDataTransfer_validateSchema",
-        "description": "Validates a schema for Azure Data Transfer.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "schema",
-            "in": "body",
-            "description": "The request body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Schema"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "schema": {
-              "$ref": "#/definitions/ValidateSchemaResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Performs action request": {
-            "$ref": "./examples/postValidateSchema.json"
-          }
         }
       }
     },
@@ -2878,64 +2800,6 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/pipelines/{pipelineName}/listSchemas": {
-      "post": {
-        "operationId": "ListSchemas_List",
-        "tags": [
-          "Pipelines"
-        ],
-        "description": "Lists the schemas for the specified connection in a pipeline.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "pipelineName",
-            "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 64,
-            "pattern": "^[a-zA-Z0-9-]{3,64}$"
-          },
-          {
-            "name": "schema",
-            "in": "body",
-            "description": "Schema(s) to retrieve",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Schema"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/SchemasListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Lists schemas for a pipeline": {
-            "$ref": "./examples/listSchemas.json"
-          }
-        }
-      }
-    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/pipelines/{pipelineName}/rejectConnection": {
       "post": {
         "operationId": "Pipelines_RejectConnection",
@@ -3435,7 +3299,7 @@
     },
     "DataClass": {
       "type": "string",
-      "description": "Allowed data class. \nTODO: how are we going to determine whether a BatchEngine flow is Complex, DSo, Disk Image, Mission...etc..?",
+      "description": "Allowed data class.\nTODO: how are we going to determine whether a BatchEngine flow is Complex, DSo, Disk Image, Mission...etc..?",
       "enum": [
         "ServiceBus",
         "EventHub",
@@ -4241,20 +4105,6 @@
         ]
       }
     },
-    "ListApprovedSchemasRequest": {
-      "type": "object",
-      "description": "The request used to list approved schemas within the resource provider.",
-      "properties": {
-        "pipeline": {
-          "type": "string",
-          "description": "The name of the pipeline to filter approved schemas."
-        },
-        "direction": {
-          "$ref": "#/definitions/Direction",
-          "description": "The direction pipeline to filter approved schemas."
-        }
-      }
-    },
     "ListFlowsByPipelineConnection": {
       "type": "object",
       "description": "A connection resource id in addition to all child flow resources under this connection.",
@@ -5004,106 +4854,6 @@
         "id"
       ]
     },
-    "Schema": {
-      "type": "object",
-      "description": "The schema object.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "ID associated with this schema"
-        },
-        "connectionId": {
-          "type": "string",
-          "description": "Connection ID associated with this schema"
-        },
-        "status": {
-          "$ref": "#/definitions/SchemaStatus",
-          "description": "Status of the schema"
-        },
-        "name": {
-          "type": "string",
-          "description": "Name of the schema"
-        },
-        "content": {
-          "type": "string",
-          "description": "Content of the schema"
-        },
-        "direction": {
-          "$ref": "#/definitions/Direction",
-          "description": "The direction of the schema."
-        },
-        "schemaUri": {
-          "type": "string",
-          "format": "uri",
-          "description": "Uri containing SAS token for the zipped schema"
-        },
-        "schemaType": {
-          "$ref": "#/definitions/SchemaType",
-          "description": "The Schema Type"
-        }
-      }
-    },
-    "SchemaStatus": {
-      "type": "string",
-      "description": "Status of the schema.",
-      "enum": [
-        "New",
-        "Approved"
-      ],
-      "x-ms-enum": {
-        "name": "SchemaStatus",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "New",
-            "value": "New",
-            "description": "A schema that has not been approved and is awaiting review."
-          },
-          {
-            "name": "Approved",
-            "value": "Approved",
-            "description": "A schema that has been approved and is ready for use."
-          }
-        ]
-      }
-    },
-    "SchemaType": {
-      "type": "string",
-      "description": "The Schema Type.",
-      "enum": [
-        "Xsd",
-        "Zip"
-      ],
-      "x-ms-enum": {
-        "name": "SchemaType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Xsd",
-            "value": "Xsd",
-            "description": "The schema represents a single XML schema definition file."
-          },
-          {
-            "name": "Zip",
-            "value": "Zip",
-            "description": "The schema represents a ZIP file with multiple XML schema definition files within it."
-          }
-        ]
-      }
-    },
-    "SchemasListResult": {
-      "type": "object",
-      "description": "The schemas list result.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "Schemas array.",
-          "items": {
-            "$ref": "#/definitions/Schema"
-          }
-        }
-      }
-    },
     "SelectedResource": {
       "type": "object",
       "description": "A resource selected from ARM",
@@ -5353,45 +5103,6 @@
           ]
         }
       }
-    },
-    "ValidateSchemaResult": {
-      "type": "object",
-      "description": "Result of the schema validation.",
-      "properties": {
-        "status": {
-          "$ref": "#/definitions/ValidateSchemaStatus",
-          "description": "Validation status of the schema"
-        },
-        "message": {
-          "type": "string",
-          "description": "Message describing the schema validation"
-        }
-      }
-    },
-    "ValidateSchemaStatus": {
-      "type": "string",
-      "description": "Validation status of the schema",
-      "enum": [
-        "Succeeded",
-        "Failed"
-      ],
-      "x-ms-enum": {
-        "name": "ValidateSchemaStatus",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "Succeeded",
-            "value": "Succeeded",
-            "description": "Validation of the schema was successful."
-          },
-          {
-            "name": "Failed",
-            "value": "Failed",
-            "description": "The schema failed validation, whether due to error or an invalid schema."
-          }
-        ]
-      },
-      "readOnly": true
     },
     "XmlFilterRuleset": {
       "type": "object",
