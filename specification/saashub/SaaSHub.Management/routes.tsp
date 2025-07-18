@@ -9,10 +9,9 @@ import "./SaasResource.tsp";
 import "./CloudService.tsp";
 import "./versions.tsp";
 
-using TypeSpec.Rest;
 using TypeSpec.Http;
 using Azure.ResourceManager;
-using TypeSpec.Versioning;
+using TypeSpec.OpenAPI;
 
 namespace Microsoft.SaaSHub;
 
@@ -34,15 +33,18 @@ interface ProviderLevelActions {
     @bodyRoot
     body: Microsoft.SaaSHub.CanCreateSaasResourceRequest,
   ): ArmResponse<Microsoft.SaaSHub.CanCreateResult> | ErrorResponse;
+}
 
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "Resource group level provider actions don't follow standard ARM resource patterns"
+interface ResourceGroupLevelProviderActions {
   /**
    * Evaluates whether the request payload can create a new cloud service resource.
    * Only available in API version 2025-07-01-preview.
    */
-  @route("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SaaSHub")
+  @route("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SaaSHub/canCreate")
+  @tag("ResourceGroupLevelProviderActions")
   @post
-  @armResourceAction(Microsoft.SaaSHub.CloudService)
-  resourceGroupLevelCanCreate(
+  canCreate(
     ...ApiVersionParameter,
     ...SubscriptionIdParameter,
     ...ResourceGroupParameter,

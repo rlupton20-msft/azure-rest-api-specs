@@ -14,6 +14,7 @@ import "./SaasResourceModels.tsp";
 import "./CloudServiceModels.tsp";
 import "./SaasResource.tsp";
 import "./CloudService.tsp";
+import "./Operations.tsp";
 import "./routes.tsp";
 import "./client.tsp";
 
@@ -27,7 +28,6 @@ using TypeSpec.Versioning;
  * SaaSHub Resource Client
  */
 #suppress "@azure-tools/typespec-azure-core/casing-style" "SaaSHub is an existing onboarded RP"
-#suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Has an operation api defined in earlier version"
 @armProviderNamespace
 @service(#{ title: "SaaSHubResourcesClient" })
 @versioned(SaaSHubVersions)

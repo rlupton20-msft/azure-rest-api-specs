@@ -46,17 +46,23 @@
       "name": "CloudServices"
     },
     {
+      "name": "Operations"
+    },
+    {
       "name": "ProviderLevelActions"
+    },
+    {
+      "name": "ResourceGroupLevelProviderActions"
     }
   ],
   "paths": {
-    "/providers/Microsoft.SaaSHub/cloudServices": {
+    "/providers/Microsoft.SaaSHub/operations": {
       "get": {
-        "operationId": "CloudServices_ListByResourceGroup",
+        "operationId": "Operations_List",
         "tags": [
-          "CloudServices"
+          "Operations"
         ],
-        "description": "Lists the SaaSHub cloud services under the resource group.",
+        "description": "Lists the available SaaSHub REST API operations.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
@@ -66,7 +72,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/CloudServiceListResult"
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/OperationListResult"
             }
           },
           "default": {
@@ -77,598 +83,13 @@
           }
         },
         "x-ms-examples": {
-          "List all SaaSHub cloud services under the resource group": {
-            "$ref": "./examples/CloudService_List_ByResourceGroup.json"
+          "List operations": {
+            "$ref": "./examples/Operations_List.json"
           }
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
-      }
-    },
-    "/providers/Microsoft.SaaSHub/cloudServices/{CloudServiceResourceName}": {
-      "get": {
-        "operationId": "CloudServices_Get",
-        "tags": [
-          "CloudServices"
-        ],
-        "description": "Gets a SaaSHub cloud service by its ID. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "CloudServiceResourceName",
-            "in": "path",
-            "description": "The name that uniquely identifies a SaaSHub cloud service.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 50,
-            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/CloudService"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Get a SaaSHub cloud service": {
-            "$ref": "./examples/CloudService_Get.json"
-          }
-        }
-      },
-      "put": {
-        "operationId": "CloudServices_Create",
-        "tags": [
-          "CloudServices"
-        ],
-        "description": "Creates or updates a SaaSHub cloud service.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "CloudServiceResourceName",
-            "in": "path",
-            "description": "The name that uniquely identifies a SaaSHub cloud service.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 50,
-            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
-          },
-          {
-            "name": "resource",
-            "in": "body",
-            "description": "Request parameters that are provided to the create SaaSHub cloud service operation.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CloudService"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resource 'CloudService' update operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/CloudService"
-            }
-          },
-          "201": {
-            "description": "Resource 'CloudService' create operation succeeded",
-            "schema": {
-              "$ref": "#/definitions/CloudService"
-            },
-            "headers": {
-              "Azure-AsyncOperation": {
-                "type": "string",
-                "description": "A link to the status monitor"
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Create a SaaSHub cloud service": {
-            "$ref": "./examples/CloudService_Create.json"
-          },
-          "Create a SaaSHub cloud service with future start date": {
-            "$ref": "./examples/CloudService_Create_FutureStartDate.json"
-          },
-          "Create a SaaSHub cloud service with original resource reference": {
-            "$ref": "./examples/CloudService_Create_WithOriginal.json"
-          },
-          "Create a coterminous SaaSHub cloud service": {
-            "$ref": "./examples/CloudService_Create_Coterminous.json"
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
-        },
-        "x-ms-long-running-operation": true
-      },
-      "patch": {
-        "operationId": "CloudServices_Update",
-        "tags": [
-          "CloudServices"
-        ],
-        "description": "Updates the properties of a SaaSHub cloud service.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "CloudServiceResourceName",
-            "in": "path",
-            "description": "The name that uniquely identifies a SaaSHub cloud service.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 50,
-            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
-          },
-          {
-            "name": "properties",
-            "in": "body",
-            "description": "Request parameters that are provided to the update SaaSHub cloud service operation.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CloudService"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/CloudService"
-            }
-          },
-          "202": {
-            "description": "Resource update request accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Update a SaaSHub cloud service - change quantity": {
-            "$ref": "./examples/CloudService_Update_ChangeQuantity.json"
-          },
-          "Update a SaaSHub cloud service - coterminous update": {
-            "$ref": "./examples/CloudService_Update_Coterminous.json"
-          },
-          "Update a SaaSHub cloud service - extend trial": {
-            "$ref": "./examples/CloudService_Update_ExtendTrial.json"
-          },
-          "Update a SaaSHub cloud service - provisioning tenant": {
-            "$ref": "./examples/CloudService_Update_ProvisioningTenant.json"
-          },
-          "Update a SaaSHub cloud service - quantity and term update": {
-            "$ref": "./examples/CloudService_Update_QuantityTermUpdate.json"
-          },
-          "Update a SaaSHub cloud service - term update": {
-            "$ref": "./examples/CloudService_Update_TermUpdate.json"
-          },
-          "Update a SaaSHub cloud service - turn off auto renew": {
-            "$ref": "./examples/CloudService_Update_AutoRenew_Off.json"
-          },
-          "Update a SaaSHub cloud service - turn on auto renew": {
-            "$ref": "./examples/CloudService_Update_AutoRenew_On.json"
-          },
-          "Update a SaaSHub cloud service - update renewal term details with auto renew on": {
-            "$ref": "./examples/CloudService_Update_AutoRenew_On_UpdateNextTerm.json"
-          },
-          "Update a SaaSHub cloud service - update renewal term details with auto renew once": {
-            "$ref": "./examples/CloudService_Update_AutoRenew_Once_UpdateMidTerm.json"
-          },
-          "Update a SaaSHub cloud service with schedule actions": {
-            "$ref": "./examples/CloudService_Update_ScheduleActions.json"
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      },
-      "delete": {
-        "operationId": "CloudServices_Delete",
-        "tags": [
-          "CloudServices"
-        ],
-        "description": "Deletes a SaaSHub cloud service.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "CloudServiceResourceName",
-            "in": "path",
-            "description": "The name that uniquely identifies a SaaSHub cloud service.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 50,
-            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Resource deletion accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "204": {
-            "description": "Resource does not exist."
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Delete a SaaSHub cloud service": {
-            "$ref": "./examples/CloudService_Delete.json"
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      }
-    },
-    "/providers/Microsoft.SaaSHub/cloudServices/{CloudServiceResourceName}/canCancel": {
-      "post": {
-        "operationId": "CloudServices_CanCancel",
-        "tags": [
-          "CloudServices"
-        ],
-        "description": "Evaluates whether an existing cloud service can be cancelled.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "CloudServiceResourceName",
-            "in": "path",
-            "description": "The name that uniquely identifies a SaaSHub cloud service.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 50,
-            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/CanCancelResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Evaluate if a SaaSHub cloud service can be cancelled - Failed": {
-            "$ref": "./examples/CloudService_CanCancel_Fail.json"
-          },
-          "Evaluate if a SaaSHub cloud service can be cancelled - Invalid Request": {
-            "$ref": "./examples/CloudService_CanCancel_InvalidRequestBody.json"
-          },
-          "Evaluate if a SaaSHub cloud service can be cancelled - Passed": {
-            "$ref": "./examples/CloudService_CanCancel_Pass.json"
-          }
-        }
-      }
-    },
-    "/providers/Microsoft.SaaSHub/cloudServices/{CloudServiceResourceName}/canMerge": {
-      "post": {
-        "operationId": "CloudServices_CanMerge",
-        "tags": [
-          "CloudServices"
-        ],
-        "description": "Evaluates whether the source cloud service can be merged to target cloud service.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "CloudServiceResourceName",
-            "in": "path",
-            "description": "The name that uniquely identifies a SaaSHub cloud service.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 50,
-            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Request parameters that are provided to the merge SaaSHub cloud service operation.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/MergeCloudServiceRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/CloudServiceCanMergeResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Evaluate if SaaSHub cloud services can be merged (multiple sources) - Failed": {
-            "$ref": "./examples/CloudService_CanMerge_Fail_MultiSource.json"
-          },
-          "Evaluate if SaaSHub cloud services can be merged (source issue) - Failed": {
-            "$ref": "./examples/CloudService_CanMerge_Fail_SourceCloudService.json"
-          },
-          "Evaluate if SaaSHub cloud services can be merged - Failed": {
-            "$ref": "./examples/CloudService_CanMerge_Fail.json"
-          },
-          "Evaluate if SaaSHub cloud services can be merged - Invalid Request": {
-            "$ref": "./examples/CloudService_CanMerge_InvalidRequestBody.json"
-          },
-          "Evaluate if SaaSHub cloud services can be merged - Passed": {
-            "$ref": "./examples/CloudService_CanMerge_Pass.json"
-          }
-        }
-      }
-    },
-    "/providers/Microsoft.SaaSHub/cloudServices/{CloudServiceResourceName}/canUpdate": {
-      "post": {
-        "operationId": "CloudServices_CanUpdate",
-        "tags": [
-          "CloudServices"
-        ],
-        "description": "Evaluates whether the request payload can update an existing cloud service.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "CloudServiceResourceName",
-            "in": "path",
-            "description": "The name that uniquely identifies a SaaSHub cloud service.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 50,
-            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Request parameters that are provided to the update SaaSHub cloud service operation.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CloudService"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/CanUpdateResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Evaluate if a SaaSHub cloud service can be updated - Failed (No additional info)": {
-            "$ref": "./examples/CloudService_CanUpdate_FailWithNoAdditionalInfo.json"
-          },
-          "Evaluate if a SaaSHub cloud service can be updated - Invalid Request": {
-            "$ref": "./examples/CloudService_CanUpdate_InvalidRequestBody.json"
-          },
-          "Evaluate if a SaaSHub cloud service can be updated - Passed": {
-            "$ref": "./examples/CloudService_CanUpdate_Pass.json"
-          },
-          "Evaluate if a SaaSHub cloud service can be updated with refundable quantity - Failed": {
-            "$ref": "./examples/CloudService_CanUpdate_Fail_RefundableQuantity.json"
-          },
-          "Evaluate if a coterminous SaaSHub cloud service can be updated - Failed": {
-            "$ref": "./examples/CloudService_CanUpdate_Fail_Coterm.json"
-          }
-        }
-      }
-    },
-    "/providers/Microsoft.SaaSHub/cloudServices/{CloudServiceResourceName}/cancel": {
-      "post": {
-        "operationId": "CloudServices_Cancel",
-        "tags": [
-          "CloudServices"
-        ],
-        "description": "Cancels a SaaSHub cloud service.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "CloudServiceResourceName",
-            "in": "path",
-            "description": "The name that uniquely identifies a SaaSHub cloud service.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 50,
-            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/CloudService"
-            }
-          },
-          "202": {
-            "description": "Resource operation accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Cancel a SaaSHub cloud service": {
-            "$ref": "./examples/CloudService_Cancel.json"
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      }
-    },
-    "/providers/Microsoft.SaaSHub/cloudServices/{CloudServiceResourceName}/merge": {
-      "post": {
-        "operationId": "CloudServices_Merge",
-        "tags": [
-          "CloudServices"
-        ],
-        "description": "Merges multiple cloud services into one target cloud service. The resource name in URL is the target, and the list of source cloud service and quantity will be specified in request payload",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "CloudServiceResourceName",
-            "in": "path",
-            "description": "The name that uniquely identifies a SaaSHub cloud service.",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 50,
-            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Request parameters that are provided to the merge SaaSHub cloud service operation.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/MergeCloudServiceRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/CloudService"
-            }
-          },
-          "202": {
-            "description": "Resource operation accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "Merge SaaSHub cloud services": {
-            "$ref": "./examples/CloudService_Merge.json"
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
       }
     },
     "/providers/Microsoft.SaaSHub/saasResources": {
@@ -1397,11 +818,11 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SaaSHub/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/resourceGroupLevelCanCreate": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SaaSHub/canCreate": {
       "post": {
-        "operationId": "ProviderLevelActions_ResourceGroupLevelCanCreate",
+        "operationId": "ResourceGroupLevelProviderActions_CanCreate",
         "tags": [
-          "ProviderLevelActions"
+          "ResourceGroupLevelProviderActions"
         ],
         "description": "Evaluates whether the request payload can create a new cloud service resource.\nOnly available in API version 2025-07-01-preview.",
         "parameters": [
@@ -1440,9 +861,690 @@
         },
         "x-ms-examples": {
           "Check if a cloud service can be created at resource group level": {
-            "$ref": "./examples/ProviderLevelActions_ResourceGroupLevelCanCreate.json"
+            "$ref": "./examples/ResourceGroupLevelProviderActions_CanCreate.json"
           }
         }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SaaSHub/cloudServices": {
+      "get": {
+        "operationId": "CloudServices_ListByResourceGroup",
+        "tags": [
+          "CloudServices"
+        ],
+        "description": "Lists the SaaSHub cloud services under the resource group.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/CloudServiceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "List all SaaSHub cloud services under the resource group": {
+            "$ref": "./examples/CloudService_List_ByResourceGroup.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SaaSHub/cloudServices/{cloudServiceResourceName}": {
+      "get": {
+        "operationId": "CloudServices_Get",
+        "tags": [
+          "CloudServices"
+        ],
+        "description": "Gets a SaaSHub cloud service by its ID. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "cloudServiceResourceName",
+            "in": "path",
+            "description": "The name that uniquely identifies a SaaSHub cloud service.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/CloudService"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Get a SaaSHub cloud service": {
+            "$ref": "./examples/CloudService_Get.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "CloudServices_Create",
+        "tags": [
+          "CloudServices"
+        ],
+        "description": "Creates or updates a SaaSHub cloud service.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "cloudServiceResourceName",
+            "in": "path",
+            "description": "The name that uniquely identifies a SaaSHub cloud service.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Request parameters that are provided to the create SaaSHub cloud service operation.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CloudService"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'CloudService' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/CloudService"
+            }
+          },
+          "201": {
+            "description": "Resource 'CloudService' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/CloudService"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Create a SaaSHub cloud service": {
+            "$ref": "./examples/CloudService_Create.json"
+          },
+          "Create a SaaSHub cloud service with future start date": {
+            "$ref": "./examples/CloudService_Create_FutureStartDate.json"
+          },
+          "Create a SaaSHub cloud service with original resource reference": {
+            "$ref": "./examples/CloudService_Create_WithOriginal.json"
+          },
+          "Create a coterminous SaaSHub cloud service": {
+            "$ref": "./examples/CloudService_Create_Coterminous.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "CloudServices_Update",
+        "tags": [
+          "CloudServices"
+        ],
+        "description": "Updates the properties of a SaaSHub cloud service.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "cloudServiceResourceName",
+            "in": "path",
+            "description": "The name that uniquely identifies a SaaSHub cloud service.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "Request parameters that are provided to the update SaaSHub cloud service operation.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CloudService"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/CloudService"
+            }
+          },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Update a SaaSHub cloud service - change quantity": {
+            "$ref": "./examples/CloudService_Update_ChangeQuantity.json"
+          },
+          "Update a SaaSHub cloud service - coterminous update": {
+            "$ref": "./examples/CloudService_Update_Coterminous.json"
+          },
+          "Update a SaaSHub cloud service - extend trial": {
+            "$ref": "./examples/CloudService_Update_ExtendTrial.json"
+          },
+          "Update a SaaSHub cloud service - provisioning tenant": {
+            "$ref": "./examples/CloudService_Update_ProvisioningTenant.json"
+          },
+          "Update a SaaSHub cloud service - quantity and term update": {
+            "$ref": "./examples/CloudService_Update_QuantityTermUpdate.json"
+          },
+          "Update a SaaSHub cloud service - term update": {
+            "$ref": "./examples/CloudService_Update_TermUpdate.json"
+          },
+          "Update a SaaSHub cloud service - turn off auto renew": {
+            "$ref": "./examples/CloudService_Update_AutoRenew_Off.json"
+          },
+          "Update a SaaSHub cloud service - turn on auto renew": {
+            "$ref": "./examples/CloudService_Update_AutoRenew_On.json"
+          },
+          "Update a SaaSHub cloud service - update renewal term details with auto renew on": {
+            "$ref": "./examples/CloudService_Update_AutoRenew_On_UpdateNextTerm.json"
+          },
+          "Update a SaaSHub cloud service - update renewal term details with auto renew once": {
+            "$ref": "./examples/CloudService_Update_AutoRenew_Once_UpdateMidTerm.json"
+          },
+          "Update a SaaSHub cloud service with schedule actions": {
+            "$ref": "./examples/CloudService_Update_ScheduleActions.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "delete": {
+        "operationId": "CloudServices_Delete",
+        "tags": [
+          "CloudServices"
+        ],
+        "description": "Deletes a SaaSHub cloud service.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "cloudServiceResourceName",
+            "in": "path",
+            "description": "The name that uniquely identifies a SaaSHub cloud service.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Delete a SaaSHub cloud service": {
+            "$ref": "./examples/CloudService_Delete.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SaaSHub/cloudServices/{cloudServiceResourceName}/canCancel": {
+      "post": {
+        "operationId": "CloudServices_CanCancel",
+        "tags": [
+          "CloudServices"
+        ],
+        "description": "Evaluates whether an existing cloud service can be cancelled.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "cloudServiceResourceName",
+            "in": "path",
+            "description": "The name that uniquely identifies a SaaSHub cloud service.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/CanCancelResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Evaluate if a SaaSHub cloud service can be cancelled - Failed": {
+            "$ref": "./examples/CloudService_CanCancel_Fail.json"
+          },
+          "Evaluate if a SaaSHub cloud service can be cancelled - Invalid Request": {
+            "$ref": "./examples/CloudService_CanCancel_InvalidRequestBody.json"
+          },
+          "Evaluate if a SaaSHub cloud service can be cancelled - Passed": {
+            "$ref": "./examples/CloudService_CanCancel_Pass.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SaaSHub/cloudServices/{cloudServiceResourceName}/canMerge": {
+      "post": {
+        "operationId": "CloudServices_CanMerge",
+        "tags": [
+          "CloudServices"
+        ],
+        "description": "Evaluates whether the source cloud service can be merged to target cloud service.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "cloudServiceResourceName",
+            "in": "path",
+            "description": "The name that uniquely identifies a SaaSHub cloud service.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Request parameters that are provided to the merge SaaSHub cloud service operation.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MergeCloudServiceRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/CloudServiceCanMergeResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Evaluate if SaaSHub cloud services can be merged (multiple sources) - Failed": {
+            "$ref": "./examples/CloudService_CanMerge_Fail_MultiSource.json"
+          },
+          "Evaluate if SaaSHub cloud services can be merged (source issue) - Failed": {
+            "$ref": "./examples/CloudService_CanMerge_Fail_SourceCloudService.json"
+          },
+          "Evaluate if SaaSHub cloud services can be merged - Failed": {
+            "$ref": "./examples/CloudService_CanMerge_Fail.json"
+          },
+          "Evaluate if SaaSHub cloud services can be merged - Invalid Request": {
+            "$ref": "./examples/CloudService_CanMerge_InvalidRequestBody.json"
+          },
+          "Evaluate if SaaSHub cloud services can be merged - Passed": {
+            "$ref": "./examples/CloudService_CanMerge_Pass.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SaaSHub/cloudServices/{cloudServiceResourceName}/canUpdate": {
+      "post": {
+        "operationId": "CloudServices_CanUpdate",
+        "tags": [
+          "CloudServices"
+        ],
+        "description": "Evaluates whether the request payload can update an existing cloud service.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "cloudServiceResourceName",
+            "in": "path",
+            "description": "The name that uniquely identifies a SaaSHub cloud service.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Request parameters that are provided to the update SaaSHub cloud service operation.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CloudService"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/CanUpdateResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Evaluate if a SaaSHub cloud service can be updated - Failed (No additional info)": {
+            "$ref": "./examples/CloudService_CanUpdate_FailWithNoAdditionalInfo.json"
+          },
+          "Evaluate if a SaaSHub cloud service can be updated - Invalid Request": {
+            "$ref": "./examples/CloudService_CanUpdate_InvalidRequestBody.json"
+          },
+          "Evaluate if a SaaSHub cloud service can be updated - Passed": {
+            "$ref": "./examples/CloudService_CanUpdate_Pass.json"
+          },
+          "Evaluate if a SaaSHub cloud service can be updated with refundable quantity - Failed": {
+            "$ref": "./examples/CloudService_CanUpdate_Fail_RefundableQuantity.json"
+          },
+          "Evaluate if a coterminous SaaSHub cloud service can be updated - Failed": {
+            "$ref": "./examples/CloudService_CanUpdate_Fail_Coterm.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SaaSHub/cloudServices/{cloudServiceResourceName}/cancel": {
+      "post": {
+        "operationId": "CloudServices_Cancel",
+        "tags": [
+          "CloudServices"
+        ],
+        "description": "Cancels a SaaSHub cloud service.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "cloudServiceResourceName",
+            "in": "path",
+            "description": "The name that uniquely identifies a SaaSHub cloud service.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/CloudService"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Cancel a SaaSHub cloud service": {
+            "$ref": "./examples/CloudService_Cancel.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SaaSHub/cloudServices/{cloudServiceResourceName}/merge": {
+      "post": {
+        "operationId": "CloudServices_Merge",
+        "tags": [
+          "CloudServices"
+        ],
+        "description": "Merges multiple cloud services into one target cloud service. The resource name in URL is the target, and the list of source cloud service and quantity will be specified in request payload",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "cloudServiceResourceName",
+            "in": "path",
+            "description": "The name that uniquely identifies a SaaSHub cloud service.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Request parameters that are provided to the merge SaaSHub cloud service operation.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MergeCloudServiceRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/CloudService"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Merge SaaSHub cloud services": {
+            "$ref": "./examples/CloudService_Merge.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     }
   },
