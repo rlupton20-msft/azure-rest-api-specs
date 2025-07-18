@@ -213,33 +213,6 @@ model RetrieveNextStagesResponseItem {
   additionalData?: {};
 }
 
-@doc("Resource operation model.")
-@removed(Versions.v2025_07_01_preview)
-model ResourceOperation {
-  @doc("The uri of the operation.")
-  uri: url;
-
-  @doc("The http method of the operation.")
-  httpMethod: ArmOperation;
-
-  @doc("The resource operation content.")
-  content?: ResourceContent;
-}
-
-#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
-@doc("Resource operation content model.")
-@removed(Versions.v2025_07_01_preview)
-model ResourceContent {
-  @doc("The name of the resource.")
-  name?: string;
-
-  @doc("The location of the resource.")
-  location?: string;
-
-  @doc("The properties of the resource.")
-  properties: {};
-}
-
 @doc("Internal status of the ChangeState resource.")
 union ChangeStatus {
   string,
