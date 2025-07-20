@@ -98,6 +98,7 @@ directive:
       - $.definitions.RetrieveNextStagesResponseItem.properties.additionalData
       - $.definitions.VerifyChangeValidityRequest.properties.context
       - $.definitions.StageVariables
+      - $.definitions.Stage.properties.stageVariables
 ```
 
 ---
