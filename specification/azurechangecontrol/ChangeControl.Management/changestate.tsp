@@ -94,6 +94,15 @@ model ChangeStateProperties {
   @added(Versions.v2025_03_01_preview)
   @doc("Referenced stagemap snapshot.")
   @visibility(Lifecycle.Read)
+  @renamedFrom(Versions.v2025_07_01_preview, "stageMapSnapshot")
+  @removed(Versions.v2025_07_01_preview)
+  stageMapSnapshotOld?: Array<string | StageMap>;
+
+  #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need to have a strong type for the stagemap snapshot. So need to provide all the supported types which are string & StageMap for now."
+  @added(Versions.v2025_07_01_preview)
+  @doc("Referenced stagemap snapshot.")
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  @visibility(Lifecycle.Read)
   stageMapSnapshot?: Array<string | StageMap>;
 
   @visibility(Lifecycle.Read, Lifecycle.Create)
@@ -101,11 +110,11 @@ model ChangeStateProperties {
   @added(Versions.v2025_07_01_preview)
   stageMap: NestedStageMap;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Provides a flexible object schema to support different types of parameters including string, int, and object."
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning of operation parameters should not be of type Record as per ARM."
   @doc("Schema of parameters that will be provided for each stageProgression.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @added(Versions.v2025_07_01_preview)
-  parameters?: {};
+  parameters?: Record<Parameter>;
 
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Describes the type of the rollout used for the change.")
@@ -164,7 +173,7 @@ model RetrieveNextStagesResponse {
   lastStageProgressionSequence: int32;
 
   @doc("StageProgression resources that are ready to put in 'InProgress' state.")
-  @OpenAPI.extension("x-ms-identifiers", #["stageReference"])
+  @Azure.ResourceManager.identifiers(#["stageReference"])
   nextStages: Array<RetrieveNextStagesResponseItem>;
 }
 

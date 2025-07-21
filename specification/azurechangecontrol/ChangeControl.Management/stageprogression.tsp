@@ -62,10 +62,11 @@ model StageProgressionProperties {
   @removed(Versions.v2025_07_01_preview)
   parameterValues: Record<string | int32>;
 
-  @doc("Variables to apply on the change for the stage. Key value pairs supporting any JSON values.")
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: We need list of parameters in key:value format."
+  @doc("Variables to apply on the change of that stage. Key value pairs supporting any JSON values.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @added(Versions.v2025_07_01_preview)
-  stageVariables?: StageVariables;
+  stageVariables?: Record<unknown>;
 
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Comments about the update to the resource.")

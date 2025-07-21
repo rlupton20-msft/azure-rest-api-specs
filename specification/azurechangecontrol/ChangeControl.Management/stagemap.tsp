@@ -36,11 +36,10 @@ model StageMapProperties {
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   stages: Stage[];
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Provides a flexible object schema to support different types of parameters including string, int, and object."
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning of operation parameters should not be of type Record as per ARM."
   @doc("StageMap parameters schema for each stage.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  @typeChangedFrom(Versions.v2025_07_01_preview, Record<Parameter>)
-  parameters?: {};
+  parameters?: Record<Parameter>;
 }
 
 @doc("Defines details about each stage in the stage map resource.")
@@ -69,10 +68,11 @@ model Stage {
   @removed(Versions.v2025_07_01_preview)
   nestedStageMapResourceId?: StageMapResourceId;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: We need list of parameters in key:value format."
   @doc("Variables to apply on the change of that stage. Key value pairs supporting any JSON values.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @added(Versions.v2025_07_01_preview)
-  stageVariables?: StageVariables;
+  stageVariables?: Record<unknown>;
 
   @doc("Nested stage map details.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
@@ -140,10 +140,7 @@ interface StageMaps {
     StageMapProperties,
     {
       ...ApiVersionParameter;
-
-      @path
-      @doc("The ID of the target management group.")
-      managementGroupId: string;
+      ...Azure.ResourceManager.CommonTypes.ManagementGroupNameParameter;
     }
   >;
 
