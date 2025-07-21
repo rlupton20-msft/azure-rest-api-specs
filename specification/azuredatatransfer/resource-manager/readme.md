@@ -65,6 +65,7 @@ These settings apply only when `--tag=package-preview-2024-01` is specified on t
 input-file:
   - Microsoft.AzureDataTransfer/stable/2024-01-25/azuredatatransfer.json
 ```
+
 ### Tag: package-2023-10-11-preview
 
 These settings apply only when `--tag=package-2023-10-11-preview` is specified on the command line.

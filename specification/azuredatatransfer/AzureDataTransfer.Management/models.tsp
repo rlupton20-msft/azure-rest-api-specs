@@ -2,6 +2,7 @@ import "@typespec/rest";
 import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-client-generator-core";
+import "./models.flowprofile.tsp";
 
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
@@ -141,8 +142,10 @@ union LinkStatus {
 }
 
 /**
- * Flow type for the specified resource
+ * DEPRECATED: Please create a FlowType resource.
+ * TODO: DO WE JUST WANT REUSE THIS???
  */
+@removed(Versions.v2025_05_30_preview)
 union FlowType {
   string,
 
@@ -327,6 +330,152 @@ union FlowStatus {
    * The flow is currently disabled and cannot send or receive data.
    */
   Disabled: "Disabled",
+}
+
+/**
+ * Data class used to define the replication scenario.
+ */
+@added(Versions.v2025_05_30_preview)
+union DataClassType {
+  string,
+
+  /**
+   * Replication using service bus & event hub.
+   */
+  "LowLatency",
+
+  /**
+   * Query service using an API endpoint.
+   */
+  "Query",
+
+  /**
+   * Streaming replication service.
+   */
+  "Stream",
+
+  /**
+   * Object replication service for Azure blobs, tables, and files.
+   */
+  "HighThroughput",
+}
+
+/**
+ * Allowed data class.
+ * TODO: how are we going to determine whether a BatchEngine flow is Complex, DSo, Disk Image, Mission...etc..?
+ */
+@added(Versions.v2025_05_30_preview)
+union DataClass {
+  string,
+
+  /**
+   * (Low Latency) Service bus based replication.
+   */
+  "ServiceBus",
+
+  /**
+   * (Low Latency) Event hub based replication.
+   */
+  "EventHub",
+
+  /**
+   * (Query) API based low latency transfer.
+   */
+  "API",
+
+  /**
+   * (Query) SDK based low latency transfer.
+   */
+  "SDK",
+
+  /**
+   * (Query) Used to auto-assign low latency transfer type.
+   */
+  "ALL",
+
+  /**
+   * (Stream) Used to auto-assign low latency transfer type.
+   */
+  "Video",
+
+  /**
+   * (HighThroughput) Replication scenario using Azure Storage blobs.
+   */
+  "Blob",
+
+  /**
+   * (HighThroughput) Replication scenario using Azure Storage tables.
+   */
+  "Table",
+
+  /**
+   * (HighThroughput) Replication scenario using Azure Storage Files.
+   */
+  "Files",
+}
+
+/**
+ * Allowed scenarios for low latency replications.
+ */
+@added(Versions.v2025_05_30_preview)
+union LowLatencyType {
+  string,
+
+  /**
+   * Service bus based replication.
+   */
+  ServiceBus: "ServiceBus",
+
+  /**
+   * Event hub based replication.
+   */
+  EventHub: "EventHub",
+}
+
+/**
+ * Allowed scenarios for query replications.
+ */
+@added(Versions.v2025_05_30_preview)
+union QueryType {
+  string,
+
+  /**
+   * API based low latency transfer.
+   */
+  API: "API",
+
+  /**
+   * SDK based low latency transfer.
+   */
+  SDK: "SDK",
+
+  /**
+   * Used to auto-assign low latency transfer type.
+   */
+  ALL: "ALL",
+}
+
+/**
+ * Allowed scenarios for high throughput replications.
+ */
+@added(Versions.v2025_05_30_preview)
+union HighThroughputType {
+  string,
+
+  /**
+   * Replication scenario using Azure Storage blobs.
+   */
+  Blob: "Blob",
+
+  /**
+   * Replication scenario using Azure Storage tables.
+   */
+  Table: "Table",
+
+  /**
+   * Replication scenario using Azure Storage Files.
+   */
+  Files: "Files",
 }
 
 /**
@@ -535,7 +684,7 @@ model ValidateSchemaResult {
 }
 
 /**
- * Properties of connection
+ * Properties of a connection resource
  */
 model ConnectionProperties {
   /**
@@ -584,10 +733,16 @@ model ConnectionProperties {
   linkedConnectionId?: string;
 
   /**
-   * The flow types being requested for this connection
+   * DEPRECATED: Please create a FlowProfile resource.
    */
   @removed(Versions.v2025_05_30_preview)
   flowTypes?: FlowType[];
+
+  /**
+   * The FlowProfiles allowed for this connection
+   */
+  @added(Versions.v2025_05_30_preview)
+  flowProfileList?: FlowProfileMetadata[];
 
   /**
    * Requirement ID of the connection
@@ -633,19 +788,19 @@ model ConnectionProperties {
   provisioningState?: ProvisioningState;
 
   /**
-   * The policies for this connection
+   * DEPRECATED: Please create a FlowType resource.
    */
   @removed(Versions.v2025_05_30_preview)
   policies?: string[];
 
   /**
-   * The schemas for this connection
+   * DEPRECATED: Please create a FlowType resource.
    */
   @removed(Versions.v2025_05_30_preview)
   schemas?: Schema[];
 
   /**
-   * The schema URIs for this connection
+   * DEPRECATED: Please create a FlowType resource.
    */
   @removed(Versions.v2025_05_30_preview)
   schemaUris?: url[];
@@ -692,19 +847,19 @@ model PipelineProperties {
   provisioningState?: ProvisioningState;
 
   /**
-   * The policies for this pipeline
+   * DEPRECATED: Please create a FlowType resource.
    */
   @removed(Versions.v2025_05_30_preview)
   policies?: string[];
 
   /**
-   * The flow types allowed for this pipeline
+   * DEPRECATED: Please create a FlowType resource.
    */
   @removed(Versions.v2025_05_30_preview)
   flowTypes?: FlowType[];
 
   /**
-   * The flow types that are disabled for this pipeline
+   * DEPRECATED: Please create a FlowType resource.
    */
   @removed(Versions.v2025_05_30_preview)
   disabledFlowTypes?: FlowType[];
@@ -931,7 +1086,21 @@ model FlowProperties {
   ]>;
 
   /**
-   * The flow type for this flow
+   * Type of FlowProfile to use for transfer via the flow.
+   */
+  @added(Versions.v2025_05_30_preview)
+  @visibility(Lifecycle.Read)
+  flowProfile?: FlowProfileMetadata;
+
+  /**
+   * The Flow's data class.
+   */
+  @added(Versions.v2025_05_30_preview)
+  @visibility(Lifecycle.Read)
+  dataClass?: DataClass;
+
+  /**
+   * DEPRECATED: Please create a FlowType resource instead.
    */
   @removed(Versions.v2025_05_30_preview)
   flowType?: FlowType;
@@ -939,6 +1108,7 @@ model FlowProperties {
   /**
    * Type of data to transfer via the flow.
    */
+  @removed(Versions.v2025_05_30_preview)
   dataType?: DataType;
 
   /**
@@ -948,13 +1118,13 @@ model FlowProperties {
   provisioningState?: ProvisioningState;
 
   /**
-   * The policies for this flow
+   * DEPRECATED: Please create a FlowType resource instead.
    */
   @removed(Versions.v2025_05_30_preview)
   policies?: string[];
 
   /**
-   * The selected schema for this flow
+   * DEPRECATED: Please create a FlowType resource instead.
    */
   @removed(Versions.v2025_05_30_preview)
   schema?: Schema;
@@ -1300,7 +1470,7 @@ model PipelinesPatch {
 @removed(Versions.v2025_05_30_preview)
 model PipelinesPatchProperties {
   /**
-   * The flow types allowed for this pipeline
+   * DEPRECATED: Please create a FlowType resource.
    */
   flowTypes?: FlowType[];
 }
