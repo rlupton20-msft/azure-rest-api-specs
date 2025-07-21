@@ -18,12 +18,9 @@ model SharedConfigValuesResourceProperties {
   @doc("The unique name in CloudSprout whose value needs to be published or consumed.")
   moniker: string;
 
-  @doc("Moniker value to be published.")
-  value?: string;
-
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Azure services must not have properties of type `unknown`."
-  @doc("Moniker new value to be published.")
-  newValue?: unknown;
+  @doc("Moniker value to be published.")
+  value?: unknown;
 
   @doc("Scope of Moniker value. Optional.")
   scope?: Scope;
