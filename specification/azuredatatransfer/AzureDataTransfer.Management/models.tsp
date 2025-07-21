@@ -142,8 +142,7 @@ union LinkStatus {
 }
 
 /**
- * DEPRECATED: Please create a FlowType resource.
- * TODO: DO WE JUST WANT REUSE THIS???
+ * Flow type for the specified resource
  */
 @removed(Versions.v2025_05_30_preview)
 union FlowType {
@@ -684,7 +683,7 @@ model ValidateSchemaResult {
 }
 
 /**
- * Properties of a connection resource
+ * Properties of connection
  */
 model ConnectionProperties {
   /**
@@ -733,7 +732,7 @@ model ConnectionProperties {
   linkedConnectionId?: string;
 
   /**
-   * DEPRECATED: Please create a FlowProfile resource.
+   * The flow types being requested for this connection
    */
   @removed(Versions.v2025_05_30_preview)
   flowTypes?: FlowType[];
@@ -788,19 +787,19 @@ model ConnectionProperties {
   provisioningState?: ProvisioningState;
 
   /**
-   * DEPRECATED: Please create a FlowType resource.
+   * The policies for this connection
    */
   @removed(Versions.v2025_05_30_preview)
   policies?: string[];
 
   /**
-   * DEPRECATED: Please create a FlowType resource.
+   * The schemas for this connection
    */
   @removed(Versions.v2025_05_30_preview)
   schemas?: Schema[];
 
   /**
-   * DEPRECATED: Please create a FlowType resource.
+   * The schema URIs for this connection
    */
   @removed(Versions.v2025_05_30_preview)
   schemaUris?: url[];
@@ -847,19 +846,19 @@ model PipelineProperties {
   provisioningState?: ProvisioningState;
 
   /**
-   * DEPRECATED: Please create a FlowType resource.
+   * The policies for this pipeline
    */
   @removed(Versions.v2025_05_30_preview)
   policies?: string[];
 
   /**
-   * DEPRECATED: Please create a FlowType resource.
+   * The flow type for this flow
    */
   @removed(Versions.v2025_05_30_preview)
   flowTypes?: FlowType[];
 
   /**
-   * DEPRECATED: Please create a FlowType resource.
+   * The flow types that are disabled for this pipeline
    */
   @removed(Versions.v2025_05_30_preview)
   disabledFlowTypes?: FlowType[];
@@ -1100,7 +1099,7 @@ model FlowProperties {
   dataClass?: DataClass;
 
   /**
-   * DEPRECATED: Please create a FlowType resource instead.
+   * The flow type for this flow
    */
   @removed(Versions.v2025_05_30_preview)
   flowType?: FlowType;
@@ -1118,13 +1117,13 @@ model FlowProperties {
   provisioningState?: ProvisioningState;
 
   /**
-   * DEPRECATED: Please create a FlowType resource instead.
+   * The policies for this flow
    */
   @removed(Versions.v2025_05_30_preview)
   policies?: string[];
 
   /**
-   * DEPRECATED: Please create a FlowType resource instead.
+   * The selected schema for this flow
    */
   @removed(Versions.v2025_05_30_preview)
   schema?: Schema;
@@ -1470,7 +1469,7 @@ model PipelinesPatch {
 @removed(Versions.v2025_05_30_preview)
 model PipelinesPatchProperties {
   /**
-   * DEPRECATED: Please create a FlowType resource.
+   * The flow types allowed for this pipeline
    */
   flowTypes?: FlowType[];
 }
