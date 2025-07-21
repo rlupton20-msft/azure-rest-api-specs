@@ -17,9 +17,6 @@ union NetworkPolicy {
   /** Use the calico policy */
   calico: "calico",
 
-  /** Use the cilium policy */
-  cilium: "cilium",
-
   string,
 }
 
@@ -463,11 +460,6 @@ model StorageProfile {
    * NFS CSI Driver settings for the storage profile.
    */
   nfsCsiDriver?: StorageProfileNfsCSIDriver;
-
-  /**
-   * Local Path Provisioner settings for the storage profile.
-   */
-  localPathProvisioner?: StorageLocalPathProvisioner;
 }
 
 /**
@@ -490,17 +482,6 @@ model StorageProfileNfsCSIDriver {
    * Indicates whether to enable NFS CSI Driver.
    */
   enabled?: boolean = true;
-}
-
-/**
- * LocalPath Provisioner for the storage profile
- */
-#suppress "@azure-tools/typespec-azure-core/casing-style" "Initial suppression to prevent breaking change"
-model StorageLocalPathProvisioner {
-  /**
-   * Indicates whether to enable Local Path Provisioner.
-   */
-  enabled?: boolean;
 }
 
 /**

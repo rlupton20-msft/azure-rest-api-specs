@@ -126,7 +126,55 @@ model BulkPublishTargetDetails {
 @doc("Apply Hierarchy parameter")
 model HierarchyDetails {
   @doc("ArmId of Hierarchy")
-  hierarchyId: string;
+  hierarchyIds: string[];
+
+  @doc("Hierarchy Level")
+  level?: string;
+}
+
+@doc("HierarchyConfigSchemaDetails")
+model HierarchyConfigSchemaDetails {
+  @doc("ArmId of Hierarchy")
+  hierarchyIds: string;
+
+  @doc("Configuration value")
+  configuration?: string;
+
+  @doc("Schema value")
+  schema: string;
+}
+
+@doc("Level based apply response")
+model LevelApplyResponse {
+  @doc("Hierrachy Level")
+  level?: string;
+
+  @doc("Hierrachy config and schema details")
+  @Azure.ResourceManager.identifiers(#[])
+  configschemadetails: HierarchyConfigSchemaDetails[];
+}
+
+@doc("Apply Response Parameter")
+model ApplyResponse {
+  @doc("LevelApplyResponse")
+  @Azure.ResourceManager.identifiers(#[])
+  levelApplyResponse: LevelApplyResponse[];
+}
+
+@doc("Configure Hierarchy parameter")
+model ConfigureHierarchy {
+  @doc("ArmId of Hierarchy")
+  hierarchyIds: string;
+
+  @doc("Configuration value")
+  configuration: string;
+}
+
+@doc("Configure Hierarchy Details")
+model ConfigureHierarchyDetails {
+  @doc("Configure Hierarchy Parameters")
+  @Azure.ResourceManager.identifiers(#[])
+  configs: ConfigureHierarchy[];
 }
 
 @armResourceOperations
@@ -150,8 +198,15 @@ interface SolutionTemplateVersions {
   >;
 
   @doc("Post request to apply")
-  applySolution is ArmResourceActionNoResponseContentAsync<
+  applySolution is ArmResourceActionAsync<
     SolutionTemplateVersion,
-    HierarchyDetails
+    HierarchyDetails,
+    ApplyResponse
+  >;
+
+  @doc("Post request to configure")
+  configureSolution is ArmResourceActionNoResponseContentAsync<
+    SolutionTemplateVersion,
+    ConfigureHierarchyDetails
   >;
 }

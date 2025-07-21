@@ -78,7 +78,6 @@ model MergeSaasResourcesRequest {
   /**
    * Resource tokens for various authorization and context purposes (for merge target).
    */
-  @added(SaaSHubVersions.v2025_07_01_preview)
   @OpenAPI.extension("x-ms-identifiers", #["type"])
   resourceTokens?: ResourceToken[];
 }

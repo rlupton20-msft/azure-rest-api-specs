@@ -30,6 +30,15 @@ openapi-subtype: rpaas
 tag: package-preview-2025-05-30-preview
 ```
 
+### Tag: package-preview-2025-05-30-preview
+
+These settings apply only when `--tag=package-preview-2025-05-30-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-preview-2025-05-30-preview'
+input-file:
+  - Private.AzureDataTransfer/preview/2025-05-30-preview/azuredatatransfer.json
+```
+
 ### Tag: package-preview-2025-04-11-preview
 
 These settings apply only when `--tag=package-preview-2025-04-11-preview` is specified on the command line.
