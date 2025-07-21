@@ -59,7 +59,7 @@
         "tags": [
           "StageMaps"
         ],
-        "description": "List StageMap resources by management group.",
+        "description": "List StageMap resources by resource group",
         "parameters": [
           {
             "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
@@ -3253,7 +3253,6 @@
         "properties": {
           "type": "object",
           "description": "The properties of the resource.",
-          "additionalProperties": {},
           "x-ms-mutability": [
             "read",
             "update",
@@ -3458,8 +3457,9 @@
           "readOnly": true
         },
         "stageVariables": {
-          "$ref": "#/definitions/StageVariables",
+          "type": "object",
           "description": "Variables to apply on the change for the stage. Key value pairs supporting any JSON values.",
+          "additionalProperties": {},
           "readOnly": true
         },
         "state": {
@@ -3490,8 +3490,7 @@
         }
       },
       "required": [
-        "stageReference",
-        "stageVariables"
+        "stageReference"
       ]
     },
     "RolloutType": {
@@ -3989,10 +3988,6 @@
         }
       ]
     },
-    "StageVariables": {
-      "type": "object",
-      "description": "Stage variables object type that allows flexible key-value pairs"
-    },
     "StringParameter": {
       "type": "object",
       "description": "String Type Parameter model.",
@@ -4104,7 +4099,8 @@
           ]
         },
         "stageProgressionResourceId": {
-          "$ref": "#/definitions/StageProgressionResourceId",
+          "type": "string",
+          "format": "arm-id",
           "description": "The stage progression resource Id.",
           "x-ms-mutability": [
             "read",

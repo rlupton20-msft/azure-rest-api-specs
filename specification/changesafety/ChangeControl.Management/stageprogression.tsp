@@ -116,7 +116,6 @@ union StageProgressionState {
   Skipped: "Skipped",
 }
 
-@added(Versions.v2025_07_01_preview)
 @doc("Azure resource Id of a ChangeState.")
 scalar StageProgressionResourceId
   extends Azure.Core.armResourceIdentifier<[
