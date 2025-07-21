@@ -225,10 +225,3 @@ model ChangeLinks {
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   serviceCatalog?: Link;
 }
-
-#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Intentionally empty model for flexible stage variables storage."
-@doc("Stage variables object type that allows flexible key-value pairs")
-@added(Versions.v2025_07_01_preview)
-model StageVariables {
-  // Flexible object model for stage variables - allows any properties
-}

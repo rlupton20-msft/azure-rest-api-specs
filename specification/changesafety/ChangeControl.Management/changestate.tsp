@@ -190,10 +190,11 @@ model RetrieveNextStagesResponseItem {
   @removed(Versions.v2025_07_01_preview)
   parameterValues: Record<string | int32>;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Stage specific key value pairs of parameter names & their values."
   @doc("Variables to apply on the change for the stage. Key value pairs supporting any JSON values.")
   @visibility(Lifecycle.Read)
   @added(Versions.v2025_07_01_preview)
-  stageVariables: StageVariables;
+  stageVariables?: Record<unknown>;
 
   @doc("Current state of the stage progression.")
   @visibility(Lifecycle.Read)
@@ -475,10 +476,10 @@ model VerifyChangeValidityRequest {
   @removed(Versions.v2025_07_01_preview)
   stageProgressionId?: armResourceIdentifier;
 
+  @added(Versions.v2025_03_01_preview)
   @doc("The stage progression resource Id.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  @added(Versions.v2025_07_01_preview)
-  stageProgressionResourceId?: StageProgressionResourceId;
+  stageProgressionResourceId?: armResourceIdentifier;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Enables an extensible object schema to provide additional context data for the verification request."
   @doc("The context of the verify change validity request.")
@@ -498,11 +499,10 @@ model OperationContent {
   @doc("The location of the resource.")
   location?: string;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: This properties are varying based on different resources. We need list of parameters in key:value format."
-  #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need to provide the parameters of the properties to be string and int."
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("The properties of the resource.")
-  properties: Record<string | int32>;
+  properties: {};
 }
 
 @added(Versions.v2025_03_01_preview)
