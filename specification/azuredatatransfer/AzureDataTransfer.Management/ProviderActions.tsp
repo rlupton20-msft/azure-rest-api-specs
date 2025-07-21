@@ -11,6 +11,7 @@ using TypeSpec.Rest;
 using Azure.ResourceManager;
 using Azure.ClientGenerator.Core;
 using TypeSpec.OpenAPI;
+using TypeSpec.Versioning;
 
 namespace Private.AzureDataTransfer;
 
@@ -20,16 +21,19 @@ interface AzureDataTransfer {
    * Lists approved schemas for Azure Data Transfer.
    */
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
+  @removed(Versions.v2025_05_30_preview)
   @operationId("AzureDataTransfer_listApprovedSchemas")
   @autoRoute
   listApprovedSchemas is ArmProviderActionSync<
     Request = ListApprovedSchemasRequest,
     Response = SchemasListResult
   >;
+
   /**
    * Validates a schema for Azure Data Transfer.
    */
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
+  @removed(Versions.v2025_05_30_preview)
   @operationId("AzureDataTransfer_validateSchema")
   @autoRoute
   validateSchema is ArmProviderActionSync<
