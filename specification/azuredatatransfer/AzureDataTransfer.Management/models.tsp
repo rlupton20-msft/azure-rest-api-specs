@@ -1584,51 +1584,50 @@ model AzureResourceManagerArmResponsePipeline {
 }
 
 /**
- * Read pipeline connection.
+ * The ReadPipelineconnection.
  */
 model ReadPipelineConnection {
   ...Record<unknown>;
 
   /**
-   * The id.
+   * Connection id inside pipeline
    */
-  id: string,
+  id: string;
 
   /**
-   * The name.
+   * Connection name inside pipeline
    */
-  name?: string,
+  name?: string;
 
   /**
-   * The type.
+   * Connection type inside pipeline
    */
-  type?: string,
+  type?: string;
 
   /**
-   * The location.
+   * Connection location inside pipeline
    */
-  location?: string,
+  location?: string;
 
   /**
-   * The etag..
+   * Connection etag inside pipeline
    */
-  etag?: string,
+  etag?: string;
 
   /**
-   * The systemData.
+   * Metadata pertaining to creation and last modification of the resource.
    */
-  systemData?: SystemData,
+  systemData?: SystemData;
 
   /**
-   * The properties.
+   * Connection properties inside pipeline
    */
-  properties?: ReadReadPipelineConnectionProperties,
+  properties?: ReadReadPipelineConnectionProperties;
 }
 
 /**
  * Connection properties inside pipeline
  */
-//@removed(Versions.v2025_05_30_preview)
 model ReadReadPipelineConnectionProperties {
   ...Record<unknown>;
 
@@ -1641,7 +1640,6 @@ model ReadReadPipelineConnectionProperties {
 /**
  * Internal metadata of the connection inside pipeline.
  */
-//@removed(Versions.v2025_05_30_preview)
 model ReadReadInternalMetadataProperties {
   ...Record<unknown>;
 
@@ -1659,7 +1657,6 @@ model ReadReadInternalMetadataProperties {
 /**
  * Operation status associated with the last patch request
  */
-//@removed(Versions.v2025_05_30_preview)
 model ReadReadOperationStatusProperties {
   /**
    * Operation status for the last patch request for this connection.

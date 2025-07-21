@@ -56,46 +56,6 @@
     }
   ],
   "paths": {
-    "/providers/Private.AzureDataTransfer/listFlowProfiles": {
-      "post": {
-        "operationId": "AzureDataTransfer_listFlowProfiles",
-        "description": "Lists FlowProfile resources for a Azure Data Transfer Pipeline resource.",
-        "consumes": [
-          "text/plain"
-        ],
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "pipeline",
-            "in": "body",
-            "description": "Pipeline(s) to retrieve flows of",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The request has succeeded.",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/FlowProfileMetadata"
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
     "/providers/Private.AzureDataTransfer/operations": {
       "get": {
         "operationId": "Operations_List",
@@ -2617,6 +2577,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "Lists flows for a pipeline": {
+            "$ref": "./examples/listFlowsByPipeline.json"
+          }
         }
       }
     },
@@ -3003,13 +2968,6 @@
           "type": "string",
           "description": "Resource ID of the linked connection",
           "readOnly": true
-        },
-        "flowProfileList": {
-          "type": "array",
-          "description": "The FlowProfiles allowed for this connection",
-          "items": {
-            "$ref": "#/definitions/FlowProfileMetadata"
-          }
         },
         "requirementId": {
           "type": "string",
@@ -3671,15 +3629,9 @@
             ]
           }
         },
-        "flowProfile": {
-          "$ref": "#/definitions/FlowProfileMetadata",
-          "description": "Type of FlowProfile to use for transfer via the flow.",
-          "readOnly": true
-        },
-        "dataClass": {
-          "$ref": "#/definitions/DataClass",
-          "description": "The Flow's data class.",
-          "readOnly": true
+        "dataType": {
+          "$ref": "#/definitions/DataType",
+          "description": "Type of data to transfer via the flow."
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -4093,13 +4045,6 @@
           "description": "Resource ID of the linked connection",
           "readOnly": true
         },
-        "flowProfileList": {
-          "type": "array",
-          "description": "The FlowProfiles allowed for this connection",
-          "items": {
-            "$ref": "#/definitions/FlowProfileMetadata"
-          }
-        },
         "requirementId": {
           "type": "string",
           "description": "Requirement ID of the connection"
@@ -4290,15 +4235,9 @@
             ]
           }
         },
-        "flowProfile": {
-          "$ref": "#/definitions/FlowProfileMetadata",
-          "description": "Type of FlowProfile to use for transfer via the flow.",
-          "readOnly": true
-        },
-        "dataClass": {
-          "$ref": "#/definitions/DataClass",
-          "description": "The Flow's data class.",
-          "readOnly": true
+        "dataType": {
+          "$ref": "#/definitions/DataType",
+          "description": "Type of data to transfer via the flow."
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -4834,104 +4773,6 @@
             "description": "The action executing is targeting a flow type."
           }
         ]
-      }
-    },
-    "TextMatch": {
-      "type": "object",
-      "description": "Text matching ruleset configuration options.",
-      "properties": {
-        "text": {
-          "type": "string",
-          "description": "The text to match and deny."
-        },
-        "matchType": {
-          "type": "string",
-          "description": "The text matching type.",
-          "default": "Partial",
-          "enum": [
-            "Partial",
-            "Complete"
-          ],
-          "x-ms-enum": {
-            "name": "MatchType",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Partial",
-                "value": "Partial",
-                "description": "Partial text comparison."
-              },
-              {
-                "name": "Complete",
-                "value": "Complete",
-                "description": "Complete text comparison."
-              }
-            ]
-          }
-        },
-        "caseSensitivity": {
-          "type": "string",
-          "description": "The text's cases sensitivity matching type.",
-          "default": "Insensitive",
-          "enum": [
-            "Insensitive",
-            "Sensitive"
-          ],
-          "x-ms-enum": {
-            "name": "Casing",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Insensitive",
-                "value": "Insensitive",
-                "description": "Casing insensitive comparison option."
-              },
-              {
-                "name": "Sensitive",
-                "value": "Sensitive",
-                "description": "Casing sensitive comparison option."
-              }
-            ]
-          }
-        }
-      },
-      "required": [
-        "text",
-        "matchType",
-        "caseSensitivity"
-      ]
-    },
-    "TextMatchingRuleset": {
-      "type": "object",
-      "description": "The Watchword ruleset.",
-      "properties": {
-        "deny": {
-          "type": "array",
-          "description": "Deny list of words.",
-          "items": {
-            "$ref": "#/definitions/TextMatch"
-          },
-          "x-ms-identifiers": [
-            "text",
-            "matchType",
-            "caseSensitivity"
-          ]
-        }
-      }
-    },
-    "XmlFilterRuleset": {
-      "type": "object",
-      "description": "The xsd schema ruleset.",
-      "properties": {
-        "defaultNamespace": {
-          "type": "string",
-          "description": "The XSD namespace."
-        },
-        "schema": {
-          "type": "string",
-          "format": "byte",
-          "description": "The base64 encoded xsd byte value."
-        }
       }
     }
   },
