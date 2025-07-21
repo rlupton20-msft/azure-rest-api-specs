@@ -43,7 +43,7 @@ input-file:
 
 These settings apply only when `--tag=package-2025-05` is specified on the command line.
 
-```yaml $(tag) == 'package-2024-05'
+```yaml $(tag) == 'package-2025-05'
 input-file:
   - Microsoft.AzureDataTransfer/stable/2025-05-21/azuredatatransfer.json
 ```
