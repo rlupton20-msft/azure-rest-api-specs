@@ -21,7 +21,6 @@ interface AzureDataTransfer {
   /**
    * Lists approved schemas for Azure Data Transfer.
    */
-  @removed(Versions.v2025_05_30_preview)
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
   @removed(Versions.v2025_05_30_preview)
   @operationId("AzureDataTransfer_listApprovedSchemas")
@@ -34,8 +33,8 @@ interface AzureDataTransfer {
   /**
    * Lists FlowProfile resources for a Azure Data Transfer Pipeline resource.
    */
-  @added(Versions.v2025_05_30_preview)
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
+  @added(Versions.v2025_05_30_preview)
   @operationId("AzureDataTransfer_listFlowProfiles")
   @autoRoute
   listFlowProfiles is ArmProviderActionSync<
@@ -59,7 +58,6 @@ interface AzureDataTransfer {
   /**
    * Validates a schema for Azure Data Transfer.
    */
-  @removed(Versions.v2025_05_30_preview)
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
   @removed(Versions.v2025_05_30_preview)
   @operationId("AzureDataTransfer_validateSchema")
