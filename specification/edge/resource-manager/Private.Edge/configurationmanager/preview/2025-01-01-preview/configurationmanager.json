@@ -6846,7 +6846,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "#/definitions/ConfigureHierarchyDetails"
+              "$ref": "#/definitions/ApplyResponse"
             }
           },
           "202": {
@@ -10158,6 +10158,23 @@
         ]
       }
     },
+    "ApplyResponse": {
+      "type": "object",
+      "description": "Apply Response Parameter",
+      "properties": {
+        "levelApplyResponse": {
+          "type": "array",
+          "description": "LevelApplyResponse",
+          "items": {
+            "$ref": "#/definitions/LevelApplyResponse"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "levelApplyResponse"
+      ]
+    },
     "AvailableSolutionTemplateVersion": {
       "type": "object",
       "description": "Available Solution template Version along with latest revision",
@@ -11471,6 +11488,28 @@
         "description"
       ]
     },
+    "HierarchyConfigSchemaDetails": {
+      "type": "object",
+      "description": "HierarchyConfigSchemaDetails",
+      "properties": {
+        "hierarchyIds": {
+          "type": "string",
+          "description": "ArmId of Hierarchy"
+        },
+        "configuration": {
+          "type": "string",
+          "description": "Configuration value"
+        },
+        "schema": {
+          "type": "string",
+          "description": "Schema value"
+        }
+      },
+      "required": [
+        "hierarchyIds",
+        "schema"
+      ]
+    },
     "HierarchyDetails": {
       "type": "object",
       "description": "Apply Hierarchy parameter",
@@ -11481,6 +11520,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "level": {
+          "type": "string",
+          "description": "Hierarchy Level"
         }
       },
       "required": [
@@ -12063,6 +12106,27 @@
         {
           "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
+      ]
+    },
+    "LevelApplyResponse": {
+      "type": "object",
+      "description": "Level based apply response",
+      "properties": {
+        "level": {
+          "type": "string",
+          "description": "Hierrachy Level"
+        },
+        "configschemadetails": {
+          "type": "array",
+          "description": "Hierrachy config and schema details",
+          "items": {
+            "$ref": "#/definitions/HierarchyConfigSchemaDetails"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "configschemadetails"
       ]
     },
     "OrchestratorType": {
