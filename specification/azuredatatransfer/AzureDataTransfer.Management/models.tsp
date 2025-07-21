@@ -1227,6 +1227,12 @@ model MessagingOptions {
    * Billing tier for this messaging flow
    */
   billingTier?: FlowBillingTier;
+
+  /**
+   * Field indicating whether to enable guaranteed delivery on the flow or not.
+   */
+  @added(Versions.v2025_05_30_preview)
+  guaranteedDeliveryEnabled?: EnablementStatus;
 }
 
 /**
@@ -1279,12 +1285,6 @@ model ApiFlowOptions {
    * Optional field to override the audience of the remote endpoint
    */
   audienceOverride?: string;
-
-  /**
-   * Field indicating whether to enable guaranteed delivery on the flow or not.
-   */
-  @added(Versions.v2025_05_30_preview)
-  guaranteedDeliveryEnabled?: EnablementStatus;
 }
 
 /**
