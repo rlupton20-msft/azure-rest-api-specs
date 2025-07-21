@@ -45,7 +45,7 @@ These settings apply only when `--tag=package-2025-05-21` is specified on the co
 
 ```yaml $(tag) == 'package-2025-05-21'
 input-file:
-  - Private.AzureDataTransfer\stable\2025-05-21\azuredatatransfer.json
+  - Private.AzureDataTransfer/stable/2025-05-21/azuredatatransfer.json
 ```
 
 ### Tag: package-preview-2025-04-11-preview
