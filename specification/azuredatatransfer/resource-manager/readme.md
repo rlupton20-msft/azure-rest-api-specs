@@ -39,11 +39,11 @@ input-file:
   - Private.AzureDataTransfer/preview/2025-05-30-preview/azuredatatransfer.json
 ```
 
-### Tag: package-2025-05
+### Tag: package-2025-05-21
 
-These settings apply only when `--tag=package-2025-05` is specified on the command line.
+These settings apply only when `--tag=package-2025-05-21` is specified on the command line.
 
-```yaml $(tag) == 'package-2025-05'
+```yaml $(tag) == 'package-2025-05-21'
 input-file:
   - Microsoft.AzureDataTransfer/stable/2025-05-21/azuredatatransfer.json
 ```
