@@ -202,6 +202,14 @@ interface Schemas {
 interface SchemaVersions {
   get is ArmResourceRead<SchemaVersion>;
   createOrReplace is ArmResourceCreateOrReplaceSync<SchemaVersion>;
-  delete is ArmResourceDeleteSync<SchemaVersion>;
+
+  @removed(Versions.v2025_07_01_preview)
+  @sharedRoute
+  @renamedFrom(Versions.v2025_07_01_preview, "delete")
+  deleteSync is ArmResourceDeleteSync<SchemaVersion>;
+
+  @added(Versions.v2025_07_01_preview)
+  @sharedRoute
+  delete is ArmResourceDeleteWithoutOkAsync<SchemaVersion>;
   listBySchema is ArmResourceListByParent<SchemaVersion>;
 }

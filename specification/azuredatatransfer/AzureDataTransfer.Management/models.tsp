@@ -2,10 +2,11 @@ import "@typespec/rest";
 import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-client-generator-core";
+import "./models.flowprofile.tsp";
 
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
+using Versioning;
 
 namespace Private.AzureDataTransfer;
 
@@ -143,6 +144,7 @@ union LinkStatus {
 /**
  * Flow type for the specified resource
  */
+@removed(Versions.v2025_05_30_preview)
 union FlowType {
   string,
 
@@ -262,6 +264,40 @@ union OperationStatusEnum {
 }
 
 /**
+ * The allowed statuses of a FlowProfile.
+ */
+union FlowProfileStatus {
+  string,
+
+  /**
+   * Defines a FlowProfile that can no longer be selected.
+   */
+  Obsolete: "Obsolete",
+
+  /**
+   * Defines a FlowProfile that is enabled.
+   */
+  Enabled: "Enabled",
+}
+
+/**
+ * Enablement statuses
+ */
+union EnablementStatus {
+  string,
+
+  /**
+   * Represents an enabled status.
+   */
+  Enabled: "Enabled",
+
+  /**
+   * Represents a disabled status.
+   */
+  Disabled: "Disabled",
+}
+
+/**
  * Status of the current pipeline
  */
 union PipelineStatus {
@@ -293,6 +329,152 @@ union FlowStatus {
    * The flow is currently disabled and cannot send or receive data.
    */
   Disabled: "Disabled",
+}
+
+/**
+ * Data class used to define the replication scenario.
+ */
+@added(Versions.v2025_05_30_preview)
+union DataClassType {
+  string,
+
+  /**
+   * Replication using service bus & event hub.
+   */
+  "LowLatency",
+
+  /**
+   * Query service using an API endpoint.
+   */
+  "Query",
+
+  /**
+   * Streaming replication service.
+   */
+  "Stream",
+
+  /**
+   * Object replication service for Azure blobs, tables, and files.
+   */
+  "HighThroughput",
+}
+
+/**
+ * Allowed data class.
+ * TODO: how are we going to determine whether a BatchEngine flow is Complex, DSo, Disk Image, Mission...etc..?
+ */
+@added(Versions.v2025_05_30_preview)
+union DataClass {
+  string,
+
+  /**
+   * (Low Latency) Service bus based replication.
+   */
+  "ServiceBus",
+
+  /**
+   * (Low Latency) Event hub based replication.
+   */
+  "EventHub",
+
+  /**
+   * (Query) API based low latency transfer.
+   */
+  "API",
+
+  /**
+   * (Query) SDK based low latency transfer.
+   */
+  "SDK",
+
+  /**
+   * (Query) Used to auto-assign low latency transfer type.
+   */
+  "ALL",
+
+  /**
+   * (Stream) Used to auto-assign low latency transfer type.
+   */
+  "Video",
+
+  /**
+   * (HighThroughput) Replication scenario using Azure Storage blobs.
+   */
+  "Blob",
+
+  /**
+   * (HighThroughput) Replication scenario using Azure Storage tables.
+   */
+  "Table",
+
+  /**
+   * (HighThroughput) Replication scenario using Azure Storage Files.
+   */
+  "Files",
+}
+
+/**
+ * Allowed scenarios for low latency replications.
+ */
+@added(Versions.v2025_05_30_preview)
+union LowLatencyType {
+  string,
+
+  /**
+   * Service bus based replication.
+   */
+  ServiceBus: "ServiceBus",
+
+  /**
+   * Event hub based replication.
+   */
+  EventHub: "EventHub",
+}
+
+/**
+ * Allowed scenarios for query replications.
+ */
+@added(Versions.v2025_05_30_preview)
+union QueryType {
+  string,
+
+  /**
+   * API based low latency transfer.
+   */
+  API: "API",
+
+  /**
+   * SDK based low latency transfer.
+   */
+  SDK: "SDK",
+
+  /**
+   * Used to auto-assign low latency transfer type.
+   */
+  ALL: "ALL",
+}
+
+/**
+ * Allowed scenarios for high throughput replications.
+ */
+@added(Versions.v2025_05_30_preview)
+union HighThroughputType {
+  string,
+
+  /**
+   * Replication scenario using Azure Storage blobs.
+   */
+  Blob: "Blob",
+
+  /**
+   * Replication scenario using Azure Storage tables.
+   */
+  Table: "Table",
+
+  /**
+   * Replication scenario using Azure Storage Files.
+   */
+  Files: "Files",
 }
 
 /**
@@ -431,6 +613,7 @@ model ListApprovedSchemasRequest {
 /**
  * The schemas list result.
  */
+@removed(Versions.v2025_05_30_preview)
 model SchemasListResult {
   /**
    * Schemas array.
@@ -441,6 +624,7 @@ model SchemasListResult {
 /**
  * The schema object.
  */
+@removed(Versions.v2025_05_30_preview)
 model Schema {
   /**
    * ID associated with this schema
@@ -550,7 +734,14 @@ model ConnectionProperties {
   /**
    * The flow types being requested for this connection
    */
+  @removed(Versions.v2025_05_30_preview)
   flowTypes?: FlowType[];
+
+  /**
+   * The FlowProfiles allowed for this connection
+   */
+  @added(Versions.v2025_05_30_preview)
+  flowProfileList?: FlowProfileMetadata[];
 
   /**
    * Requirement ID of the connection
@@ -598,21 +789,25 @@ model ConnectionProperties {
   /**
    * The policies for this connection
    */
+  @removed(Versions.v2025_05_30_preview)
   policies?: string[];
 
   /**
    * The schemas for this connection
    */
+  @removed(Versions.v2025_05_30_preview)
   schemas?: Schema[];
 
   /**
    * The schema URIs for this connection
    */
+  @removed(Versions.v2025_05_30_preview)
   schemaUris?: url[];
 
   /**
    * Hostname specific to API Flows
    */
+  @added(Versions.v2025_05_30_preview)
   apiHostname?: string;
 }
 
@@ -633,6 +828,7 @@ model PipelineProperties {
   /**
    * Connections associated with pipeline
    */
+  @typeChangedFrom(Versions.v2025_05_30_preview, ReadPipelineConnection[])
   @visibility(Lifecycle.Read)
   @OpenAPI.extension("x-ms-identifiers", #["id"])
   connections?: Read<PipelineConnection>[];
@@ -652,16 +848,19 @@ model PipelineProperties {
   /**
    * The policies for this pipeline
    */
+  @removed(Versions.v2025_05_30_preview)
   policies?: string[];
 
   /**
-   * The flow types allowed for this pipeline
+   * The flow type for this flow
    */
+  @removed(Versions.v2025_05_30_preview)
   flowTypes?: FlowType[];
 
   /**
    * The flow types that are disabled for this pipeline
    */
+  @removed(Versions.v2025_05_30_preview)
   disabledFlowTypes?: FlowType[];
 
   /**
@@ -725,6 +924,7 @@ model PipelineConnection {
   /**
    * Connection properties inside pipeline
    */
+  @added(Versions.v2025_05_30_preview)
   @visibility(Lifecycle.Read)
   properties?: PipelineConnectionProperties;
 }
@@ -732,6 +932,7 @@ model PipelineConnection {
 /**
  * Connection properties inside pipeline
  */
+@added(Versions.v2025_05_30_preview)
 model PipelineConnectionProperties {
   ...Record<unknown>;
 
@@ -884,13 +1085,29 @@ model FlowProperties {
   ]>;
 
   /**
+   * Type of FlowProfile to use for transfer via the flow.
+   */
+  @added(Versions.v2025_05_30_preview)
+  @visibility(Lifecycle.Read)
+  flowProfile?: FlowProfileMetadata;
+
+  /**
+   * The Flow's data class.
+   */
+  @added(Versions.v2025_05_30_preview)
+  @visibility(Lifecycle.Read)
+  dataClass?: DataClass;
+
+  /**
    * The flow type for this flow
    */
+  @removed(Versions.v2025_05_30_preview)
   flowType?: FlowType;
 
   /**
    * Type of data to transfer via the flow.
    */
+  @removed(Versions.v2025_05_30_preview)
   dataType?: DataType;
 
   /**
@@ -902,11 +1119,13 @@ model FlowProperties {
   /**
    * The policies for this flow
    */
+  @removed(Versions.v2025_05_30_preview)
   policies?: string[];
 
   /**
    * The selected schema for this flow
    */
+  @removed(Versions.v2025_05_30_preview)
   schema?: Schema;
 
   /**
@@ -1008,6 +1227,12 @@ model MessagingOptions {
    * Billing tier for this messaging flow
    */
   billingTier?: FlowBillingTier;
+
+  /**
+   * Field indicating whether to enable guaranteed delivery on the flow or not.
+   */
+  @added(Versions.v2025_05_30_preview)
+  guaranteedDeliveryEnabled?: EnablementStatus;
 }
 
 /**
@@ -1042,6 +1267,7 @@ model ApiFlowOptions {
   /**
    * Collection of senderClientIds
    */
+  @added(Versions.v2025_05_30_preview)
   senderClientIds?: string[];
 
   /**
@@ -1052,6 +1278,7 @@ model ApiFlowOptions {
   /**
    * Collection of remoteCallingModeClientIds
    */
+  @added(Versions.v2025_05_30_preview)
   remoteCallingModeClientIds?: string[];
 
   /**
@@ -1235,6 +1462,7 @@ model PipelinesPatch {
   /**
    * Properties of pipelines patch body.
    */
+  @removed(Versions.v2025_05_30_preview)
   properties?: PipelinesPatchProperties;
 
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
@@ -1244,6 +1472,7 @@ model PipelinesPatch {
 /**
  * Properties of pipelines patch body.
  */
+@removed(Versions.v2025_05_30_preview)
 model PipelinesPatchProperties {
   /**
    * The flow types allowed for this pipeline
@@ -1357,4 +1586,95 @@ model AzureResourceManagerArmResponsePipeline {
    * The body type of the operation request or response.
    */
   body: Pipeline;
+}
+
+/**
+ * The ReadPipelineconnection.
+ */
+model ReadPipelineConnection {
+  ...Record<unknown>;
+
+  /**
+   * Connection id inside pipeline
+   */
+  id: string;
+
+  /**
+   * Connection name inside pipeline
+   */
+  name?: string;
+
+  /**
+   * Connection type inside pipeline
+   */
+  type?: string;
+
+  /**
+   * Connection location inside pipeline
+   */
+  location?: string;
+
+  /**
+   * Connection etag inside pipeline
+   */
+  etag?: string;
+
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   */
+  systemData?: SystemData;
+
+  /**
+   * Connection properties inside pipeline
+   */
+  properties?: ReadReadPipelineConnectionProperties;
+}
+
+/**
+ * Connection properties inside pipeline
+ */
+model ReadReadPipelineConnectionProperties {
+  ...Record<unknown>;
+
+  /**
+   * Internal metadata of the connection inside pipeline.
+   */
+  internalMetadata?: ReadReadInternalMetadataProperties;
+}
+
+/**
+ * Internal metadata of the connection inside pipeline.
+ */
+model ReadReadInternalMetadataProperties {
+  ...Record<unknown>;
+
+  /**
+   * Operation status associated with the last patch request
+   */
+  operationStatus?: ReadReadOperationStatusProperties;
+
+  /**
+   * User that last set the approved status for this connection
+   */
+  statusSetBy?: string;
+}
+
+/**
+ * Operation status associated with the last patch request
+ */
+model ReadReadOperationStatusProperties {
+  /**
+   * Operation status for the last patch request for this connection.
+   */
+  status?: OperationStatusEnum;
+
+  /**
+   * Operation status ID of the last patch request for this connection.
+   */
+  id?: string;
+
+  /**
+   * Message for the operation for the last patch request for this connection.
+   */
+  message?: string;
 }
