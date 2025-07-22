@@ -44,6 +44,7 @@ model Scheduler is Azure.ResourceManager.TrackedResource<SchedulerProperties> {
     "schedulers",
     "^[a-zA-Z0-9-]{3,64}$"
   >;
+  ...Azure.ResourceManager.ManagedServiceIdentityProperty;
 }
 
 @doc("Details of the Scheduler")
@@ -218,7 +219,9 @@ union ProvisioningState {
 @doc("The update request model for the Scheduler resource")
 @added(Versions.v2024_10_01_Preview)
 model SchedulerUpdate
-  is UpdateableProperties<Azure.ResourceManager.TrackedResource<SchedulerPropertiesUpdate>>;
+  is UpdateableProperties<Azure.ResourceManager.TrackedResource<SchedulerPropertiesUpdate>> {
+  ...Azure.ResourceManager.ManagedServiceIdentityProperty;
+}
 
 @doc("The Scheduler resource properties to be updated")
 @added(Versions.v2024_10_01_Preview)
