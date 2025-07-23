@@ -127,10 +127,7 @@ interface StageMaps {
     StageMapProperties,
     {
       ...ApiVersionParameter;
-
-      @path
-      @doc("The ID of the target management group.")
-      managementGroupId: string;
+      ...Azure.ResourceManager.CommonTypes.ManagementGroupNameParameter;
     }
   >;
 

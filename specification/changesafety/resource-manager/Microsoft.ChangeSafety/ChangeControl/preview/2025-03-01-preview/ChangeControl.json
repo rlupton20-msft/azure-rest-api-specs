@@ -53,60 +53,6 @@
     }
   ],
   "paths": {
-    "/{managementGroupId}/providers/Microsoft.ChangeSafety/stageMaps/{stageMapName}": {
-      "patch": {
-        "operationId": "StageMaps_UpdateAtManagementGroupLevel",
-        "tags": [
-          "StageMaps"
-        ],
-        "description": "Update a StageMap",
-        "parameters": [
-          {
-            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "managementGroupId",
-            "in": "path",
-            "description": "The ID of the target management group.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "stageMapName",
-            "in": "path",
-            "description": "The name of the StageMap",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 100,
-            "pattern": "^[a-zA-Z0-9-]{3,100}$"
-          },
-          {
-            "name": "properties",
-            "in": "body",
-            "description": "The resource properties to be updated.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/StageMapUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/StageMap"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
     "/managementGroups/{managementGroupName}/providers/Microsoft.ChangeSafety/stageMaps": {
       "get": {
         "operationId": "StageMaps_ListByManagementGroup",
@@ -223,6 +169,54 @@
           },
           "201": {
             "description": "Resource 'StageMap' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/StageMap"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "StageMaps_UpdateAtManagementGroupLevel",
+        "tags": [
+          "StageMaps"
+        ],
+        "description": "Update a StageMap",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ManagementGroupNameParameter"
+          },
+          {
+            "name": "stageMapName",
+            "in": "path",
+            "description": "The name of the StageMap",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
+            "pattern": "^[a-zA-Z0-9-]{3,100}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StageMapUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
             "schema": {
               "$ref": "#/definitions/StageMap"
             }
