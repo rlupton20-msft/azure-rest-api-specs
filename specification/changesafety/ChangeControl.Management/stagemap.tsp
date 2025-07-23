@@ -95,6 +95,15 @@ interface StageMaps {
     }
   >;
 
+  @added(Versions.v2025_03_01_preview)
+  getAtTenantLevel is ArmResourceRead<
+    StageMap,
+    {
+      ...ApiVersionParameter;
+      ...Azure.ResourceManager.CommonTypes.TenantIdParameter;
+    }
+  >;
+
   createOrUpdate is ArmResourceCreateOrReplaceSync<StageMap>;
   createOrUpdateAtSubscriptionLevel is ArmResourceCreateOrReplaceSync<
     StageMap,
