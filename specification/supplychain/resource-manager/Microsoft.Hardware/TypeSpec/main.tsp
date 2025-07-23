@@ -159,6 +159,15 @@ model Product {
 
   @doc("ProductId Type")
   type:ProductIdType;
+
+  @doc("BundleProductId")
+  bundleProductId?: string;
+
+  @doc("BundleInstanceId")
+  bundleInstanceId?: string;
+
+  @doc("BundleSlotId")
+  bundleSlotId?: string;
 }
 
 @doc("Order line fulfillment instructions")
