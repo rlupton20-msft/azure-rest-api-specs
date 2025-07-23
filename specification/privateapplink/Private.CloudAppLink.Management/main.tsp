@@ -10,19 +10,19 @@ import "./applinkreleasechannelprofile.tsp";
 using Versioning;
 using Azure.ResourceManager;
 
-/** Microsoft.AppLink Resource Provider management API. */
+/** Private.CloudAppLink Resource Provider management API. */
 @armProviderNamespace
-@service(#{ title: "Microsoft.AppLink management service" })
+@service(#{ title: "Private.CloudAppLink management service" })
 @versioned(Versions)
-namespace Microsoft.AppLink;
+namespace Private.CloudAppLink;
 
 /** The available API versions. */
 enum Versions {
-  /** 2025-08-01-preview version */
+  /** 2025-04-01-preview version */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
-  v2025_08_01_preview: "2025-08-01-preview",
+  v2025_04_01_preview: "2025-04-01-preview",
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
