@@ -807,7 +807,7 @@ model ConnectionProperties {
   /**
    * Hostname specific to API Flows
    */
-  @added(Versions.v2025_05_30_preview)
+  @added(Versions.v2025_05_21)
   apiHostname?: string;
 }
 
@@ -1267,7 +1267,7 @@ model ApiFlowOptions {
   /**
    * Collection of senderClientIds
    */
-  @added(Versions.v2025_05_30_preview)
+  @added(Versions.v2025_05_21)
   senderClientIds?: string[];
 
   /**
@@ -1278,7 +1278,7 @@ model ApiFlowOptions {
   /**
    * Collection of remoteCallingModeClientIds
    */
-  @added(Versions.v2025_05_30_preview)
+  @added(Versions.v2025_05_21)
   remoteCallingModeClientIds?: string[];
 
   /**
