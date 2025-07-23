@@ -91,6 +91,10 @@ model OrderLine {
   @doc("Order line status")
   @visibility("read")
   status?: OrderLineStatus;
+
+  @doc("Billing State")
+  @visibility("read")
+  billingState?: BillingState;
   
   @doc("Order line created date time")
   @visibility("read")
@@ -344,6 +348,22 @@ enum OrderLineStatus{
   PartiallyShipped,
   @doc("Order is Shipped")
   Shipped
+}
+
+@doc("Billing State")
+enum BillingState {
+  @doc("The default state, initialized or reset after a failed operation")
+  Pending,
+  @doc("The payment is pending capture.")
+  PendingCapture,
+  @doc("The payment has been captured successfully.")
+  Captured,
+  @doc("The payment capture failed.")
+  CaptureFailed,
+  @doc("The payment is pending a refund.")
+  PendingRefund,
+  @doc("The payment has been refunded.")
+  Refunded
 }
 
 @doc("Provisioning State")
