@@ -8,16 +8,20 @@ import "./Firmware.tsp";
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 using TypeSpec.Http;
+using Versioning;
 
+@versioned(Versions)
 namespace Microsoft.IoTFirmwareDefense;
 /**
  * List of CVE results.
  */
+@added(Versions.v2025_08_02)
 model LegacyCveListResult is Azure.Core.Page<LegacyCveResource>;
 
 /**
  * The object representing a firmware analysis CVE result resource
  */
+@added(Versions.v2025_08_02)
 @parentResource(Firmware)
 model LegacyCveResource is ProxyResource<CveResult> {
   /**
@@ -32,6 +36,7 @@ model LegacyCveResource is ProxyResource<CveResult> {
 }
 
 @armResourceOperations
+@added(Versions.v2025_08_02)
 interface LegacyCves {
   /**
    * Lists CVE analysis results of a firmware.

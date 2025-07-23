@@ -58,9 +58,6 @@
       "name": "CryptoKeys"
     },
     {
-      "name": "LegacyCves"
-    },
-    {
       "name": "Cves"
     },
     {
@@ -377,7 +374,7 @@
         "tags": [
           "Workspaces"
         ],
-        "description": "The operation to delete a firmware analysis workspace.",
+        "description": "Delete a Workspace",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -398,19 +395,8 @@
           }
         ],
         "responses": {
-          "202": {
-            "description": "Resource deletion accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
+          "200": {
+            "description": "Resource deleted successfully."
           },
           "204": {
             "description": "Resource does not exist."
@@ -429,11 +415,7 @@
           "Workspaces_Delete_MinimumSet_Gen": {
             "$ref": "./examples/Workspaces_Delete_MinimumSet_Gen.json"
           }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
+        }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares": {
@@ -976,64 +958,6 @@
           },
           "CryptoKeys_ListByFirmware_MinimumSet_Gen": {
             "$ref": "./examples/CryptoKeys_ListByFirmware_MinimumSet_Gen.json"
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/cves": {
-      "get": {
-        "operationId": "LegacyCves_ListByFirmware",
-        "tags": [
-          "LegacyCves"
-        ],
-        "description": "Lists CVE analysis results of a firmware.",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "workspaceName",
-            "in": "path",
-            "description": "The name of the firmware analysis workspace.",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"
-          },
-          {
-            "name": "firmwareId",
-            "in": "path",
-            "description": "The id of the firmware.",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]*$"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/LegacyCveResourceListResult"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "LegacyCves_ListByFirmware_MaximumSet": {
-            "$ref": "./examples/LegacyCves_ListByFirmware_MaximumSet_Gen.json"
           }
         },
         "x-ms-pageable": {
@@ -2208,18 +2132,6 @@
           "type": "string",
           "description": "Name of the CVE."
         },
-        "cvss2Score": {
-          "type": "string",
-          "description": "CVSS 2 score. Only valid for legacy CVE."
-        },
-        "cvss3Score": {
-          "type": "string",
-          "description": "CVSS 3 score. Only valid for legacy CVE."
-        },
-        "cvssVersion": {
-          "type": "string",
-          "description": "Most recent CVSS version that was populated. Only valid for legacy CVE."
-        },
         "effectiveCvssScore": {
           "type": "number",
           "format": "float",
@@ -2386,15 +2298,18 @@
         },
         "vendor": {
           "type": "string",
-          "description": "Firmware vendor."
+          "description": "Firmware vendor.",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_. ,'\"~=(){}:]*$"
         },
         "model": {
           "type": "string",
-          "description": "Firmware model."
+          "description": "Firmware model.",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_. ,'\"~=(){}:]*$"
         },
         "version": {
           "type": "string",
-          "description": "Firmware version."
+          "description": "Firmware version.",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_. ,'\"~=(){}:]*$"
         },
         "description": {
           "type": "string",
@@ -2490,42 +2405,6 @@
           "description": "A unique ID for the firmware to be uploaded."
         }
       }
-    },
-    "LegacyCveResource": {
-      "type": "object",
-      "description": "The object representing a firmware analysis CVE result resource",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/CveResult",
-          "description": "The resource-specific properties for this resource."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
-        }
-      ]
-    },
-    "LegacyCveResourceListResult": {
-      "type": "object",
-      "description": "The response of a LegacyCveResource list operation.",
-      "properties": {
-        "value": {
-          "type": "array",
-          "description": "The LegacyCveResource items on this page",
-          "items": {
-            "$ref": "#/definitions/LegacyCveResource"
-          }
-        },
-        "nextLink": {
-          "type": "string",
-          "format": "uri",
-          "description": "The link to the next page of items"
-        }
-      },
-      "required": [
-        "value"
-      ]
     },
     "PairedKey": {
       "type": "object",
