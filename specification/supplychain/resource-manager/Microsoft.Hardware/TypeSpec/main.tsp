@@ -167,7 +167,7 @@ model Product {
   bundleInstanceId?: string;
 
   @doc("BundleSlotId")
-  bundleSlotId?: string;
+  bundleSlotId?: int64;
 }
 
 @doc("Order line fulfillment instructions")
