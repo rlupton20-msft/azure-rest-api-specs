@@ -84,7 +84,7 @@ interface VirtualEnclave {
   @armResourceAction(EnclaveResource)
   @useFinalStateVia("azure-async-operation")
   @added(Microsoft.Mission.Versions.v2025_09_01_preview)
-  setEnclaveRoleAssignments is ArmResourceActionNoResponseContentAsync<
+  setRoleAssignments is ArmResourceActionNoResponseContentAsync<
     EnclaveResource,
     SetEnclaveRoleAssignmentsRequest,
     LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
@@ -104,11 +104,11 @@ interface VirtualEnclave {
       LocationHeader
   >;
 
-  @doc("Sets role assignments for the workload resources of the enclave.")
+  @doc("Sets the subnets of the enclave.")
   @armResourceAction(EnclaveResource)
   @useFinalStateVia("azure-async-operation")
   @added(Microsoft.Mission.Versions.v2025_09_01_preview)
-  setEnclaveSubnets is ArmResourceActionNoResponseContentAsync<
+  setSubnets is ArmResourceActionNoResponseContentAsync<
     EnclaveResource,
     SetEnclaveSubnetsRequest,
     LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
@@ -120,7 +120,7 @@ interface VirtualEnclave {
   @armResourceAction(EnclaveResource)
   @useFinalStateVia("azure-async-operation")
   @added(Microsoft.Mission.Versions.v2025_09_01_preview)
-  setEnclaveMaintenanceMode is ArmResourceActionNoResponseContentAsync<
+  setMaintenanceMode is ArmResourceActionNoResponseContentAsync<
     EnclaveResource,
     SetEnclaveMaintenanceModeRequest,
     LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
