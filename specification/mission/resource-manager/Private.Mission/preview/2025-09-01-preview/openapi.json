@@ -349,9 +349,9 @@
         "x-ms-long-running-operation": true
       }
     },
-    "/{resourceUri}/providers/Private.Mission/approvals/{approvalName}/notifyApprovalInitiator": {
+    "/{resourceUri}/providers/Private.Mission/approvals/{approvalName}/notifyInitiator": {
       "post": {
-        "operationId": "Approval_NotifyApprovalInitiator",
+        "operationId": "Approval_NotifyInitiator",
         "tags": [
           "Approval"
         ],
@@ -410,8 +410,8 @@
           }
         },
         "x-ms-examples": {
-          "Approval_NotifyApprovalInitiator": {
-            "$ref": "./examples/Approvals_NotifyApprovalInitiator.json"
+          "Approval_NotifyInitiator": {
+            "$ref": "./examples/Approvals_NotifyInitiator.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -1613,6 +1613,78 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/communities/{communityName}/setCommunityMaintenanceMode": {
+      "post": {
+        "operationId": "Community_SetCommunityMaintenanceMode",
+        "tags": [
+          "Community"
+        ],
+        "description": "Sets the Community Maintenance Mode configuration.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "communityName",
+            "in": "path",
+            "description": "The name of the communityResource Resource",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SetCommunityMaintenanceModeRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Community_SetCommunityMaintenanceMode": {
+            "$ref": "./examples/Community_SetCommunityMaintenanceMode.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/communities/{communityName}/transitHubs": {
       "get": {
         "operationId": "TransitHub_ListByCommunityResource",
@@ -2389,6 +2461,78 @@
         },
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/enclaveConnections/{enclaveConnectionName}/setSourceCidr": {
+      "post": {
+        "operationId": "EnclaveConnection_SetSourceCidr",
+        "tags": [
+          "EnclaveConnection"
+        ],
+        "description": "Sets the Enclave Connection source CIDR.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "enclaveConnectionName",
+            "in": "path",
+            "description": "The name of the Enclave Connection Resource",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9-_]*[a-zA-Z0-9]$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SetSourceCidrRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "EnclaveConnection_SetSourceCidr": {
+            "$ref": "./examples/EnclaveConnection_SetSourceCidr.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
         },
         "x-ms-long-running-operation": true
       }
@@ -3333,6 +3477,294 @@
         },
         "x-ms-long-running-operation-options": {
           "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/virtualEnclaves/{virtualEnclaveName}/setEnclaveMaintenanceMode": {
+      "post": {
+        "operationId": "VirtualEnclave_SetEnclaveMaintenanceMode",
+        "tags": [
+          "VirtualEnclave"
+        ],
+        "description": "Sets the Enclave Maintenance Mode configuration.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "virtualEnclaveName",
+            "in": "path",
+            "description": "The name of the enclaveResource Resource",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SetEnclaveMaintenanceModeRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "VirtualEnclave_SetEnclaveMaintenanceMode": {
+            "$ref": "./examples/VirtualEnclave_SetEnclaveMaintenanceMode copy.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/virtualEnclaves/{virtualEnclaveName}/setEnclaveRoleAssignments": {
+      "post": {
+        "operationId": "VirtualEnclave_SetEnclaveRoleAssignments",
+        "tags": [
+          "VirtualEnclave"
+        ],
+        "description": "Sets role assignments for the enclave resource.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "virtualEnclaveName",
+            "in": "path",
+            "description": "The name of the enclaveResource Resource",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SetEnclaveRoleAssignmentsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "VirtualEnclave_SetEnclaveRoleAssignments": {
+            "$ref": "./examples/VirtualEnclave_SetEnclaveRoleAssignments.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/virtualEnclaves/{virtualEnclaveName}/setEnclaveSubnets": {
+      "post": {
+        "operationId": "VirtualEnclave_SetEnclaveSubnets",
+        "tags": [
+          "VirtualEnclave"
+        ],
+        "description": "Sets role assignments for the workload resources of the enclave.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "virtualEnclaveName",
+            "in": "path",
+            "description": "The name of the enclaveResource Resource",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SetEnclaveSubnetsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "VirtualEnclave_SetEnclaveSubnets": {
+            "$ref": "./examples/VirtualEnclave_SetEnclaveSubnets.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Mission/virtualEnclaves/{virtualEnclaveName}/setWorkloadRoleAssignments": {
+      "post": {
+        "operationId": "VirtualEnclave_SetWorkloadRoleAssignments",
+        "tags": [
+          "VirtualEnclave"
+        ],
+        "description": "Sets role assignments for the workload resources of the enclave.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "virtualEnclaveName",
+            "in": "path",
+            "description": "The name of the enclaveResource Resource",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SetWorkloadRoleAssignmentsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              },
+              "location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "VirtualEnclave_SetWorkloadRoleAssignments": {
+            "$ref": "./examples/VirtualEnclave_SetWorkloadRoleAssignments.json"
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
         },
         "x-ms-long-running-operation": true
       }
@@ -4447,7 +4879,8 @@
           "description": "List of services governed by a community.",
           "items": {
             "$ref": "#/definitions/GovernedServiceItem"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "policyOverride": {
           "type": "string",
@@ -4465,7 +4898,8 @@
           "description": "Community role assignments",
           "items": {
             "$ref": "#/definitions/RoleAssignmentItem"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "firewallSku": {
           "$ref": "#/definitions/FirewallSKU",
@@ -4476,7 +4910,7 @@
           "description": "Approval requirements for various actions on the community's resources."
         },
         "maintenanceModeConfiguration": {
-          "$ref": "#/definitions/MaintenanceModeConfigurationPatchModel",
+          "$ref": "#/definitions/MaintenanceModeConfigurationPatchModelUpdate",
           "description": "Maintenance Mode configuration."
         }
       }
@@ -4530,7 +4964,8 @@
           "description": "List of services governed by a community.",
           "items": {
             "$ref": "#/definitions/GovernedServiceItem"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "policyOverride": {
           "type": "string",
@@ -4548,7 +4983,8 @@
           "description": "Community role assignments",
           "items": {
             "$ref": "#/definitions/RoleAssignmentItem"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "firewallSku": {
           "type": "string",
@@ -5239,7 +5675,8 @@
           "description": "Subnet Configurations.",
           "items": {
             "$ref": "#/definitions/SubnetConfiguration"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "allowSubnetCommunication": {
           "type": "boolean",
@@ -5414,6 +5851,48 @@
       ]
     },
     "MaintenanceModeConfigurationPatchModel": {
+      "type": "object",
+      "description": "Maintenance Mode Patch Model",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "Current mode of Maintenance Mode Configuration",
+          "enum": [
+            "On",
+            "CanNotDelete",
+            "Off",
+            "General",
+            "Advanced"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        },
+        "principals": {
+          "type": "array",
+          "description": "The user, group or service principal object affected by Maintenance Mode",
+          "items": {
+            "$ref": "#/definitions/Principal"
+          }
+        },
+        "justification": {
+          "type": "string",
+          "description": "Justification for entering or exiting Maintenance Mode",
+          "enum": [
+            "Networking",
+            "Governance",
+            "Off"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "mode"
+      ]
+    },
+    "MaintenanceModeConfigurationPatchModelUpdate": {
       "type": "object",
       "description": "Maintenance Mode Patch Model",
       "properties": {
@@ -5778,6 +6257,93 @@
         ]
       }
     },
+    "SetCommunityMaintenanceModeRequest": {
+      "type": "object",
+      "description": "Request to the action call to set community maintenance mode.",
+      "properties": {
+        "maintenanceModeConfiguration": {
+          "$ref": "#/definitions/MaintenanceModeConfigurationPatchModel",
+          "description": "New community maintenance mode configuration.",
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "maintenanceModeConfiguration"
+      ]
+    },
+    "SetEnclaveMaintenanceModeRequest": {
+      "type": "object",
+      "description": "Request to the action call to set enclave maintenance mode.",
+      "properties": {
+        "maintenanceModeConfiguration": {
+          "$ref": "#/definitions/MaintenanceModeConfigurationPatchModel",
+          "description": "New enclave maintenance mode configuration.",
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "maintenanceModeConfiguration"
+      ]
+    },
+    "SetEnclaveRoleAssignmentsRequest": {
+      "type": "object",
+      "description": "Request to the action call to set enclave role assignments.",
+      "properties": {
+        "enclaveRoleAssignments": {
+          "type": "array",
+          "description": "List of Role Assignments",
+          "items": {
+            "$ref": "#/definitions/RoleAssignmentItem"
+          },
+          "x-ms-identifiers": []
+        }
+      }
+    },
+    "SetEnclaveSubnetsRequest": {
+      "type": "object",
+      "description": "Request to the action call to update enclave subnets.",
+      "properties": {
+        "subnetConfigurations": {
+          "type": "array",
+          "description": "Updated enclave maintenance mode configuration.",
+          "items": {
+            "$ref": "#/definitions/SubnetConfiguration"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "subnetConfigurations"
+      ]
+    },
+    "SetSourceCidrRequest": {
+      "type": "object",
+      "description": "Request to the action call to set the source IP addresses on an enclave connection.",
+      "properties": {
+        "sourceCidr": {
+          "type": "string",
+          "description": "New source CIDR.",
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "sourceCidr"
+      ]
+    },
+    "SetWorkloadRoleAssignmentsRequest": {
+      "type": "object",
+      "description": "Request to the action call to set workload role assignments on the enclave.",
+      "properties": {
+        "workloadRoleAssignments": {
+          "type": "array",
+          "description": "List of Role Assignments",
+          "items": {
+            "$ref": "#/definitions/RoleAssignmentItem"
+          },
+          "x-ms-identifiers": []
+        }
+      }
+    },
     "StorageAccountResourceId": {
       "type": "string",
       "format": "arm-id",
@@ -6088,28 +6654,31 @@
           "description": "Enclave role assignments",
           "items": {
             "$ref": "#/definitions/RoleAssignmentItem"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "workloadRoleAssignments": {
           "type": "array",
           "description": "Workload role assignments",
           "items": {
             "$ref": "#/definitions/RoleAssignmentItem"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "governedServiceList": {
           "type": "array",
           "description": "Enclave specific policies",
           "items": {
             "$ref": "#/definitions/GovernedServiceItem"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "enclaveDefaultSettings": {
           "$ref": "#/definitions/EnclaveDefaultSettingsPatchModel",
           "description": "Enclave default settings."
         },
         "maintenanceModeConfiguration": {
-          "$ref": "#/definitions/MaintenanceModeConfigurationPatchModel",
+          "$ref": "#/definitions/MaintenanceModeConfigurationPatchModelUpdate",
           "description": "Maintenance Mode configuration."
         }
       }
@@ -6170,21 +6739,24 @@
           "description": "Enclave role assignments",
           "items": {
             "$ref": "#/definitions/RoleAssignmentItem"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "workloadRoleAssignments": {
           "type": "array",
           "description": "Workload role assignments",
           "items": {
             "$ref": "#/definitions/RoleAssignmentItem"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "governedServiceList": {
           "type": "array",
           "description": "Enclave specific policies",
           "items": {
             "$ref": "#/definitions/GovernedServiceItem"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "enclaveDefaultSettings": {
           "$ref": "#/definitions/EnclaveDefaultSettingsModel",
