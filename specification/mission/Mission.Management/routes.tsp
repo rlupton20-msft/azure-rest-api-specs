@@ -32,8 +32,6 @@ interface Workload {
     WorkloadResource,
     PatchModel = WorkloadPatchModel
   >;
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
-  #suppress "deprecated" "Backwards compatibility"
   delete is ArmResourceDeleteWithoutOkAsync<WorkloadResource>;
   listByEnclaveResource is ArmResourceListByParent<WorkloadResource>;
   listBySubscription is ArmListBySubscription<WorkloadResource>;
@@ -53,8 +51,6 @@ interface VirtualEnclave {
     EnclaveResource,
     PatchModel = VirtualEnclavePatchModel
   >;
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
-  #suppress "deprecated" "Backwards compatibility"
   delete is ArmResourceDeleteWithoutOkAsync<EnclaveResource>;
   listByResourceGroup is ArmResourceListByParent<EnclaveResource>;
   listBySubscription is ArmListBySubscription<EnclaveResource>;
@@ -83,6 +79,54 @@ interface VirtualEnclave {
     ApprovalDeletionCallbackRequest,
     ApprovalActionResponse
   >;
+
+  @doc("Sets role assignments for the enclave resource.")
+  @armResourceAction(EnclaveResource)
+  @useFinalStateVia("azure-async-operation")
+  @added(Microsoft.Mission.Versions.v2025_09_01_preview)
+  setRoleAssignments is ArmResourceActionNoResponseContentAsync<
+    EnclaveResource,
+    SetEnclaveRoleAssignmentsRequest,
+    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
+      ArmAsyncOperationHeader &
+      LocationHeader
+  >;
+
+  @doc("Sets role assignments for the workload resources of the enclave.")
+  @armResourceAction(EnclaveResource)
+  @useFinalStateVia("azure-async-operation")
+  @added(Microsoft.Mission.Versions.v2025_09_01_preview)
+  setWorkloadRoleAssignments is ArmResourceActionNoResponseContentAsync<
+    EnclaveResource,
+    SetWorkloadRoleAssignmentsRequest,
+    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
+      ArmAsyncOperationHeader &
+      LocationHeader
+  >;
+
+  @doc("Sets the subnets of the enclave.")
+  @armResourceAction(EnclaveResource)
+  @useFinalStateVia("azure-async-operation")
+  @added(Microsoft.Mission.Versions.v2025_09_01_preview)
+  setSubnets is ArmResourceActionNoResponseContentAsync<
+    EnclaveResource,
+    SetEnclaveSubnetsRequest,
+    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
+      ArmAsyncOperationHeader &
+      LocationHeader
+  >;
+
+  @doc("Sets the Enclave Maintenance Mode configuration.")
+  @armResourceAction(EnclaveResource)
+  @useFinalStateVia("azure-async-operation")
+  @added(Microsoft.Mission.Versions.v2025_09_01_preview)
+  setMaintenanceMode is ArmResourceActionNoResponseContentAsync<
+    EnclaveResource,
+    SetEnclaveMaintenanceModeRequest,
+    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
+      ArmAsyncOperationHeader &
+      LocationHeader
+  >;
 }
 
 @doc("Community Interface")
@@ -99,8 +143,6 @@ interface Community {
     CommunityResource,
     PatchModel = CommunityPatchModel
   >;
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
-  #suppress "deprecated" "Backwards compatibility"
   delete is ArmResourceDeleteWithoutOkAsync<CommunityResource>;
   listByResourceGroup is ArmResourceListByParent<CommunityResource>;
   listBySubscription is ArmListBySubscription<CommunityResource>;
@@ -116,6 +158,18 @@ interface Community {
     @bodyRoot
     checkAddressSpaceAvailabilityRequest: CheckAddressSpaceAvailabilityRequest,
   ): ArmResponse<CheckAddressSpaceAvailabilityResponse> | ErrorResponse;
+
+  @doc("Sets the Community Maintenance Mode configuration.")
+  @armResourceAction(CommunityResource)
+  @useFinalStateVia("azure-async-operation")
+  @added(Microsoft.Mission.Versions.v2025_09_01_preview)
+  setMaintenanceMode is ArmResourceActionNoResponseContentAsync<
+    CommunityResource,
+    SetCommunityMaintenanceModeRequest,
+    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
+      ArmAsyncOperationHeader &
+      LocationHeader
+  >;
 }
 
 @doc("TransitHub Interface")
@@ -132,8 +186,6 @@ interface TransitHub {
     TransitHubResource,
     PatchModel = TransitHubPatchModel
   >;
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
-  #suppress "deprecated" "Backwards compatibility"
   delete is ArmResourceDeleteWithoutOkAsync<TransitHubResource>;
   listByCommunityResource is ArmResourceListByParent<TransitHubResource>;
   listBySubscription is ArmListBySubscription<TransitHubResource>;
@@ -153,8 +205,6 @@ interface EnclaveConnection {
     EnclaveConnectionResource,
     PatchModel = EnclaveConnectionPatchModel
   >;
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
-  #suppress "deprecated" "Backwards compatibility"
   delete is ArmResourceDeleteWithoutOkAsync<EnclaveConnectionResource>;
   listByResourceGroup is ArmResourceListByParent<EnclaveConnectionResource>;
   listBySubscription is ArmListBySubscription<EnclaveConnectionResource>;
@@ -181,6 +231,18 @@ interface EnclaveConnection {
     ApprovalDeletionCallbackRequest,
     ApprovalActionResponse
   >;
+
+  @doc("Sets the Enclave Connection source CIDR.")
+  @armResourceAction(EnclaveConnectionResource)
+  @useFinalStateVia("azure-async-operation")
+  @added(Microsoft.Mission.Versions.v2025_09_01_preview)
+  setSourceCidr is ArmResourceActionNoResponseContentAsync<
+    EnclaveConnectionResource,
+    SetSourceCidrRequest,
+    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
+      ArmAsyncOperationHeader &
+      LocationHeader
+  >;
 }
 
 @doc("Enclave Endpoint Interface")
@@ -197,8 +259,6 @@ interface EnclaveEndpoints {
     EnclaveEndpointResource,
     PatchModel = EnclaveEndpointPatchModel
   >;
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
-  #suppress "deprecated" "Backwards compatibility"
   delete is ArmResourceDeleteWithoutOkAsync<EnclaveEndpointResource>;
   listByEnclaveResource is ArmResourceListByParent<EnclaveEndpointResource>;
   listBySubscription is ArmListBySubscription<EnclaveEndpointResource>;
@@ -243,8 +303,6 @@ interface CommunityEndpoints {
     CommunityEndpointResource,
     PatchModel = CommunityEndpointPatchModel
   >;
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-delete-operation-response-codes" "For backward compatibility"
-  #suppress "deprecated" "Backwards compatibility"
   delete is ArmResourceDeleteWithoutOkAsync<CommunityEndpointResource>;
   listByCommunityResource is ArmResourceListByParent<CommunityEndpointResource>;
   listBySubscription is ArmListBySubscription<CommunityEndpointResource>;
@@ -297,7 +355,7 @@ interface Approval {
     Microsoft.Mission.Versions.v2025_05_01_preview,
     "initiatorCallback"
   )
-  notifyApprovalInitiator is ArmResourceActionAsync<
+  notifyInitiator is ArmResourceActionAsync<
     ApprovalResource,
     ApprovalActionRequest,
     ApprovalActionResponse
