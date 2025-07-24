@@ -13,7 +13,7 @@ using TypeSpec.Versioning;
 namespace Microsoft.ChangeSafety;
 
 @doc("Resource provides details about stages a deployment goes through.")
-model StageMap is ExtensionResource<StageMapProperties> {
+model StageMap is ProxyResource<StageMapProperties> {
   @pattern("^[a-zA-Z0-9-]{3,100}$")
   @key("stageMapName")
   @segment("stageMaps")
