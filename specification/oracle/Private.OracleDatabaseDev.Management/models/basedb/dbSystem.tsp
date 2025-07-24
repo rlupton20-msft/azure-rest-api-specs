@@ -91,7 +91,7 @@ model DbSystemBaseProperties {
   @doc("The number of CPU cores enabled on the DB system.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   @minValue(1)
-  cpuCoreCount: int32;
+  cpuCoreCount?: int32;
 
   @doc("The user-friendly name for the DB system. The name does not have to be unique.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
@@ -118,7 +118,7 @@ model DbSystemBaseProperties {
   diskRedundancy?: DiskRedundancyType;
 
   @doc("The domain name for the DB system.")
-  @visibility(Lifecycle.Read)
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   domain?: string;
 
   @doc("The OCID of a grid infrastructure software image. This is a database software image of the type GRID_IMAGE.")
@@ -136,7 +136,7 @@ model DbSystemBaseProperties {
   ocid?: Ocid;
 
   @doc("The Oracle license model that applies to all the databases on the DB system. The default is LicenseIncluded.")
-  @visibility(Lifecycle.Read)
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   licenseModel?: LicenseModel = LicenseModel.LicenseIncluded;
 
   @doc("Additional information about the current lifecycle state.")
