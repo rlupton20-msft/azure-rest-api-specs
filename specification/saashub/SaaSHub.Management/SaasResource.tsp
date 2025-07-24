@@ -43,7 +43,6 @@ interface SaasResources {
   /**
    * Updates the properties of a SaaSHub Saas resource.
    */
-  @patch(#{ implicitOptionality: false })
   update is ArmCustomPatchAsync<
     SaasResource,
     SaasResource,
