@@ -163,7 +163,7 @@ interface Community {
   @armResourceAction(CommunityResource)
   @useFinalStateVia("azure-async-operation")
   @added(Microsoft.Mission.Versions.v2025_09_01_preview)
-  setCommunityMaintenanceMode is ArmResourceActionNoResponseContentAsync<
+  setMaintenanceMode is ArmResourceActionNoResponseContentAsync<
     CommunityResource,
     SetCommunityMaintenanceModeRequest,
     LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
