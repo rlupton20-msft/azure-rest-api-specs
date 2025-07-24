@@ -87,7 +87,7 @@ model SubscriptionResourceProperties {
   ev2ServiceGroup?: string;
 
   @doc("DSMS Root Folders of SubscriptionManagement.")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   dsmsFolderWhitelists?: Array<DsmsFolderWhitelist>;
 
   @doc("The Azure location.")
@@ -102,17 +102,17 @@ model SubscriptionResourceProperties {
   subscriptionId?: Array<string>;
 
   @doc("List of RBAC Roles; a part of provisioning ResultData output.")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   rbacRoles?: Array<RbacRole>;
 
   @doc("List of ARM Features; a part of provisioning ResultData output.")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   armFeatures?: Array<ArmFeatureRegistration>;
 
   @doc("List of DSMS Root Folders Whitelists; a part of provisioning ResultData output.")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   dsmsRootFolderWhitelists?: Array<DsmsFolderWhitelist>;
 }

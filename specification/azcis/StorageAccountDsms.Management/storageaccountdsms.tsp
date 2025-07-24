@@ -66,7 +66,7 @@ model StorageAccountDsmsResourceProperties {
   pilotXstoreResourceProvider?: boolean;
 
   @doc("Storage account shared access signature.")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   accountSasInfos?: Array<AccountSasInfo>;
 
   @doc("Residency boundary. Acceptable values: 'Worldwide', 'National'.")
@@ -88,6 +88,7 @@ model StorageAccountDsmsResourceProperties {
   dualStackEndpointPreference?: DualStackEndpointPreference;
 
   @doc("An array of Lifecycle Management Policy rules.")
+  @Azure.ResourceManager.identifiers(#[])
   lifecycleManagementPolicy?: Array<LifecycleManagementPolicyRule>;
 
   @doc("Defines if Infrastructure Encryption is required.")
@@ -153,7 +154,7 @@ model Whitelist {
 @doc("Whitelists element is a wrapper object over a collection of Whitelist elements.")
 model Whitelists {
   @doc("Array of whitelists.")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   whitelist: Array<Whitelist>;
 }
 
@@ -196,15 +197,15 @@ model LifecycleManagementPolicyRule {
   enabled: boolean;
 
   @doc("Policy for base blobs.")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   baseBlobPolicy: Array<LcmActionPolicy>;
 
   @doc("Policy for snapshots.")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   snapshotPolicy: Array<LcmActionPolicy>;
 
   @doc("Policy for versions.")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   versionPolicy: Array<LcmActionPolicy>;
 
   @doc("A string, containing BlobTypes to filter, separated with a semicolon. Acceptable values: 'blockBlob', 'appendBlob'.")
@@ -214,6 +215,7 @@ model LifecycleManagementPolicyRule {
   prefixMatchFilter: Array<string>;
 
   @doc("List of blob index match filters.")
+  @Azure.ResourceManager.identifiers(#[])
   blobIndexMatchFilter: Array<BlobIndexMatch>;
 }
 

@@ -85,7 +85,7 @@ model ApplicationAccount {
   isProduction?: boolean = true;
 
   @doc("The claim rule which apply to this Application. Optional.")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   claimRules?: Array<ApplicationClaimRule>;
 
   @doc("Client identity when using the application as a client. Optional.")
@@ -125,7 +125,7 @@ model ApplicationGroup {
   sawDeviceEnforcement?: string;
 
   @doc("Change.Remove client token ip range. Optional.")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   clientTokenIpRangeRestrictions?: Array<IpRange>;
 
   @doc("The cloud identifier for the application group. Possible options are PROD, blackforest, fairfax, mooncake, ex, rx. Required.")
@@ -138,7 +138,7 @@ model ApplicationGroup {
   regions?: Array<string>;
 
   @doc("The claim rules that apply to this Application Group. Optional.")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   claimRules?: Array<ApplicationClaimRule>;
 
   @doc("Client identity when using the application as a client. Optional.")
@@ -187,7 +187,7 @@ model ApplicationClientIdentity {
   type: string;
 
   @doc("Provide a list IP address ranges to restrict where this application's client token can be requested. Optional.")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   clientTokenIpRangeRestrictions?: Array<IpRange>;
 }
 
@@ -206,7 +206,7 @@ model DmsiInfo {
 @doc("Represents certificate based authentication.")
 model CertificateBasedIdentity {
   @doc("Certificate")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   certificates: Array<CertificateInfo>;
 }
 

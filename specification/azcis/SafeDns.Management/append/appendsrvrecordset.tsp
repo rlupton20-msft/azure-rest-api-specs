@@ -15,7 +15,7 @@ namespace Microsoft.AzureCis;
 @doc("DnsNamespaceManagerAppendSrvRecordSet properties")
 model DnsNamespaceManagerAppendSrvRecordSetResourceProperties {
   @doc("Gets or sets the SRV records")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   srvRecords: SrvRecord[];
 
   @doc("Gets or sets the record set name (relative to the parent DNS zone that is hosting it).")
