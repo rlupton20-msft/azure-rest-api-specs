@@ -34,7 +34,7 @@ model PlannedQuotaResourceProperties {
   planVersion?: string;
 
   @doc("Property bindings")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   propertyBindings?: Array<PropertyBinding>;
 
   @doc("Skip unsupported silently")
