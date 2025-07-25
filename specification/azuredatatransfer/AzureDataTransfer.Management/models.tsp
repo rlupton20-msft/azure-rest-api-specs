@@ -142,7 +142,7 @@ union LinkStatus {
 }
 
 /**
- * Flow type for the specified resource
+ * Flow type for the specified resource. FlowType will be deprecated starting from version 2025_05_30_preview - please create a FlowProfile resource instead.
  */
 @removed(Versions.v2025_05_30_preview)
 union FlowType {
@@ -332,149 +332,89 @@ union FlowStatus {
 }
 
 /**
- * Data class used to define the replication scenario.
+ * Defines the supported replication scenarios for Azure Data Transfer.
  */
 @added(Versions.v2025_05_30_preview)
 union DataClassType {
   string,
 
   /**
-   * Replication using service bus & event hub.
+   * Represents data types that rely on Azure Service Bus or Event Hub for message-based replication.
    */
-  "LowLatency",
+  "Messaging",
 
   /**
-   * Query service using an API endpoint.
+   * Represents data types that expose or consume API endpoints for replication.
    */
-  "Query",
+  "API",
 
   /**
-   * Streaming replication service.
+   * Represents data types that require continuous, real-time streaming replication (e.g., video or telemetry).
    */
   "Stream",
 
   /**
-   * Object replication service for Azure blobs, tables, and files.
+   * Represents standard file-based data, including Azure Blob and Table Storage, used in general-purpose replication.
    */
-  "HighThroughput",
+  "Files",
+
+  /**
+   * Represents data related to development, security, and operations workflows—such as build artifacts, deployment logs, or audit trails.
+   */
+  "DevSecOps",
+
+  /**
+   * Represents rich content types such as documents (e.g., DOCX, PDF) and images that require specialized replication handling.
+   */
+  "Complex",
+
+  /**
+   * Represents encrypted or highly sensitive data requiring secure and compliant replication mechanisms.
+   */
+  "Mission",
 }
 
 /**
- * Allowed data class.
- * TODO: how are we going to determine whether a BatchEngine flow is Complex, DSo, Disk Image, Mission...etc..?
+ * The complete list of data set supported for replication.
  */
 @added(Versions.v2025_05_30_preview)
 union DataClass {
   string,
 
   /**
-   * (Low Latency) Service bus based replication.
+   * (Messaging) Replicates messages from Azure Service Bus for downstream processing or analysis.
    */
   "ServiceBus",
 
   /**
-   * (Low Latency) Event hub based replication.
+   * (Messaging) Replicates data streams from Azure Event Hub, typically used for telemetry or event ingestion.
    */
   "EventHub",
 
   /**
-   * (Query) API based low latency transfer.
+   * (API) Handles data replication through RESTful API endpoints.
    */
-  "API",
+  "API-Endpoint",
 
   /**
-   * (Query) SDK based low latency transfer.
+   * (API) Supports data replication via SDK-based integrations.
    */
-  "SDK",
+  "API-SDK",
 
   /**
-   * (Query) Used to auto-assign low latency transfer type.
-   */
-  "ALL",
-
-  /**
-   * (Stream) Used to auto-assign low latency transfer type.
+   * (Stream) Enables replication of real-time video streaming data.
    */
   "Video",
 
   /**
-   * (HighThroughput) Replication scenario using Azure Storage blobs.
+   * (Files/DevSecOps/Complex/Mission) Replicates generic blobs data using Azure Blob Storage.
    */
   "Blob",
 
   /**
-   * (HighThroughput) Replication scenario using Azure Storage tables.
+   * (Files) Replicates structured NoSQL data using Azure Table Storage.
    */
   "Table",
-
-  /**
-   * (HighThroughput) Replication scenario using Azure Storage Files.
-   */
-  "Files",
-}
-
-/**
- * Allowed scenarios for low latency replications.
- */
-@added(Versions.v2025_05_30_preview)
-union LowLatencyType {
-  string,
-
-  /**
-   * Service bus based replication.
-   */
-  ServiceBus: "ServiceBus",
-
-  /**
-   * Event hub based replication.
-   */
-  EventHub: "EventHub",
-}
-
-/**
- * Allowed scenarios for query replications.
- */
-@added(Versions.v2025_05_30_preview)
-union QueryType {
-  string,
-
-  /**
-   * API based low latency transfer.
-   */
-  API: "API",
-
-  /**
-   * SDK based low latency transfer.
-   */
-  SDK: "SDK",
-
-  /**
-   * Used to auto-assign low latency transfer type.
-   */
-  ALL: "ALL",
-}
-
-/**
- * Allowed scenarios for high throughput replications.
- */
-@added(Versions.v2025_05_30_preview)
-union HighThroughputType {
-  string,
-
-  /**
-   * Replication scenario using Azure Storage blobs.
-   */
-  Blob: "Blob",
-
-  /**
-   * Replication scenario using Azure Storage tables.
-   */
-  Table: "Table",
-
-  /**
-   * Replication scenario using Azure Storage Files.
-   */
-  Files: "Files",
 }
 
 /**
@@ -596,8 +536,9 @@ union TargetType {
 }
 
 /**
- * The request used to list approved schemas within the resource provider.
+ * The request used to list approved schemas within the resource provider. ListApprovedSchemaRequest will be deprecated after from version 2025_05_30_preview - please manage shcemas with a FlowProfile resource instead.
  */
+@removed(Versions.v2025_05_30_preview)
 model ListApprovedSchemasRequest {
   /**
    * The name of the pipeline to filter approved schemas.
@@ -611,7 +552,7 @@ model ListApprovedSchemasRequest {
 }
 
 /**
- * The schemas list result.
+ * The schemas list result. SchemaListResults will be deprecated starting from version 2025_05_30_preview - please manage schemas with a FlowProfile resource instead.
  */
 @removed(Versions.v2025_05_30_preview)
 model SchemasListResult {
@@ -622,7 +563,7 @@ model SchemasListResult {
 }
 
 /**
- * The schema object.
+ * The schema object. Schemas will be deprecated starting from version 2025_05_30_preview - please manage schemas with a FlowProfile resource instead.
  */
 @removed(Versions.v2025_05_30_preview)
 model Schema {
@@ -668,8 +609,9 @@ model Schema {
 }
 
 /**
- * Result of the schema validation.
+ * Result of the schema validation. ValidateSchemaResult will be deprecated starting from version 2025_05_30_preview - please manage schemas with a FlowProfile resource instead.
  */
+@removed(Versions.v2025_05_30_preview)
 model ValidateSchemaResult {
   /**
    * Validation status of the schema
@@ -732,13 +674,13 @@ model ConnectionProperties {
   linkedConnectionId?: string;
 
   /**
-   * The flow types being requested for this connection
+   * The flow types being requested for this connection. This FlowType property is deprecated starting from version 2025_05_30_preview - please create a FlowProfile resource instead.
    */
   @removed(Versions.v2025_05_30_preview)
   flowTypes?: FlowType[];
 
   /**
-   * The FlowProfiles allowed for this connection
+   * Provides a list of FlowProfiles .
    */
   @added(Versions.v2025_05_30_preview)
   flowProfileList?: FlowProfileMetadata[];

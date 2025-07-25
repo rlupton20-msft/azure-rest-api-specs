@@ -10,8 +10,9 @@ using TypeSpec.Versioning;
 
 namespace Private.AzureDataTransfer;
 
+
 /**
- * The FlowProfile resource patch definition.
+ * Defines the patchable properties for a FlowProfile resource.
  */
 @added(Versions.v2025_05_30_preview)
 model FlowProfilePatch {
@@ -25,230 +26,229 @@ model FlowProfilePatch {
 }
 
 /**
- * Properties of a Patch FlowProfile.
+ * Represents the updatable properties of a FlowProfile.
  */
 @added(Versions.v2025_05_30_preview)
 model FlowProfilePatchProperties {
   /**
-   * Provisioning state of the flow.
+   * The current provisioning state of the FlowProfile resource.
    */
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   /**
-   * The FlowProfile description.
+   * A description of the FlowProfile that defines the replication scenario.
    */
   description: string;
 
   /**
-   * The FlowProfile guid assigned by the backend.
+   * The unique guid identifier represented as a string for the FlowProfile resource, assigned by the system.
    */
   @visibility(Lifecycle.Read)
   flowProfileId?: string;
 
   /**
-   * The Rulesets applied to this FlowProfile
+   * The set of policy rules applied to this FlowProfile.
    */
   rulesets: FlowProfileRulesets;
 
   /**
-   * The status of this FlowProfile.
+   * The operational status of the FlowProfile.
    */
   status: FlowProfileStatus;
 }
 
 /**
- * Properties for listing FlowProfiles.
+ * The FlowProfile Metadata used to concisely provide all publicly viewable information.
  */
 @added(Versions.v2025_05_30_preview)
 model FlowProfileMetadata {
   /**
-   * The pipeline that the FlowProfile is created under.
+   * The name of the parent Pipeline Azure resource associated with this FlowProfile.
    */
   @visibility(Lifecycle.Read)
   pipeline: string;
 
   /**
-   * The FlowProfile's name.
+   * The name of the FlowProfile.
    */
   @visibility(Lifecycle.Read)
   name: string;
 
   /**
-   * The data class type for the FlowProfile.
+   * The classification of data handled by this FlowProfile.
    */
   @visibility(Lifecycle.Read)
   dataClassType: DataClassType;
 
   /**
-   * The FlowProfile guid assigned by the backend.
+   * The unique guid identifier represented as a string for the FlowProfile resource, assigned by the system.
    */
   @visibility(Lifecycle.Read)
   flowProfileId: string;
 }
 
 /**
- * Properties of a FlowProfile.
+ * Defines the full set of properties for a FlowProfile resource.
  */
 @added(Versions.v2025_05_30_preview)
 model FlowProfileProperties {
   /**
-   * Provisioning state of the flow.
+   * The current provisioning state of the FlowProfile.
    */
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   /**
-   * The FlowProfile guid assigned by the backend.
+   * The unique guid identifier represented as a string for the FlowProfile resource, assigned by the system.
    */
   @visibility(Lifecycle.Read)
   flowProfileId?: string;
 
   /**
-   * The data class type applied to this FlowProfile.
+   * The classification of data replicated by this FlowProfile.
    */
-  @visibility(Lifecycle.Read)
   dataClassType: DataClassType;
 
   /**
-   * The status of this FlowProfile.
+   * The operational status of the FlowProfile.
    */
   status: FlowProfileStatus;
 
   /**
-   * The description for this FlowProfile.
+   * A user-defined description of the FlowProfile.
    */
   description: string;
 
   /**
-   * The Rulesets applied to this FlowProfile.
+   * The set of policy rules applied to this FlowProfile.
    */
   rulesets?: FlowProfileRulesets;
 }
 
 /**
- * The FlowProfile rulesets.
+ * A collection of configurable policy rules applied to data replication.
  */
 @added(Versions.v2025_05_30_preview)
 model FlowProfileRulesets {
   /**
-   * Options for enabling antivirus policies.
+   * Antivirus scanning policies for replicated data.
    */
   antivirus?: AntivirusRuleset;
 
   /**
-   * Options for configuring archive related policies.
+   * Policies for handling archive files during replication.
    */
   archives?: ArchiveRuleset;
 
   /**
-   * Options for configuring data size related policies.
+   * Policies that enforce minimum and maximum data size limits.
    */
   dataSize?: DataSizeRuleset;
 
   /**
-   * Options for configuring mime type based filter policies.
+   * Policies for filtering files based on MIME types.
    */
   mimeFilters?: MimeFilterRuleset;
 
   /**
-   * Options for uploading xml schema filtering policies.
+   * Policies for filtering XML content using XSD schemas.
    */
   xmlFilters?: XmlFilterRuleset;
 
   /**
-   * Options for configuring text matching policies.
+   * Policies for detecting and blocking specific text patterns.
    */
   textMatching?: TextMatchingRuleset;
 }
 
 /**
- * The Antivirus ruleset.
+ * Antivirus scanning policies for replicating data.
  */
 @added(Versions.v2025_05_30_preview)
 model AntivirusRuleset {
   /**
-   * Clam ruleset.
+   * ClamAV scanning policy.
    */
   clamAv?: EnablementStatus;
 
   /**
-   * Defender ruleset.
+   * Microsoft Defender scanning policy.
    */
   defender?: EnablementStatus;
 }
 
 /**
- * The Archive ruleset.
+ * Policies for handling archive files during replication.
  */
 @added(Versions.v2025_05_30_preview)
 model ArchiveRuleset {
   /**
-   * Minimum size for expansion in bytes (minimum is 0).
+   * Minimum size for expanding archives in bytes.
    */
   @minValue(0)
   minimumSizeForExpansion?: int64;
 
   /**
-   * Maximum allowed expansion size in bytes (minimum is 0).
+   * Maximum allowed expansion size for archives in bytes.
    */
   @minValue(0)
   maximumExpansionSizeLimit?: int64;
 
   /**
-   * Maximum allowed archive depth (minimum is 0).
+   * Maximum depth allowed for archives.
    */
   @minValue(0)
   maximumDepthLimit?: int64;
 
   /**
-   * Maximum allowed compression ratio (minimum is 0).
+   * Maximum allowed compression ratio for archives.
    */
   @minValue(0)
   maximumCompressionRatioLimit?: float64;
 }
 
 /**
- * The Data Size ruleset.
+ * Policies that enforce minimum and maximum data size limits.
  */
 @added(Versions.v2025_05_30_preview)
 model DataSizeRuleset {
   /**
-   * Maximum size ruleset (minimum is 0).
+   * Maximum size allowed for replicating data.
    */
   @minValue(0)
   maximum?: int64;
 
   /**
-   * Minimum size ruleset (minimum is 0).
+   * Minimum size allowed for replicating data.
    */
   @minValue(0)
   minimum?: int64;
 }
 
 /**
- * The File Type ruleset.
+ * Policies for filtering files based on MIME types.
  */
 @added(Versions.v2025_05_30_preview)
 model MimeFilterRuleset {
   /**
-   * Filter type value.
+   * Specifies whether the MIME filter is an allow list or deny list.
    */
-  type?: FilterType;
+  type: FilterType;
 
   /**
-   * Filtered values.
+   * Defines the MIME types and associated file extensions to be filtered.
    */
-  filters?: MimeTypeFilter;
+  filters: MimeTypeFilter;
 }
 
 /**
- * Allow list of mime types.
+ * Defines allowed or blocked MIME types and associated file extensions.
  */
 @added(Versions.v2025_05_30_preview)
 model MimeTypeFilter {
   /**
-   * File mime type value.
+   * The MIME type string, following IANA standards (e.g., application/json, image/png).
    */
   @pattern(
     "^[a-z]+/[a-zA-Z0-9+\\-\\+.]+$",
@@ -257,58 +257,58 @@ model MimeTypeFilter {
   mime: string;
 
   /**
-   * File type extension list.
+   * A list of file extensions associated with the specified MIME type (e.g., .json, .png).
    */
-  extensions?: string[];
+  extensions: string[];
 }
 
 /**
- * Defines the allow or deny filter type.
+ * Specifies whether the filter is an allow or deny policy.
  */
 @added(Versions.v2025_05_30_preview)
 union FilterType {
   string,
 
   /**
-   * Allow filter.
+   * Defines an allow policy.
    */
   Allow: "Allow",
 
   /**
-   * Deny filter.
+   * Defines a blocking policy.
    */
   Deny: "Deny",
 }
 
 /**
- * The xsd schema ruleset.
+ * Policies for filtering XML content using XSD schemas.
  */
 @added(Versions.v2025_05_30_preview)
 model XmlFilterRuleset {
   /**
-   * The XSD namespace.
+   * The default XML namespace used for schema validation.
    */
-  defaultNamespace?: string;
+  defaultNamespace: string;
 
   /**
-   * The base64 encoded xsd byte value.
+   * The XSD schema used for validation, encoded as a base64 byte array.
    */
-  schema?: bytes;
+  schema: bytes;
 }
 
 /**
- * The Watchword ruleset.
+ * Policies for detecting and blocking specific text patterns.
  */
 @added(Versions.v2025_05_30_preview)
 model TextMatchingRuleset {
   /**
-   * Deny list of words.
+   * A list of text patterns to block, each with matching rules and case sensitivity options.
    */
   @OpenAPI.extension(
     "x-ms-identifiers",
     #["text", "matchType", "caseSensitivity"]
   )
-  deny?: {
+  deny: {
     ...TextMatch;
   }[];
 }
@@ -318,55 +318,55 @@ model TextMatchingRuleset {
  */
 model TextMatch {
   /**
-   * The text to match and deny.
+   * The word or phrase to match against replicated content.
    */
   text: string;
 
   /**
-   * The text matching type.
+   * Specifies the text matching condition for text comparison.
    */
   @added(Versions.v2025_05_30_preview)
   matchType: MatchType = MatchType.Partial;
 
   /**
-   * The text's cases sensitivity matching type.
+   * Specifies the text matching conditions based on casing.
    */
   @added(Versions.v2025_05_30_preview)
   caseSensitivity: Casing = Casing.Insensitive;
 }
 
 /**
- * The matching types for texts.
+ * The text matching conditions for text comparison.
  */
 @added(Versions.v2025_05_30_preview)
 union MatchType {
   string,
 
   /**
-   * Partial text comparison.
+   * Matches substrings within the content.
    */
   Partial: "Partial",
 
   /**
-   * Complete text comparison.
+   * Matches the entire string exactly.
    */
   Complete: "Complete",
 }
 
 /**
- * Text casing comparision options.
+ * Text casing comparison options.
  */
 @added(Versions.v2025_05_30_preview)
 union Casing {
   string,
 
   /**
-   * Casing insensitive comparison option.
+   * Ignores casing when performing the match.
    */
   Insensitive: "Insensitive",
 
   /**
-   * Casing sensitive comparison option.
+   * Requires exact casing for the match.
    */
   Sensitive: "Sensitive",
 }

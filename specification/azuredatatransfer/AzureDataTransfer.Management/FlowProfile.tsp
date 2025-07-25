@@ -14,7 +14,8 @@ using TypeSpec.Versioning;
 @versioned(Versions)
 namespace Private.AzureDataTransfer;
 /**
- * The FlowProfile resource definition.
+ * Represents a FlowProfile Azure resource, which defines a data replication scenario
+ * with a specific data classification and a set of configurable policy rules.
  */
 @parentResource(Pipeline)
 model FlowProfile
@@ -28,24 +29,31 @@ model FlowProfile
   ...Azure.ResourceManager.ManagedServiceIdentityProperty;
 }
 
+/**
+ * Response wrapper for a FlowProfile resource.
+ */
 @added(Versions.v2025_05_30_preview)
 model ArmFlowProfileResponse is ArmResponse<FlowProfile>;
 
+
+/**
+ * Defines the set of operations available for managing FlowProfile resources.
+ */
 @added(Versions.v2025_05_30_preview)
 @armResourceOperations
 interface FlowProfiles {
   /**
-   * Gets the FlowProfile resource.
+   * Retrieves the specified FlowProfile resource.
    */
   get is ArmResourceRead<FlowProfile>;
 
   /**
-   * Creates or updates the FlowProfile resource.
+   * Creates a new FlowProfile or updates an existing one.
    */
   createOrUpdate is ArmResourceCreateOrReplaceAsync<FlowProfile>;
 
   /**
-   * Updates the FlowProfile resource.
+   * Applies partial updates to an existing FlowProfile resource.
    */
   #suppress "@azure-tools/typespec-azure-resource-manager/no-response-body" "Prior OpenAPI2 Json spec provides the resource back in the LRO response."
   @patch(#{ implicitOptionality: false })
@@ -59,12 +67,12 @@ interface FlowProfiles {
   >;
 
   /**
-   * Deletes the FlowProfile resource.
+   * Deletes the specified FlowProfile resource.
    */
   delete is ArmResourceDeleteSync<FlowProfile>;
 
   /**
-   * Get FlowProfiles in a pipeline
+   * Lists all FlowProfiles under a given Pipeline.
    */
   listByPipeline is ArmResourceListByParent<FlowProfile>;
 }
@@ -72,8 +80,8 @@ interface FlowProfiles {
 @@maxLength(FlowProfile.name, 64);
 @@minLength(FlowProfile.name, 3);
 @@doc(FlowProfile.name,
-  "The name for the FlowProfile to perform the operation on."
+  "The name of the FlowProfile resource to operate on. Must be 3 to 64 characters long and contain only alphanumeric characters or hyphens."
 );
-@@doc(FlowProfile.properties, "Properties of FlowProfile");
-@@doc(FlowProfiles.createOrUpdate::parameters.resource, "FlowProfile body");
-@@doc(FlowProfiles.update::parameters.properties, "FlowProfile body");
+@@doc(FlowProfile.properties, "The set of configuration properties that define the behavior and policies of the FlowProfile.");
+@@doc(FlowProfiles.createOrUpdate::parameters.resource, "The FlowProfile resource definition to create or update.");
+@@doc(FlowProfiles.update::parameters.properties, "The FlowProfile patch definition containing the properties to update.");
