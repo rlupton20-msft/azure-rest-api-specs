@@ -1124,7 +1124,8 @@
           "description": "An array of details about specific errors that led to this reported error.",
           "items": {
             "$ref": "#/definitions/Azure.Core.Foundations.Error"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "innererror": {
           "$ref": "#/definitions/Azure.Core.Foundations.InnerError",
@@ -1465,7 +1466,8 @@
           "items": {
             "$ref": "#/definitions/Citation"
           },
-          "readOnly": true
+          "readOnly": true,
+          "x-ms-identifiers": []
         },
         "dataAssets": {
           "type": "array",
@@ -1473,7 +1475,8 @@
           "items": {
             "$ref": "#/definitions/DataAsset"
           },
-          "readOnly": true
+          "readOnly": true,
+          "x-ms-identifiers": []
         }
       },
       "required": [
@@ -1697,6 +1700,7 @@
           "items": {
             "$ref": "#/definitions/Microsoft.Discovery.Shared.Tag"
           },
+          "x-ms-identifiers": [],
           "x-ms-mutability": [
             "read",
             "update",
@@ -1739,6 +1743,7 @@
           "items": {
             "$ref": "#/definitions/Microsoft.Discovery.Shared.Tag"
           },
+          "x-ms-identifiers": [],
           "x-ms-mutability": [
             "read",
             "update",
@@ -2147,7 +2152,8 @@
         "Running",
         "Succeeded",
         "Cancelled",
-        "Failed"
+        "Failed",
+        "Expired"
       ],
       "x-ms-enum": {
         "name": "MessageStatus",
@@ -2182,6 +2188,11 @@
             "name": "Failed",
             "value": "Failed",
             "description": "Failed"
+          },
+          {
+            "name": "Expired",
+            "value": "Expired",
+            "description": "Expired"
           }
         ]
       }
@@ -2273,7 +2284,8 @@
           "description": "The Conversation items on this page",
           "items": {
             "$ref": "#/definitions/Conversation"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "nextLink": {
           "type": "string",
@@ -2294,7 +2306,8 @@
           "description": "The ConversationMessage items on this page",
           "items": {
             "$ref": "#/definitions/ConversationMessage"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "nextLink": {
           "type": "string",
@@ -2315,7 +2328,8 @@
           "description": "The Investigation items on this page",
           "items": {
             "$ref": "#/definitions/Investigation"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "nextLink": {
           "type": "string",
@@ -2336,7 +2350,8 @@
           "description": "The MessageLog items on this page",
           "items": {
             "$ref": "#/definitions/MessageLog"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "nextLink": {
           "type": "string",
@@ -2447,7 +2462,8 @@
           "maxItems": 10,
           "items": {
             "$ref": "#/definitions/InlineFile"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "storageId": {
           "type": "string",
@@ -2466,14 +2482,16 @@
           "description": "Input data and associated mountPath for each.",
           "items": {
             "$ref": "#/definitions/InputDataMount"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "outputData": {
           "type": "array",
           "description": "Output data mount paths (with optional data URIs to specify persistence location).",
           "items": {
             "$ref": "#/definitions/OutputDataMount"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "nodePoolIds": {
           "type": "array",
@@ -2551,7 +2569,8 @@
           "description": "Output data URIs.\n\nThis array will contain the same set of mountPaths specified in the outputData property of initial tool run request,\nbut every mountPath will have a corresponding URI that points to the location where the output data was persisted:\n* for mount paths which had a URI specified in the outputData property, the URI will be the same as the one\nspecified in the request, and the data will have been persisted to the location specified by that URI.\n* for mount paths which did not have a URI specified in the outputData property, the URI will point to a\nfolder created by the service on the Storage specified by the storageId property in the tool run request.\n\nE.g. if the following run request is made:\n```json\n{\n  \"toolId\": \"testTool\",\n  \"command\": \"echo 'hello world' > /output1/hello.txt\",\n  \"inlineFiles\": [],\n  \"inputData\": [],\n  \"outputData\": [\n      {\n          \"mountPath\": \"/output1\"\n      }\n  ],\n  \"nodePoolIds\": [\"<nodePoolId>\"],\n  \"storageId\": \"<storageARMId\"\n}\n```\nthen once the tool completes, the status API response will contain the following:\n```json\n{\n  \"status\": \"Succeeded\",\n  ...\n  \"outputData\": [\n     {\n       \"uri\": \"discovery://storages/<storageARMId>/paths/<some-generated-path>/output1\",\n       \"mountPath\": \"/output1\"\n     }\n  ]\n}\n```\n`discovery://storages/<storageARMId>/paths/<some-generated-path>/output1` can then be used as an\ninput to another tool run. Any valid subpaths can also be used, e.g.\n`discovery://storages/<storageARMId>/paths/<some-generated-path>/output1/hello.txt` to refer specifically\nto the hello.txt file.",
           "items": {
             "$ref": "#/definitions/OutputDataUri"
-          }
+          },
+          "x-ms-identifiers": []
         },
         "debugInfo": {
           "type": "string",
