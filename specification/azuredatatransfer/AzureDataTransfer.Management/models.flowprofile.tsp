@@ -191,13 +191,13 @@ model ArchiveRuleset {
   minimumSizeForExpansion?: int64;
 
   /**
-   * The combined maximum total size (in bytes) of all extracted files that an expanded archive is allowed to reach. Prevents excessive resource usage during archive extraction.
+   * The combined maximum size (in bytes) of all extracted files that an expanded archive is allowed to reach. Archives exceeding the max limit will be denied for replication.
    */
   @minValue(0)
   maximumExpansionSizeLimit?: int64;
 
   /**
-   * The maximum depth of nested archives that can be expanded. Limits how many layers of embedded archives will be processed.
+   * The maximum depth of nested archives that can be expanded. Limits how many layers of embedded archives will be processed. Archives exceeding the max limit will be denied for replication.
    */
   @minValue(0)
   maximumDepthLimit?: int64;
@@ -292,9 +292,9 @@ model XmlFilterRuleset {
   defaultNamespace: string;
 
   /**
-   * The XSD schema used for validation, encoded as a base64 byte array.
+   * The Base64 string representation of the XSD schema(s) used for validation.
    */
-  schema: bytes;
+  schema: string;
 }
 
 /**
@@ -355,7 +355,7 @@ union MatchType {
 }
 
 /**
- * Text casing comparison options.
+ * Text casing comparison options - diacritics casing is also supported (e.g., "résumé" will match "rÉsumÉ" for case-insensitive comparison).
  */
 @added(Versions.v2025_05_30_preview)
 union Casing {

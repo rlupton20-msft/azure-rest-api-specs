@@ -22,7 +22,7 @@ model FlowProfile
   ...ResourceNameParameter<
     Resource = FlowProfile,
     KeyName = "flowProfileName",
-    SegmentName = "flowprofiles",
+    SegmentName = "flowProfiles",
     NamePattern = "^[a-zA-Z0-9-]{3,64}$"
   >;
   ...Azure.ResourceManager.ManagedServiceIdentityProperty;

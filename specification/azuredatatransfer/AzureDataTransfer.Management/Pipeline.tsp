@@ -132,7 +132,7 @@ interface Pipelines {
 
 @@maxLength(Pipeline.name, 64);
 @@minLength(Pipeline.name, 3);
-@@doc(Pipeline.name, "The name of the Pipeline resource to operate on.");
+@@doc(Pipeline.name, "The name of the pipeline on which to operate.");
 @@doc(Pipeline.properties, "The set of configurable properties for the Pipeline resource.");
 @@doc(Pipelines.createOrUpdate::parameters.resource, "The request body containing the Pipeline definition.");
 @@doc(Pipelines.update::parameters.properties, "The request body containing the updated Pipeline properties.");
