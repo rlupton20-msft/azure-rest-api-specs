@@ -14,8 +14,7 @@ using TypeSpec.Versioning;
 @versioned(Versions)
 namespace Private.AzureDataTransfer;
 /**
- * Represents a FlowProfile Azure resource, which defines a data replication scenario
- * with a specific data classification and a set of configurable policy rules.
+ * Represents a FlowProfile Azure resource, which defines a data replication scenario with a specific data classification and a set of configurable policy rules.
  */
 @parentResource(Pipeline)
 model FlowProfile

@@ -129,14 +129,12 @@ union LinkStatus {
   string,
 
   /**
-   * The pipeline, connection, or flow is currently linked with another corresponding pipeline,
-   * connection, or flow, and can be used.
+   * The pipeline, connection, or flow is currently linked with another corresponding pipeline, connection, or flow, and can be used.
    */
   Linked: "Linked",
 
   /**
-   * The pipeline, connection, or flow is not linked with another corresponding pipeline,
-   * connection, or flow, and cannot be used.
+   * The pipeline, connection, or flow is not linked with another corresponding pipeline, connection, or flow, and cannot be used.
    */
   Unlinked: "Unlinked",
 }
@@ -480,8 +478,7 @@ union IdentityTranslation {
   string,
 
   /**
-   * The API flow will make use of the user identity that called this API flow, and pass that token
-   * through the boundary.
+   * The API flow will make use of the user identity that called this API flow, and pass that token through the boundary.
    */
   UserIdentity: "UserIdentity",
 

@@ -15,8 +15,7 @@ using TypeSpec.Versioning;
 namespace Private.AzureDataTransfer;
 
 /**
- * The pipeline resource definition.
- * A Pipeline defines the scope and identity under which data replication scenarios are managed.
+ * The pipeline resource definition. A Pipeline defines the scope and identity under which data replication scenarios are managed.
  */
 model Pipeline is Azure.ResourceManager.TrackedResource<PipelineProperties> {
   ...ResourceNameParameter<
@@ -39,14 +38,12 @@ interface Pipelines {
   get is ArmResourceRead<Pipeline>;
 
   /**
-   * Creates a new Pipeline resource or updates an existing one.
-   * This operation is asynchronous and returns the resulting Pipeline.
+   * Creates a new Pipeline resource or updates an existing one. This operation is asynchronous and returns the resulting Pipeline.
    */
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Pipeline>;
 
   /**
-   * Applies partial updates to an existing Pipeline resource.
-   * This operation supports patch semantics and returns the updated Pipeline.
+   * Applies partial updates to an existing Pipeline resource. This operation supports patch semantics and returns the updated Pipeline.
    */
   #suppress "@azure-tools/typespec-azure-resource-manager/no-response-body" "Prior OpenAPI2 Json spec provides the resource back in the LRO response."
   @patch(#{ implicitOptionality: false })
@@ -111,8 +108,7 @@ interface Pipelines {
   >;
 
   /**
-   * Lists the schemas associated with a specific connection in the Pipeline.
-   * This operation is deprecated in version v2025_05_30_preview.
+   * Lists the schemas associated with a specific connection in the Pipeline. This operation is deprecated in version v2025_05_30_preview.
    */
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
   @removed(Versions.v2025_05_30_preview)
