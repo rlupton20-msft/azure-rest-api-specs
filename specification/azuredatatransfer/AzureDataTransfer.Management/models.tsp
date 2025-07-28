@@ -392,12 +392,12 @@ union DataClass {
   /**
    * (API) Replicates request/response data through RESTful API endpoints.
    */
-  "API-Endpoint",
+  "APIEndpoint",
 
   /**
    * (API) Replicates request/response data through SDK-based integrations.
    */
-  "API-SDK",
+  "APISDK",
 
   /**
    * (Stream) Enables replication of real-time video streaming data.

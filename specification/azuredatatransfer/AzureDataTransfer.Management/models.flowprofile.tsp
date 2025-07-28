@@ -292,9 +292,27 @@ model XmlFilterRuleset {
   defaultNamespace: string;
 
   /**
+   * Defines the method for referencing the xml schema.
+   */
+  reference: XmlReferenceType = XmlReferenceType.Inline;
+
+  /**
    * The Base64 string representation of the XSD schema(s) used for validation.
    */
   schema: string;
+}
+
+/**
+ * Specifies how to reference the XML for processing.
+ */
+@added(Versions.v2025_05_30_preview)
+union XmlReferenceType {
+  string,
+
+  /**
+   * Defines a referencing procedure where the xml schema will be provided inline.
+   */
+  Inline: "Inline",
 }
 
 /**
