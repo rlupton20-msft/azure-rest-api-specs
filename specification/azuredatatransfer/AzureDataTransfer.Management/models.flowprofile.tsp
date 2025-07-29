@@ -44,7 +44,6 @@ model FlowProfilePatchProperties {
   /**
    * A guid represented as a string for the FlowProfile resource, assigned by the system.
    */
-  @visibility(Lifecycle.Read)
   flowProfileId?: string;
 
   /**
@@ -114,7 +113,6 @@ model FlowProfileProperties {
   /**
    * The classification of data replicated by this FlowProfile.
    */
-  @visibility(Lifecycle.Read)
   dataClassType: DataClassType;
 
   /**
