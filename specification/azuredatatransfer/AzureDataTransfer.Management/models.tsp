@@ -533,7 +533,7 @@ union TargetType {
 }
 
 /**
- * The request used to list approved schemas within the resource provider. ListApprovedSchemaRequest will be deprecated after from version 2025_05_30_preview - please manage shcemas with a FlowProfile resource instead.
+ * The request used to list approved schemas within the resource provider. ListApprovedSchemaRequest will be deprecated after from version 2025_05_30_preview - please manage schemas with a FlowProfile resource instead.
  */
 @removed(Versions.v2025_05_30_preview)
 model ListApprovedSchemasRequest {
