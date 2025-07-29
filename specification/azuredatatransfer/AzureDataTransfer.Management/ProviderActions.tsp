@@ -23,8 +23,7 @@ namespace Private.AzureDataTransfer;
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "This interface corresponds to our Provider level actions, no decorator exists for that."
 interface AzureDataTransfer {
   /**
-   * Retrieves the list of approved schemas available for Azure Data Transfer.
-   * This operation is deprecated as of version v2025_05_30_preview.
+   * Retrieves the list of approved schemas available for Azure Data Transfer. This operation is deprecated as of version v2025_05_30_preview.
    */
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
   @removed(Versions.v2025_05_30_preview)
@@ -61,8 +60,7 @@ interface AzureDataTransfer {
   >;
 
   /**
-   * Validates the structure and content of a schema for use in Azure Data Transfer.
-   * This operation is deprecated as of version v2025_05_30_preview.
+   * Validates the structure and content of a schema for use in Azure Data Transfer. This operation is deprecated as of version v2025_05_30_preview.
    */
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
   @removed(Versions.v2025_05_30_preview)
@@ -74,6 +72,10 @@ interface AzureDataTransfer {
   >;
 }
 
-@@clientName(AzureDataTransfer.listApprovedSchemas::parameters.body, "pipeline");
+@@clientName(AzureDataTransfer.listApprovedSchemas::parameters.body,
+  "pipeline"
+);
 @@clientName(AzureDataTransfer.validateSchema::parameters.body, "schema");
-@@doc(AzureDataTransfer.listApprovedSchemas::parameters.body, "The request payload for listing approved schemas.");
+@@doc(AzureDataTransfer.listApprovedSchemas::parameters.body,
+  "The request payload for listing approved schemas."
+);

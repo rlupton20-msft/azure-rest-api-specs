@@ -129,14 +129,12 @@ union LinkStatus {
   string,
 
   /**
-   * The pipeline, connection, or flow is currently linked with another corresponding pipeline,
-   * connection, or flow, and can be used.
+   * The pipeline, connection, or flow is currently linked with another corresponding pipeline, connection, or flow, and can be used.
    */
   Linked: "Linked",
 
   /**
-   * The pipeline, connection, or flow is not linked with another corresponding pipeline,
-   * connection, or flow, and cannot be used.
+   * The pipeline, connection, or flow is not linked with another corresponding pipeline, connection, or flow, and cannot be used.
    */
   Unlinked: "Unlinked",
 }
@@ -339,17 +337,17 @@ union DataClassType {
   string,
 
   /**
-   * Represents data types that rely on Azure Service Bus or Event Hub for message-based replication.
+   * Represents standard message-based data, including Azure Service and Event Hub, used in message replication.
    */
   "Messaging",
 
   /**
-   * Represents data types that expose or consume API endpoints for replication.
+   * Represents transactional request/response data types from API endpoints.
    */
   "API",
 
   /**
-   * Represents data types that require continuous, real-time streaming replication (e.g., video or telemetry).
+   * Represents data types that require continuous, real-time streaming replication (e.g., video).
    */
   "Stream",
 
@@ -359,12 +357,12 @@ union DataClassType {
   "Files",
 
   /**
-   * Represents data related to development, security, and operations workflows—such as build artifacts, deployment logs, or audit trails.
+   * Represents data related to development, security, and operations workflows such as build artifacts.
    */
   "DevSecOps",
 
   /**
-   * Represents rich content types such as documents (e.g., DOCX, PDF) and images that require specialized replication handling.
+   * Represents rich content types such as documents (e.g., Word, PDF) and images that require specialized replication handling.
    */
   "Complex",
 
@@ -375,7 +373,7 @@ union DataClassType {
 }
 
 /**
- * The complete list of data set supported for replication.
+ * The list of data types supported for replication.
  */
 @added(Versions.v2025_05_30_preview)
 union DataClass {
@@ -387,19 +385,19 @@ union DataClass {
   "ServiceBus",
 
   /**
-   * (Messaging) Replicates data streams from Azure Event Hub, typically used for telemetry or event ingestion.
+   * (Messaging) Replicates messages from Azure Event Hub for downstream processing or analysis.
    */
   "EventHub",
 
   /**
-   * (API) Handles data replication through RESTful API endpoints.
+   * (API) Replicates request/response data through RESTful API endpoints.
    */
-  "API-Endpoint",
+  "ApiEndpoint",
 
   /**
-   * (API) Supports data replication via SDK-based integrations.
+   * (API) Replicates request/response data through SDK-based integrations.
    */
-  "API-SDK",
+  "ApiSDK",
 
   /**
    * (Stream) Enables replication of real-time video streaming data.
@@ -480,8 +478,7 @@ union IdentityTranslation {
   string,
 
   /**
-   * The API flow will make use of the user identity that called this API flow, and pass that token
-   * through the boundary.
+   * The API flow will make use of the user identity that called this API flow, and pass that token through the boundary.
    */
   UserIdentity: "UserIdentity",
 
@@ -536,7 +533,7 @@ union TargetType {
 }
 
 /**
- * The request used to list approved schemas within the resource provider. ListApprovedSchemaRequest will be deprecated after from version 2025_05_30_preview - please manage shcemas with a FlowProfile resource instead.
+ * The request used to list approved schemas within the resource provider. ListApprovedSchemaRequest will be deprecated after from version 2025_05_30_preview - please manage schemas with a FlowProfile resource instead.
  */
 @removed(Versions.v2025_05_30_preview)
 model ListApprovedSchemasRequest {

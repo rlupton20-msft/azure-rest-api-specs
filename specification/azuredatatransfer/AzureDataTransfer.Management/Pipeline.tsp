@@ -15,8 +15,7 @@ using TypeSpec.Versioning;
 namespace Private.AzureDataTransfer;
 
 /**
- * The pipeline resource definition.
- * A Pipeline defines the scope and identity under which data replication scenarios are managed.
+ * The pipeline resource definition. A Pipeline defines the scope and identity under which data replication scenarios are managed.
  */
 model Pipeline is Azure.ResourceManager.TrackedResource<PipelineProperties> {
   ...ResourceNameParameter<
@@ -39,14 +38,12 @@ interface Pipelines {
   get is ArmResourceRead<Pipeline>;
 
   /**
-   * Creates a new Pipeline resource or updates an existing one.
-   * This operation is asynchronous and returns the resulting Pipeline.
+   * Creates a new Pipeline resource or updates an existing one. This operation is asynchronous and returns the resulting Pipeline.
    */
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Pipeline>;
 
   /**
-   * Applies partial updates to an existing Pipeline resource.
-   * This operation supports patch semantics and returns the updated Pipeline.
+   * Applies partial updates to an existing Pipeline resource. This operation supports patch semantics and returns the updated Pipeline.
    */
   #suppress "@azure-tools/typespec-azure-resource-manager/no-response-body" "Prior OpenAPI2 Json spec provides the resource back in the LRO response."
   @patch(#{ implicitOptionality: false })
@@ -111,8 +108,7 @@ interface Pipelines {
   >;
 
   /**
-   * Lists the schemas associated with a specific connection in the Pipeline.
-   * This operation is deprecated in version v2025_05_30_preview.
+   * Lists the schemas associated with a specific connection in the Pipeline. This operation is deprecated in version v2025_05_30_preview.
    */
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
   @removed(Versions.v2025_05_30_preview)
@@ -136,14 +132,28 @@ interface Pipelines {
 
 @@maxLength(Pipeline.name, 64);
 @@minLength(Pipeline.name, 3);
-@@doc(Pipeline.name, "The name of the Pipeline resource to operate on.");
-@@doc(Pipeline.properties, "The set of configurable properties for the Pipeline resource.");
-@@doc(Pipelines.createOrUpdate::parameters.resource, "The request body containing the Pipeline definition.");
-@@doc(Pipelines.update::parameters.properties, "The request body containing the updated Pipeline properties.");
-@@doc(Pipelines.approveConnection::parameters.body, "The request body containing the connection to approve.");
-@@doc(Pipelines.executeAction::parameters.body, "The action to be executed on the Pipeline.");
-@@doc(Pipelines.listSchemasList::parameters.body, "The schema(s) to retrieve for the specified connection.");
-@@doc(Pipelines.rejectConnection::parameters.body, "The request body containing the connection to reject.");
+@@doc(Pipeline.name, "The name of the pipeline on which to operate.");
+@@doc(Pipeline.properties,
+  "The set of configurable properties for the Pipeline resource."
+);
+@@doc(Pipelines.createOrUpdate::parameters.resource,
+  "The request body containing the Pipeline definition."
+);
+@@doc(Pipelines.update::parameters.properties,
+  "The request body containing the updated Pipeline properties."
+);
+@@doc(Pipelines.approveConnection::parameters.body,
+  "The request body containing the connection to approve."
+);
+@@doc(Pipelines.executeAction::parameters.body,
+  "The action to be executed on the Pipeline."
+);
+@@doc(Pipelines.listSchemasList::parameters.body,
+  "The schema(s) to retrieve for the specified connection."
+);
+@@doc(Pipelines.rejectConnection::parameters.body,
+  "The request body containing the connection to reject."
+);
 
 @@clientName(Pipelines.createOrUpdate::parameters.resource, "pipeline");
 @@clientName(Pipelines.update::parameters.properties, "pipeline");

@@ -59,7 +59,7 @@
     "/providers/Private.AzureDataTransfer/listFlowProfiles": {
       "post": {
         "operationId": "AzureDataTransfer_listFlowProfiles",
-        "description": "Lists FlowProfile resources for a Azure Data Transfer Pipeline resource.",
+        "description": "Retrieves a list of FlowProfile resources associated with a specified pipeline.",
         "consumes": [
           "text/plain"
         ],
@@ -70,7 +70,7 @@
           {
             "name": "pipeline",
             "in": "body",
-            "description": "Pipeline(s) to retrieve flows of",
+            "description": "The name of the pipeline for which to retrieve associated FlowProfiles.",
             "required": false,
             "schema": {
               "type": "string"
@@ -177,7 +177,7 @@
         "tags": [
           "Pipelines"
         ],
-        "description": "Gets pipelines in a subscription.",
+        "description": "Lists all Pipeline resources within the current subscription.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -1968,7 +1968,7 @@
         "tags": [
           "Pipelines"
         ],
-        "description": "Gets pipelines in a resource group.",
+        "description": "Lists all Pipeline resources within the specified resource group.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2010,7 +2010,7 @@
         "tags": [
           "Pipelines"
         ],
-        "description": "Gets pipeline resource.",
+        "description": "Retrieves the specified Pipeline resource.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2024,7 +2024,7 @@
           {
             "name": "pipelineName",
             "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
+            "description": "The name of the pipeline on which to operate.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2057,7 +2057,7 @@
         "tags": [
           "Pipelines"
         ],
-        "description": "Creates or updates the pipeline resource.",
+        "description": "Creates a new Pipeline resource or updates an existing one. This operation is asynchronous and returns the resulting Pipeline.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2071,7 +2071,7 @@
           {
             "name": "pipelineName",
             "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
+            "description": "The name of the pipeline on which to operate.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2081,7 +2081,7 @@
           {
             "name": "pipeline",
             "in": "body",
-            "description": "Pipeline body",
+            "description": "The request body containing the Pipeline definition.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Pipeline"
@@ -2135,7 +2135,7 @@
         "tags": [
           "Pipelines"
         ],
-        "description": "Updates the pipeline resource.",
+        "description": "Applies partial updates to an existing Pipeline resource. This operation supports patch semantics and returns the updated Pipeline.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2149,7 +2149,7 @@
           {
             "name": "pipelineName",
             "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
+            "description": "The name of the pipeline on which to operate.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2159,7 +2159,7 @@
           {
             "name": "pipeline",
             "in": "body",
-            "description": "Pipeline body",
+            "description": "The request body containing the updated Pipeline properties.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/PipelinesPatch"
@@ -2212,7 +2212,7 @@
         "tags": [
           "Pipelines"
         ],
-        "description": "Deletes the pipeline resource.",
+        "description": "Deletes the specified Pipeline resource.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2226,7 +2226,7 @@
           {
             "name": "pipelineName",
             "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
+            "description": "The name of the pipeline on which to operate.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2276,7 +2276,7 @@
         "tags": [
           "Pipelines"
         ],
-        "description": "Approves the specified connection request in a pipeline.",
+        "description": "Approves a pending connection request associated with the specified Pipeline.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2290,7 +2290,7 @@
           {
             "name": "pipelineName",
             "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
+            "description": "The name of the pipeline on which to operate.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2300,7 +2300,7 @@
           {
             "name": "connection",
             "in": "body",
-            "description": "Connection body",
+            "description": "The request body containing the connection to approve.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/ResourceBody"
@@ -2353,7 +2353,7 @@
         "tags": [
           "Pipelines"
         ],
-        "description": "Executes a privileged action for a pipeline.",
+        "description": "Executes a privileged or administrative action on the specified Pipeline.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2367,7 +2367,7 @@
           {
             "name": "pipelineName",
             "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
+            "description": "The name of the pipeline on which to operate.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2377,7 +2377,7 @@
           {
             "name": "action",
             "in": "body",
-            "description": "Action to execute",
+            "description": "The action to be executed on the Pipeline.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Action"
@@ -2424,13 +2424,13 @@
         "x-ms-long-running-operation": true
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/pipelines/{pipelineName}/flowprofiles": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/pipelines/{pipelineName}/flowProfiles": {
       "get": {
         "operationId": "FlowProfiles_ListByPipeline",
         "tags": [
           "FlowProfiles"
         ],
-        "description": "Get FlowProfiles in a pipeline",
+        "description": "Lists all FlowProfiles under a given Pipeline.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2444,7 +2444,7 @@
           {
             "name": "pipelineName",
             "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
+            "description": "The name of the pipeline on which to operate.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2471,13 +2471,13 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/pipelines/{pipelineName}/flowprofiles/{flowProfileName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/pipelines/{pipelineName}/flowProfiles/{flowProfileName}": {
       "get": {
         "operationId": "FlowProfiles_Get",
         "tags": [
           "FlowProfiles"
         ],
-        "description": "Gets the FlowProfile resource.",
+        "description": "Retrieves the specified FlowProfile resource.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2491,7 +2491,7 @@
           {
             "name": "pipelineName",
             "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
+            "description": "The name of the pipeline on which to operate.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2501,7 +2501,7 @@
           {
             "name": "flowProfileName",
             "in": "path",
-            "description": "The name for the FlowProfile to perform the operation on.",
+            "description": "The name of the FlowProfile resource to operate on. Must be 3 to 64 characters long and contain only alphanumeric characters or hyphens.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2529,7 +2529,7 @@
         "tags": [
           "FlowProfiles"
         ],
-        "description": "Creates or updates the FlowProfile resource.",
+        "description": "Creates a new FlowProfile or updates an existing one.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2543,7 +2543,7 @@
           {
             "name": "pipelineName",
             "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
+            "description": "The name of the pipeline on which to operate.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2553,7 +2553,7 @@
           {
             "name": "flowProfileName",
             "in": "path",
-            "description": "The name for the FlowProfile to perform the operation on.",
+            "description": "The name of the FlowProfile resource to operate on. Must be 3 to 64 characters long and contain only alphanumeric characters or hyphens.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2563,7 +2563,7 @@
           {
             "name": "resource",
             "in": "body",
-            "description": "FlowProfile body",
+            "description": "The FlowProfile resource definition to create or update.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/FlowProfile"
@@ -2612,7 +2612,7 @@
         "tags": [
           "FlowProfiles"
         ],
-        "description": "Updates the FlowProfile resource.",
+        "description": "Applies partial updates to an existing FlowProfile resource.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2626,7 +2626,7 @@
           {
             "name": "pipelineName",
             "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
+            "description": "The name of the pipeline on which to operate.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2636,7 +2636,7 @@
           {
             "name": "flowProfileName",
             "in": "path",
-            "description": "The name for the FlowProfile to perform the operation on.",
+            "description": "The name of the FlowProfile resource to operate on. Must be 3 to 64 characters long and contain only alphanumeric characters or hyphens.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2646,7 +2646,7 @@
           {
             "name": "properties",
             "in": "body",
-            "description": "FlowProfile body",
+            "description": "The FlowProfile patch definition containing the properties to update.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/FlowProfilePatch"
@@ -2694,7 +2694,7 @@
         "tags": [
           "FlowProfiles"
         ],
-        "description": "Deletes the FlowProfile resource.",
+        "description": "Deletes the specified FlowProfile resource.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2708,7 +2708,7 @@
           {
             "name": "pipelineName",
             "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
+            "description": "The name of the pipeline on which to operate.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2718,7 +2718,7 @@
           {
             "name": "flowProfileName",
             "in": "path",
-            "description": "The name for the FlowProfile to perform the operation on.",
+            "description": "The name of the FlowProfile resource to operate on. Must be 3 to 64 characters long and contain only alphanumeric characters or hyphens.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2748,7 +2748,7 @@
         "tags": [
           "Pipelines"
         ],
-        "description": "Lists the flows in a pipeline.",
+        "description": "Lists all Flows associated with the specified Pipeline.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2762,7 +2762,7 @@
           {
             "name": "pipelineName",
             "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
+            "description": "The name of the pipeline on which to operate.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2772,7 +2772,7 @@
           {
             "name": "connections",
             "in": "body",
-            "description": "Connection(s) to retrieve flows of",
+            "description": "A list of connection identifiers used to filter the Flows to be retrieved.",
             "required": false,
             "schema": {
               "$ref": "#/definitions/ConnectionIdList"
@@ -2806,7 +2806,7 @@
         "tags": [
           "Pipelines"
         ],
-        "description": "Rejects the specified connection request in a pipeline.",
+        "description": "Rejects a pending connection request associated with the specified Pipeline.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -2820,7 +2820,7 @@
           {
             "name": "pipelineName",
             "in": "path",
-            "description": "The name for the pipeline to perform the operation on.",
+            "description": "The name of the pipeline on which to operate.",
             "required": true,
             "type": "string",
             "minLength": 3,
@@ -2830,7 +2830,7 @@
           {
             "name": "connection",
             "in": "body",
-            "description": "Connection body",
+            "description": "The request body containing the connection to reject.",
             "required": true,
             "schema": {
               "$ref": "#/definitions/ResourceBody"
@@ -2935,15 +2935,15 @@
     },
     "AntivirusRuleset": {
       "type": "object",
-      "description": "The Antivirus ruleset.",
+      "description": "Antivirus scanning rules for replicating data.",
       "properties": {
-        "clamAv": {
-          "$ref": "#/definitions/EnablementStatus",
-          "description": "Clam ruleset."
-        },
         "defender": {
           "$ref": "#/definitions/EnablementStatus",
-          "description": "Defender ruleset."
+          "description": "Microsoft Defender scanning rule."
+        },
+        "external": {
+          "$ref": "#/definitions/EnablementStatus",
+          "description": "An antivirus scanning rule that uses a non-microsoft scanning solution."
         }
       }
     },
@@ -3021,30 +3021,30 @@
     },
     "ArchiveRuleset": {
       "type": "object",
-      "description": "The Archive ruleset.",
+      "description": "Rules for handling supported archive files (BZip2, Cpio, Deb, GZip, Iso9660, Rpm, Tar, Zip) during data replication.",
       "properties": {
         "minimumSizeForExpansion": {
           "type": "integer",
           "format": "int64",
-          "description": "Minimum size for expansion in bytes (minimum is 0).",
+          "description": "The minimum archive file size (in bytes) required to trigger expansion during replication.",
           "minimum": 0
         },
         "maximumExpansionSizeLimit": {
           "type": "integer",
           "format": "int64",
-          "description": "Maximum allowed expansion size in bytes (minimum is 0).",
+          "description": "The combined maximum size (in bytes) of all extracted files that an expanded archive is allowed to reach. Archives exceeding the max limit will be denied for replication.",
           "minimum": 0
         },
         "maximumDepthLimit": {
           "type": "integer",
           "format": "int64",
-          "description": "Maximum allowed archive depth (minimum is 0).",
+          "description": "The maximum depth of nested archives that can be expanded. Limits how many layers of embedded archives will be processed. Archives exceeding the max limit will be denied for replication.",
           "minimum": 0
         },
         "maximumCompressionRatioLimit": {
           "type": "number",
           "format": "double",
-          "description": "Maximum allowed compression ratio (minimum is 0).",
+          "description": "The highest acceptable compression ratio (root object size * compression ratio) for an archive. Used to detect and block archives with suspiciously high compression (e.g., zip bombs).",
           "minimum": 0
         }
       }
@@ -3191,7 +3191,7 @@
         },
         "flowProfileList": {
           "type": "array",
-          "description": "The FlowProfiles allowed for this connection",
+          "description": "Provides a list of FlowProfiles .",
           "items": {
             "$ref": "#/definitions/FlowProfileMetadata"
           }
@@ -3299,17 +3299,15 @@
     },
     "DataClass": {
       "type": "string",
-      "description": "Allowed data class.\nTODO: how are we going to determine whether a BatchEngine flow is Complex, DSo, Disk Image, Mission...etc..?",
+      "description": "The list of data types supported for replication.",
       "enum": [
         "ServiceBus",
         "EventHub",
-        "API",
-        "SDK",
-        "ALL",
+        "ApiEndpoint",
+        "ApiSDK",
         "Video",
         "Blob",
-        "Table",
-        "Files"
+        "Table"
       ],
       "x-ms-enum": {
         "name": "DataClass",
@@ -3318,101 +3316,109 @@
           {
             "name": "ServiceBus",
             "value": "ServiceBus",
-            "description": "(Low Latency) Service bus based replication."
+            "description": "(Messaging) Replicates messages from Azure Service Bus for downstream processing or analysis."
           },
           {
             "name": "EventHub",
             "value": "EventHub",
-            "description": "(Low Latency) Event hub based replication."
+            "description": "(Messaging) Replicates messages from Azure Event Hub for downstream processing or analysis."
           },
           {
-            "name": "API",
-            "value": "API",
-            "description": "(Query) API based low latency transfer."
+            "name": "ApiEndpoint",
+            "value": "ApiEndpoint",
+            "description": "(API) Replicates request/response data through RESTful API endpoints."
           },
           {
-            "name": "SDK",
-            "value": "SDK",
-            "description": "(Query) SDK based low latency transfer."
-          },
-          {
-            "name": "ALL",
-            "value": "ALL",
-            "description": "(Query) Used to auto-assign low latency transfer type."
+            "name": "ApiSDK",
+            "value": "ApiSDK",
+            "description": "(API) Replicates request/response data through SDK-based integrations."
           },
           {
             "name": "Video",
             "value": "Video",
-            "description": "(Stream) Used to auto-assign low latency transfer type."
+            "description": "(Stream) Enables replication of real-time video streaming data."
           },
           {
             "name": "Blob",
             "value": "Blob",
-            "description": "(HighThroughput) Replication scenario using Azure Storage blobs."
+            "description": "(Files/DevSecOps/Complex/Mission) Replicates generic blobs data using Azure Blob Storage."
           },
           {
             "name": "Table",
             "value": "Table",
-            "description": "(HighThroughput) Replication scenario using Azure Storage tables."
-          },
-          {
-            "name": "Files",
-            "value": "Files",
-            "description": "(HighThroughput) Replication scenario using Azure Storage Files."
+            "description": "(Files) Replicates structured NoSQL data using Azure Table Storage."
           }
         ]
       }
     },
     "DataClassType": {
       "type": "string",
-      "description": "Data class used to define the replication scenario.",
+      "description": "Defines the supported replication scenarios for Azure Data Transfer.",
       "enum": [
-        "LowLatency",
-        "Query",
+        "Messaging",
+        "API",
         "Stream",
-        "HighThroughput"
+        "Files",
+        "DevSecOps",
+        "Complex",
+        "Mission"
       ],
       "x-ms-enum": {
         "name": "DataClassType",
         "modelAsString": true,
         "values": [
           {
-            "name": "LowLatency",
-            "value": "LowLatency",
-            "description": "Replication using service bus & event hub."
+            "name": "Messaging",
+            "value": "Messaging",
+            "description": "Represents standard message-based data, including Azure Service and Event Hub, used in message replication."
           },
           {
-            "name": "Query",
-            "value": "Query",
-            "description": "Query service using an API endpoint."
+            "name": "API",
+            "value": "API",
+            "description": "Represents transactional request/response data types from API endpoints."
           },
           {
             "name": "Stream",
             "value": "Stream",
-            "description": "Streaming replication service."
+            "description": "Represents data types that require continuous, real-time streaming replication (e.g., video)."
           },
           {
-            "name": "HighThroughput",
-            "value": "HighThroughput",
-            "description": "Object replication service for Azure blobs, tables, and files."
+            "name": "Files",
+            "value": "Files",
+            "description": "Represents standard file-based data, including Azure Blob and Table Storage, used in general-purpose replication."
+          },
+          {
+            "name": "DevSecOps",
+            "value": "DevSecOps",
+            "description": "Represents data related to development, security, and operations workflows such as build artifacts."
+          },
+          {
+            "name": "Complex",
+            "value": "Complex",
+            "description": "Represents rich content types such as documents (e.g., Word, PDF) and images that require specialized replication handling."
+          },
+          {
+            "name": "Mission",
+            "value": "Mission",
+            "description": "Represents encrypted or highly sensitive data requiring secure and compliant replication mechanisms."
           }
         ]
       }
     },
     "DataSizeRuleset": {
       "type": "object",
-      "description": "The Data Size ruleset.",
+      "description": "Defines rules that enforce minimum and maximum file size limits for data replication.",
       "properties": {
         "maximum": {
           "type": "integer",
           "format": "int64",
-          "description": "Maximum size ruleset (minimum is 0).",
+          "description": "Specifies the maximum allowed size (in bytes) for files to be replicated.",
           "minimum": 0
         },
         "minimum": {
           "type": "integer",
           "format": "int64",
-          "description": "Minimum size ruleset (minimum is 0).",
+          "description": "Specifies the minimum required size (in bytes) for a file to be eligible for replication.",
           "minimum": 0
         }
       }
@@ -3467,7 +3473,7 @@
     },
     "FilterType": {
       "type": "string",
-      "description": "Defines the allow or deny filter type.",
+      "description": "Specifies whether the filter applies an allow or deny policy.",
       "enum": [
         "Allow",
         "Deny"
@@ -3479,12 +3485,12 @@
           {
             "name": "Allow",
             "value": "Allow",
-            "description": "Allow filter."
+            "description": "Defines an allow policy for whitelisting."
           },
           {
             "name": "Deny",
             "value": "Deny",
-            "description": "Deny filter."
+            "description": "Defines a denying policy for blacklisting."
           }
         ]
       }
@@ -3565,11 +3571,11 @@
     },
     "FlowProfile": {
       "type": "object",
-      "description": "The FlowProfile resource definition.",
+      "description": "Represents a FlowProfile Azure resource, which defines a data replication scenario with a specific data classification and a set of configurable policy rules.",
       "properties": {
         "properties": {
           "$ref": "#/definitions/FlowProfileProperties",
-          "description": "Properties of FlowProfile"
+          "description": "The set of configuration properties that define the behavior and policies of the FlowProfile."
         },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
@@ -3605,39 +3611,45 @@
     },
     "FlowProfileMetadata": {
       "type": "object",
-      "description": "Properties for listing FlowProfiles.",
+      "description": "The FlowProfile Metadata used to concisely provide all publicly viewable information.",
       "properties": {
         "pipeline": {
           "type": "string",
-          "description": "The pipeline that the FlowProfile is created under.",
-          "readOnly": true
+          "description": "The name of the parent Pipeline Azure resource associated with this FlowProfile."
         },
         "name": {
           "type": "string",
-          "description": "The FlowProfile's name.",
-          "readOnly": true
+          "description": "The name of the FlowProfile."
         },
         "dataClassType": {
           "$ref": "#/definitions/DataClassType",
-          "description": "The data class type for the FlowProfile.",
-          "readOnly": true
+          "description": "The classification of data handled by this FlowProfile."
         },
         "flowProfileId": {
           "type": "string",
-          "description": "The FlowProfile guid assigned by the backend.",
-          "readOnly": true
+          "description": "A guid represented as a string for the FlowProfile resource, assigned by the system."
+        },
+        "status": {
+          "$ref": "#/definitions/FlowProfileStatus",
+          "description": "The operational status of the FlowProfile."
+        },
+        "description": {
+          "type": "string",
+          "description": "A user-defined description of the FlowProfile."
         }
       },
       "required": [
         "pipeline",
         "name",
         "dataClassType",
-        "flowProfileId"
+        "flowProfileId",
+        "status",
+        "description"
       ]
     },
     "FlowProfilePatch": {
       "type": "object",
-      "description": "The FlowProfile resource patch definition.",
+      "description": "Defines the patchable properties for a FlowProfile resource.",
       "properties": {
         "properties": {
           "$ref": "#/definitions/FlowProfilePatchProperties",
@@ -3658,29 +3670,28 @@
     },
     "FlowProfilePatchProperties": {
       "type": "object",
-      "description": "Properties of a Patch FlowProfile.",
+      "description": "Represents the updatable properties of a FlowProfile.",
       "properties": {
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
-          "description": "Provisioning state of the flow.",
+          "description": "The current provisioning state of the FlowProfile resource.",
           "readOnly": true
         },
         "description": {
           "type": "string",
-          "description": "The FlowProfile description."
+          "description": "A description of the FlowProfile that defines the replication scenario."
         },
         "flowProfileId": {
           "type": "string",
-          "description": "The FlowProfile guid assigned by the backend.",
-          "readOnly": true
+          "description": "A guid represented as a string for the FlowProfile resource, assigned by the system."
         },
         "rulesets": {
           "$ref": "#/definitions/FlowProfileRulesets",
-          "description": "The Rulesets applied to this FlowProfile"
+          "description": "A set of configurable rulesets applied to this FlowProfile."
         },
         "status": {
           "$ref": "#/definitions/FlowProfileStatus",
-          "description": "The status of this FlowProfile."
+          "description": "The operational status of the FlowProfile."
         }
       },
       "required": [
@@ -3691,34 +3702,33 @@
     },
     "FlowProfileProperties": {
       "type": "object",
-      "description": "Properties of a FlowProfile.",
+      "description": "Defines the full set of properties for a FlowProfile resource.",
       "properties": {
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
-          "description": "Provisioning state of the flow.",
+          "description": "The current provisioning state of the FlowProfile.",
           "readOnly": true
         },
         "flowProfileId": {
           "type": "string",
-          "description": "The FlowProfile guid assigned by the backend.",
+          "description": "A guid represented as a string for the FlowProfile resource, assigned by the system.",
           "readOnly": true
         },
         "dataClassType": {
           "$ref": "#/definitions/DataClassType",
-          "description": "The data class type applied to this FlowProfile.",
-          "readOnly": true
+          "description": "The classification of data replicated by this FlowProfile."
         },
         "status": {
           "$ref": "#/definitions/FlowProfileStatus",
-          "description": "The status of this FlowProfile."
+          "description": "The operational status of the FlowProfile."
         },
         "description": {
           "type": "string",
-          "description": "The description for this FlowProfile."
+          "description": "A user-defined description of the FlowProfile."
         },
         "rulesets": {
           "$ref": "#/definitions/FlowProfileRulesets",
-          "description": "The Rulesets applied to this FlowProfile."
+          "description": "A set of configurable rulesets applied to this FlowProfile."
         }
       },
       "required": [
@@ -3729,31 +3739,31 @@
     },
     "FlowProfileRulesets": {
       "type": "object",
-      "description": "The FlowProfile rulesets.",
+      "description": "A set of configurable rulesets for a FlowProfile resource, used during data replication.",
       "properties": {
         "antivirus": {
           "$ref": "#/definitions/AntivirusRuleset",
-          "description": "Options for enabling antivirus policies."
+          "description": "Antivirus scanning rules for replicated data."
         },
         "archives": {
           "$ref": "#/definitions/ArchiveRuleset",
-          "description": "Options for configuring archive related policies."
+          "description": "Rules for handling archive files during replication."
         },
         "dataSize": {
           "$ref": "#/definitions/DataSizeRuleset",
-          "description": "Options for configuring data size related policies."
+          "description": "Rules that enforce minimum and maximum data size limits."
         },
         "mimeFilters": {
           "$ref": "#/definitions/MimeFilterRuleset",
-          "description": "Options for configuring mime type based filter policies."
+          "description": "Rules for filtering files based on MIME types."
         },
         "xmlFilters": {
           "$ref": "#/definitions/XmlFilterRuleset",
-          "description": "Options for uploading xml schema filtering policies."
+          "description": "Rules for filtering XML content using XSD schemas."
         },
         "textMatching": {
           "$ref": "#/definitions/TextMatchingRuleset",
-          "description": "Options for configuring text matching policies."
+          "description": "Rules for detecting and blocking specific text patterns."
         }
       }
     },
@@ -4054,7 +4064,7 @@
           {
             "name": "UserIdentity",
             "value": "UserIdentity",
-            "description": "The API flow will make use of the user identity that called this API flow, and pass that token\nthrough the boundary."
+            "description": "The API flow will make use of the user identity that called this API flow, and pass that token through the boundary."
           },
           {
             "name": "ServiceIdentity",
@@ -4095,12 +4105,12 @@
           {
             "name": "Linked",
             "value": "Linked",
-            "description": "The pipeline, connection, or flow is currently linked with another corresponding pipeline,\nconnection, or flow, and can be used."
+            "description": "The pipeline, connection, or flow is currently linked with another corresponding pipeline, connection, or flow, and can be used."
           },
           {
             "name": "Unlinked",
             "value": "Unlinked",
-            "description": "The pipeline, connection, or flow is not linked with another corresponding pipeline,\nconnection, or flow, and cannot be used."
+            "description": "The pipeline, connection, or flow is not linked with another corresponding pipeline, connection, or flow, and cannot be used."
           }
         ]
       }
@@ -4154,37 +4164,42 @@
     },
     "MimeFilterRuleset": {
       "type": "object",
-      "description": "The File Type ruleset.",
+      "description": "Rules for filtering files based on MIME types.",
       "properties": {
         "type": {
           "$ref": "#/definitions/FilterType",
-          "description": "Filter type value."
+          "description": "Specifies whether the MIME filter is an allow list or deny list."
         },
         "filters": {
           "$ref": "#/definitions/MimeTypeFilter",
-          "description": "Filtered values."
+          "description": "Defines the MIME types and associated file extensions to be filtered."
         }
-      }
+      },
+      "required": [
+        "type",
+        "filters"
+      ]
     },
     "MimeTypeFilter": {
       "type": "object",
-      "description": "Allow list of mime types.",
+      "description": "Defines allowed or blocked MIME types and associated file extensions.",
       "properties": {
         "mime": {
           "type": "string",
-          "description": "File mime type value.",
+          "description": "The MIME type string, following IANA standards (e.g., application/json, image/png).",
           "pattern": "^[a-z]+/[a-zA-Z0-9+\\-\\+.]+$"
         },
         "extensions": {
           "type": "array",
-          "description": "File type extension list.",
+          "description": "A list of file extensions associated with the specified MIME type (e.g., .json, .png).",
           "items": {
             "type": "string"
           }
         }
       },
       "required": [
-        "mime"
+        "mime",
+        "extensions"
       ]
     },
     "OperationStatusEnum": {
@@ -4284,7 +4299,7 @@
         },
         "flowProfileList": {
           "type": "array",
-          "description": "The FlowProfiles allowed for this connection",
+          "description": "Provides a list of FlowProfiles .",
           "items": {
             "$ref": "#/definitions/FlowProfileMetadata"
           }
@@ -4622,11 +4637,11 @@
     },
     "Pipeline": {
       "type": "object",
-      "description": "The pipeline resource definition.",
+      "description": "The pipeline resource definition. A Pipeline defines the scope and identity under which data replication scenarios are managed.",
       "properties": {
         "properties": {
           "$ref": "#/definitions/PipelineProperties",
-          "description": "Properties of pipeline"
+          "description": "The set of configurable properties for the Pipeline resource."
         },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
@@ -5027,15 +5042,15 @@
     },
     "TextMatch": {
       "type": "object",
-      "description": "Text matching ruleset configuration options.",
+      "description": "Configuration options for the text matching ruleset.",
       "properties": {
         "text": {
           "type": "string",
-          "description": "The text to match and deny."
+          "description": "The word or phrase to match against replicated content. A phrase with spaces will be considered a single substring."
         },
         "matchType": {
           "type": "string",
-          "description": "The text matching type.",
+          "description": "Specifies the text matching condition for text comparison.",
           "default": "Partial",
           "enum": [
             "Partial",
@@ -5048,19 +5063,19 @@
               {
                 "name": "Partial",
                 "value": "Partial",
-                "description": "Partial text comparison."
+                "description": "Matches substrings within the content."
               },
               {
                 "name": "Complete",
                 "value": "Complete",
-                "description": "Complete text comparison."
+                "description": "Matches the entire string."
               }
             ]
           }
         },
         "caseSensitivity": {
           "type": "string",
-          "description": "The text's cases sensitivity matching type.",
+          "description": "Specifies the text matching conditions based on casing.",
           "default": "Insensitive",
           "enum": [
             "Insensitive",
@@ -5073,12 +5088,12 @@
               {
                 "name": "Insensitive",
                 "value": "Insensitive",
-                "description": "Casing insensitive comparison option."
+                "description": "Ignores casing when performing the match."
               },
               {
                 "name": "Sensitive",
                 "value": "Sensitive",
-                "description": "Casing sensitive comparison option."
+                "description": "Requires exact casing for the match."
               }
             ]
           }
@@ -5092,11 +5107,11 @@
     },
     "TextMatchingRuleset": {
       "type": "object",
-      "description": "The Watchword ruleset.",
+      "description": "Rules for detecting and blocking specific text patterns.",
       "properties": {
         "deny": {
           "type": "array",
-          "description": "Deny list of words.",
+          "description": "A list of text patterns to block, each with matching rules and case sensitivity options.",
           "items": {
             "$ref": "#/definitions/TextMatch"
           },
@@ -5106,22 +5121,48 @@
             "caseSensitivity"
           ]
         }
-      }
+      },
+      "required": [
+        "deny"
+      ]
     },
     "XmlFilterRuleset": {
       "type": "object",
-      "description": "The xsd schema ruleset.",
+      "description": "Rules for filtering XML content using XSD schemas.",
       "properties": {
         "defaultNamespace": {
           "type": "string",
-          "description": "The XSD namespace."
+          "description": "The default XML namespace used for schema validation."
+        },
+        "reference": {
+          "type": "string",
+          "description": "Defines the method for referencing the xml schema.",
+          "default": "Inline",
+          "enum": [
+            "Inline"
+          ],
+          "x-ms-enum": {
+            "name": "XmlReferenceType",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Inline",
+                "value": "Inline",
+                "description": "Defines a referencing procedure where the xml schema will be provided inline."
+              }
+            ]
+          }
         },
         "schema": {
           "type": "string",
-          "format": "byte",
-          "description": "The base64 encoded xsd byte value."
+          "description": "The Base64 string representation of the XSD schema(s) used for validation."
         }
-      }
+      },
+      "required": [
+        "defaultNamespace",
+        "reference",
+        "schema"
+      ]
     }
   },
   "parameters": {}
