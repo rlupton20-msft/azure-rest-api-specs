@@ -544,7 +544,7 @@ model EndpointBaseUpdateParameters {
    * The managed system identity assigned to this resource.
    */
   @added(Versions.v2025_07_01)
-  identity?: ManagedSystemAssignedIdentityProperty;
+  identity?: ManagedServiceIdentityProperty;
 }
 
 /**
