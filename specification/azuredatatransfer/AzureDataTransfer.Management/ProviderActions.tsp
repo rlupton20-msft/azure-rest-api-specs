@@ -72,6 +72,10 @@ interface AzureDataTransfer {
   >;
 }
 
-@@clientName(AzureDataTransfer.listApprovedSchemas::parameters.body, "pipeline");
+@@clientName(AzureDataTransfer.listApprovedSchemas::parameters.body,
+  "pipeline"
+);
 @@clientName(AzureDataTransfer.validateSchema::parameters.body, "schema");
-@@doc(AzureDataTransfer.listApprovedSchemas::parameters.body, "The request payload for listing approved schemas.");
+@@doc(AzureDataTransfer.listApprovedSchemas::parameters.body,
+  "The request payload for listing approved schemas."
+);

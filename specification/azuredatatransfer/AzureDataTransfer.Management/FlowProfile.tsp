@@ -34,7 +34,6 @@ model FlowProfile
 @added(Versions.v2025_05_30_preview)
 model ArmFlowProfileResponse is ArmResponse<FlowProfile>;
 
-
 /**
  * Defines the set of operations available for managing FlowProfile resources.
  */
@@ -81,6 +80,12 @@ interface FlowProfiles {
 @@doc(FlowProfile.name,
   "The name of the FlowProfile resource to operate on. Must be 3 to 64 characters long and contain only alphanumeric characters or hyphens."
 );
-@@doc(FlowProfile.properties, "The set of configuration properties that define the behavior and policies of the FlowProfile.");
-@@doc(FlowProfiles.createOrUpdate::parameters.resource, "The FlowProfile resource definition to create or update.");
-@@doc(FlowProfiles.update::parameters.properties, "The FlowProfile patch definition containing the properties to update.");
+@@doc(FlowProfile.properties,
+  "The set of configuration properties that define the behavior and policies of the FlowProfile."
+);
+@@doc(FlowProfiles.createOrUpdate::parameters.resource,
+  "The FlowProfile resource definition to create or update."
+);
+@@doc(FlowProfiles.update::parameters.properties,
+  "The FlowProfile patch definition containing the properties to update."
+);

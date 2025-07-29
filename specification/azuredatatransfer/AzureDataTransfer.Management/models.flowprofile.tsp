@@ -10,7 +10,6 @@ using TypeSpec.Versioning;
 
 namespace Private.AzureDataTransfer;
 
-
 /**
  * Defines the patchable properties for a FlowProfile resource.
  */
