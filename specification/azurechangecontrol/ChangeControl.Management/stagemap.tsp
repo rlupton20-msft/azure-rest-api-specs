@@ -57,7 +57,7 @@ model Stage {
   sequence: int32;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: We need list of parameters in key:value format."
-  #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need the Parameters to be strong type. So need to provide all the supported types which are string, int, array, and object for now."
+  #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need the Parameters to be strong type. So need to provide all the supported types which are string & int for now."
   @doc("Parameters to apply on the change of that stage. Key value pairs of parameter and values.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @removed(Versions.v2025_07_01_preview)
@@ -68,7 +68,7 @@ model Stage {
   @removed(Versions.v2025_07_01_preview)
   nestedStageMapResourceId?: StageMapResourceId;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: We need list of parameters in key:value format."
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Stage specific key value pairs of parameter names & their values, which can be any type"
   @doc("Variables to apply on the change of that stage. Key value pairs supporting any JSON values.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @added(Versions.v2025_07_01_preview)
@@ -99,7 +99,8 @@ interface StageMaps {
       ...SubscriptionIdParameter;
     }
   >;
-  @added(Versions.v2025_07_01_preview)
+
+  @added(Versions.v2025_03_01_preview)
   getAtManagementGroupLevel is ArmResourceRead<
     StageMap,
     {
@@ -116,7 +117,8 @@ interface StageMaps {
       ...SubscriptionIdParameter;
     }
   >;
-  @added(Versions.v2025_07_01_preview)
+
+  @added(Versions.v2025_03_01_preview)
   createOrUpdateAtManagementGroupLevel is ArmResourceCreateOrReplaceSync<
     StageMap,
     {
@@ -134,7 +136,8 @@ interface StageMaps {
       ...SubscriptionIdParameter;
     }
   >;
-  @added(Versions.v2025_07_01_preview)
+
+  @added(Versions.v2025_03_01_preview)
   updateAtManagementGroupLevel is ArmResourcePatchSync<
     StageMap,
     StageMapProperties,
@@ -152,7 +155,8 @@ interface StageMaps {
       ...SubscriptionIdParameter;
     }
   >;
-  @added(Versions.v2025_07_01_preview)
+
+  @added(Versions.v2025_03_01_preview)
   deleteAtManagementGroupLevel is ArmResourceDeleteSync<
     StageMap,
     {
@@ -164,8 +168,7 @@ interface StageMaps {
   list is ArmResourceListAtScope<StageMap>;
   listBySubscription is ArmListBySubscription<StageMap>;
 
-  @doc("List StageMap resources by management group.")
-  @added(Versions.v2025_07_01_preview)
+  @added(Versions.v2025_03_01_preview)
   listByManagementGroup is ArmResourceListByParent<
     StageMap,
     {

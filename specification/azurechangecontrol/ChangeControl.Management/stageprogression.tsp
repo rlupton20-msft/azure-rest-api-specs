@@ -62,7 +62,7 @@ model StageProgressionProperties {
   @removed(Versions.v2025_07_01_preview)
   parameterValues: Record<string | int32>;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: We need list of parameters in key:value format."
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Stage specific key value pairs of parameter names & their values, which can be any type"
   @doc("Variables to apply on the change of that stage. Key value pairs supporting any JSON values.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @added(Versions.v2025_07_01_preview)
@@ -116,8 +116,8 @@ union StageProgressionState {
   Skipped: "Skipped",
 }
 
-@doc("Azure resource Id of a StageProgression.")
 @added(Versions.v2025_07_01_preview)
+@doc("Azure resource Id of a ChangeState.")
 scalar StageProgressionResourceId
   extends Azure.Core.armResourceIdentifier<[
     {
