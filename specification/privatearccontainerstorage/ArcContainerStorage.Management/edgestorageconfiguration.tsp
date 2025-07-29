@@ -3,13 +3,11 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-import "./provisioningState.tsp";
+import "./configurationstate.tsp";
 
 using Azure.ResourceManager;
 
 namespace Private.ArcContainerStorage;
-
-//    generation: "6"
 
 @doc("EdgeStorageConfiguration is a custom resource that defines the configuration for edge storage settings.")
 model EdgeStorageConfiguration
@@ -42,7 +40,7 @@ model EdgeStorageConfigurationProperties {
 
   @doc("The provisioning state of the resource.")
   @visibility(Lifecycle.Read)
-  provisioningState?: provisioningState;
+  provisioningState?: ResourceProvisioningState;
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
   @visibility(Lifecycle.Read)
@@ -70,7 +68,7 @@ model WorkloadIdentity {
 @doc("Defines the observed status of the EdgeStorageConfiguration resource.")
 model EdgeStorageConfigurationStatus {
   @doc("The current state of the configuration.")
-  state?: string;
+  state?: ConfigurationState;
 
   @doc("Additional details about the configuration's status.")
   details?: string;

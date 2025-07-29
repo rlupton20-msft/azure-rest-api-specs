@@ -3,15 +3,13 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-import "./provisioningState.tsp";
 import "./edgevolume.tsp";
+import "./backendconnectionstate.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 
 namespace Microsoft.ArcContainerStorage;
-
-//    generation: "2"
 
 /**
  * IngestSubvolume is a custom resource that defines configuration
@@ -31,19 +29,11 @@ model IngestSubvolume is ProxyResource<IngestSubvolumeProperties> {
  */
 @doc("Defines the properties of the IngestSubvolume resource.")
 model IngestSubvolumeProperties {
-  @doc("Type of the subvolume.")
-  @visibility(Lifecycle.Create, Lifecycle.Read)
-  subvolumeType?: SubvolumeType;
-
   @doc("Top-level path for this subvolume (e.g., /mysubvol).")
   @minLength(1)
   @maxLength(255)
+  @pattern("^/?[a-zA-Z0-9-\\._]*$")
   path?: string;
-
-  @doc("EdgeIngestPolicy used by this subvolume.")
-  @minLength(1)
-  @maxLength(253)
-  ingestPolicy?: string;
 
   @doc("Authentication config for certain subvolumes.")
   auth?: AuthConfig;
@@ -51,7 +41,7 @@ model IngestSubvolumeProperties {
   @doc("Blob storage endpoint, for example: https://mysa.core.windows.net")
   @minLength(3)
   @maxLength(1024)
-  storageaccountendpoint?: string;
+  storageAccountEndpoint?: string;
 
   @doc("Blob container name.")
   @minLength(3)
@@ -68,7 +58,7 @@ model IngestSubvolumeProperties {
 
   @doc("The provisioning state of the resource.")
   @visibility(Lifecycle.Read)
-  provisioningState?: provisioningState;
+  provisioningState?: ResourceProvisioningState;
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
   @visibility(Lifecycle.Read)
@@ -124,34 +114,12 @@ model IngestSubvolumeEvictionConfig {
 }
 
 /**
- * Enum describing the type of subvolume.
- */
-@doc("Type of the subvolume.")
-union SubvolumeType {
-  @doc("Data ingestion subvolume.")
-  INGEST: "INGEST",
-
-  @doc("Mirror subvolume for replication.")
-  MIRROR: "MIRROR",
-
-  string,
-}
-
-/**
  * Authentication config used if 'path != /' or certain authentication is required.
  */
 @doc("Authentication settings for secure access to storage.")
 model AuthConfig {
   @doc("Auth method to use.")
   authType: AuthType; // this is required
-
-  //"!(self.authType in ['SAS', 'KEY', 'CONNECTION_STRING']) || (has(self.secretName) && has(self.secretNamespace))"
-
-  @doc("Name of the K8s secret storing credentials. Required for SAS/KEY/CONNECTION_STRING.")
-  secretName?: string;
-
-  @doc("Namespace of the K8s secret storing credentials.")
-  secretNamespace?: string;
 }
 
 /**
@@ -159,15 +127,6 @@ model AuthConfig {
  */
 @doc("Possible authentication methods.")
 union AuthType {
-  @doc("SAS token for authentication (not recommended)")
-  SAS: "SAS",
-
-  @doc("Key for authentication (not recommended)")
-  KEY: "KEY",
-
-  @doc("Connection String for authentication (not recommended)")
-  CONNECTION_STRING: "CONNECTION_STRING",
-
   @doc("Workload Identity for authentication.")
   WORKLOAD_IDENTITY: "WORKLOAD_IDENTITY",
 
@@ -199,37 +158,27 @@ model AuthSysConfig {
 @doc("Defines the observed status of the IngestSubvolume resource.")
 model IngestSubvolumeStatus {
   @doc("The current state of the subvolume.")
-  state?: string;
-
-  @doc("A reference to the EdgeVolume resource.")
-  edgeVolumeRef?: string;
+  state?: IngestSubvolumeState;
 
   @doc("Describes the backend connection.")
-  backendConnection?: string;
-
-  @doc("The connected storage account endpoint in use.")
-  connectedStorageAccountEndpoint?: string;
-
-  @doc("The connected container in use.")
-  connectedContainer?: string;
+  backendConnection?: BackendConnectionState;
 }
 
-/**
- * FileError describes a file-level error in the subvolume.
- */
-@doc("File error model for tracking errors on individual files.")
-model FileError {
-  @doc("The name of the file that encountered the error.")
-  fileName?: string;
+@doc("States of an IngestSubvolume")
+union IngestSubvolumeState {
+  @doc("IngestSubvolume is in an unknown state")
+  Unknown: "unknown",
 
-  @doc("A timestamp (or date string) indicating when this error was last observed.")
-  lastSeen?: string;
+  @doc("IngestSubvolume configuration is in progress")
+  Configuring: "configuring",
 
-  @doc("A human-readable description of the error.")
-  error?: string;
+  @doc("IngestSubvolume is configured and ready")
+  Configured: "configured",
 
-  @doc("An optional integer code or identifier related to the error.")
-  export?: int32;
+  @doc("IngestSubvolume is being deleted")
+  CleaningUp: "cleaning_up",
+
+  string,
 }
 
 /**
