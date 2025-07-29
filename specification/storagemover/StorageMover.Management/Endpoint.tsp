@@ -38,7 +38,7 @@ model Endpoint
    */
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @added(Versions.v2025_07_01)
-  identity?: ManagedServiceIdentityProperty;
+  identity?: Foundations.ManagedServiceIdentity;
 }
 
 @armResourceOperations
