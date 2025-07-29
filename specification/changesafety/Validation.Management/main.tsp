@@ -15,9 +15,7 @@ using Azure.ResourceManager;
 
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Supress missing operations endpoint as the same is defined ../operations/ChangeControl.Management/main.tsp."
 @armProviderNamespace
-@service({
-  title: "Microsoft.ChangeSafety management service",
-})
+@service(#{ title: "Microsoft.ChangeSafety management service" })
 @versioned(Microsoft.ChangeSafety.Versions)
 namespace Microsoft.ChangeSafety;
 
@@ -35,3 +33,5 @@ enum Versions {
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2025_01_15_preview: "2025-01-15-preview",
 }
+
+interface Operations extends Azure.ResourceManager.Operations {}
