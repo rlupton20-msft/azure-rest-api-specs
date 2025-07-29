@@ -86,6 +86,12 @@ model FlowProfileMetadata {
    */
   @visibility(Lifecycle.Read)
   flowProfileId: string;
+
+  /**
+   * The operational status of the FlowProfile.
+   */
+  @visibility(Lifecycle.Read)
+  status: FlowProfileStatus;
 }
 
 /**
