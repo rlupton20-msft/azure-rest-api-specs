@@ -3,13 +3,10 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-import "./provisioningState.tsp";
 
 using Azure.ResourceManager;
 
 namespace Microsoft.ArcContainerStorage;
-
-//    generation: "7"
 
 /**
  * EdgeVolume is a custom resource that defines the configuration for edge volume storage.
@@ -28,6 +25,7 @@ model EdgeVolume is ExtensionResource<EdgeVolumeProperties> {
 @doc("Defines the desired state (spec) of the EdgeVolume resource.")
 model EdgeVolumeProperties {
   @doc("Size of the EdgeVolume (example: 1Gi). Must be a valid storage size and is immutable once set.")
+  @pattern("^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   requestedSize: string;
 
@@ -36,14 +34,9 @@ model EdgeVolumeProperties {
   @maxValue(256) // Maximum value constraint
   ingestOperationConcurrency?: int32;
 
-  @doc("Weight of concurrency for mirror operations (between 1 and 256).")
-  @minValue(1) // Minimum value constraint
-  @maxValue(256) // Maximum value constraint
-  mirrorOperationConcurrency?: int32;
-
   @doc("The provisioning state of the resource.")
   @visibility(Lifecycle.Read)
-  provisioningState?: provisioningState;
+  provisioningState?: ResourceProvisioningState;
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
   @visibility(Lifecycle.Read)
@@ -56,22 +49,34 @@ model EdgeVolumeProperties {
 @doc("Defines the observed state (status) of the EdgeVolume resource.")
 model EdgeVolumeStatus {
   @doc("The current state of the EdgeVolume. Defaults to 'unknown'.")
-  state?: string;
+  state?: EdgeVolumeState;
 
   @doc("Additional details about the EdgeVolume status.")
   details?: string;
 
-  @doc("The amount of space used (string format, e.g., '500Mi').")
-  size?: string;
-
   @doc("The amount of space available (string format, e.g., '500Mi').")
+  @pattern("^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$")
   spaceAvailable?: string;
 
   @doc("A reference to the underlying persistent volume.")
   persistentVolume?: string;
+}
 
-  @doc("List of subvolumes (by name or ID) that have encountered errors.")
-  subvolumesWithErrors?: string[];
+@doc("States of an EdgeVolume")
+union EdgeVolumeState {
+  @doc("edgevolume is in an unknown state")
+  Unknown: "unknown",
+
+  @doc("edgevolume is deploying")
+  Deploying: "deploying",
+
+  @doc("edgevolume is deployed and running")
+  Deployed: "deployed",
+
+  @doc("edgevolume deployment is being deleted")
+  DeploymentDeletion: "deployment_deletion",
+
+  string,
 }
 
 /**
