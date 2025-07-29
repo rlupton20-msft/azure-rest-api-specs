@@ -1,4 +1,4 @@
-import "../azcis/versions.tsp";
+import "./versions.tsp";
 import "./aadapplication.tsp";
 
 using TypeSpec.Versioning;
