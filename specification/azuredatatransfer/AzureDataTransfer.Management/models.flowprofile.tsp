@@ -66,32 +66,32 @@ model FlowProfileMetadata {
   /**
    * The name of the parent Pipeline Azure resource associated with this FlowProfile.
    */
-  @visibility(Lifecycle.Read)
   pipeline: string;
 
   /**
    * The name of the FlowProfile.
    */
-  @visibility(Lifecycle.Read)
   name: string;
 
   /**
    * The classification of data handled by this FlowProfile.
    */
-  @visibility(Lifecycle.Read)
   dataClassType: DataClassType;
 
   /**
    * A guid represented as a string for the FlowProfile resource, assigned by the system.
    */
-  @visibility(Lifecycle.Read)
   flowProfileId: string;
 
   /**
    * The operational status of the FlowProfile.
    */
-  @visibility(Lifecycle.Read)
   status: FlowProfileStatus;
+
+  /**
+   * A user-defined description of the FlowProfile.
+   */
+  description: string;
 }
 
 /**
