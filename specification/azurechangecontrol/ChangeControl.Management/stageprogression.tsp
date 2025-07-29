@@ -62,10 +62,11 @@ model StageProgressionProperties {
   @removed(Versions.v2025_07_01_preview)
   parameterValues: Record<string | int32>;
 
-  @doc("Variables to apply on the change for the stage. Key value pairs supporting any JSON values.")
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Stage specific key value pairs of parameter names & their values, which can be any type"
+  @doc("Variables to apply on the change of that stage. Key value pairs supporting any JSON values.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @added(Versions.v2025_07_01_preview)
-  stageVariables?: StageVariables;
+  stageVariables?: Record<unknown>;
 
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Comments about the update to the resource.")
@@ -115,8 +116,8 @@ union StageProgressionState {
   Skipped: "Skipped",
 }
 
-@doc("Azure resource Id of a StageProgression.")
 @added(Versions.v2025_07_01_preview)
+@doc("Azure resource Id of a ChangeState.")
 scalar StageProgressionResourceId
   extends Azure.Core.armResourceIdentifier<[
     {

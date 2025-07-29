@@ -6,7 +6,6 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Versioning;
-using TypeSpec.OpenAPI;
 
 namespace Private.AzureChangeControl;
 
