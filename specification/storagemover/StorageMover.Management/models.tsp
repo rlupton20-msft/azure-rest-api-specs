@@ -115,6 +115,12 @@ union EndpointType {
   AzureStorageSmbFileShare: "AzureStorageSmbFileShare",
   #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
   SmbMount: "SmbMount",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  @added(Versions.v2025_07_01)
+  AzureMultiCloudConnector: "AzureMultiCloudConnector",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  @added(Versions.v2025_07_01)
+  AzureStorageNfsFileShare: "AzureStorageNfsFileShare",
 }
 
 /**
