@@ -1264,7 +1264,7 @@ model AzureMultiCloudConnectorEndpointProperties
    * The Azure Resource ID of the MultiCloud Connector resource.
    */
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  multiCloudConnectorResourceId: Azure.Core.armResourceIdentifier<[
+  multiCloudConnectorId: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.HybridConnectivity/publicCloudConnectors";
     }
