@@ -162,19 +162,19 @@ model FlowProfileRulesets {
 }
 
 /**
- * Antivirus scanning rules for replicating data.
+ * Antivirus scanning rules for replicating data. By default, all antivirus scanning solutions are disabled.
  */
 @added(Versions.v2025_05_30_preview)
 model AntivirusRuleset {
   /**
-   * Microsoft Defender scanning rule.
+   * Optional. If enabled, uses Microsoft Defender antivirus scanning software as the scanning solution.
    */
   defender?: EnablementStatus;
 
   /**
-   * An antivirus scanning rule that uses a non-microsoft scanning solution.
+   * Optional. If enabled, uses the external ClamAV open-source software as an antivirus scanning solution.
    */
-  external?: EnablementStatus;
+  clamAv?: EnablementStatus;
 }
 
 /**
@@ -269,12 +269,12 @@ union FilterType {
   string,
 
   /**
-   * Defines an allow policy for whitelisting.
+   * Defines an allow filter used for whitelisting.
    */
   Allow: "Allow",
 
   /**
-   * Defines a denying policy for blacklisting.
+   * Defines a denying filter used for blacklisting.
    */
   Deny: "Deny",
 }
