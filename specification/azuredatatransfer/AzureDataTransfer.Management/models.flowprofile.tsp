@@ -174,7 +174,7 @@ model AntivirusRuleset {
   /**
    * Optional. If enabled, uses the external ClamAV open-source software as an antivirus scanning solution.
    */
-  clamAv?: EnablementStatus;
+  external?: EnablementStatus;
 }
 
 /**
