@@ -2654,17 +2654,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/FlowProfile"
-            }
-          },
           "202": {
-            "description": "The request has been accepted for processing, but processing has not yet completed.",
-            "schema": {
-              "$ref": "#/definitions/FlowProfile"
-            },
+            "description": "Resource operation accepted.",
             "headers": {
               "Location": {
                 "type": "string",
@@ -2727,8 +2718,19 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Resource deleted successfully."
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
           },
           "204": {
             "description": "Resource does not exist."
@@ -2739,7 +2741,11 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/pipelines/{pipelineName}/listFlows": {
@@ -3621,7 +3627,7 @@
           "type": "string",
           "description": "The name of the FlowProfile."
         },
-        "dataClassType": {
+        "dataClassificationType": {
           "$ref": "#/definitions/DataClassType",
           "description": "The classification of data handled by this FlowProfile."
         },
@@ -3641,7 +3647,7 @@
       "required": [
         "pipeline",
         "name",
-        "dataClassType",
+        "dataClassificationType",
         "flowProfileId",
         "status",
         "description"
@@ -3680,10 +3686,6 @@
         "description": {
           "type": "string",
           "description": "A description of the FlowProfile that defines the replication scenario."
-        },
-        "flowProfileId": {
-          "type": "string",
-          "description": "A guid represented as a string for the FlowProfile resource, assigned by the system."
         },
         "rulesets": {
           "$ref": "#/definitions/FlowProfileRulesets",
@@ -5155,6 +5157,7 @@
         },
         "schema": {
           "type": "string",
+          "format": "byte",
           "description": "The Base64 string representation of the XSD schema(s) used for validation."
         }
       },

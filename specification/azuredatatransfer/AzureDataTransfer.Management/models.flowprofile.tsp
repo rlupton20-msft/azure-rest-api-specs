@@ -41,11 +41,6 @@ model FlowProfilePatchProperties {
   description: string;
 
   /**
-   * A guid represented as a string for the FlowProfile resource, assigned by the system.
-   */
-  flowProfileId?: string;
-
-  /**
    * A set of configurable rulesets applied to this FlowProfile.
    */
   rulesets: FlowProfileRulesets;
@@ -74,7 +69,7 @@ model FlowProfileMetadata {
   /**
    * The classification of data handled by this FlowProfile.
    */
-  dataClassType: DataClassType;
+  dataClassificationType: DataClassType;
 
   /**
    * A guid represented as a string for the FlowProfile resource, assigned by the system.
@@ -302,7 +297,7 @@ model XmlFilterRuleset {
   /**
    * The Base64 string representation of the XSD schema(s) used for validation.
    */
-  schema: string;
+  schema: bytes;
 }
 
 /**

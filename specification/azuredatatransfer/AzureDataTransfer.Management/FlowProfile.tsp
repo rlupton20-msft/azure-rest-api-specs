@@ -53,21 +53,17 @@ interface FlowProfiles {
   /**
    * Applies partial updates to an existing FlowProfile resource.
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-response-body" "Prior OpenAPI2 Json spec provides the resource back in the LRO response."
   @patch(#{ implicitOptionality: false })
   update is ArmCustomPatchAsync<
     FlowProfile,
     PatchModel = FlowProfilePatch,
-    Response = ArmResponse<FlowProfile> | (ArmAcceptedLroResponse & {
-      @bodyRoot
-      _: FlowProfile;
-    })
+    Response = ArmAcceptedLroResponse
   >;
 
   /**
    * Deletes the specified FlowProfile resource.
    */
-  delete is ArmResourceDeleteSync<FlowProfile>;
+  delete is ArmResourceDeleteWithoutOkAsync<FlowProfile>;
 
   /**
    * Lists all FlowProfiles under a given Pipeline.
