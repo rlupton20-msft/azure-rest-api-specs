@@ -4,7 +4,6 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/versioning";
 
-
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using Azure.ResourceManager;
@@ -115,9 +114,11 @@ union EndpointType {
   AzureStorageSmbFileShare: "AzureStorageSmbFileShare",
   #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
   SmbMount: "SmbMount",
+
   #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
   @added(Versions.v2025_07_01)
   AzureMultiCloudConnector: "AzureMultiCloudConnector",
+
   #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
   @added(Versions.v2025_07_01)
   AzureStorageNfsFileShare: "AzureStorageNfsFileShare",
@@ -127,7 +128,7 @@ union EndpointType {
  * The type of the Job.
  */
 @added(Versions.v2025_07_01)
-union JobType{
+union JobType {
   string,
   #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
   OnPremToCloud: "OnPremToCloud",
@@ -540,6 +541,7 @@ model EndpointBaseUpdateParameters {
    * The Endpoint resource, which contains information about file sources and targets.
    */
   properties?: EndpointBaseUpdateProperties;
+
   /**
    * The managed system identity assigned to this resource.
    */
@@ -724,7 +726,6 @@ model JobDefinitionProperties {
  */
 @added(Versions.v2025_07_01)
 model SourceTargetMap {
- 
   #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
   @added(Versions.v2025_07_01)
   sourceEndpoint: SourceEndpoint;
@@ -732,9 +733,7 @@ model SourceTargetMap {
   #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
   @added(Versions.v2025_07_01)
   targetEndpoint: TargetEndpoint;
-
 }
-
 
 /**
  * The source endpoint resource for source and target mapping.
@@ -756,6 +755,7 @@ model SourceEndpointProperties {
    * The name of the cloud source endpoint to migrate.
    */
   name?: string;
+
   /**
    * The fully qualified ARM resource ID of the cloud source endpoint to migrate.
    */
@@ -775,7 +775,6 @@ model SourceEndpointProperties {
       type: "Microsoft.StorageMover/storageMovers/endpoints";
     }
   ]>;
-
 }
 
 /**
@@ -819,9 +818,9 @@ model TargetEndpointProperties {
     }
   ]>;
 
-  /** 
-  * The name of the Azure Storage blob container.
-  */
+  /**
+   * The name of the Azure Storage blob container.
+   */
   @visibility(Lifecycle.Read, Lifecycle.Create)
   azureStorageBlobContainerName?: string;
 }
@@ -1217,7 +1216,8 @@ model SmbMountEndpointProperties extends EndpointBaseProperties {
  * The properties of Azure Storage NFS file share endpoint.
  */
 @added(Versions.v2025_07_01)
-model AzureStorageNfsFileShareEndpointProperties extends EndpointBaseProperties {
+model AzureStorageNfsFileShareEndpointProperties
+  extends EndpointBaseProperties {
   /**
    * The Azure Resource ID of the storage account.
    */
@@ -1238,7 +1238,6 @@ model AzureStorageNfsFileShareEndpointProperties extends EndpointBaseProperties 
    * The Endpoint resource type.
    */
   endpointType: "AzureStorageNfsFileShare";
-
 }
 
 /**
@@ -1256,7 +1255,7 @@ model AzureStorageNfsFileShareEndpointUpdateProperties
 
 /**
  * The properties of Azure MultiCloudConnector endpoint.
-*/
+ */
 @added(Versions.v2025_07_01)
 model AzureMultiCloudConnectorEndpointProperties
   extends EndpointBaseProperties {
@@ -1287,7 +1286,7 @@ model AzureMultiCloudConnectorEndpointProperties
 
 /**
  * The properties of Azure Storage NFS file share endpoint to update.
-*/
+ */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
 @added(Versions.v2025_07_01)
 model AzureMultiCloudConnectorEndpointUpdateProperties
