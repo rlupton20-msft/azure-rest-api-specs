@@ -77,7 +77,7 @@ interface FlowProfiles {
   "The name of the FlowProfile resource to operate on. Must be 3 to 64 characters long and contain only alphanumeric characters or hyphens."
 );
 @@doc(FlowProfile.properties,
-  "The set of configuration properties that define the behavior and policies of the FlowProfile."
+  "The set of configuration properties that define the behavior and rules of the FlowProfile."
 );
 @@doc(FlowProfiles.createOrUpdate::parameters.resource,
   "The FlowProfile resource definition to create or update."

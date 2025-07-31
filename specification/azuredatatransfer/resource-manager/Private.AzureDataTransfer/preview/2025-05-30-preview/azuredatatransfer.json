@@ -2947,7 +2947,7 @@
           "$ref": "#/definitions/EnablementStatus",
           "description": "Optional. If enabled, uses Microsoft Defender antivirus scanning software as the scanning solution."
         },
-        "external": {
+        "clamAv": {
           "$ref": "#/definitions/EnablementStatus",
           "description": "Optional. If enabled, uses the external ClamAV open-source software as an antivirus scanning solution."
         }
@@ -3027,30 +3027,30 @@
     },
     "ArchiveRuleset": {
       "type": "object",
-      "description": "Rules for handling supported archive files (BZip2, Cpio, Deb, GZip, Iso9660, Rpm, Tar, Zip) during data replication.",
+      "description": "Rules for regulating supported archive files (BZip2, Cpio, Deb, GZip, Iso9660, Rpm, Tar, Zip) during data replication.",
       "properties": {
         "minimumSizeForExpansion": {
           "type": "integer",
           "format": "int64",
-          "description": "The minimum archive file size (in bytes) required to trigger expansion during replication.",
+          "description": "Optional. The minimum archive file size (in bytes) required to trigger expansion during replication. Any archive file size below the configured threshold will skip the rest of the configured rulesets for archives.",
           "minimum": 0
         },
         "maximumExpansionSizeLimit": {
           "type": "integer",
           "format": "int64",
-          "description": "The combined maximum size (in bytes) of all extracted files that an expanded archive is allowed to reach. Archives exceeding the max limit will be denied for replication.",
+          "description": "Optional. The combined maximum size (in bytes) of all extracted files that an expanded archive is allowed to reach. Archives exceeding the max limit will be denied for replication.",
           "minimum": 0
         },
         "maximumDepthLimit": {
           "type": "integer",
           "format": "int64",
-          "description": "The maximum depth of nested archives that can be expanded. Limits how many layers of embedded archives will be processed. Archives exceeding the max limit will be denied for replication.",
+          "description": "Optional. The maximum depth (depth-first) of nested archives that can be expanded. Limits how many layers of embedded archives will be processed. Archives exceeding the max limit will be denied for replication.",
           "minimum": 0
         },
         "maximumCompressionRatioLimit": {
           "type": "number",
           "format": "double",
-          "description": "The highest acceptable compression ratio (root object size * compression ratio) for an archive. Used to detect and block archives with suspiciously high compression (e.g., zip bombs).",
+          "description": "Optional. The highest acceptable compression ratio (root object size * compression ratio) for an archive. Used to detect and block archives with suspiciously high compression (e.g., zip bombs).",
           "minimum": 0
         }
       }
@@ -3406,7 +3406,7 @@
           {
             "name": "Mission",
             "value": "Mission",
-            "description": "Represents encrypted or highly sensitive data requiring secure and compliant replication mechanisms."
+            "description": "Represents standard file-based data, including Azure Blob and Table Storage that is not able to be inspected or not subject to inspection pursuant to the approval of the cloud owner."
           }
         ]
       }
@@ -3581,7 +3581,7 @@
       "properties": {
         "properties": {
           "$ref": "#/definitions/FlowProfileProperties",
-          "description": "The set of configuration properties that define the behavior and policies of the FlowProfile."
+          "description": "The set of configuration properties that define the behavior and rules of the FlowProfile."
         },
         "identity": {
           "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
@@ -3627,9 +3627,9 @@
           "type": "string",
           "description": "The name of the FlowProfile."
         },
-        "dataClassificationType": {
+        "replicationScenario": {
           "$ref": "#/definitions/DataClassType",
-          "description": "The classification of data handled by this FlowProfile."
+          "description": "The data replication scenario handled by this FlowProfile. Please note, that this value cannot be updated after creation. See the FlowProfilePatchProperties to see updateable properties."
         },
         "flowProfileId": {
           "type": "string",
@@ -3641,13 +3641,13 @@
         },
         "description": {
           "type": "string",
-          "description": "A user-defined description of the FlowProfile."
+          "description": "A description of the FlowProfile and its rulesets. The description should describe the flowprofile's purpose and rulesets applied."
         }
       },
       "required": [
         "pipeline",
         "name",
-        "dataClassificationType",
+        "replicationScenario",
         "flowProfileId",
         "status",
         "description"
@@ -3716,9 +3716,9 @@
           "description": "A guid represented as a string for the FlowProfile resource, assigned by the system.",
           "readOnly": true
         },
-        "dataClassType": {
+        "replicationScenario": {
           "$ref": "#/definitions/DataClassType",
-          "description": "The classification of data replicated by this FlowProfile."
+          "description": "The data replication scenario handled by this FlowProfile. Please not, that this value cannot be updated after creation."
         },
         "status": {
           "$ref": "#/definitions/FlowProfileStatus",
@@ -3734,14 +3734,14 @@
         }
       },
       "required": [
-        "dataClassType",
+        "replicationScenario",
         "status",
         "description"
       ]
     },
     "FlowProfileRulesets": {
       "type": "object",
-      "description": "A set of configurable rulesets for a FlowProfile resource, used during data replication.",
+      "description": "The allowed set of configurable rulesets for a FlowProfile resource, used during data replication. All rulesets are optional, and any ruleset configured will be applied to every applicable replicating data. Any data that fails a ruleset will be denied replication.",
       "properties": {
         "antivirus": {
           "$ref": "#/definitions/AntivirusRuleset",
@@ -4166,15 +4166,15 @@
     },
     "MimeFilterRuleset": {
       "type": "object",
-      "description": "Rules for filtering files based on MIME types.",
+      "description": "Rules for filtering files based on Media types (f.k.a MIME types).",
       "properties": {
         "type": {
           "$ref": "#/definitions/FilterType",
-          "description": "Specifies whether the MIME filter is an allow list or deny list."
+          "description": "Specifies whether the filter is an allow list or deny list."
         },
         "filters": {
           "$ref": "#/definitions/MimeTypeFilter",
-          "description": "Defines the MIME types and associated file extensions to be filtered."
+          "description": "Defines the Media types (f.k.a MIME types) and associated file extensions to be filtered."
         }
       },
       "required": [
@@ -4184,23 +4184,23 @@
     },
     "MimeTypeFilter": {
       "type": "object",
-      "description": "Defines allowed or blocked MIME types and associated file extensions.",
+      "description": "Defines allowed or blocked Media types (f.k.a MIME Types) and associated file extensions.",
       "properties": {
-        "mime": {
+        "media": {
           "type": "string",
-          "description": "The MIME type string, following IANA standards (e.g., application/json, image/png).",
+          "description": "The Media Types (f.k.a MIME types), following IANA standards (e.g., application/json, image/png). For a more detailed list of allowed media types please refer to the Tika documentation: https://github.com/apache/tika/blob/main/tika-core/src/main/resources/org/apache/tika/mime/tika-mimetypes.xml",
           "pattern": "^[a-z]+/[a-zA-Z0-9+\\-\\+.]+$"
         },
         "extensions": {
           "type": "array",
-          "description": "A list of file extensions associated with the specified MIME type (e.g., .json, .png).",
+          "description": "A list of file extensions associated with the specified Media type (e.g., .json, .png). To specify files with no extension, use an empty string \"\".\"",
           "items": {
             "type": "string"
           }
         }
       },
       "required": [
-        "mime",
+        "media",
         "extensions"
       ]
     },
@@ -5044,7 +5044,7 @@
     },
     "TextMatch": {
       "type": "object",
-      "description": "Configuration options for the text matching ruleset.",
+      "description": "Configuration options for the text matching ruleset. For example, if the configuration is to deny \"hello world\" for partial case-insensitive words then \"chello worlds\" would get detected and the resulting file would be denied.",
       "properties": {
         "text": {
           "type": "string",
@@ -5052,7 +5052,7 @@
         },
         "matchType": {
           "type": "string",
-          "description": "Specifies the text matching condition for text comparison.",
+          "description": "Specifies the text matching condition for text comparison. For more detail please refer to the MatchType model.",
           "default": "Partial",
           "enum": [
             "Partial",
@@ -5065,19 +5065,19 @@
               {
                 "name": "Partial",
                 "value": "Partial",
-                "description": "Matches substrings within the content."
+                "description": "The option to pattern match substrings within all text content. For example, \"hello world\" would be found in \"chello worlds\"."
               },
               {
                 "name": "Complete",
                 "value": "Complete",
-                "description": "Matches the entire string."
+                "description": "The option to pattern match the entire string explicitly. For example, \"hello world\" would NOT be found in \"chello worlds\"."
               }
             ]
           }
         },
         "caseSensitivity": {
           "type": "string",
-          "description": "Specifies the text matching conditions based on casing.",
+          "description": "Specifies the text matching conditions based on casing. For more detail please refer to the Casing model.",
           "default": "Insensitive",
           "enum": [
             "Insensitive",
@@ -5090,12 +5090,12 @@
               {
                 "name": "Insensitive",
                 "value": "Insensitive",
-                "description": "Ignores casing when performing the match."
+                "description": "Ignores casing when performing pattern matching. For example, \"Hello World\" would be found in \"hello world\"."
               },
               {
                 "name": "Sensitive",
                 "value": "Sensitive",
-                "description": "Requires exact casing for the match."
+                "description": "Requires exact casing for the pattern match. For example, \"Hello World\" would NOT not be found in \"hello world\"."
               }
             ]
           }
@@ -5109,7 +5109,7 @@
     },
     "TextMatchingRuleset": {
       "type": "object",
-      "description": "Rules for detecting and blocking specific text patterns.",
+      "description": "Rules for detecting and blocking specific text patterns. If a file contains a text pattern that is part of the configured deny list, the file will be denied.",
       "properties": {
         "deny": {
           "type": "array",
@@ -5158,7 +5158,7 @@
         "schema": {
           "type": "string",
           "format": "byte",
-          "description": "The Base64 string representation of the XSD schema(s) used for validation."
+          "description": "The Base64 string representation of the XSD schema(s) bytes used for validation. The type is of string but will be fortmatted as a byte array for consumption."
         }
       },
       "required": [

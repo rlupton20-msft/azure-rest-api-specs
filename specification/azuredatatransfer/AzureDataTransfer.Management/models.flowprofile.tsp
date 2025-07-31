@@ -15,6 +15,7 @@ namespace Private.AzureDataTransfer;
  */
 @added(Versions.v2025_05_30_preview)
 model FlowProfilePatch {
+
   /**
    * Properties of FlowProfile patch body.
    */
@@ -67,9 +68,9 @@ model FlowProfileMetadata {
   name: string;
 
   /**
-   * The classification of data handled by this FlowProfile.
+   * The data replication scenario handled by this FlowProfile. Please note, that this value cannot be updated after creation. See the FlowProfilePatchProperties to see updateable properties.
    */
-  dataClassificationType: DataClassType;
+  replicationScenario: DataClassType;
 
   /**
    * A guid represented as a string for the FlowProfile resource, assigned by the system.
@@ -82,7 +83,7 @@ model FlowProfileMetadata {
   status: FlowProfileStatus;
 
   /**
-   * A user-defined description of the FlowProfile.
+   * A description of the FlowProfile and its rulesets. The description should describe the flowprofile's purpose and rulesets applied.
    */
   description: string;
 }
@@ -105,9 +106,9 @@ model FlowProfileProperties {
   flowProfileId?: string;
 
   /**
-   * The classification of data replicated by this FlowProfile.
+   * The data replication scenario handled by this FlowProfile. Please not, that this value cannot be updated after creation.
    */
-  dataClassType: DataClassType;
+  replicationScenario: DataClassType;
 
   /**
    * The operational status of the FlowProfile.
@@ -126,7 +127,7 @@ model FlowProfileProperties {
 }
 
 /**
- * A set of configurable rulesets for a FlowProfile resource, used during data replication.
+ * The allowed set of configurable rulesets for a FlowProfile resource, used during data replication. All rulesets are optional, and any ruleset configured will be applied to every applicable replicating data. Any data that fails a ruleset will be denied replication.
  */
 @added(Versions.v2025_05_30_preview)
 model FlowProfileRulesets {
@@ -174,34 +175,34 @@ model AntivirusRuleset {
   /**
    * Optional. If enabled, uses the external ClamAV open-source software as an antivirus scanning solution.
    */
-  external?: EnablementStatus;
+  clamAv?: EnablementStatus;
 }
 
 /**
- * Rules for handling supported archive files (BZip2, Cpio, Deb, GZip, Iso9660, Rpm, Tar, Zip) during data replication.
+ * Rules for regulating supported archive files (BZip2, Cpio, Deb, GZip, Iso9660, Rpm, Tar, Zip) during data replication.
  */
 @added(Versions.v2025_05_30_preview)
 model ArchiveRuleset {
   /**
-   * The minimum archive file size (in bytes) required to trigger expansion during replication.
+   * Optional. The minimum archive file size (in bytes) required to trigger expansion during replication. Any archive file size below the configured threshold will skip the rest of the configured rulesets for archives.
    */
   @minValue(0)
   minimumSizeForExpansion?: int64;
 
   /**
-   * The combined maximum size (in bytes) of all extracted files that an expanded archive is allowed to reach. Archives exceeding the max limit will be denied for replication.
+   * Optional. The combined maximum size (in bytes) of all extracted files that an expanded archive is allowed to reach. Archives exceeding the max limit will be denied for replication.
    */
   @minValue(0)
   maximumExpansionSizeLimit?: int64;
 
   /**
-   * The maximum depth of nested archives that can be expanded. Limits how many layers of embedded archives will be processed. Archives exceeding the max limit will be denied for replication.
+   * Optional. The maximum depth (depth-first) of nested archives that can be expanded. Limits how many layers of embedded archives will be processed. Archives exceeding the max limit will be denied for replication.
    */
   @minValue(0)
   maximumDepthLimit?: int64;
 
   /**
-   * The highest acceptable compression ratio (root object size * compression ratio) for an archive. Used to detect and block archives with suspiciously high compression (e.g., zip bombs).
+   * Optional. The highest acceptable compression ratio (root object size * compression ratio) for an archive. Used to detect and block archives with suspiciously high compression (e.g., zip bombs).
    */
   @minValue(0)
   maximumCompressionRatioLimit?: float64;
@@ -226,37 +227,37 @@ model DataSizeRuleset {
 }
 
 /**
- * Rules for filtering files based on MIME types.
+ * Rules for filtering files based on Media types (f.k.a MIME types).
  */
 @added(Versions.v2025_05_30_preview)
 model MimeFilterRuleset {
   /**
-   * Specifies whether the MIME filter is an allow list or deny list.
+   * Specifies whether the filter is an allow list or deny list.
    */
   type: FilterType;
 
   /**
-   * Defines the MIME types and associated file extensions to be filtered.
+   * Defines the Media types (f.k.a MIME types) and associated file extensions to be filtered.
    */
   filters: MimeTypeFilter;
 }
 
 /**
- * Defines allowed or blocked MIME types and associated file extensions.
+ * Defines allowed or blocked Media types (f.k.a MIME Types) and associated file extensions.
  */
 @added(Versions.v2025_05_30_preview)
 model MimeTypeFilter {
   /**
-   * The MIME type string, following IANA standards (e.g., application/json, image/png).
+   * The Media Types (f.k.a MIME types), following IANA standards (e.g., application/json, image/png). For a more detailed list of allowed media types please refer to the Tika documentation: https://github.com/apache/tika/blob/main/tika-core/src/main/resources/org/apache/tika/mime/tika-mimetypes.xml
    */
   @pattern(
     "^[a-z]+/[a-zA-Z0-9+\\-\\+.]+$",
-    "String must be a valid IANA Mime type."
+    "String must be a valid IANA Media type."
   )
-  mime: string;
+  media: string;
 
   /**
-   * A list of file extensions associated with the specified MIME type (e.g., .json, .png).
+   * A list of file extensions associated with the specified Media type (e.g., .json, .png). To specify files with no extension, use an empty string ""."
    */
   extensions: string[];
 }
@@ -295,7 +296,7 @@ model XmlFilterRuleset {
   reference: XmlReferenceType = XmlReferenceType.Inline;
 
   /**
-   * The Base64 string representation of the XSD schema(s) used for validation.
+   * The Base64 string representation of the XSD schema(s) bytes used for validation. The type is of string but will be fortmatted as a byte array for consumption.
    */
   schema: bytes;
 }
@@ -314,7 +315,7 @@ union XmlReferenceType {
 }
 
 /**
- * Rules for detecting and blocking specific text patterns.
+ * Rules for detecting and blocking specific text patterns. If a file contains a text pattern that is part of the configured deny list, the file will be denied.
  */
 @added(Versions.v2025_05_30_preview)
 model TextMatchingRuleset {
@@ -331,7 +332,7 @@ model TextMatchingRuleset {
 }
 
 /**
- * Configuration options for the text matching ruleset.
+ * Configuration options for the text matching ruleset. For example, if the configuration is to deny "hello world" for partial case-insensitive words then "chello worlds" would get detected and the resulting file would be denied.
  */
 model TextMatch {
   /**
@@ -340,50 +341,50 @@ model TextMatch {
   text: string;
 
   /**
-   * Specifies the text matching condition for text comparison.
+   * Specifies the text matching condition for text comparison. For more detail please refer to the MatchType model.
    */
   @added(Versions.v2025_05_30_preview)
   matchType: MatchType = MatchType.Partial;
 
   /**
-   * Specifies the text matching conditions based on casing.
+   * Specifies the text matching conditions based on casing. For more detail please refer to the Casing model.
    */
   @added(Versions.v2025_05_30_preview)
   caseSensitivity: Casing = Casing.Insensitive;
 }
 
 /**
- * The text matching conditions for text comparison.
+ * The text pattern matching conditions for text comparison.
  */
 @added(Versions.v2025_05_30_preview)
 union MatchType {
   string,
 
   /**
-   * Matches substrings within the content.
+   * The option to pattern match substrings within all text content. For example, "hello world" would be found in "chello worlds".
    */
   Partial: "Partial",
 
   /**
-   * Matches the entire string.
+   * The option to pattern match the entire string explicitly. For example, "hello world" would NOT be found in "chello worlds".
    */
   Complete: "Complete",
 }
 
 /**
- * Text casing comparison options - diacritics casing is also supported (e.g., "résumé" will match "rÉsumÉ" for case-insensitive comparison).
+ * Text casing comparison options - diacritics casing is also supported.
  */
 @added(Versions.v2025_05_30_preview)
 union Casing {
   string,
 
   /**
-   * Ignores casing when performing the match.
+   * Ignores casing when performing pattern matching. For example, "Hello World" would be found in "hello world".
    */
   Insensitive: "Insensitive",
 
   /**
-   * Requires exact casing for the match.
+   * Requires exact casing for the pattern match. For example, "Hello World" would NOT not be found in "hello world".
    */
   Sensitive: "Sensitive",
 }
