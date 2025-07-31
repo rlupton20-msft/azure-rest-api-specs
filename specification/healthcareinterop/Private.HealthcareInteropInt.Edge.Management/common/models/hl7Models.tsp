@@ -1,7 +1,3 @@
-import "@azure-tools/typespec-azure-resource-manager";
-
-namespace Private.HealthcareInteropInt;
-
 @doc("Settings used to customize how HL7 messages are read.")
 model Hl7Configuration {
   @doc("Optional string representing the carriage return character used in the HL7/MLLP implementation.")

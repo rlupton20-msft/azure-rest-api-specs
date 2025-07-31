@@ -1,7 +1,3 @@
-import "@azure-tools/typespec-azure-resource-manager";
-
-namespace Private.HealthcareInteropInt;
-
 @doc("The resource requirements for the application (CPU, Memory, and Storage).")
 model Requirements {
   @doc("The required CPU for the edge connector. The string is Kubernetes Quantity Format (e.g. 100m).")

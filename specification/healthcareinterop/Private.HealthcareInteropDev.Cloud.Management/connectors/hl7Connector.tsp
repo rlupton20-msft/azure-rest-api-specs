@@ -3,8 +3,8 @@ import "@typespec/http";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./../common/provisioningState.tsp";
 import "./../common/resourceIds.tsp";
-import "./../../Private.HealthcareInteropDev.Edge.Management/common/models/requirements.tsp";
-import "./../../Private.HealthcareInteropDev.Edge.Management/common/models/hl7Models.tsp";
+import "./../common/models/requirements.tsp";
+import "./../common/models/hl7Models.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
