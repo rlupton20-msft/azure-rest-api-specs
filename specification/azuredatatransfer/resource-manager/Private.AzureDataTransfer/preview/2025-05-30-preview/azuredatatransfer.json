@@ -2957,10 +2957,6 @@
       "type": "object",
       "description": "Properties specific to API Flow Type",
       "properties": {
-        "remoteEndpoint": {
-          "type": "string",
-          "description": "Remote host to which communication needs to be made"
-        },
         "cname": {
           "type": "string",
           "description": "Unique CNAME to represent the Azure Data Transfer API Flow instance"
@@ -2969,35 +2965,17 @@
           "$ref": "#/definitions/ApiMode",
           "description": "Remote Calling Mode in the Azure Data Transfer API Flow, which describes how the API Flow will be invoked"
         },
-        "identityTranslation": {
-          "$ref": "#/definitions/IdentityTranslation",
-          "description": "Flag for if Azure Data Transfer API Flow should extract the user token"
-        },
-        "senderClientId": {
-          "type": "string",
-          "description": "Sender's app user assigned Manage Identity client ID"
-        },
-        "senderClientIds": {
+        "authentication": {
           "type": "array",
-          "description": "Collection of senderClientIds",
+          "description": "Optional properties to specify authentication to the Azure Data Transfer API Flow",
           "items": {
-            "type": "string"
-          }
+            "$ref": "#/definitions/Authentication"
+          },
+          "x-ms-identifiers": []
         },
-        "remoteCallingModeClientId": {
-          "type": "string",
-          "description": "Remote stub app registration Client ID"
-        },
-        "remoteCallingModeClientIds": {
-          "type": "array",
-          "description": "Collection of remoteCallingModeClientIds",
-          "items": {
-            "type": "string"
-          }
-        },
-        "audienceOverride": {
-          "type": "string",
-          "description": "Optional field to override the audience of the remote endpoint"
+        "remoteEndpointSettings": {
+          "$ref": "#/definitions/RemoteEndpointSettings",
+          "description": "Properties for the destination remote endpoint where the API call should be made to"
         }
       }
     },
@@ -3052,6 +3030,47 @@
           "format": "double",
           "description": "The highest acceptable compression ratio (root object size * compression ratio) for an archive. Used to detect and block archives with suspiciously high compression (e.g., zip bombs).",
           "minimum": 0
+        }
+      }
+    },
+    "Authentication": {
+      "type": "object",
+      "description": "Properties to specify authentication to the Azure Data Transfer API Flow",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/Type",
+          "description": "Type of authentication mechanism. JWT by default"
+        },
+        "instance": {
+          "type": "string",
+          "description": "The identity provider's token service instance"
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "A unique identifier representing the tenant of the identity provider's token service"
+        },
+        "authority": {
+          "type": "string",
+          "description": "The full URL endpoint used to acquire tokens, typically combining the instance and tenant ID to target a specific authentication context"
+        },
+        "applicationIds": {
+          "type": "array",
+          "description": "List of applicationIds allowed to authorize to this flow. This is used as an alternative to the RBAC authorization check",
+          "items": {
+            "type": "string"
+          }
+        },
+        "audience": {
+          "type": "string",
+          "description": "Audience of the identity of the remote endpoint service. By default, remoteEndpointSettings.endpoint will be used if a value is not provided"
+        },
+        "clientIdOverride": {
+          "type": "string",
+          "description": "The Flow can use an Entra app identity that is provided by the Flow user to obtain the token to call the remote endpoint. This field specifies the user provided app's clientId"
+        },
+        "identityTranslation": {
+          "$ref": "#/definitions/IdentityTranslation",
+          "description": "Flag for if Azure Data Transfer API Flow should use the user token for the remote endpoint"
         }
       }
     },
@@ -3996,7 +4015,8 @@
       "description": "Status of force disablement",
       "enum": [
         "ConnectionForceDisabled",
-        "FlowTypeForceDisabled"
+        "FlowTypeForceDisabled",
+        "PipelineForceDisabled"
       ],
       "x-ms-enum": {
         "name": "ForceDisabledStatus",
@@ -4011,6 +4031,11 @@
             "name": "FlowTypeForceDisabled",
             "value": "FlowTypeForceDisabled",
             "description": "This Flow has been disabled as the flow type this flow uses has been disabled."
+          },
+          {
+            "name": "PipelineForceDisabled",
+            "value": "PipelineForceDisabled",
+            "description": "This Flow has been disabled as the pipeline has been disabled."
           }
         ]
       }
@@ -4858,6 +4883,24 @@
       ],
       "additionalProperties": {}
     },
+    "RemoteEndpointSettings": {
+      "type": "object",
+      "description": "Properties for the destination remote endpoint where the API call should be made to",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "description": "Remote endpoint where the API call should be made to"
+        },
+        "authentication": {
+          "type": "array",
+          "description": "Optional properties to specify authentication to use for the remote endpoint",
+          "items": {
+            "$ref": "#/definitions/Authentication"
+          },
+          "x-ms-identifiers": []
+        }
+      }
+    },
     "ResourceBody": {
       "type": "object",
       "description": "The resource to reference.",
@@ -5127,6 +5170,30 @@
       "required": [
         "deny"
       ]
+    },
+    "Type": {
+      "type": "string",
+      "description": "Type of authentication mechanism for Azure Data Transfer API Flow",
+      "enum": [
+        "JWT",
+        "None"
+      ],
+      "x-ms-enum": {
+        "name": "Type",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "JWT",
+            "value": "JWT",
+            "description": "JWT Authentication"
+          },
+          {
+            "name": "None",
+            "value": "None",
+            "description": "No Authentication"
+          }
+        ]
+      }
     },
     "XmlFilterRuleset": {
       "type": "object",
