@@ -373,7 +373,7 @@ union DataClassType {
   "Complex",
 
   /**
-   * Represents encrypted or highly sensitive data requiring secure and compliant replication mechanisms.
+   * Represents standard file-based data, including Azure Blob and Table Storage that is not able to be inspected or not subject to inspection pursuant to the approval of the cloud owner.
    */
   "Mission",
 }
