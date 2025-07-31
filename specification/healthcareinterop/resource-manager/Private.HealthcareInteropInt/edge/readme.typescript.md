@@ -6,8 +6,8 @@ Please also specify `--typescript-sdks-folder=<path to root folder of your azure
 ```yaml $(typescript)
 typescript:
   azure-arm: true
-  package-name: "@azure/arm-prvthealthcareinteropintedge"
-  output-folder: "$(typescript-sdks-folder)/sdk/prvthealthcareinteropintedge/arm-prvthealthcareinteropintedge"
+  package-name: "@azure/arm-prvthealthcareinteropint-edge"
+  output-folder: "$(typescript-sdks-folder)/sdk/prvthealthcareinteropintedge/arm-prvthealthcareinteropint-edge"
   payload-flattening-threshold: 1
   clear-output-folder: true
   generate-metadata: true

@@ -7,8 +7,8 @@ For new Resource Provider. It is highly recommended to onboard Azure CLI extensi
 ```yaml $(az) && $(target-mode) != 'core'
 az:
   extensions: prvthealthcareinteropintedge
-  namespace: azure.mgmt.prvthealthcareinteropintedge
-  package-name: azure-mgmt-prvthealthcareinteropintedge
+  namespace: azure.mgmt.prvthealthcareinteropint.edge
+  package-name: azure-mgmt-prvthealthcareinteropint-edge
 az-output-folder: $(azure-cli-extension-folder)/src/prvthealthcareinteropintedge
 python-sdk-output-folder: "$(az-output-folder)/azext_prvthealthcareinteropintedge/vendored_sdks/prvthealthcareinteropintedge"
 # add additional configuration here specific for Azure CLI
@@ -20,8 +20,8 @@ This is for command modules that already in azure cli main repo.
 ```yaml $(az) && $(target-mode) == 'core'
 az:
   extensions: prvthealthcareinteropintedge
-  namespace: azure.mgmt.prvthealthcareinteropintedge
-  package-name: azure-mgmt-prvthealthcareinteropintedge
+  namespace: azure.mgmt.prvthealthcareinteropint.edge
+  package-name: azure-mgmt-prvthealthcareinteropint-edge
 az-output-folder: $(azure-cli-folder)/src/azure-cli/azure/cli/command_modules/prvthealthcareinteropintedge
 python-sdk-output-folder: "$(az-output-folder)/vendored_sdks/prvthealthcareinteropintedge"
 ```
