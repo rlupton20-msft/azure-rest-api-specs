@@ -127,7 +127,7 @@ model FlowProfileProperties {
 }
 
 /**
- * The allowed set of configurable rulesets for a FlowProfile resource, used during data replication. All rulesets are optional, and any ruleset configured will be applied to every applicable replicating data. Any data that fails a ruleset will be denied replication.
+ * The allowed set of configurable rulesets for a FlowProfile resource, used during data replication. All rulesets are optional, and any ruleset configured will be applied to every applicable replicating data. Any data that fails a ruleset will be denied replication. If a ruleset is not configured then the ruleset is considered disabled and will not apply towards replicating data.
  */
 @added(Versions.v2025_05_30_preview)
 model FlowProfileRulesets {
@@ -168,26 +168,26 @@ model FlowProfileRulesets {
 @added(Versions.v2025_05_30_preview)
 model AntivirusRuleset {
   /**
-   * Optional. If enabled, uses Microsoft Defender antivirus scanning software as the scanning solution.
+   * Optional. Default is disabled. If enabled, uses Microsoft Defender antivirus scanning software as the scanning solution.
    */
-  defender?: EnablementStatus;
+  defender?: EnablementStatus = EnablementStatus.Disabled;
 
   /**
-   * Optional. If enabled, uses the external ClamAV open-source software as an antivirus scanning solution.
+   * Optional. Default is disabled. If enabled, uses the external ClamAV open-source software as an antivirus scanning solution.
    */
-  clamAv?: EnablementStatus;
+  clamAv?: EnablementStatus = EnablementStatus.Disabled;
 }
 
 /**
- * Rules for regulating supported archive files (BZip2, Cpio, Deb, GZip, Iso9660, Rpm, Tar, Zip) during data replication.
+ * Rules for regulating supported archive files (BZip2, Cpio, Deb, GZip, Iso9660, Rpm, Tar, Zip) during data replication. All properties are optional and only the configured options will be applied against archives. If minimumSizeForExpansion is set to 1 and maximumExpansionSizeLimit is set to 10, then only archive file sizes that are larger than 1 will be subject to processing for the only enabled maximumExpansionSizeLimit.
  */
 @added(Versions.v2025_05_30_preview)
 model ArchiveRuleset {
   /**
-   * Optional. The minimum archive file size (in bytes) required to trigger expansion during replication. Any archive file size below the configured threshold will skip the rest of the configured rulesets for archives.
+   * Optional. Default is 0. The minimum archive file size (in bytes) required to trigger expansion during replication. Any archive file size below the configured threshold will skip the rest of the configured rulesets for archives.
    */
   @minValue(0)
-  minimumSizeForExpansion?: int64;
+  minimumSizeForExpansion?: int64 = 0;
 
   /**
    * Optional. The combined maximum size (in bytes) of all extracted files that an expanded archive is allowed to reach. Archives exceeding the max limit will be denied for replication.
@@ -214,16 +214,16 @@ model ArchiveRuleset {
 @added(Versions.v2025_05_30_preview)
 model DataSizeRuleset {
   /**
-   * Specifies the maximum allowed size (in bytes) for files to be replicated.
+   * Optional. Specifies the maximum allowed size (in bytes) for files to be replicated. Any file size greater than maximum will be denied replication.
    */
   @minValue(0)
   maximum?: int64;
 
   /**
-   * Specifies the minimum required size (in bytes) for a file to be eligible for replication.
+   * Optional. Default is 0. Specifies the minimum required size (in bytes) for a file to be eligible for replication. Any file size less than minimum will be denied replication.
    */
   @minValue(0)
-  minimum?: int64;
+  minimum?: int64 = 0;
 }
 
 /**
@@ -232,18 +232,18 @@ model DataSizeRuleset {
 @added(Versions.v2025_05_30_preview)
 model MimeFilterRuleset {
   /**
-   * Specifies whether the filter is an allow list or deny list.
+   * Specifies whether the filter is an allow list or deny list. For more detail, please refer to the FilterType model.
    */
   type: FilterType;
 
   /**
-   * Defines the Media types (f.k.a MIME types) and associated file extensions to be filtered.
+   * Defines the Media types (f.k.a MIME types) and associated file extensions to be filtered. For more detail, please refer to the MimeTypeFiler model.
    */
   filters: MimeTypeFilter;
 }
 
 /**
- * Defines allowed or blocked Media types (f.k.a MIME Types) and associated file extensions.
+ * Defines a list of Media types (f.k.a MIME Types) and associated file extensions subject to filtering.
  */
 @added(Versions.v2025_05_30_preview)
 model MimeTypeFilter {
@@ -252,7 +252,7 @@ model MimeTypeFilter {
    */
   @pattern(
     "^[a-z]+/[a-zA-Z0-9+\\-\\+.]+$",
-    "String must be a valid IANA Media type."
+    "Value must be a valid IANA Media type."
   )
   media: string;
 

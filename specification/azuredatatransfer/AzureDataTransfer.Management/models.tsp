@@ -106,23 +106,23 @@ union ConnectionStatus {
 }
 
 /**
- * Status of force disablement
+ * Defines different disablement statuses and the circumstances in why they were disabled.
  */
 union ForceDisabledStatus {
   string,
 
   /**
-   * This Flow has been disabled as the connection has been disabled.
+   * Defines disablement of a Flow due to the parent connection being disabled.
    */
   ConnectionForceDisabled: "ConnectionForceDisabled",
 
   /**
-   * This Flow has been disabled as the flow type this flow uses has been disabled.
+   * Defines disablement of a Flow due to the linked flow type being disabled.
    */
   FlowTypeForceDisabled: "FlowTypeForceDisabled",
 
   /**
-   * This Flow has been disabled as the pipeline has been disabled.
+   * Defines disablement of a Flow due to the Pipeline being disabled.
    */
   @added(Versions.v2025_05_30_preview)
   PipelineForceDisabled: "PipelineForceDisabled",
@@ -495,19 +495,19 @@ union IdentityTranslation {
 }
 
 /**
- * Type of authentication mechanism for Azure Data Transfer API Flow
+ * Type of authentication mechanism for Azure Data Transfer API Flows.
  */
 @added(Versions.v2025_05_30_preview)
-union Type {
+union AuthenticationType {
   string,
 
   /**
-   * JWT Authentication
+   * Option to use a JWT Bearer Authentication Token.
    */
   JWT: "JWT",
 
   /**
-   * No Authentication
+   * Option to not use any form of Authentication.
    */
   None: "None",
 }
@@ -1202,9 +1202,8 @@ model MessagingOptions {
  * Properties specific to API Flow Type
  */
 model ApiFlowOptions {
-
   /**
-   * Remote host to which communication needs to be made
+   * Remote host to which communication needs to be made. Deprecated starting 2025-05-30-preview.
    */
   @removed(Versions.v2025_05_30_preview)
   remoteEndpoint?: string;
@@ -1220,106 +1219,104 @@ model ApiFlowOptions {
   apiMode?: ApiMode;
 
   /**
-   * Flag for if Azure Data Transfer API Flow should extract the user token
+   * Determines which identity to use for extracting the user token for Azure Data Transfer API Flow. Deprecated starting 2025-05-30-preview.
    */
   @removed(Versions.v2025_05_30_preview)
   identityTranslation?: IdentityTranslation;
 
   /**
-   * Sender's app user assigned Manage Identity client ID
+   * Sender's app user assigned Manage Identity client ID. Deprecated starting 2025-05-30-preview.
    */
   @removed(Versions.v2025_05_30_preview)
   senderClientId?: string;
 
   /**
-   * Remote stub app registration Client ID
+   * Remote stub app registration Client ID. Deprecated starting 2025-05-30-preview.
    */
   @removed(Versions.v2025_05_30_preview)
   remoteCallingModeClientId?: string;
 
   /**
-   * Optional field to override the audience of the remote endpoint
+   * Optional field to override the audience of the remote endpoint. Deprecated starting 2025-05-30-preview. 
    */
   @removed(Versions.v2025_05_30_preview)
   audienceOverride?: string;
 
   /**
-   * Optional properties to specify authentication to the Azure Data Transfer API Flow
+   * Optional properties to specify the type of authentication for the Azure Data Transfer API Flow.
    */
   @added(Versions.v2025_05_30_preview)
   @OpenAPI.extension("x-ms-identifiers", #[])
   authentication?: Authentication[];
 
   /**
-   * Properties for the destination remote endpoint where the API call should be made to
+   * Defines the destination remote endpoint for the API calls.
    */
   @added(Versions.v2025_05_30_preview)
   remoteEndpointSettings?: RemoteEndpointSettings;
 }
 
 /**
- * Properties for the destination remote endpoint where the API call should be made to
+ * Properties to configure the destination remote endpoint for API calls.
  */
 @added(Versions.v2025_05_30_preview)
 model RemoteEndpointSettings {
+  /**
+   * The remote endpoint uri all API calls.
+   */
+  endpoint: string;
 
-   /**
-    * Remote endpoint where the API call should be made to
-    */
-   endpoint?: string;
-
-   /**
-    * Optional properties to specify authentication to use for the remote endpoint
-    */
-   @OpenAPI.extension("x-ms-identifiers", #[])
-   authentication?: Authentication[];
+  /**
+   * Optional. A list of authentication methods to use against the remote endpoint.
+   */
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  authentication?: Authentication[];
 }
 
 /**
- * Properties to specify authentication to the Azure Data Transfer API Flow
+ * Configures the authentication method and parameters for an Azure Data Transfer API Flow.
  */
 @added(Versions.v2025_05_30_preview)
 model Authentication {
+  /**
+   * Type of authentication mechanism. JWT by default.
+   */
+  type?: AuthenticationType = AuthenticationType.JWT;
 
-   /**
-    * Type of authentication mechanism. JWT by default
-    */
-   type?: Type;
+  /**
+   * The identity provider's token service instance.
+   */
+  instance?: string;
 
-   /**
-    * The identity provider's token service instance
-    */
-   instance?: string;
+  /**
+   * A unique identifier representing the tenant of the identity provider's token service.
+   */
+  tenantId?: string;
 
-   /**
-    * A unique identifier representing the tenant of the identity provider's token service
-    */
-   tenantId?: string;
+  /**
+   * The full URL endpoint used to acquire tokens, typically combining the instance and tenant ID to target a specific authentication context.
+   */
+  authority?: string;
 
-   /**
-    * The full URL endpoint used to acquire tokens, typically combining the instance and tenant ID to target a specific authentication context
-    */
-   authority?: string;
+  /**
+   * List of applicationIds allowed to authorize to this flow. This is used as an alternative to the RBAC authorization check.
+   */
+  applicationIds?: string[];
 
-   /**
-    * List of applicationIds allowed to authorize to this flow. This is used as an alternative to the RBAC authorization check
-    */
-   applicationIds?: string[];
+  /**
+   * Audience of the identity of the remote endpoint service. By default, remoteEndpointSettings.endpoint will be used if a value is not provided.
+   */
+  audience?: string;
 
-   /**
-    * Audience of the identity of the remote endpoint service. By default, remoteEndpointSettings.endpoint will be used if a value is not provided
-    */
-   audience?: string;
+  /**
+   * The Flow can use an Entra app identity that is provided by the Flow user to obtain the token to call the remote endpoint. This field specifies the user provided app's clientId.
+   */
+  clientIdOverride?: string;
 
-   /**
-    * The Flow can use an Entra app identity that is provided by the Flow user to obtain the token to call the remote endpoint. This field specifies the user provided app's clientId
-    */
-   clientIdOverride?: string;
-
-   /**
-    * Flag for if Azure Data Transfer API Flow should use the user token for the remote endpoint
-    */
-   identityTranslation?: IdentityTranslation;
+  /**
+   * Determines which identity to use for extracting the user token for Azure Data Transfer API Flow.
+   */
+  identityTranslation?: IdentityTranslation;
 }
 
 /**

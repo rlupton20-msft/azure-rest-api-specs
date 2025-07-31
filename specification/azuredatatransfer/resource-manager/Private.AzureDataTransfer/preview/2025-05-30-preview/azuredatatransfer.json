@@ -2944,12 +2944,54 @@
       "description": "Antivirus scanning rules for replicating data. By default, all antivirus scanning solutions are disabled.",
       "properties": {
         "defender": {
-          "$ref": "#/definitions/EnablementStatus",
-          "description": "Optional. If enabled, uses Microsoft Defender antivirus scanning software as the scanning solution."
+          "type": "string",
+          "description": "Optional. Default is disabled. If enabled, uses Microsoft Defender antivirus scanning software as the scanning solution.",
+          "default": "Disabled",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "x-ms-enum": {
+            "name": "EnablementStatus",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Enabled",
+                "value": "Enabled",
+                "description": "Represents an enabled status."
+              },
+              {
+                "name": "Disabled",
+                "value": "Disabled",
+                "description": "Represents a disabled status."
+              }
+            ]
+          }
         },
         "clamAv": {
-          "$ref": "#/definitions/EnablementStatus",
-          "description": "Optional. If enabled, uses the external ClamAV open-source software as an antivirus scanning solution."
+          "type": "string",
+          "description": "Optional. Default is disabled. If enabled, uses the external ClamAV open-source software as an antivirus scanning solution.",
+          "default": "Disabled",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "x-ms-enum": {
+            "name": "EnablementStatus",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Enabled",
+                "value": "Enabled",
+                "description": "Represents an enabled status."
+              },
+              {
+                "name": "Disabled",
+                "value": "Disabled",
+                "description": "Represents a disabled status."
+              }
+            ]
+          }
         }
       }
     },
@@ -2967,7 +3009,7 @@
         },
         "authentication": {
           "type": "array",
-          "description": "Optional properties to specify authentication to the Azure Data Transfer API Flow",
+          "description": "Optional properties to specify the type of authentication for the Azure Data Transfer API Flow.",
           "items": {
             "$ref": "#/definitions/Authentication"
           },
@@ -2975,7 +3017,7 @@
         },
         "remoteEndpointSettings": {
           "$ref": "#/definitions/RemoteEndpointSettings",
-          "description": "Properties for the destination remote endpoint where the API call should be made to"
+          "description": "Defines the destination remote endpoint for the API calls."
         }
       }
     },
@@ -3005,12 +3047,13 @@
     },
     "ArchiveRuleset": {
       "type": "object",
-      "description": "Rules for regulating supported archive files (BZip2, Cpio, Deb, GZip, Iso9660, Rpm, Tar, Zip) during data replication.",
+      "description": "Rules for regulating supported archive files (BZip2, Cpio, Deb, GZip, Iso9660, Rpm, Tar, Zip) during data replication. All properties are optional and only the configured options will be applied against archives. If minimumSizeForExpansion is set to 1 and maximumExpansionSizeLimit is set to 10, then only archive file sizes that are larger than 1 will be subject to processing for the only enabled maximumExpansionSizeLimit.",
       "properties": {
         "minimumSizeForExpansion": {
           "type": "integer",
           "format": "int64",
-          "description": "Optional. The minimum archive file size (in bytes) required to trigger expansion during replication. Any archive file size below the configured threshold will skip the rest of the configured rulesets for archives.",
+          "description": "Optional. Default is 0. The minimum archive file size (in bytes) required to trigger expansion during replication. Any archive file size below the configured threshold will skip the rest of the configured rulesets for archives.",
+          "default": 0,
           "minimum": 0
         },
         "maximumExpansionSizeLimit": {
@@ -3035,42 +3078,63 @@
     },
     "Authentication": {
       "type": "object",
-      "description": "Properties to specify authentication to the Azure Data Transfer API Flow",
+      "description": "Configures the authentication method and parameters for an Azure Data Transfer API Flow.",
       "properties": {
         "type": {
-          "$ref": "#/definitions/Type",
-          "description": "Type of authentication mechanism. JWT by default"
+          "type": "string",
+          "description": "Type of authentication mechanism. JWT by default.",
+          "default": "JWT",
+          "enum": [
+            "JWT",
+            "None"
+          ],
+          "x-ms-enum": {
+            "name": "AuthenticationType",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "JWT",
+                "value": "JWT",
+                "description": "Option to use a JWT Bearer Authentication Token."
+              },
+              {
+                "name": "None",
+                "value": "None",
+                "description": "Option to not use any form of Authentication."
+              }
+            ]
+          }
         },
         "instance": {
           "type": "string",
-          "description": "The identity provider's token service instance"
+          "description": "The identity provider's token service instance."
         },
         "tenantId": {
           "type": "string",
-          "description": "A unique identifier representing the tenant of the identity provider's token service"
+          "description": "A unique identifier representing the tenant of the identity provider's token service."
         },
         "authority": {
           "type": "string",
-          "description": "The full URL endpoint used to acquire tokens, typically combining the instance and tenant ID to target a specific authentication context"
+          "description": "The full URL endpoint used to acquire tokens, typically combining the instance and tenant ID to target a specific authentication context."
         },
         "applicationIds": {
           "type": "array",
-          "description": "List of applicationIds allowed to authorize to this flow. This is used as an alternative to the RBAC authorization check",
+          "description": "List of applicationIds allowed to authorize to this flow. This is used as an alternative to the RBAC authorization check.",
           "items": {
             "type": "string"
           }
         },
         "audience": {
           "type": "string",
-          "description": "Audience of the identity of the remote endpoint service. By default, remoteEndpointSettings.endpoint will be used if a value is not provided"
+          "description": "Audience of the identity of the remote endpoint service. By default, remoteEndpointSettings.endpoint will be used if a value is not provided."
         },
         "clientIdOverride": {
           "type": "string",
-          "description": "The Flow can use an Entra app identity that is provided by the Flow user to obtain the token to call the remote endpoint. This field specifies the user provided app's clientId"
+          "description": "The Flow can use an Entra app identity that is provided by the Flow user to obtain the token to call the remote endpoint. This field specifies the user provided app's clientId."
         },
         "identityTranslation": {
           "$ref": "#/definitions/IdentityTranslation",
-          "description": "Flag for if Azure Data Transfer API Flow should use the user token for the remote endpoint"
+          "description": "Determines which identity to use for extracting the user token for Azure Data Transfer API Flow."
         }
       }
     },
@@ -3437,13 +3501,14 @@
         "maximum": {
           "type": "integer",
           "format": "int64",
-          "description": "Specifies the maximum allowed size (in bytes) for files to be replicated.",
+          "description": "Optional. Specifies the maximum allowed size (in bytes) for files to be replicated. Any file size greater than maximum will be denied replication.",
           "minimum": 0
         },
         "minimum": {
           "type": "integer",
           "format": "int64",
-          "description": "Specifies the minimum required size (in bytes) for a file to be eligible for replication.",
+          "description": "Optional. Default is 0. Specifies the minimum required size (in bytes) for a file to be eligible for replication. Any file size less than minimum will be denied replication.",
+          "default": 0,
           "minimum": 0
         }
       }
@@ -3760,7 +3825,7 @@
     },
     "FlowProfileRulesets": {
       "type": "object",
-      "description": "The allowed set of configurable rulesets for a FlowProfile resource, used during data replication. All rulesets are optional, and any ruleset configured will be applied to every applicable replicating data. Any data that fails a ruleset will be denied replication.",
+      "description": "The allowed set of configurable rulesets for a FlowProfile resource, used during data replication. All rulesets are optional, and any ruleset configured will be applied to every applicable replicating data. Any data that fails a ruleset will be denied replication. If a ruleset is not configured then the ruleset is considered disabled and will not apply towards replicating data.",
       "properties": {
         "antivirus": {
           "$ref": "#/definitions/AntivirusRuleset",
@@ -4012,7 +4077,7 @@
     },
     "ForceDisabledStatus": {
       "type": "string",
-      "description": "Status of force disablement",
+      "description": "Defines different disablement statuses and the circumstances in why they were disabled.",
       "enum": [
         "ConnectionForceDisabled",
         "FlowTypeForceDisabled",
@@ -4025,17 +4090,17 @@
           {
             "name": "ConnectionForceDisabled",
             "value": "ConnectionForceDisabled",
-            "description": "This Flow has been disabled as the connection has been disabled."
+            "description": "Defines disablement of a Flow due to the parent connection being disabled."
           },
           {
             "name": "FlowTypeForceDisabled",
             "value": "FlowTypeForceDisabled",
-            "description": "This Flow has been disabled as the flow type this flow uses has been disabled."
+            "description": "Defines disablement of a Flow due to the linked flow type being disabled."
           },
           {
             "name": "PipelineForceDisabled",
             "value": "PipelineForceDisabled",
-            "description": "This Flow has been disabled as the pipeline has been disabled."
+            "description": "Defines disablement of a Flow due to the Pipeline being disabled."
           }
         ]
       }
@@ -4195,11 +4260,11 @@
       "properties": {
         "type": {
           "$ref": "#/definitions/FilterType",
-          "description": "Specifies whether the filter is an allow list or deny list."
+          "description": "Specifies whether the filter is an allow list or deny list. For more detail, please refer to the FilterType model."
         },
         "filters": {
           "$ref": "#/definitions/MimeTypeFilter",
-          "description": "Defines the Media types (f.k.a MIME types) and associated file extensions to be filtered."
+          "description": "Defines the Media types (f.k.a MIME types) and associated file extensions to be filtered. For more detail, please refer to the MimeTypeFiler model."
         }
       },
       "required": [
@@ -4209,7 +4274,7 @@
     },
     "MimeTypeFilter": {
       "type": "object",
-      "description": "Defines allowed or blocked Media types (f.k.a MIME Types) and associated file extensions.",
+      "description": "Defines a list of Media types (f.k.a MIME Types) and associated file extensions subject to filtering.",
       "properties": {
         "media": {
           "type": "string",
@@ -4885,21 +4950,24 @@
     },
     "RemoteEndpointSettings": {
       "type": "object",
-      "description": "Properties for the destination remote endpoint where the API call should be made to",
+      "description": "Properties to configure the destination remote endpoint for API calls.",
       "properties": {
         "endpoint": {
           "type": "string",
-          "description": "Remote endpoint where the API call should be made to"
+          "description": "The remote endpoint uri all API calls."
         },
         "authentication": {
           "type": "array",
-          "description": "Optional properties to specify authentication to use for the remote endpoint",
+          "description": "Optional. A list of authentication methods to use against the remote endpoint.",
           "items": {
             "$ref": "#/definitions/Authentication"
           },
           "x-ms-identifiers": []
         }
-      }
+      },
+      "required": [
+        "endpoint"
+      ]
     },
     "ResourceBody": {
       "type": "object",
@@ -5170,30 +5238,6 @@
       "required": [
         "deny"
       ]
-    },
-    "Type": {
-      "type": "string",
-      "description": "Type of authentication mechanism for Azure Data Transfer API Flow",
-      "enum": [
-        "JWT",
-        "None"
-      ],
-      "x-ms-enum": {
-        "name": "Type",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "JWT",
-            "value": "JWT",
-            "description": "JWT Authentication"
-          },
-          {
-            "name": "None",
-            "value": "None",
-            "description": "No Authentication"
-          }
-        ]
-      }
     },
     "XmlFilterRuleset": {
       "type": "object",
