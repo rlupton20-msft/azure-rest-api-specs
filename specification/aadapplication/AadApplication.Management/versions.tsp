@@ -4,8 +4,8 @@ import "@typespec/versioning";
 using Azure.ResourceManager;
 using TypeSpec.Versioning;
 
-@versioned(Microsoft.AzureCis.Versions)
-namespace Microsoft.AzureCis;
+@versioned(Microsoft.AadApplication.Versions)
+namespace Microsoft.AadApplication;
 
 @doc("Supported versions.")
 enum Versions {
