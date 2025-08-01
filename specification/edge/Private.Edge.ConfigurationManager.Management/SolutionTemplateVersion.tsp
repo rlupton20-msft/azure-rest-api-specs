@@ -146,10 +146,10 @@ model HierarchyConfigSchemaDetails {
 
 @doc("Level based apply response")
 model LevelApplyResponse {
-  @doc("Hierachy Level")
+  @doc("Hierarchy Level")
   level?: string;
 
-  @doc("Hierachy config and schema details")
+  @doc("Hierarchy config and schema details")
   @Azure.ResourceManager.identifiers(#[])
   configschemadetails: HierarchyConfigSchemaDetails[];
 }
