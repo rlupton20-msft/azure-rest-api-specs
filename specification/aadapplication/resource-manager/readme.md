@@ -6,7 +6,7 @@
 title: RPaaSClient
 openapi-type: arm
 openapi-subtype: rpaas
-tag: 2023-08-22-preview
+tag: 2025-08-01-preview
 ```
 
 This is the AutoRest configuration file for Resources.
@@ -36,13 +36,13 @@ openapi-type: arm
 tag: package-2023-08-22
 ```
 
-### Tag: package-2023-08-22-preview
+### Tag: package-2025-08-01-preview
 
-These settings apply only when `--tag=package-2023-08-22-preview` is specified on the command line.
+These settings apply only when `--tag=package-2025-08-01-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-2023-08-22-preview'
+```yaml $(tag) == 'package-2025-08-01-preview'
 input-file:
-  - Microsoft.AadApplication/preview/2023-08-22-preview/aad.json
+  - Microsoft.AadApplication/preview/2025-08-01-preview/aad.json
 ```
 
 ---
