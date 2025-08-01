@@ -95,7 +95,6 @@ These settings apply only when `--tag=package-2024-06-01-preview` is specified o
 ```yaml $(tag) == 'package-2024-06-01-preview'
 input-file:
   - configurations/preview/2024-06-01-preview/configurations.json
-  - configurationmanager/preview/2024-06-01-preview/configurationmanager.json
   - sites/preview/2024-06-01-preview/Sites.json
 ```
 
