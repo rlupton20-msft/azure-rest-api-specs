@@ -42,7 +42,7 @@ These settings apply only when `--tag=package-2025-08-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2025-08-01-preview'
 input-file:
-  - Microsoft.AadApplication/preview/2025-08-01-preview/aad.json
+  - Microsoft.AadApplication/preview/2025-08-01-preview/aadapplication.json
 ```
 
 ---
