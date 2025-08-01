@@ -25,6 +25,10 @@ model DynamicConfigurationVersionProperties {
   @visibility(Lifecycle.Read)
   schemaId?: string;
 
+  @doc("Dynamic schema version Id for configuration")
+  @visibility(Lifecycle.Read)
+  dynamicSchemaVersionId?: string;
+
   @doc("Provisioning state of resource")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
