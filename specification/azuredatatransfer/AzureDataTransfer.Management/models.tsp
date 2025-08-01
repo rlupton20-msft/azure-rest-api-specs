@@ -173,7 +173,7 @@ union FlowType {
   Messaging: "Messaging",
 
   /**
-   * This flow sends data that will not be processed by any security system.
+   * This flow sends standard data but is subject to strict cloud owner approval.
    */
   Mission: "Mission",
 
@@ -203,12 +203,12 @@ union FlowType {
   StreamingVideo: "StreamingVideo",
 
   /**
-   * This flow sends blobs that will not be processed by any security system.
+   * This flow sends blobs but is subject to cloud owner approval.
    */
   Opaque: "Opaque",
 
   /**
-   * This flow sends Extensible Markup Language that will not be processed by any security system.
+   * This flow sends Extensible Markup Language that is subject to strict cloud owner approval
    */
   MissionOpaqueXML: "MissionOpaqueXML",
 
@@ -373,7 +373,7 @@ union DataClassType {
   "Complex",
 
   /**
-   * Represents standard file-based data, including Azure Blob and Table Storage that is not able to be inspected or not subject to inspection pursuant to the approval of the cloud owner.
+   * Represents standard file-based data, including Azure Blob and Table Storage that is subject to inspection pursuant to the approval of the cloud owner.
    */
   "Mission",
 }
@@ -1237,7 +1237,7 @@ model ApiFlowOptions {
   remoteCallingModeClientId?: string;
 
   /**
-   * Optional field to override the audience of the remote endpoint. Deprecated starting 2025-05-30-preview. 
+   * Optional field to override the audience of the remote endpoint. Deprecated starting 2025-05-30-preview.
    */
   @removed(Versions.v2025_05_30_preview)
   audienceOverride?: string;

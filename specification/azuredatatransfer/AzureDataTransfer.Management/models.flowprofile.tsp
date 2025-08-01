@@ -15,7 +15,6 @@ namespace Private.AzureDataTransfer;
  */
 @added(Versions.v2025_05_30_preview)
 model FlowProfilePatch {
-
   /**
    * Properties of FlowProfile patch body.
    */
@@ -179,7 +178,7 @@ model AntivirusRuleset {
 }
 
 /**
- * Rules for regulating supported archive files (BZip2, Cpio, Deb, GZip, Iso9660, Rpm, Tar, Zip) during data replication. All properties are optional and only the configured options will be applied against archives. If minimumSizeForExpansion is set to 1 and maximumExpansionSizeLimit is set to 10, then only archive file sizes that are larger than 1 will be subject to processing for the only enabled maximumExpansionSizeLimit.
+ * Rules for regulating supported archive files (BZip2, Cpio, Deb, GZip, Iso9660, Rpm, Tar, Zip) during data replication. All properties are optional and only the configured options will be applied against archives. As an example, suppose minimumSizeForExpansion is 10 MiB and maximumExpansionSizeLimit is 1 GiB. Then all archives smaller than 10 MiB will be treated as though the archive ruleset is disabled, although other rulesets will apply as usual. Furthermore, all archives at least 10 MiB in size but with a decompressed size greater than 1 GiB will fail the ruleset. All other archives will have their contents extracted and each extracted element will be applied to all rulesets.
  */
 @added(Versions.v2025_05_30_preview)
 model ArchiveRuleset {
@@ -196,7 +195,7 @@ model ArchiveRuleset {
   maximumExpansionSizeLimit?: int64;
 
   /**
-   * Optional. The maximum depth (depth-first) of nested archives that can be expanded. Limits how many layers of embedded archives will be processed. Archives exceeding the max limit will be denied for replication.
+   * Optional. The maximum depth of nested archives that can be expanded. Limits how many layers of embedded archives will be processed. Archives exceeding the max limit will be denied for replication.
    */
   @minValue(0)
   maximumDepthLimit?: int64;
