@@ -6,15 +6,15 @@ Please also specify `--python-sdks-folder=<path to the root directory of your az
 ```yaml $(python)
 azure-arm: true
 license-header: MICROSOFT_MIT_NO_VERSION
-package-name: azure-mgmt-prvthealthcareinteropintedge
-namespace: azure.mgmt.prvthealthcareinteropintedge
+package-name: azure-mgmt-prvthealthcareinteropint-edge
+namespace: azure.mgmt.prvthealthcareinteropint.edge
 package-version: 1.0.0b1
 clear-output-folder: true
 ```
 
 ```yaml $(python)
 no-namespace-folders: true
-output-folder: $(python-sdks-folder)/prvthealthcareinteropintedge/azure-mgmt-prvthealthcareinteropintedge/azure/mgmt/prvthealthcareinteropintedge
+output-folder: $(python-sdks-folder)/prvthealthcareinteropintedge/azure-mgmt-prvthealthcareinteropint-edge/azure/mgmt/prvthealthcareinteropintedge
 ```
 
 ```yaml $(python)

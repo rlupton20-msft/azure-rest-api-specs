@@ -34,7 +34,7 @@ model CloudValidationProperties {
 
   @visibility(Lifecycle.Read)
   @doc("Managed On Behalf Of Configuration.")
-  managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
+  managedOnBehalfOfConfiguration?: CommonTypes.ManagedOnBehalfOfConfiguration;
 }
 
 @doc("The resource provisioning state.")
@@ -43,7 +43,7 @@ union ProvisioningState {
   ResourceProvisioningState,
 
   @doc("The resource is being provisioned.")
-  Creating: "Creating",
+  Provisioning: "Provisioning",
 
   @doc("The resource is updating.")
   Updating: "Updating",
@@ -53,6 +53,10 @@ union ProvisioningState {
 
   @doc("The resource is being deleted")
   Deleting: "Deleting",
+
+  /** The resource create request has been accepted */
+  @doc("The resource create request has been accepted")
+  Accepted: "Accepted",
 
   string,
 }
@@ -72,23 +76,6 @@ union CloudValidationOverallState {
   Disabled: "Disabled",
 
   string,
-}
-
-@doc("Configuration of the managed on behalf of resource.")
-model ManagedOnBehalfOfConfiguration {
-  @visibility(Lifecycle.Read)
-  @doc("Associated MoboBrokerResources.")
-  moboBrokerResources: MoboBrokerResource[];
-}
-
-@doc("MoboBroker resource.")
-model MoboBrokerResource {
-  /**
-   * The fully qualified resource ID of the MoboBroker resource.
-   * Example: `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}`
-   */
-  @visibility(Lifecycle.Read)
-  id: string;
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}

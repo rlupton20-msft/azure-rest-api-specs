@@ -12,7 +12,7 @@ namespace Microsoft.Validate;
 @doc("Validation Test Execution Plan")
 @parentResource(CloudValidation)
 model ValidationExecutionPlan
-  is TrackedResource<ValidationExecutionPlanProperties> {
+  is ExtensionResource<ValidationExecutionPlanProperties> {
   ...ResourceNameParameter<ValidationExecutionPlan>;
 }
 
@@ -20,11 +20,6 @@ model ValidationExecutionPlan
 model ValidationExecutionPlanProperties {
   @doc("The description of the resource.")
   description?: string;
-
-  @doc("Schedules on which the execution plan would run.")
-  @OpenAPI.extension("x-ms-identifiers", #[])
-  @maxItems(50)
-  schedules?: Schedule[];
 
   @doc("URI where the configuration of the execution plan is defined.")
   planConfigurationUri?: string;

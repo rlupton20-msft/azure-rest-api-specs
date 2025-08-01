@@ -7,8 +7,8 @@ For new Resource Provider. It is highly recommended to onboard Azure CLI extensi
 ```yaml $(az) && $(target-mode) != 'core'
 az:
   extensions: prvthealthcareinteropdevedge
-  namespace: azure.mgmt.prvthealthcareinteropdevedge
-  package-name: azure-mgmt-prvthealthcareinteropdevedge
+  namespace: azure.mgmt.prvthealthcareinteropdev.edge
+  package-name: azure-mgmt-prvthealthcareinteropdev-edge
 az-output-folder: $(azure-cli-extension-folder)/src/prvthealthcareinteropdevedge
 python-sdk-output-folder: "$(az-output-folder)/azext_prvthealthcareinteropdevedge/vendored_sdks/prvthealthcareinteropdevedge"
 # add additional configuration here specific for Azure CLI
@@ -20,8 +20,8 @@ This is for command modules that already in azure cli main repo.
 ```yaml $(az) && $(target-mode) == 'core'
 az:
   extensions: prvthealthcareinteropdevedge
-  namespace: azure.mgmt.prvthealthcareinteropdevedge
-  package-name: azure-mgmt-prvthealthcareinteropdevedge
+  namespace: azure.mgmt.prvthealthcareinteropdev.edge
+  package-name: azure-mgmt-prvthealthcareinteropdev-edge
 az-output-folder: $(azure-cli-folder)/src/azure-cli/azure/cli/command_modules/prvthealthcareinteropdevedge
 python-sdk-output-folder: "$(az-output-folder)/vendored_sdks/prvthealthcareinteropdevedge"
 ```
