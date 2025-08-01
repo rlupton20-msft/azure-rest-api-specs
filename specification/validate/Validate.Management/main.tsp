@@ -15,7 +15,7 @@ using Azure.ResourceManager;
 
 /** Microsoft.Validate Resource Provider management API. */
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Operations Swagger is common for all RTs and is created as a separate file having it's own folder."
-@armProviderNamespace
+@armProviderNamespace("Microsoft.Validate")
 @service(#{ title: "Microsoft.Validate management service" })
 @versioned(Microsoft.Validate.Versions)
 namespace Microsoft.Validate;

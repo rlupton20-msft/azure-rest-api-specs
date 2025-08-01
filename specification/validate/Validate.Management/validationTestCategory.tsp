@@ -37,10 +37,9 @@ model ValidationTestCategoryProperties {
   tests?: ValidationTest[];
 
   @doc("The sub categories of the validation test category.")
-  @OpenAPI.extension("x-ms-identifiers", #[])
   @maxItems(100)
   @visibility(Lifecycle.Read)
-  subCategories?: ValidationTestCategory[];
+  subCategories?: string[];
 }
 
 @armResourceOperations
