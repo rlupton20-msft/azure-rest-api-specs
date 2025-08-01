@@ -44,7 +44,7 @@ model CodeScanIssueProperties {
 
 @parentResource(CodeScanReport)
 @doc("CodeScanIssue resource.")
-model CodeScanIssue is Azure.ResourceManager.ProxyResource<CodeScanIssueProperties> {
+model CodeScanIssue is ProxyResource<CodeScanIssueProperties> {
   @doc("CodeScanIssue name")
   @key("codeScanIssueId")
   @segment("codescanissue")

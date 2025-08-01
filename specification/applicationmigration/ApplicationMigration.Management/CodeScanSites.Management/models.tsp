@@ -19,10 +19,10 @@ union MigrationTarget {
   @doc("Azure Kubernetes Service.")
   AKS: "AKS",
   
-  @doc("Azure Service Container.")
+  @doc("App Service Container.")
   ASC: "ASC",
   
-  @doc("Azure Service Network.")
+  @doc("App Service Native.")
   ASN: "ASN",
   
   string,
@@ -128,10 +128,4 @@ model ReferenceLink {
   
   @doc("The label of the reference link.")
   label: string;
-}
-
-@doc("Tags update model.")
-model TagsUpdate {
-  @doc("Resource tags.")
-  tags?: Record<string>;
 }

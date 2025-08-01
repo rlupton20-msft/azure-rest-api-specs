@@ -10,7 +10,7 @@ using Azure.ResourceManager;
 namespace Microsoft.ApplicationMigration;
 
 @armResourceOperations
-interface CodeScanSitesOperations {
+interface CodeScanSites {
   @added(CodeScanSitesApiVersions.v2025_09_09_preview)
   get is ArmResourceRead<CodeScanSite>;
 
@@ -24,34 +24,41 @@ interface CodeScanSitesOperations {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<CodeScanSite>;
 
   @added(CodeScanSitesApiVersions.v2025_09_09_preview)
-  update is ArmCustomPatchSync<CodeScanSite, TagsUpdate>;
+  update is ArmResourcePatchSync<CodeScanSite, CodeScanSiteProperties>;
 
   @added(CodeScanSitesApiVersions.v2025_09_09_preview)
   delete is ArmResourceDeleteSync<CodeScanSite>;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "FetchSASUri Action body is empty."
   @added(CodeScanSitesApiVersions.v2025_09_09_preview)
   fetchSasUri is ArmResourceActionSync<
     CodeScanSite,
-    {},
+    void,
     SasUriResponse
   >;
 
   @added(CodeScanSitesApiVersions.v2025_09_09_preview)
-  processReport is ArmResourceActionSync<
+  processReport is ArmResourceActionAsync<
     CodeScanSite,
     ProcessReportRequest,
-    ProcessReportResponse
+    ProcessReportResponse,
+    LroHeaders = ArmAsyncOperationHeader<FinalResult =
+    ProcessReportResponse> &
+      ArmLroLocationHeader<FinalResult =
+      ProcessReportResponse> &
+      Azure.Core.Foundations.RetryAfterHeader
   >;
 }
 
 @armResourceOperations
-interface CodeScanReportsOperations {
+interface CodeScanReports {
   @added(CodeScanSitesApiVersions.v2025_09_09_preview)
   get is ArmResourceRead<CodeScanReport>;
 
   @added(CodeScanSitesApiVersions.v2025_09_09_preview)
-  listByParent is ArmResourceListByParent<CodeScanReport>;
+  listByResourceGroup is ArmResourceListByParent<CodeScanReport>;
+
+  @added(CodeScanSitesApiVersions.v2025_09_09_preview)
+  listBySubscription is ArmListBySubscription<CodeScanReport>;
 
   @added(CodeScanSitesApiVersions.v2025_09_09_preview)
   createOrUpdate is ArmResourceCreateOrUpdateAsync<CodeScanReport>;
@@ -61,12 +68,12 @@ interface CodeScanReportsOperations {
 }
 
 @armResourceOperations
-interface CodeScanIssuesOperations {
+interface CodeScanIssues {
   @added(CodeScanSitesApiVersions.v2025_09_09_preview)
   get is ArmResourceRead<CodeScanIssue>;
 
   @added(CodeScanSitesApiVersions.v2025_09_09_preview)
-  listByParent is ArmResourceListByParent<CodeScanIssue>;
+  listByCodeScanReport is ArmResourceListByParent<CodeScanIssue>;
 
   @added(CodeScanSitesApiVersions.v2025_09_09_preview)
   createOrUpdate is ArmResourceCreateOrUpdateAsync<CodeScanIssue>;
@@ -76,7 +83,7 @@ interface CodeScanIssuesOperations {
 }
 
 @armResourceOperations
-interface CodeScanMappingsOperations {
+interface CodeScanMappings {
   @added(CodeScanSitesApiVersions.v2025_09_09_preview)
   get is ArmResourceRead<CodeScanMapping>;
 

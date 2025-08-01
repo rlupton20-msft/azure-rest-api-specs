@@ -14,9 +14,10 @@ import "./codescanroutes.tsp";
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-#suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "The operations endpoint is implemented at a common place required for this resource provider."
 @armProviderNamespace
 @service(#{ title: "Azure Application Migration Service - CodeScanSites" })
 @versioned(CodeScanSitesApiVersions)
 @doc("Azure Application Migration CodeScanSites Resource Provider management API.")
 namespace Microsoft.ApplicationMigration;
+
+interface Operations extends Azure.ResourceManager.Operations {}
