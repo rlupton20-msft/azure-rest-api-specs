@@ -2,14 +2,13 @@ import "@typespec/rest";
 import "@typespec/http";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-import "@typespec/openapi";
+import "@typespec/versioning";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
-using OpenAPI;
-
+using TypeSpec.Versioning;
 
 namespace Microsoft.StorageMover;
 
@@ -72,6 +71,24 @@ union CreatedByType {
   Key: "Key",
 }
 
+/**
+ * The Agent status.
+ */
+union AgentStatus {
+  string,
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Registering: "Registering",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Offline: "Offline",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Online: "Online",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Executing: "Executing",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  RequiresAttention: "RequiresAttention",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Unregistering: "Unregistering",
+}
 
 /**
  * The minute element of the time. Allowed values are 0 and 30. If not specified, its value defaults to 0.
@@ -97,8 +114,76 @@ union EndpointType {
   AzureStorageSmbFileShare: "AzureStorageSmbFileShare",
   #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
   SmbMount: "SmbMount",
+
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  @added(Versions.v2025_07_01)
+  AzureMultiCloudConnector: "AzureMultiCloudConnector",
+
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  @added(Versions.v2025_07_01)
+  AzureStorageNfsFileShare: "AzureStorageNfsFileShare",
 }
 
+/**
+ * The type of the Job.
+ */
+@added(Versions.v2025_07_01)
+union JobType {
+  string,
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  OnPremToCloud: "OnPremToCloud",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  CloudToCloud: "CloudToCloud",
+}
+
+/**
+ * Strategy to use for copy.
+ */
+union CopyMode {
+  string,
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Additive: "Additive",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Mirror: "Mirror",
+}
+
+/**
+ * The current status of the Job Run in a non-terminal state, if exists.
+ */
+union JobRunStatus {
+  string,
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Queued: "Queued",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Started: "Started",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Running: "Running",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  CancelRequested: "CancelRequested",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Canceling: "Canceling",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Canceled: "Canceled",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Failed: "Failed",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Succeeded: "Succeeded",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  PausedByBandwidthManagement: "PausedByBandwidthManagement",
+}
+
+/**
+ * The status of Agent's scanning of source.
+ */
+union JobRunScanStatus {
+  string,
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  NotStarted: "NotStarted",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Scanning: "Scanning",
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  Completed: "Completed",
+}
 
 /**
  * The NFS protocol version.
@@ -168,14 +253,7 @@ model OperationDisplay {
 /**
  * List of Storage Movers.
  */
-@Azure.Core.pagedResult
-model StorageMoverList {
-  @Azure.Core.items
-  value?: StorageMover[];
-
-  @nextLink
-  nextLink?: string;
-}
+model StorageMoverList is Azure.Core.Page<StorageMover>;
 
 @@visibility(StorageMoverList.value, Lifecycle.Read);
 
@@ -226,18 +304,7 @@ model StorageMoverUpdateProperties {
 /**
  * List of Agents.
  */
-@Azure.Core.pagedResult
-model AgentList {
-  @Azure.Core.items
-  value?: Agent[];
-
-  /**
-   * Request URL that can be used to query next page of containers. Returned when total number of requested containers exceed maximum page size.
-   */
-  @nextLink
-  @visibility(Lifecycle.Read)
-  nextLink?: string;
-}
+model AgentList is Azure.Core.Page<Agent>;
 
 @@visibility(AgentList.value, Lifecycle.Read);
 
@@ -270,11 +337,7 @@ model AgentProperties {
    * The Agent status.
    */
   @visibility(Lifecycle.Read)
-  @OpenAPI.extension("x-ms-enum", #{
-    name: "AgentStatus",
-    modelAsString: true,
-  })
-  agentStatus?: "Registering" | "Offline" | "Online" | "Executing" | "RequiresAttention" | "Unregistering";
+  agentStatus?: AgentStatus;
 
   /**
    * The last updated time of the Agent status.
@@ -322,17 +385,7 @@ model AgentProperties {
 
   #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
   @visibility(Lifecycle.Read)
-  errorDetails?: {
-    /**
-     * Error code reported by Agent
-     */
-    code?: string;
-
-    /**
-     * Expanded description of reported error code
-     */
-    message?: string;
-  };
+  errorDetails?: AgentPropertiesErrorDetails;
 
   /**
    * The provisioning state of this resource.
@@ -349,14 +402,14 @@ model UploadLimitSchedule {
    * The set of weekly repeating recurrences of the WAN-link upload limit schedule.
    */
   @OpenAPI.extension("x-ms-identifiers", #[])
-  weeklyRecurrences: UploadLimitWeeklyRecurrence[];
+  weeklyRecurrences?: UploadLimitWeeklyRecurrence[];
 }
 
 /**
  * The weekly recurrence of the WAN-link upload limit schedule. The start time must be earlier in the day than the end time. The recurrence must not span across multiple days.
  */
-model UploadLimitWeeklyRecurrence {
-  ...WeeklyRecurrence;
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+model UploadLimitWeeklyRecurrence extends WeeklyRecurrence {
   ...UploadLimit;
 }
 
@@ -378,12 +431,12 @@ model Recurrence {
   /**
    * The start time of the schedule recurrence. Full hour and 30-minute intervals are supported.
    */
-  startTime?: Time;
+  startTime: Time;
 
   /**
    * The end time of the schedule recurrence. Full hour and 30-minute intervals are supported.
    */
-  endTime?: Time;
+  endTime: Time;
 }
 
 /**
@@ -410,9 +463,21 @@ model UploadLimit {
   /**
    * The WAN-link upload bandwidth (maximum data transfer rate) in megabits per second. Value of 0 indicates no throughput is allowed and any running migration job is effectively paused for the duration of this recurrence. Only data plane operations are governed by this limit. Control plane operations ensure seamless functionality. The agent may exceed this limit with control messages, if necessary.
    */
-  @minValue(0)
   @maxValue(2147483647)
-  limitInMbps?: int32;
+  limitInMbps: int32;
+}
+
+#suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+model AgentPropertiesErrorDetails {
+  /**
+   * Error code reported by Agent
+   */
+  code?: string;
+
+  /**
+   * Expanded description of reported error code
+   */
+  message?: string;
 }
 
 /**
@@ -441,14 +506,7 @@ model AgentUpdateProperties {
 /**
  * List of Endpoints.
  */
-@Azure.Core.pagedResult
-model EndpointList {
-  @Azure.Core.items
-  value?: Endpoint[];
-
-  @nextLink
-  nextLink?: string;
-}
+model EndpointList is Azure.Core.Page<Endpoint>;
 
 @@visibility(EndpointList.value, Lifecycle.Read);
 
@@ -483,6 +541,12 @@ model EndpointBaseUpdateParameters {
    * The Endpoint resource, which contains information about file sources and targets.
    */
   properties?: EndpointBaseUpdateProperties;
+
+  /**
+   * The managed system identity assigned to this resource.
+   */
+  @added(Versions.v2025_07_01)
+  identity?: Foundations.ManagedServiceIdentity;
 }
 
 /**
@@ -505,14 +569,8 @@ model EndpointBaseUpdateProperties {
 /**
  * List of Project resources.
  */
-@Azure.Core.pagedResult
-model ProjectList {
-  @Azure.Core.items
-  value?: Project[];
+model ProjectList is Azure.Core.Page<Project>;
 
-  @nextLink
-  nextLink?: string;
-}
 @@visibility(ProjectList.value, Lifecycle.Read);
 
 /**
@@ -556,14 +614,7 @@ model ProjectUpdateProperties {
 /**
  * List of Job Definitions.
  */
-@Azure.Core.pagedResult
-model JobDefinitionList {
-  @Azure.Core.items
-  value?: JobDefinition[];
-
-  @nextLink
-  nextLink?: string;
-}
+model JobDefinitionList is Azure.Core.Page<JobDefinition>;
 
 @@visibility(JobDefinitionList.value, Lifecycle.Read);
 
@@ -572,18 +623,20 @@ model JobDefinitionList {
  */
 model JobDefinitionProperties {
   /**
-   * A description for the Job Definition.
+   * A description for the Job Definition. OnPremToCloud is for migrating data from on-premises to cloud. CloudToCloud is for migrating data between cloud to cloud.
    */
   description?: string;
 
   /**
+   * The type of the Job.
+   */
+  @added(Versions.v2025_07_01)
+  jobType?: JobType = JobType.OnPremToCloud;
+
+  /**
    * Strategy to use for copy.
    */
-  @OpenAPI.extension("x-ms-enum", #{
-    name: "CopyMode",
-    modelAsString: true,
-  })
-  copyMode: "Additive" | "Mirror" | string;
+  copyMode: CopyMode;
 
   /**
    * The name of the source Endpoint.
@@ -637,11 +690,7 @@ model JobDefinitionProperties {
    * The current status of the Job Run in a non-terminal state, if exists.
    */
   @visibility(Lifecycle.Read)
-  @OpenAPI.extension("x-ms-enum", #{
-    name: "JobRunStatus",
-    modelAsString: true,
-  })
-  latestJobRunStatus?: "Queued" | "Started" | "Running" | "CancelRequested" | "Canceling" | "Canceled" | "Failed" | "Succeeded" |  string;
+  latestJobRunStatus?: JobRunStatus;
 
   /**
    * Name of the Agent to assign for new Job Runs of this Job Definition.
@@ -655,10 +704,125 @@ model JobDefinitionProperties {
   agentResourceId?: string;
 
   /**
+   * The list of cloud endpoints to migrate.
+   */
+  @added(Versions.v2025_07_01)
+  sourceTargetMap?: {
+    @visibility(Lifecycle.Read)
+    @added(Versions.v2025_07_01)
+    @OpenAPI.extension("x-ms-identifiers", #[])
+    value?: SourceTargetMap[];
+  };
+
+  /**
    * The provisioning state of this resource.
    */
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
+}
+
+/**
+ * The properties of cloud endpoints to migrate.
+ */
+@added(Versions.v2025_07_01)
+model SourceTargetMap {
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  @added(Versions.v2025_07_01)
+  sourceEndpoint: SourceEndpoint;
+
+  #suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+  @added(Versions.v2025_07_01)
+  targetEndpoint: TargetEndpoint;
+}
+
+/**
+ * The source endpoint resource for source and target mapping.
+ */
+@added(Versions.v2025_07_01)
+model SourceEndpoint {
+  /**
+   * The properties of the cloud source endpoint to migrate.
+   */
+  properties?: SourceEndpointProperties;
+}
+
+/**
+ * The properties of the cloud source endpoint to migrate.
+ */
+@added(Versions.v2025_07_01)
+model SourceEndpointProperties {
+  /**
+   * The name of the cloud source endpoint to migrate.
+   */
+  name?: string;
+
+  /**
+   * The fully qualified ARM resource ID of the cloud source endpoint to migrate.
+   */
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  sourceEndpointResourceId?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.StorageMover/storageMovers/endpoints";
+    }
+  ]>;
+
+  /**
+   * The fully qualified ARM resource ID of the AWS S3 bucket to migrate.
+   */
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  awsS3BucketId?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.StorageMover/storageMovers/endpoints";
+    }
+  ]>;
+}
+
+/**
+ * The target endpoint resource for source and target mapping.
+ */
+@added(Versions.v2025_07_01)
+model TargetEndpoint {
+  /**
+   * The properties of the cloud target endpoint to migrate.
+   */
+  properties?: TargetEndpointProperties;
+}
+
+/**
+ * The properties of the cloud target endpoint to migrate.
+ */
+@added(Versions.v2025_07_01)
+model TargetEndpointProperties {
+  /**
+   * The name of the cloud target endpoint to migrate.
+   */
+  name?: string;
+
+  /**
+   * The fully qualified ARM resource ID of the cloud target endpoint to migrate.
+   */
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  targetEndpointResourceId?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.StorageMover/storageMovers/endpoints";
+    }
+  ]>;
+
+  /**
+   * The fully qualified ARM resource ID of the Azure Storage account.
+   */
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  azureStorageAccountResourceId?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.Storage/storageAccounts";
+    }
+  ]>;
+
+  /**
+   * The name of the Azure Storage blob container.
+   */
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  azureStorageBlobContainerName?: string;
 }
 
 /**
@@ -685,11 +849,7 @@ model JobDefinitionUpdateProperties {
   /**
    * Strategy to use for copy.
    */
-  @OpenAPI.extension("x-ms-enum", #{
-    name: "CopyMode",
-    modelAsString: true,
-  })
-  copyMode?: "Additive" | "Mirror" | string;
+  copyMode?: CopyMode;
 
   /**
    * Name of the Agent to assign for new Job Runs of this Job Definition.
@@ -712,14 +872,7 @@ model JobRunResourceId {
 /**
  * List of Job Runs.
  */
-@Azure.Core.pagedResult
-model JobRunList {
-  @Azure.Core.items
-  value?: JobRun[];
-
-  @nextLink
-  nextLink?: string;
-}
+model JobRunList is Azure.Core.Page<JobRun>;
 
 @@visibility(JobRunList.value, Lifecycle.Read);
 
@@ -731,21 +884,13 @@ model JobRunProperties {
    * The state of the job execution.
    */
   @visibility(Lifecycle.Read)
-  @OpenAPI.extension("x-ms-enum", #{
-    name: "JobRunStatus",
-    modelAsString: true,
-  })
-  status?: "Queued" | "Started" | "Running" | "CancelRequested" | "Canceling" | "Canceled" | "Failed" | "Succeeded" | "PausedByBandwidthManagement" | string;
+  status?: JobRunStatus;
 
   /**
    * The status of Agent's scanning of source.
    */
   @visibility(Lifecycle.Read)
-  @OpenAPI.extension("x-ms-enum", #{
-    name: "JobRunScanStatus",
-    modelAsString: true,
-  })
-  scanStatus?: "NotStarted" | "Scanning" | "Completed" | string;
+  scanStatus?: JobRunScanStatus;
 
   /**
    * Name of the Agent assigned to this run.
@@ -869,7 +1014,7 @@ model JobRunProperties {
    */
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
   @visibility(Lifecycle.Read)
-  sourceProperties?: Record<unknown>;
+  sourceProperties?: unknown;
 
   /**
    * Name of target Endpoint resource. This resource may no longer exist.
@@ -888,14 +1033,14 @@ model JobRunProperties {
    */
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
   @visibility(Lifecycle.Read)
-  targetProperties?: Record<unknown>;
+  targetProperties?: unknown;
 
   /**
    * Copy of parent Job Definition's properties at time of Job Run creation.
    */
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
   @visibility(Lifecycle.Read)
-  jobDefinitionProperties?: Record<unknown>;
+  jobDefinitionProperties?: unknown;
 
   /**
    * Error details.
@@ -980,11 +1125,7 @@ model NfsMountEndpointProperties extends EndpointBaseProperties {
    * The NFS protocol version.
    */
   @visibility(Lifecycle.Read, Lifecycle.Create)
-  @OpenAPI.extension("x-ms-enum", #{
-    name: "NfsVersion",
-    modelAsString: true,
-  })
-  nfsVersion?: "NFSauto" | "NFSv3" | "NFSv4" | string;
+  nfsVersion?: NfsVersion;
 
   /**
    * The directory being exported from the server.
@@ -1069,6 +1210,91 @@ model SmbMountEndpointProperties extends EndpointBaseProperties {
    * The Endpoint resource type.
    */
   endpointType: "SmbMount";
+}
+
+/**
+ * The properties of Azure Storage NFS file share endpoint.
+ */
+@added(Versions.v2025_07_01)
+model AzureStorageNfsFileShareEndpointProperties
+  extends EndpointBaseProperties {
+  /**
+   * The Azure Resource ID of the storage account.
+   */
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  storageAccountResourceId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.Storage/storageAccounts";
+    }
+  ]>;
+
+  /**
+   * The name of the Azure Storage NFS file share.
+   */
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  fileShareName: string;
+
+  /**
+   * The Endpoint resource type.
+   */
+  endpointType: "AzureStorageNfsFileShare";
+}
+
+/**
+ * The properties of Azure Storage NFS file share endpoint to update.
+ */
+#suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+@added(Versions.v2025_07_01)
+model AzureStorageNfsFileShareEndpointUpdateProperties
+  extends EndpointBaseUpdateProperties {
+  /**
+   * The Endpoint resource type.
+   */
+  endpointType: "AzureStorageNfsFileShare";
+}
+
+/**
+ * The properties of Azure MultiCloudConnector endpoint.
+ */
+@added(Versions.v2025_07_01)
+model AzureMultiCloudConnectorEndpointProperties
+  extends EndpointBaseProperties {
+  /**
+   * The Azure Resource ID of the MultiCloud Connector resource.
+   */
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  multiCloudConnectorId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.HybridConnectivity/publicCloudConnectors";
+    }
+  ]>;
+
+  /**
+   * The AWS S3 bucket ARM resource Id.
+   */
+  awsS3BucketId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AwsConnector/s3Buckets";
+    }
+  ]>;
+
+  /**
+   * The Endpoint resource type.
+   */
+  endpointType: "AzureMultiCloudConnector";
+}
+
+/**
+ * The properties of Azure Storage NFS file share endpoint to update.
+ */
+#suppress "@azure-tools/typespec-azure-core/documentation-required" "FIXME: Update justification, follow aka.ms/tsp/conversion-fix for details"
+@added(Versions.v2025_07_01)
+model AzureMultiCloudConnectorEndpointUpdateProperties
+  extends EndpointBaseUpdateProperties {
+  /**
+   * The Endpoint resource type.
+   */
+  endpointType: "AzureMultiCloudConnector";
 }
 
 /**

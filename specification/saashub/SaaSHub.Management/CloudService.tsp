@@ -42,8 +42,7 @@ interface CloudServices {
   /**
    * Updates the properties of a SaaSHub cloud service.
    */
-  @patch(#{ implicitOptionality: false })
-  update is ArmCustomPatchAsync<CloudService, CloudService>;
+  update is ArmCustomPatchAsync<CloudService, CloudServiceUpdate>;
 
   /**
    * Deletes a SaaSHub cloud service.
@@ -79,7 +78,7 @@ interface CloudServices {
    */
   canUpdate is ArmResourceActionSync<
     CloudService,
-    CloudService,
+    CloudServiceUpdate,
     CanUpdateResult
   >;
 
@@ -107,19 +106,6 @@ interface CloudServices {
 @@doc(CloudServices.create::parameters.resource,
   "Request parameters that are provided to the create SaaSHub cloud service operation."
 );
-@@doc(CloudServices.update::parameters.properties,
-  "Request parameters that are provided to the update SaaSHub cloud service operation."
-);
-@@doc(CloudServices.canMerge::parameters.body,
-  "Request parameters that are provided to the merge SaaSHub cloud service operation."
-);
-@@doc(CloudServices.canUpdate::parameters.body,
-  "Request parameters that are provided to the update SaaSHub cloud service operation."
-);
-@@doc(CloudServices.merge::parameters.body,
-  "Request parameters that are provided to the merge SaaSHub cloud service operation."
-);
-
 @@doc(CloudServices.update::parameters.properties,
   "Request parameters that are provided to the update SaaSHub cloud service operation."
 );

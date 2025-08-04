@@ -33,6 +33,49 @@ model CloudServiceProperties {
 }
 
 /**
+ * Template for creating update models for ARM TrackedResource-based resources.
+ * This provides a pattern for update operations that excludes required/read-only fields
+ * from TrackedResource while including only updateable fields.
+ *
+ * NOTE: This must be manually kept in sync with Azure.ResourceManager.TrackedResource
+ * when new updateable fields are added to TrackedResource (which is rare).
+ *
+ * TrackedResource contains: id, name, type, location, tags, systemData
+ * For updates, only 'tags' is typically updateable (location is set at creation).
+ */
+model TrackedResourceUpdateFields {
+  /**
+   * Resource tags.
+   */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Tags are conventionally represented as a dictionary"
+  tags?: Record<string>;
+}
+
+/**
+ * A SaaSHub cloud service update model for patch and canUpdate operations.
+ *
+ * This model uses composition to include:
+ * 1. CloudServiceProperties (resource-specific properties)
+ * 2. TrackedResourceUpdateFields (updateable fields from TrackedResource)
+ *
+ * This ensures both PATCH and canUpdate operations use identical request bodies
+ * without requiring the 'location' field.
+ */
+model CloudServiceUpdate {
+  /**
+   * The properties of a SaaSHub cloud service.
+   */
+  properties?: CloudServiceProperties;
+
+  /**
+   * Updateable fields from TrackedResource.
+   * NOTE: This composition pattern is the recommended approach for ARM resources
+   * that extend TrackedResource when a custom update model is needed.
+   */
+  ...TrackedResourceUpdateFields;
+}
+
+/**
  * Request to check if the cloud service can be created
  */
 model CanCreateCloudServiceRequest {

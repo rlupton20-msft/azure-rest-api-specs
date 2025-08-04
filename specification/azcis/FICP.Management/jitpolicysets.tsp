@@ -18,7 +18,7 @@ model JitPolicySetProperties {
   cloudId: string;
 
   @doc("List of Jit policies")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   policies: Array<JitPolicy>;
 
   @doc("The Azure location.")
@@ -47,11 +47,11 @@ model JitPolicy {
   extendedFlags: ExtendedFlags;
 
   @doc("Policy condition is a Property-Value set. The evaluation is based on the policy condition.")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   policyConditions: Array<PolicyCondition>;
 
   @doc("After policy condition match is evaluated and matched, an equivalent action need to be performed.")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   policyActions: Array<PolicyAction>;
 
   @doc("Provisioning mode type.")

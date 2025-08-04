@@ -6,15 +6,15 @@ Please also specify `--python-sdks-folder=<path to the root directory of your az
 ```yaml $(python)
 azure-arm: true
 license-header: MICROSOFT_MIT_NO_VERSION
-package-name: azure-mgmt-prvthealthcareinteropdevedge
-namespace: azure.mgmt.prvthealthcareinteropdevedge
+package-name: azure-mgmt-prvthealthcareinteropdev-edge
+namespace: azure.mgmt.prvthealthcareinteropdev.edge
 package-version: 1.0.0b1
 clear-output-folder: true
 ```
 
 ```yaml $(python)
 no-namespace-folders: true
-output-folder: $(python-sdks-folder)/prvthealthcareinteropdevedge/azure-mgmt-prvthealthcareinteropdevedge/azure/mgmt/prvthealthcareinteropdevedge
+output-folder: $(python-sdks-folder)/prvthealthcareinteropdevedge/azure-mgmt-prvthealthcareinteropdev-edge/azure/mgmt/prvthealthcareinteropdevedge
 ```
 
 ```yaml $(python)

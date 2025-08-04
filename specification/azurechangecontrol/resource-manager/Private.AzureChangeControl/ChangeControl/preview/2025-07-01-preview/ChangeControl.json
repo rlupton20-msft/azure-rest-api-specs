@@ -53,72 +53,13 @@
     }
   ],
   "paths": {
-    "/{managementGroupId}/providers/Private.AzureChangeControl/stageMaps/{stageMapName}": {
-      "patch": {
-        "operationId": "StageMaps_UpdateAtManagementGroupLevel",
-        "tags": [
-          "StageMaps"
-        ],
-        "description": "Update a StageMap",
-        "parameters": [
-          {
-            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "name": "managementGroupId",
-            "in": "path",
-            "description": "The ID of the target management group.",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "stageMapName",
-            "in": "path",
-            "description": "The name of the StageMap",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 100,
-            "pattern": "^[a-zA-Z0-9-]{3,100}$"
-          },
-          {
-            "name": "properties",
-            "in": "body",
-            "description": "The resource properties to be updated.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/StageMapUpdate"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/StageMap"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "StageMaps_UpdateAtManagementGroupLevel_MaximumSet": {
-            "$ref": "./examples/StageMaps_UpdateAtManagementGroupLevel_MaximumSet_Gen.json"
-          }
-        }
-      }
-    },
     "/managementGroups/{managementGroupName}/providers/Private.AzureChangeControl/stageMaps": {
       "get": {
         "operationId": "StageMaps_ListByManagementGroup",
         "tags": [
           "StageMaps"
         ],
-        "description": "List StageMap resources by management group.",
+        "description": "List StageMap resources by resource group",
         "parameters": [
           {
             "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
@@ -261,6 +202,59 @@
           },
           "StageMaps_CreateOrUpdateAtManagementGroupLevel_MaximumSet": {
             "$ref": "./examples/StageMaps_CreateOrUpdateAtManagementGroupLevel_MaximumSet_Gen.json"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "StageMaps_UpdateAtManagementGroupLevel",
+        "tags": [
+          "StageMaps"
+        ],
+        "description": "Update a StageMap",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v6/types.json#/parameters/ManagementGroupNameParameter"
+          },
+          {
+            "name": "stageMapName",
+            "in": "path",
+            "description": "The name of the StageMap",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100,
+            "pattern": "^[a-zA-Z0-9-]{3,100}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StageMapUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/StageMap"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "StageMaps_UpdateAtManagementGroupLevel_MaximumSet": {
+            "$ref": "./examples/StageMaps_UpdateAtManagementGroupLevel_MaximumSet_Gen.json"
           }
         }
       },
@@ -2335,6 +2329,40 @@
       ],
       "x-ms-discriminator-value": "array"
     },
+    "ArrayParameterUpdate": {
+      "type": "object",
+      "description": "Array type parameter model",
+      "properties": {
+        "defaultValue": {
+          "type": "array",
+          "description": "Default value for the parameter.",
+          "items": {},
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "allowedValues": {
+          "type": "array",
+          "description": "Allowed list of the values for the parameter.",
+          "items": {},
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ParameterUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "array"
+    },
     "ChangeDefinition": {
       "type": "object",
       "description": "Model that defines the change definition with name, type, and details.",
@@ -2622,7 +2650,8 @@
           "type": "array",
           "description": "Referenced stagemap snapshot.",
           "items": {},
-          "readOnly": true
+          "readOnly": true,
+          "x-ms-identifiers": []
         },
         "stageMap": {
           "$ref": "#/definitions/NestedStageMap",
@@ -2635,6 +2664,9 @@
         "parameters": {
           "type": "object",
           "description": "Schema of parameters that will be provided for each stageProgression.",
+          "additionalProperties": {
+            "$ref": "#/definitions/Parameter"
+          },
           "x-ms-mutability": [
             "read",
             "update",
@@ -2777,6 +2809,9 @@
         "parameters": {
           "type": "object",
           "description": "Schema of parameters that will be provided for each stageProgression.",
+          "additionalProperties": {
+            "$ref": "#/definitions/ParameterUpdate"
+          },
           "x-ms-mutability": [
             "read",
             "update",
@@ -3090,6 +3125,41 @@
       ],
       "x-ms-discriminator-value": "number"
     },
+    "NumberParameterUpdate": {
+      "type": "object",
+      "description": "Integer type parameter model",
+      "properties": {
+        "defaultValue": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Default value for the parameter.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "allowedValues": {
+          "type": "array",
+          "description": "Allowed list of the values for the parameter.",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ParameterUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "number"
+    },
     "ObjectParameter": {
       "type": "object",
       "description": "Object type parameter model",
@@ -3124,6 +3194,40 @@
       ],
       "x-ms-discriminator-value": "object"
     },
+    "ObjectParameterUpdate": {
+      "type": "object",
+      "description": "Object type parameter model",
+      "properties": {
+        "defaultValue": {
+          "type": "object",
+          "description": "Default value for the parameter.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "allowedValues": {
+          "type": "array",
+          "description": "Allowed list of the values for the parameter.",
+          "items": {
+            "type": "object"
+          },
+          "x-ms-identifiers": [],
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ParameterUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "object"
+    },
     "OperationContent": {
       "type": "object",
       "description": "Resource operation content model.",
@@ -3149,7 +3253,6 @@
         "properties": {
           "type": "object",
           "description": "The properties of the resource.",
-          "additionalProperties": {},
           "x-ms-mutability": [
             "read",
             "update",
@@ -3227,6 +3330,37 @@
           }
         ]
       }
+    },
+    "ParameterUpdate": {
+      "type": "object",
+      "description": "Base class for the Parameters.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/ParameterType",
+          "description": "Data type of the parameter.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "metadata": {
+          "type": "object",
+          "description": "user-specified parameter metadata",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type"
+      ]
     },
     "ProvisioningState": {
       "type": "string",
@@ -3323,8 +3457,9 @@
           "readOnly": true
         },
         "stageVariables": {
-          "$ref": "#/definitions/StageVariables",
+          "type": "object",
           "description": "Variables to apply on the change for the stage. Key value pairs supporting any JSON values.",
+          "additionalProperties": {},
           "readOnly": true
         },
         "state": {
@@ -3355,8 +3490,7 @@
         }
       },
       "required": [
-        "stageReference",
-        "stageVariables"
+        "stageReference"
       ]
     },
     "RolloutType": {
@@ -3417,8 +3551,9 @@
           ]
         },
         "stageVariables": {
-          "$ref": "#/definitions/StageVariables",
+          "type": "object",
           "description": "Variables to apply on the change of that stage. Key value pairs supporting any JSON values.",
+          "additionalProperties": {},
           "x-ms-mutability": [
             "read",
             "update",
@@ -3503,6 +3638,9 @@
         "parameters": {
           "type": "object",
           "description": "StageMap parameters schema for each stage.",
+          "additionalProperties": {
+            "$ref": "#/definitions/Parameter"
+          },
           "x-ms-mutability": [
             "read",
             "update",
@@ -3536,6 +3674,9 @@
         "parameters": {
           "type": "object",
           "description": "StageMap parameters schema for each stage.",
+          "additionalProperties": {
+            "$ref": "#/definitions/ParameterUpdate"
+          },
           "x-ms-mutability": [
             "read",
             "update",
@@ -3648,8 +3789,9 @@
           ]
         },
         "stageVariables": {
-          "$ref": "#/definitions/StageVariables",
-          "description": "Variables to apply on the change for the stage. Key value pairs supporting any JSON values.",
+          "type": "object",
+          "description": "Variables to apply on the change of that stage. Key value pairs supporting any JSON values.",
+          "additionalProperties": {},
           "x-ms-mutability": [
             "read",
             "update",
@@ -3726,8 +3868,9 @@
           ]
         },
         "stageVariables": {
-          "$ref": "#/definitions/StageVariables",
-          "description": "Variables to apply on the change for the stage. Key value pairs supporting any JSON values.",
+          "type": "object",
+          "description": "Variables to apply on the change of that stage. Key value pairs supporting any JSON values.",
+          "additionalProperties": {},
           "x-ms-mutability": [
             "read",
             "update",
@@ -3767,7 +3910,7 @@
     "StageProgressionResourceId": {
       "type": "string",
       "format": "arm-id",
-      "description": "Azure resource Id of a StageProgression.",
+      "description": "Azure resource Id of a ChangeState.",
       "x-ms-arm-id-details": {
         "allowedResources": [
           {
@@ -3882,6 +4025,39 @@
       ],
       "x-ms-discriminator-value": "string"
     },
+    "StringParameterUpdate": {
+      "type": "object",
+      "description": "String Type Parameter model.",
+      "properties": {
+        "defaultValue": {
+          "type": "string",
+          "description": "Default value for the parameter.",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "allowedValues": {
+          "type": "array",
+          "description": "Allowed list of the values for the parameter.",
+          "items": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ParameterUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "string"
+    },
     "ValidationOutcome": {
       "type": "string",
       "description": "Supported validation outcomes.",
@@ -3927,7 +4103,8 @@
           ]
         },
         "stageProgressionResourceId": {
-          "$ref": "#/definitions/StageProgressionResourceId",
+          "type": "string",
+          "format": "arm-id",
           "description": "The stage progression resource Id.",
           "x-ms-mutability": [
             "read",
@@ -3936,7 +4113,7 @@
           ]
         },
         "context": {
-          "type": "object",
+          "$ref": "#/definitions/VerifyChangeValidityRequestContext",
           "description": "The context of the verify change validity request.",
           "x-ms-mutability": [
             "read",
@@ -3947,6 +4124,19 @@
       },
       "required": [
         "operation"
+      ]
+    },
+    "VerifyChangeValidityRequestContext": {
+      "type": "object",
+      "description": "The context object of the verify change validity request.",
+      "properties": {
+        "applicationId": {
+          "type": "string",
+          "description": "The application Id performing the ARM operation."
+        }
+      },
+      "required": [
+        "applicationId"
       ]
     },
     "VerifyChangeValidityResponse": {

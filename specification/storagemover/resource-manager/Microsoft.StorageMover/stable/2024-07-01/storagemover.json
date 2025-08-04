@@ -1768,10 +1768,6 @@
           "JobDefinitions"
         ],
         "description": "Creates a new Job Run resource for the specified Job Definition and passes it to the Agent for execution.",
-        "consumes": [
-          "application/json",
-          "application/x-www-form-urlencoded"
-        ],
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
@@ -1832,10 +1828,6 @@
           "JobDefinitions"
         ],
         "description": "Requests the Agent of any active instance of this Job Definition to stop.",
-        "consumes": [
-          "application/json",
-          "application/x-www-form-urlencoded"
-        ],
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
@@ -1915,6 +1907,7 @@
       "properties": {
         "value": {
           "type": "array",
+          "description": "The Agent items on this page",
           "items": {
             "$ref": "#/definitions/Agent"
           },
@@ -1922,10 +1915,13 @@
         },
         "nextLink": {
           "type": "string",
-          "description": "Request URL that can be used to query next page of containers. Returned when total number of requested containers exceed maximum page size.",
-          "readOnly": true
+          "format": "uri",
+          "description": "The link to the next page of items"
         }
-      }
+      },
+      "required": [
+        "value"
+      ]
     },
     "AgentProperties": {
       "type": "object",
@@ -1956,20 +1952,8 @@
           ]
         },
         "agentStatus": {
-          "type": "string",
+          "$ref": "#/definitions/AgentStatus",
           "description": "The Agent status.",
-          "enum": [
-            "Registering",
-            "Offline",
-            "Online",
-            "Executing",
-            "RequiresAttention",
-            "Unregistering"
-          ],
-          "x-ms-enum": {
-            "name": "AgentStatus",
-            "modelAsString": true
-          },
           "readOnly": true
         },
         "lastStatusUpdate": {
@@ -2011,17 +1995,7 @@
           "description": "The WAN-link upload limit schedule that applies to any Job Run the agent executes. Data plane operations (migrating files) are affected. Control plane operations ensure seamless migration functionality and are not limited by this schedule. The schedule is interpreted with the agent's local time."
         },
         "errorDetails": {
-          "type": "object",
-          "properties": {
-            "code": {
-              "type": "string",
-              "description": "Error code reported by Agent"
-            },
-            "message": {
-              "type": "string",
-              "description": "Expanded description of reported error code"
-            }
-          },
+          "$ref": "#/definitions/AgentPropertiesErrorDetails",
           "readOnly": true
         },
         "provisioningState": {
@@ -2034,6 +2008,61 @@
         "arcResourceId",
         "arcVmUuid"
       ]
+    },
+    "AgentPropertiesErrorDetails": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Error code reported by Agent"
+        },
+        "message": {
+          "type": "string",
+          "description": "Expanded description of reported error code"
+        }
+      }
+    },
+    "AgentStatus": {
+      "type": "string",
+      "description": "The Agent status.",
+      "enum": [
+        "Registering",
+        "Offline",
+        "Online",
+        "Executing",
+        "RequiresAttention",
+        "Unregistering"
+      ],
+      "x-ms-enum": {
+        "name": "AgentStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Registering",
+            "value": "Registering"
+          },
+          {
+            "name": "Offline",
+            "value": "Offline"
+          },
+          {
+            "name": "Online",
+            "value": "Online"
+          },
+          {
+            "name": "Executing",
+            "value": "Executing"
+          },
+          {
+            "name": "RequiresAttention",
+            "value": "RequiresAttention"
+          },
+          {
+            "name": "Unregistering",
+            "value": "Unregistering"
+          }
+        ]
+      }
     },
     "AgentUpdateParameters": {
       "type": "object",
@@ -2177,6 +2206,28 @@
       ],
       "x-ms-discriminator-value": "AzureStorageSmbFileShare"
     },
+    "CopyMode": {
+      "type": "string",
+      "description": "Strategy to use for copy.",
+      "enum": [
+        "Additive",
+        "Mirror"
+      ],
+      "x-ms-enum": {
+        "name": "CopyMode",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Additive",
+            "value": "Additive"
+          },
+          {
+            "name": "Mirror",
+            "value": "Mirror"
+          }
+        ]
+      }
+    },
     "CredentialType": {
       "type": "string",
       "description": "The Credentials type.",
@@ -2312,15 +2363,21 @@
       "properties": {
         "value": {
           "type": "array",
+          "description": "The Endpoint items on this page",
           "items": {
             "$ref": "#/definitions/Endpoint"
           },
           "readOnly": true
         },
         "nextLink": {
-          "type": "string"
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
         }
-      }
+      },
+      "required": [
+        "value"
+      ]
     },
     "EndpointType": {
       "type": "string",
@@ -2379,15 +2436,21 @@
       "properties": {
         "value": {
           "type": "array",
+          "description": "The JobDefinition items on this page",
           "items": {
             "$ref": "#/definitions/JobDefinition"
           },
           "readOnly": true
         },
         "nextLink": {
-          "type": "string"
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
         }
-      }
+      },
+      "required": [
+        "value"
+      ]
     },
     "JobDefinitionProperties": {
       "type": "object",
@@ -2395,19 +2458,11 @@
       "properties": {
         "description": {
           "type": "string",
-          "description": "A description for the Job Definition."
+          "description": "A description for the Job Definition. OnPremToCloud is for migrating data from on-premises to cloud. CloudToCloud is for migrating data between cloud to cloud."
         },
         "copyMode": {
-          "type": "string",
-          "description": "Strategy to use for copy.",
-          "enum": [
-            "Additive",
-            "Mirror"
-          ],
-          "x-ms-enum": {
-            "name": "CopyMode",
-            "modelAsString": true
-          }
+          "$ref": "#/definitions/CopyMode",
+          "description": "Strategy to use for copy."
         },
         "sourceName": {
           "type": "string",
@@ -2462,22 +2517,8 @@
           "readOnly": true
         },
         "latestJobRunStatus": {
-          "type": "string",
+          "$ref": "#/definitions/JobRunStatus",
           "description": "The current status of the Job Run in a non-terminal state, if exists.",
-          "enum": [
-            "Queued",
-            "Started",
-            "Running",
-            "CancelRequested",
-            "Canceling",
-            "Canceled",
-            "Failed",
-            "Succeeded"
-          ],
-          "x-ms-enum": {
-            "name": "JobRunStatus",
-            "modelAsString": true
-          },
           "readOnly": true
         },
         "agentName": {
@@ -2521,16 +2562,8 @@
           "description": "A description for the Job Definition."
         },
         "copyMode": {
-          "type": "string",
-          "description": "Strategy to use for copy.",
-          "enum": [
-            "Additive",
-            "Mirror"
-          ],
-          "x-ms-enum": {
-            "name": "CopyMode",
-            "modelAsString": true
-          }
+          "$ref": "#/definitions/CopyMode",
+          "description": "Strategy to use for copy."
         },
         "agentName": {
           "type": "string",
@@ -2578,52 +2611,34 @@
       "properties": {
         "value": {
           "type": "array",
+          "description": "The JobRun items on this page",
           "items": {
             "$ref": "#/definitions/JobRun"
           },
           "readOnly": true
         },
         "nextLink": {
-          "type": "string"
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
         }
-      }
+      },
+      "required": [
+        "value"
+      ]
     },
     "JobRunProperties": {
       "type": "object",
       "description": "Job run properties.",
       "properties": {
         "status": {
-          "type": "string",
+          "$ref": "#/definitions/JobRunStatus",
           "description": "The state of the job execution.",
-          "enum": [
-            "Queued",
-            "Started",
-            "Running",
-            "CancelRequested",
-            "Canceling",
-            "Canceled",
-            "Failed",
-            "Succeeded",
-            "PausedByBandwidthManagement"
-          ],
-          "x-ms-enum": {
-            "name": "JobRunStatus",
-            "modelAsString": true
-          },
           "readOnly": true
         },
         "scanStatus": {
-          "type": "string",
+          "$ref": "#/definitions/JobRunScanStatus",
           "description": "The status of Agent's scanning of source.",
-          "enum": [
-            "NotStarted",
-            "Scanning",
-            "Completed"
-          ],
-          "x-ms-enum": {
-            "name": "JobRunScanStatus",
-            "modelAsString": true
-          },
           "readOnly": true
         },
         "agentName": {
@@ -2737,9 +2752,7 @@
           "readOnly": true
         },
         "sourceProperties": {
-          "type": "object",
           "description": "Copy of source Endpoint resource's properties at time of Job Run creation.",
-          "additionalProperties": {},
           "readOnly": true
         },
         "targetName": {
@@ -2753,15 +2766,11 @@
           "readOnly": true
         },
         "targetProperties": {
-          "type": "object",
           "description": "Copy of Endpoint resource's properties at time of Job Run creation.",
-          "additionalProperties": {},
           "readOnly": true
         },
         "jobDefinitionProperties": {
-          "type": "object",
           "description": "Copy of parent Job Definition's properties at time of Job Run creation.",
-          "additionalProperties": {},
           "readOnly": true
         },
         "error": {
@@ -2787,6 +2796,90 @@
         }
       }
     },
+    "JobRunScanStatus": {
+      "type": "string",
+      "description": "The status of Agent's scanning of source.",
+      "enum": [
+        "NotStarted",
+        "Scanning",
+        "Completed"
+      ],
+      "x-ms-enum": {
+        "name": "JobRunScanStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "NotStarted",
+            "value": "NotStarted"
+          },
+          {
+            "name": "Scanning",
+            "value": "Scanning"
+          },
+          {
+            "name": "Completed",
+            "value": "Completed"
+          }
+        ]
+      }
+    },
+    "JobRunStatus": {
+      "type": "string",
+      "description": "The current status of the Job Run in a non-terminal state, if exists.",
+      "enum": [
+        "Queued",
+        "Started",
+        "Running",
+        "CancelRequested",
+        "Canceling",
+        "Canceled",
+        "Failed",
+        "Succeeded",
+        "PausedByBandwidthManagement"
+      ],
+      "x-ms-enum": {
+        "name": "JobRunStatus",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Queued",
+            "value": "Queued"
+          },
+          {
+            "name": "Started",
+            "value": "Started"
+          },
+          {
+            "name": "Running",
+            "value": "Running"
+          },
+          {
+            "name": "CancelRequested",
+            "value": "CancelRequested"
+          },
+          {
+            "name": "Canceling",
+            "value": "Canceling"
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed"
+          },
+          {
+            "name": "Succeeded",
+            "value": "Succeeded"
+          },
+          {
+            "name": "PausedByBandwidthManagement",
+            "value": "PausedByBandwidthManagement"
+          }
+        ]
+      }
+    },
     "NfsMountEndpointProperties": {
       "type": "object",
       "description": "The properties of NFS share endpoint.",
@@ -2800,17 +2893,8 @@
           ]
         },
         "nfsVersion": {
-          "type": "string",
+          "$ref": "#/definitions/NfsVersion",
           "description": "The NFS protocol version.",
-          "enum": [
-            "NFSauto",
-            "NFSv3",
-            "NFSv4"
-          ],
-          "x-ms-enum": {
-            "name": "NfsVersion",
-            "modelAsString": true
-          },
           "x-ms-mutability": [
             "read",
             "create"
@@ -2845,6 +2929,33 @@
       ],
       "x-ms-discriminator-value": "NfsMount"
     },
+    "NfsVersion": {
+      "type": "string",
+      "description": "The NFS protocol version.",
+      "enum": [
+        "NFSauto",
+        "NFSv3",
+        "NFSv4"
+      ],
+      "x-ms-enum": {
+        "name": "NfsVersion",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "NFSauto",
+            "value": "NFSauto"
+          },
+          {
+            "name": "NFSv3",
+            "value": "NFSv3"
+          },
+          {
+            "name": "NFSv4",
+            "value": "NFSv4"
+          }
+        ]
+      }
+    },
     "Project": {
       "type": "object",
       "description": "The Project resource.",
@@ -2867,15 +2978,21 @@
       "properties": {
         "value": {
           "type": "array",
+          "description": "The Project items on this page",
           "items": {
             "$ref": "#/definitions/Project"
           },
           "readOnly": true
         },
         "nextLink": {
-          "type": "string"
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
         }
-      }
+      },
+      "required": [
+        "value"
+      ]
     },
     "ProjectProperties": {
       "type": "object",
@@ -2944,6 +3061,24 @@
           }
         ]
       }
+    },
+    "Recurrence": {
+      "type": "object",
+      "description": "The schedule recurrence.",
+      "properties": {
+        "startTime": {
+          "$ref": "#/definitions/Time",
+          "description": "The start time of the schedule recurrence. Full hour and 30-minute intervals are supported."
+        },
+        "endTime": {
+          "$ref": "#/definitions/Time",
+          "description": "The end time of the schedule recurrence. Full hour and 30-minute intervals are supported."
+        }
+      },
+      "required": [
+        "startTime",
+        "endTime"
+      ]
     },
     "SmbMountEndpointProperties": {
       "type": "object",
@@ -3019,15 +3154,21 @@
       "properties": {
         "value": {
           "type": "array",
+          "description": "The StorageMover items on this page",
           "items": {
             "$ref": "#/definitions/StorageMover"
           },
           "readOnly": true
         },
         "nextLink": {
-          "type": "string"
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
         }
-      }
+      },
+      "required": [
+        "value"
+      ]
     },
     "StorageMoverProperties": {
       "type": "object",
@@ -3123,14 +3264,31 @@
           },
           "x-ms-identifiers": []
         }
-      },
-      "required": [
-        "weeklyRecurrences"
-      ]
+      }
     },
     "UploadLimitWeeklyRecurrence": {
       "type": "object",
       "description": "The weekly recurrence of the WAN-link upload limit schedule. The start time must be earlier in the day than the end time. The recurrence must not span across multiple days.",
+      "properties": {
+        "limitInMbps": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The WAN-link upload bandwidth (maximum data transfer rate) in megabits per second. Value of 0 indicates no throughput is allowed and any running migration job is effectively paused for the duration of this recurrence. Only data plane operations are governed by this limit. Control plane operations ensure seamless functionality. The agent may exceed this limit with control messages, if necessary.",
+          "maximum": 2147483647
+        }
+      },
+      "required": [
+        "limitInMbps"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/WeeklyRecurrence"
+        }
+      ]
+    },
+    "WeeklyRecurrence": {
+      "type": "object",
+      "description": "The weekly recurrence of the schedule.",
       "properties": {
         "days": {
           "type": "array",
@@ -3138,25 +3296,15 @@
           "items": {
             "$ref": "#/definitions/DayOfWeek"
           }
-        },
-        "startTime": {
-          "$ref": "#/definitions/Time",
-          "description": "The start time of the schedule recurrence. Full hour and 30-minute intervals are supported."
-        },
-        "endTime": {
-          "$ref": "#/definitions/Time",
-          "description": "The end time of the schedule recurrence. Full hour and 30-minute intervals are supported."
-        },
-        "limitInMbps": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The WAN-link upload bandwidth (maximum data transfer rate) in megabits per second. Value of 0 indicates no throughput is allowed and any running migration job is effectively paused for the duration of this recurrence. Only data plane operations are governed by this limit. Control plane operations ensure seamless functionality. The agent may exceed this limit with control messages, if necessary.",
-          "minimum": 0,
-          "maximum": 2147483647
         }
       },
       "required": [
         "days"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/Recurrence"
+        }
       ]
     }
   },

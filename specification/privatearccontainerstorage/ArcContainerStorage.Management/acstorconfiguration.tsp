@@ -3,13 +3,11 @@ import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
-import "./provisioningState.tsp";
+import "./configurationstate.tsp";
 
 using Azure.ResourceManager;
 
 namespace Private.ArcContainerStorage;
-
-//    generation: "9"
 
 @doc("AcStorConfiguration defines the configuration for a storage system. It is a singleton which must be named 'acstor-configuration'.")
 model AcStorConfiguration is ExtensionResource<AcStorConfigurationProperties> {
@@ -27,6 +25,7 @@ model AcStorConfigurationProperties {
   diskMountPoint?: string;
 
   @doc("The capacity of the disk, including storage unit (e.g., 60Gi).")
+  @pattern("^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   diskCapacity: string;
 
@@ -43,7 +42,7 @@ model AcStorConfigurationProperties {
 
   @doc("The provisioning state of the resource.")
   @visibility(Lifecycle.Read)
-  provisioningState?: provisioningState;
+  provisioningState?: ResourceProvisioningState;
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
   @visibility(Lifecycle.Read)
@@ -112,7 +111,7 @@ union DiskTypes {
 @doc("Defines the observed status of the AcStorConfiguration resource.")
 model AcStorConfigurationStatus {
   @doc("The current state of the configuration.")
-  state?: string;
+  state?: ConfigurationState;
 
   @doc("Additional details about the configuration's status.")
   details?: string;

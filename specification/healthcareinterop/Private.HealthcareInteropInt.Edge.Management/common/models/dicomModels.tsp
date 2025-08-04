@@ -1,5 +1,3 @@
-import "@azure-tools/typespec-azure-resource-manager";
-
 @doc("The Listener Configuration to be used for dicom connector configuration.")
 model DicomListenerConfiguration {
   @doc("The port number that will be exposed to receive DICOM images.")

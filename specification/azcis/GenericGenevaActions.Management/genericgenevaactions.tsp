@@ -33,7 +33,7 @@ model GenericGenevaActionsResourceProperties {
   inputMode?: string;
 
   @doc("The parameter list for geneva action")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   parameters?: Array<Parameter>;
 
   @doc("The Azure location.")

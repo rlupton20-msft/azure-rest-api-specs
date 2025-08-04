@@ -770,7 +770,7 @@ model ConnectionProperties {
   /**
    * Hostname specific to API Flows
    */
-  @added(Versions.v2025_05_30_preview)
+  @added(Versions.v2025_05_21)
   apiHostname?: string;
 }
 
@@ -1231,7 +1231,13 @@ model ApiFlowOptions {
   senderClientId?: string;
 
   /**
-   * Remote stub app registration Client ID. Deprecated starting 2025-05-30-preview.
+   * Collection of senderClientIds
+   */
+  @added(Versions.v2025_05_21)
+  senderClientIds?: string[];
+
+  /**
+   * Remote stub app registration Client ID
    */
   @removed(Versions.v2025_05_30_preview)
   remoteCallingModeClientId?: string;

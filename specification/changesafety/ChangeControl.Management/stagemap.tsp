@@ -13,7 +13,7 @@ using TypeSpec.Versioning;
 namespace Microsoft.ChangeSafety;
 
 @doc("Resource provides details about stages a deployment goes through.")
-model StageMap is ExtensionResource<StageMapProperties> {
+model StageMap is ProxyResource<StageMapProperties> {
   @pattern("^[a-zA-Z0-9-]{3,100}$")
   @key("stageMapName")
   @segment("stageMaps")
@@ -23,7 +23,6 @@ model StageMap is ExtensionResource<StageMapProperties> {
   @doc("The name of the StageMap")
   name: string;
 }
-
 @doc("Detailed properties of the StageMap resource.")
 model StageMapProperties {
   @visibility(Lifecycle.Read)
@@ -86,75 +85,12 @@ interface StageMaps {
     }
   >;
 
-  @added(Versions.v2025_03_01_preview)
-  getAtManagementGroupLevel is ArmResourceRead<
-    StageMap,
-    {
-      ...ApiVersionParameter;
-      ...Azure.ResourceManager.CommonTypes.ManagementGroupNameParameter;
-    }
-  >;
-
-  @added(Versions.v2025_03_01_preview)
-  getAtScope is ArmResourceRead<
-    StageMap,
-    {
-      ...ApiVersionParameter;
-      ...Azure.ResourceManager.CommonTypes.ScopeParameter;
-    }
-  >;
-
-  @added(Versions.v2025_03_01_preview)
-  getAtTenantLevel is ArmResourceRead<
-    StageMap,
-    {
-      ...ApiVersionParameter;
-      ...Azure.ResourceManager.CommonTypes.TenantIdParameter;
-    }
-  >;
-
-  @added(Versions.v2025_03_01_preview)
-  createOrUpdateAtTenantLevel is ArmResourceCreateOrReplaceSync<
-    StageMap,
-    {
-      ...ApiVersionParameter;
-      ...Azure.ResourceManager.CommonTypes.TenantIdParameter;
-    }
-  >;
-
-  @added(Versions.v2025_03_01_preview)
-  updateAtTenantLevel is ArmResourcePatchSync<
-    StageMap,
-    StageMapProperties,
-    {
-      ...ApiVersionParameter;
-      ...Azure.ResourceManager.CommonTypes.TenantIdParameter;
-    }
-  >;
-
-  @added(Versions.v2025_03_01_preview)
-  deleteAtTenantLevel is ArmResourceDeleteSync<
-    StageMap,
-    {
-      ...ApiVersionParameter;
-      ...Azure.ResourceManager.CommonTypes.TenantIdParameter;
-    }
-  >;
-
   createOrUpdate is ArmResourceCreateOrReplaceSync<StageMap>;
   createOrUpdateAtSubscriptionLevel is ArmResourceCreateOrReplaceSync<
     StageMap,
     {
       ...ApiVersionParameter;
       ...SubscriptionIdParameter;
-    }
-  >;
-  @added(Versions.v2025_03_01_preview)
-  createOrUpdateAtManagementGroupLevel is ArmResourceCreateOrReplaceSync<
-    StageMap,
-    {
-      ...ApiVersionParameter;
-      ...Azure.ResourceManager.CommonTypes.ManagementGroupNameParameter;
     }
   >;
 
@@ -167,15 +103,6 @@ interface StageMaps {
       ...SubscriptionIdParameter;
     }
   >;
-  @added(Versions.v2025_03_01_preview)
-  updateAtManagementGroupLevel is ArmResourcePatchSync<
-    StageMap,
-    StageMapProperties,
-    {
-      ...ApiVersionParameter;
-      ...Azure.ResourceManager.CommonTypes.ManagementGroupNameParameter;
-    }
-  >;
 
   delete is ArmResourceDeleteSync<StageMap>;
   deleteAtSubscriptionLevel is ArmResourceDeleteSync<
@@ -183,14 +110,6 @@ interface StageMaps {
     {
       ...ApiVersionParameter;
       ...SubscriptionIdParameter;
-    }
-  >;
-  @added(Versions.v2025_03_01_preview)
-  deleteAtManagementGroupLevel is ArmResourceDeleteSync<
-    StageMap,
-    {
-      ...ApiVersionParameter;
-      ...Azure.ResourceManager.CommonTypes.ManagementGroupNameParameter;
     }
   >;
 }

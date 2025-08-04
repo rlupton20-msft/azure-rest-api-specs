@@ -8,10 +8,12 @@ import "./common/models/dicomModels.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
+using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 namespace Private.HealthcareInteropInt;
 
+@added(Versions.v2025_06_01_preview)
 @doc("The healthcare interop DicomEdgeConnector resource.")
 model DicomEdgeConnector is TrackedResource<DicomEdgeConnectorProperties> {
   @doc("The name of the dicom edge connector")
@@ -27,6 +29,7 @@ model DicomEdgeConnector is TrackedResource<DicomEdgeConnectorProperties> {
   extendedLocation: ExtendedLocation;
 }
 
+@added(Versions.v2025_06_01_preview)
 @doc("DicomEdgeConnector properties")
 model DicomEdgeConnectorProperties {
   @doc("The Receiver Configuration to be used for dicom connector configuration.")
@@ -62,6 +65,7 @@ model DicomEdgeConnectorProperties {
   provisioningState?: ProvisioningState;
 }
 
+@added(Versions.v2025_06_01_preview)
 @armResourceOperations
 interface DicomEdgeConnectors {
   get is ArmResourceRead<DicomEdgeConnector>;
