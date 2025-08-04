@@ -28,7 +28,7 @@ model Connection
 /**
  * Response wrapper for a Connection resource.
  */
-model ArmConnectionResponse is Connection;
+model ArmConnectionResponse is ArmResponse<Connection>;
 
 @armResourceOperations
 interface Connections {

@@ -167,14 +167,27 @@ model FlowProfileRulesets {
 @added(Versions.v2025_05_30_preview)
 model AntivirusRuleset {
   /**
-   * Optional. Default is disabled. If enabled, uses Microsoft Defender antivirus scanning software as the scanning solution.
+   * Optional. The list of antiviruses to be used as a scanning solution for replicating data.
    */
-  defender?: EnablementStatus = EnablementStatus.Disabled;
+  avSolutions?: AntivirusEnums[];
+}
+
+/**
+ * The list of Antivirus solutions currently provided.
+ */
+@added(Versions.v2025_05_30_preview)
+union AntivirusEnums {
+  string,
 
   /**
-   * Optional. Default is disabled. If enabled, uses the external ClamAV open-source software as an antivirus scanning solution.
+   * Option to use Microsoft Defender antivirus scanning software as the scanning solution.
    */
-  clamAv?: EnablementStatus = EnablementStatus.Disabled;
+  Defender: "Defender",
+
+  /**
+   * Option to use the external ClamAV open-source software as an antivirus scanning solution.
+   */
+  ClamAv: "ClamAv",
 }
 
 /**
@@ -201,7 +214,7 @@ model ArchiveRuleset {
   maximumDepthLimit?: int64;
 
   /**
-   * Optional. The highest acceptable compression ratio (root object size * compression ratio) for an archive. Used to detect and block archives with suspiciously high compression (e.g., zip bombs).
+   * Optional. Provides the multiplication value for an archive in total based on the initial object being validated. This value takes the root object size and multiplies it by this value to create a maximum. Once this maximum is exceeded, the archive is failed. Used to detect and block archives with suspiciously high compression (e.g., zip bombs).
    */
   @minValue(0)
   maximumCompressionRatioLimit?: float64;

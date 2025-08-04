@@ -916,9 +916,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "Response wrapper for a Flow resource.",
             "schema": {
-              "$ref": "#/definitions/ArmFlowResponse"
+              "$ref": "#/definitions/Flow"
             }
           },
           "202": {
@@ -994,9 +994,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "Response wrapper for a Flow resource.",
             "schema": {
-              "$ref": "#/definitions/ArmFlowResponse"
+              "$ref": "#/definitions/Flow"
             }
           },
           "202": {
@@ -1072,9 +1072,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "Response wrapper for a Flow resource.",
             "schema": {
-              "$ref": "#/definitions/ArmFlowResponse"
+              "$ref": "#/definitions/Flow"
             }
           },
           "202": {
@@ -1395,9 +1395,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "Response wrapper for a Flow resource.",
             "schema": {
-              "$ref": "#/definitions/ArmFlowResponse"
+              "$ref": "#/definitions/Flow"
             }
           },
           "202": {
@@ -1482,9 +1482,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "Response wrapper for a Flow resource.",
             "schema": {
-              "$ref": "#/definitions/ArmFlowResponse"
+              "$ref": "#/definitions/Flow"
             }
           },
           "202": {
@@ -1569,9 +1569,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "Response wrapper for a Flow resource.",
             "schema": {
-              "$ref": "#/definitions/ArmFlowResponse"
+              "$ref": "#/definitions/Flow"
             }
           },
           "202": {
@@ -1656,9 +1656,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "Response wrapper for a Flow resource.",
             "schema": {
-              "$ref": "#/definitions/ArmFlowResponse"
+              "$ref": "#/definitions/Flow"
             }
           },
           "202": {
@@ -1743,9 +1743,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "Response wrapper for a Flow resource.",
             "schema": {
-              "$ref": "#/definitions/ArmFlowResponse"
+              "$ref": "#/definitions/Flow"
             }
           },
           "202": {
@@ -1820,9 +1820,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "Response wrapper for a Connection resource.",
             "schema": {
-              "$ref": "#/definitions/ArmConnectionResponse"
+              "$ref": "#/definitions/Connection"
             }
           },
           "202": {
@@ -2309,9 +2309,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "Response wrapper for a Connection resource.",
             "schema": {
-              "$ref": "#/definitions/ArmConnectionResponse"
+              "$ref": "#/definitions/Connection"
             }
           },
           "202": {
@@ -2386,9 +2386,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Azure operation completed successfully.",
+            "description": "Response wrapper for a Pipeline resource.",
             "schema": {
-              "$ref": "#/definitions/ArmPipelineResponse"
+              "$ref": "#/definitions/Pipeline"
             }
           },
           "202": {
@@ -2939,58 +2939,39 @@
         ]
       }
     },
+    "AntivirusEnums": {
+      "type": "string",
+      "description": "The list of Antivirus solutions currently provided.",
+      "enum": [
+        "Defender",
+        "ClamAv"
+      ],
+      "x-ms-enum": {
+        "name": "AntivirusEnums",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Defender",
+            "value": "Defender",
+            "description": "Option to use Microsoft Defender antivirus scanning software as the scanning solution."
+          },
+          {
+            "name": "ClamAv",
+            "value": "ClamAv",
+            "description": "Option to use the external ClamAV open-source software as an antivirus scanning solution."
+          }
+        ]
+      }
+    },
     "AntivirusRuleset": {
       "type": "object",
       "description": "Antivirus scanning rules for replicating data. By default, all antivirus scanning solutions are disabled.",
       "properties": {
-        "defender": {
-          "type": "string",
-          "description": "Optional. Default is disabled. If enabled, uses Microsoft Defender antivirus scanning software as the scanning solution.",
-          "default": "Disabled",
-          "enum": [
-            "Enabled",
-            "Disabled"
-          ],
-          "x-ms-enum": {
-            "name": "EnablementStatus",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Enabled",
-                "value": "Enabled",
-                "description": "Represents an enabled status."
-              },
-              {
-                "name": "Disabled",
-                "value": "Disabled",
-                "description": "Represents a disabled status."
-              }
-            ]
-          }
-        },
-        "clamAv": {
-          "type": "string",
-          "description": "Optional. Default is disabled. If enabled, uses the external ClamAV open-source software as an antivirus scanning solution.",
-          "default": "Disabled",
-          "enum": [
-            "Enabled",
-            "Disabled"
-          ],
-          "x-ms-enum": {
-            "name": "EnablementStatus",
-            "modelAsString": true,
-            "values": [
-              {
-                "name": "Enabled",
-                "value": "Enabled",
-                "description": "Represents an enabled status."
-              },
-              {
-                "name": "Disabled",
-                "value": "Disabled",
-                "description": "Represents a disabled status."
-              }
-            ]
+        "avSolutions": {
+          "type": "array",
+          "description": "Optional. The list of antiviruses to be used as a scanning solution for replicating data.",
+          "items": {
+            "$ref": "#/definitions/AntivirusEnums"
           }
         }
       }
@@ -3078,7 +3059,7 @@
         "maximumCompressionRatioLimit": {
           "type": "number",
           "format": "double",
-          "description": "Optional. The highest acceptable compression ratio (root object size * compression ratio) for an archive. Used to detect and block archives with suspiciously high compression (e.g., zip bombs).",
+          "description": "Optional. Provides the multiplication value for an archive in total based on the initial object being validated. This value takes the root object size and multiplies it by this value to create a maximum. Once this maximum is exceeded, the archive is failed. Used to detect and block archives with suspiciously high compression (e.g., zip bombs).",
           "minimum": 0
         }
       }
@@ -3087,61 +3068,39 @@
       "type": "object",
       "description": "Response wrapper for a Connection resource.",
       "properties": {
-        "properties": {
-          "$ref": "#/definitions/ConnectionProperties",
-          "description": "Properties of connection"
-        },
-        "identity": {
-          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
-          "description": "The managed service identities assigned to this resource."
+        "body": {
+          "$ref": "#/definitions/Connection",
+          "description": "The body type of the operation request or response."
         }
       },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-        }
+      "required": [
+        "body"
       ]
     },
     "ArmFlowResponse": {
       "type": "object",
       "description": "Response wrapper for a Flow resource.",
       "properties": {
-        "properties": {
-          "$ref": "#/definitions/FlowProperties",
-          "description": "Properties of flow"
-        },
-        "plan": {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Plan",
-          "description": "Details of the resource plan."
-        },
-        "identity": {
-          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
-          "description": "The managed service identities assigned to this resource."
+        "body": {
+          "$ref": "#/definitions/Flow",
+          "description": "The body type of the operation request or response."
         }
       },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-        }
+      "required": [
+        "body"
       ]
     },
     "ArmPipelineResponse": {
       "type": "object",
       "description": "Response wrapper for a Pipeline resource.",
       "properties": {
-        "properties": {
-          "$ref": "#/definitions/PipelineProperties",
-          "description": "The set of configurable properties for the Pipeline resource."
-        },
-        "identity": {
-          "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/ManagedServiceIdentity",
-          "description": "The managed service identities assigned to this resource."
+        "body": {
+          "$ref": "#/definitions/Pipeline",
+          "description": "The body type of the operation request or response."
         }
       },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
-        }
+      "required": [
+        "body"
       ]
     },
     "Authentication": {

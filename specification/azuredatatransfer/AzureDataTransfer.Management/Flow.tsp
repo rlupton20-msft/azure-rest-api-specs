@@ -30,7 +30,7 @@ model Flow is Azure.ResourceManager.TrackedResource<FlowProperties> {
 /**
  * Response wrapper for a Flow resource.
  */
-model ArmFlowResponse is Flow;
+model ArmFlowResponse is ArmResponse<Flow>;
 
 @armResourceOperations
 interface Flows {
