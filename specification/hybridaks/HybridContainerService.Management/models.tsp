@@ -264,6 +264,11 @@ model ProvisionedClusterProperties {
   kubernetesVersion?: string;
 
   /**
+   * Indicates whether to enable FIPS compliant images for the provisioned cluster.
+   */
+  enableFipsImage?: boolean;
+
+  /**
    * The network configuration profile for the provisioned cluster.
    */
   networkProfile?: NetworkProfile;
