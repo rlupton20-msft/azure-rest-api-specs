@@ -32,7 +32,7 @@ model SchemaVersionProperties {
 model SchemaVersion is ProxyResource<SchemaVersionProperties> {
   ...ResourceNameParameter<
     SchemaVersion,
-    NamePattern = "^[a-zA-Z0-9.-]{3,24}$"
+    NamePattern = "^(v2-)?[0-9]+\\.[0-9]+\\.[0-9]+$"
   >;
   ...EntityTagProperty;
 }
