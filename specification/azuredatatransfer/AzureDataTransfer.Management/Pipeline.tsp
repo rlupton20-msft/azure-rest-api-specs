@@ -53,8 +53,7 @@ interface Pipelines {
   @patch(#{ implicitOptionality: false })
   update is ArmCustomPatchAsync<
     Pipeline,
-    PatchModel = PipelinesPatch,
-    Response = ArmAcceptedLroResponse
+    PatchModel = PipelinesPatch
   >;
 
   /**

@@ -51,8 +51,7 @@ interface Flows {
   @patch(#{ implicitOptionality: false })
   update is ArmCustomPatchAsync<
     Flow,
-    PatchModel = FlowsPatch,
-    Response = ArmAcceptedLroResponse
+    PatchModel = FlowsPatch
   >;
 
   /**
