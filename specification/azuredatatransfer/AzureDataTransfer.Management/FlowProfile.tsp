@@ -32,7 +32,7 @@ model FlowProfile
  * Response wrapper for a FlowProfile resource.
  */
 @added(Versions.v2025_05_30_preview)
-model ArmFlowProfileResponse is ArmResponse<FlowProfile>;
+model ArmFlowProfileResponse is FlowProfile;
 
 /**
  * Defines the set of operations available for managing FlowProfile resources.

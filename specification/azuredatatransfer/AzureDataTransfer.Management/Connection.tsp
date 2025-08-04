@@ -25,6 +25,11 @@ model Connection
   ...Azure.ResourceManager.ManagedServiceIdentityProperty;
 }
 
+/**
+ * Response wrapper for a Connection resource.
+ */
+model ArmConnectionResponse is Connection;
+
 @armResourceOperations
 interface Connections {
   /**
@@ -45,10 +50,7 @@ interface Connections {
   update is ArmCustomPatchAsync<
     Connection,
     PatchModel = ConnectionsPatch,
-    Response = ArmResponse<Connection> | (ArmAcceptedLroResponse & {
-      @bodyRoot
-      _: Connection;
-    })
+    Response = ArmAcceptedLroResponse
   >;
 
   /**
@@ -72,7 +74,7 @@ interface Connections {
   link is ArmResourceActionAsync<
     Connection,
     ResourceBody,
-    ArmResponse<Connection>
+    ArmConnectionResponse
   >;
 
   /**
