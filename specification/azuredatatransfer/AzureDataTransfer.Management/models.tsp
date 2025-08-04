@@ -106,20 +106,26 @@ union ConnectionStatus {
 }
 
 /**
- * Status of force disablement
+ * Defines different disablement statuses and the circumstances in why they were disabled.
  */
 union ForceDisabledStatus {
   string,
 
   /**
-   * This Flow has been disabled as the connection has been disabled.
+   * Defines disablement of a Flow due to the parent connection being disabled.
    */
   ConnectionForceDisabled: "ConnectionForceDisabled",
 
   /**
-   * This Flow has been disabled as the flow type this flow uses has been disabled.
+   * Defines disablement of a Flow due to the linked flow type being disabled.
    */
   FlowTypeForceDisabled: "FlowTypeForceDisabled",
+
+  /**
+   * Defines disablement of a Flow due to the Pipeline being disabled.
+   */
+  @added(Versions.v2025_05_30_preview)
+  PipelineForceDisabled: "PipelineForceDisabled",
 }
 
 /**
@@ -129,20 +135,18 @@ union LinkStatus {
   string,
 
   /**
-   * The pipeline, connection, or flow is currently linked with another corresponding pipeline,
-   * connection, or flow, and can be used.
+   * The pipeline, connection, or flow is currently linked with another corresponding pipeline, connection, or flow, and can be used.
    */
   Linked: "Linked",
 
   /**
-   * The pipeline, connection, or flow is not linked with another corresponding pipeline,
-   * connection, or flow, and cannot be used.
+   * The pipeline, connection, or flow is not linked with another corresponding pipeline, connection, or flow, and cannot be used.
    */
   Unlinked: "Unlinked",
 }
 
 /**
- * Flow type for the specified resource
+ * Flow type for the specified resource. FlowType will be deprecated starting from version 2025_05_30_preview - please create a FlowProfile resource instead.
  */
 @removed(Versions.v2025_05_30_preview)
 union FlowType {
@@ -169,7 +173,7 @@ union FlowType {
   Messaging: "Messaging",
 
   /**
-   * This flow sends data that will not be processed by any security system.
+   * This flow sends standard data but is subject to strict cloud owner approval.
    */
   Mission: "Mission",
 
@@ -199,12 +203,12 @@ union FlowType {
   StreamingVideo: "StreamingVideo",
 
   /**
-   * This flow sends blobs that will not be processed by any security system.
+   * This flow sends blobs but is subject to cloud owner approval.
    */
   Opaque: "Opaque",
 
   /**
-   * This flow sends Extensible Markup Language that will not be processed by any security system.
+   * This flow sends Extensible Markup Language that is subject to strict cloud owner approval
    */
   MissionOpaqueXML: "MissionOpaqueXML",
 
@@ -332,149 +336,89 @@ union FlowStatus {
 }
 
 /**
- * Data class used to define the replication scenario.
+ * Defines the supported replication scenarios for Azure Data Transfer.
  */
 @added(Versions.v2025_05_30_preview)
 union DataClassType {
   string,
 
   /**
-   * Replication using service bus & event hub.
+   * Represents standard message-based data, including Azure Service and Event Hub, used in message replication.
    */
-  "LowLatency",
+  "Messaging",
 
   /**
-   * Query service using an API endpoint.
+   * Represents transactional request/response data types from API endpoints.
    */
-  "Query",
+  "API",
 
   /**
-   * Streaming replication service.
+   * Represents data types that require continuous, real-time streaming replication (e.g., video).
    */
   "Stream",
 
   /**
-   * Object replication service for Azure blobs, tables, and files.
+   * Represents standard file-based data, including Azure Blob and Table Storage, used in general-purpose replication.
    */
-  "HighThroughput",
+  "Files",
+
+  /**
+   * Represents data related to development, security, and operations workflows such as build artifacts.
+   */
+  "DevSecOps",
+
+  /**
+   * Represents rich content types such as documents (e.g., Word, PDF) and images that require specialized replication handling.
+   */
+  "Complex",
+
+  /**
+   * Represents standard file-based data, including Azure Blob and Table Storage that is subject to inspection pursuant to the approval of the cloud owner.
+   */
+  "Mission",
 }
 
 /**
- * Allowed data class.
- * TODO: how are we going to determine whether a BatchEngine flow is Complex, DSo, Disk Image, Mission...etc..?
+ * The list of data types supported for replication.
  */
 @added(Versions.v2025_05_30_preview)
 union DataClass {
   string,
 
   /**
-   * (Low Latency) Service bus based replication.
+   * (Messaging) Replicates messages from Azure Service Bus for downstream processing or analysis.
    */
   "ServiceBus",
 
   /**
-   * (Low Latency) Event hub based replication.
+   * (Messaging) Replicates messages from Azure Event Hub for downstream processing or analysis.
    */
   "EventHub",
 
   /**
-   * (Query) API based low latency transfer.
+   * (API) Replicates request/response data through RESTful API endpoints.
    */
-  "API",
+  "ApiEndpoint",
 
   /**
-   * (Query) SDK based low latency transfer.
+   * (API) Replicates request/response data through SDK-based integrations.
    */
-  "SDK",
+  "ApiSDK",
 
   /**
-   * (Query) Used to auto-assign low latency transfer type.
-   */
-  "ALL",
-
-  /**
-   * (Stream) Used to auto-assign low latency transfer type.
+   * (Stream) Enables replication of real-time video streaming data.
    */
   "Video",
 
   /**
-   * (HighThroughput) Replication scenario using Azure Storage blobs.
+   * (Files/DevSecOps/Complex/Mission) Replicates generic blobs data using Azure Blob Storage.
    */
   "Blob",
 
   /**
-   * (HighThroughput) Replication scenario using Azure Storage tables.
+   * (Files) Replicates structured NoSQL data using Azure Table Storage.
    */
   "Table",
-
-  /**
-   * (HighThroughput) Replication scenario using Azure Storage Files.
-   */
-  "Files",
-}
-
-/**
- * Allowed scenarios for low latency replications.
- */
-@added(Versions.v2025_05_30_preview)
-union LowLatencyType {
-  string,
-
-  /**
-   * Service bus based replication.
-   */
-  ServiceBus: "ServiceBus",
-
-  /**
-   * Event hub based replication.
-   */
-  EventHub: "EventHub",
-}
-
-/**
- * Allowed scenarios for query replications.
- */
-@added(Versions.v2025_05_30_preview)
-union QueryType {
-  string,
-
-  /**
-   * API based low latency transfer.
-   */
-  API: "API",
-
-  /**
-   * SDK based low latency transfer.
-   */
-  SDK: "SDK",
-
-  /**
-   * Used to auto-assign low latency transfer type.
-   */
-  ALL: "ALL",
-}
-
-/**
- * Allowed scenarios for high throughput replications.
- */
-@added(Versions.v2025_05_30_preview)
-union HighThroughputType {
-  string,
-
-  /**
-   * Replication scenario using Azure Storage blobs.
-   */
-  Blob: "Blob",
-
-  /**
-   * Replication scenario using Azure Storage tables.
-   */
-  Table: "Table",
-
-  /**
-   * Replication scenario using Azure Storage Files.
-   */
-  Files: "Files",
 }
 
 /**
@@ -540,8 +484,7 @@ union IdentityTranslation {
   string,
 
   /**
-   * The API flow will make use of the user identity that called this API flow, and pass that token
-   * through the boundary.
+   * The API flow will make use of the user identity that called this API flow, and pass that token through the boundary.
    */
   UserIdentity: "UserIdentity",
 
@@ -549,6 +492,24 @@ union IdentityTranslation {
    * The API flow will make use of the Azure Data Transfer Flow managed identity on the other side of the boundary.
    */
   ServiceIdentity: "ServiceIdentity",
+}
+
+/**
+ * Type of authentication mechanism for Azure Data Transfer API Flows.
+ */
+@added(Versions.v2025_05_30_preview)
+union AuthenticationType {
+  string,
+
+  /**
+   * Option to use a JWT Bearer Authentication Token.
+   */
+  JWT: "JWT",
+
+  /**
+   * Option to not use any form of Authentication.
+   */
+  None: "None",
 }
 
 /**
@@ -596,8 +557,9 @@ union TargetType {
 }
 
 /**
- * The request used to list approved schemas within the resource provider.
+ * The request used to list approved schemas within the resource provider. ListApprovedSchemaRequest will be deprecated after from version 2025_05_30_preview - please manage schemas with a FlowProfile resource instead.
  */
+@removed(Versions.v2025_05_30_preview)
 model ListApprovedSchemasRequest {
   /**
    * The name of the pipeline to filter approved schemas.
@@ -611,7 +573,7 @@ model ListApprovedSchemasRequest {
 }
 
 /**
- * The schemas list result.
+ * The schemas list result. SchemaListResults will be deprecated starting from version 2025_05_30_preview - please manage schemas with a FlowProfile resource instead.
  */
 @removed(Versions.v2025_05_30_preview)
 model SchemasListResult {
@@ -622,7 +584,7 @@ model SchemasListResult {
 }
 
 /**
- * The schema object.
+ * The schema object. Schemas will be deprecated starting from version 2025_05_30_preview - please manage schemas with a FlowProfile resource instead.
  */
 @removed(Versions.v2025_05_30_preview)
 model Schema {
@@ -668,8 +630,9 @@ model Schema {
 }
 
 /**
- * Result of the schema validation.
+ * Result of the schema validation. ValidateSchemaResult will be deprecated starting from version 2025_05_30_preview - please manage schemas with a FlowProfile resource instead.
  */
+@removed(Versions.v2025_05_30_preview)
 model ValidateSchemaResult {
   /**
    * Validation status of the schema
@@ -732,13 +695,13 @@ model ConnectionProperties {
   linkedConnectionId?: string;
 
   /**
-   * The flow types being requested for this connection
+   * The flow types being requested for this connection. This FlowType property is deprecated starting from version 2025_05_30_preview - please create a FlowProfile resource instead.
    */
   @removed(Versions.v2025_05_30_preview)
   flowTypes?: FlowType[];
 
   /**
-   * The FlowProfiles allowed for this connection
+   * Provides a list of FlowProfiles .
    */
   @added(Versions.v2025_05_30_preview)
   flowProfileList?: FlowProfileMetadata[];
@@ -807,7 +770,7 @@ model ConnectionProperties {
   /**
    * Hostname specific to API Flows
    */
-  @added(Versions.v2025_05_30_preview)
+  @added(Versions.v2025_05_21)
   apiHostname?: string;
 }
 
@@ -1240,8 +1203,9 @@ model MessagingOptions {
  */
 model ApiFlowOptions {
   /**
-   * Remote host to which communication needs to be made
+   * Remote host to which communication needs to be made. Deprecated starting 2025-05-30-preview.
    */
+  @removed(Versions.v2025_05_30_preview)
   remoteEndpoint?: string;
 
   /**
@@ -1255,36 +1219,110 @@ model ApiFlowOptions {
   apiMode?: ApiMode;
 
   /**
-   * Flag for if Azure Data Transfer API Flow should extract the user token
+   * Determines which identity to use for extracting the user token for Azure Data Transfer API Flow. Deprecated starting 2025-05-30-preview.
    */
+  @removed(Versions.v2025_05_30_preview)
   identityTranslation?: IdentityTranslation;
 
   /**
-   * Sender's app user assigned Manage Identity client ID
+   * Sender's app user assigned Manage Identity client ID. Deprecated starting 2025-05-30-preview.
    */
+  @removed(Versions.v2025_05_30_preview)
   senderClientId?: string;
 
   /**
    * Collection of senderClientIds
    */
-  @added(Versions.v2025_05_30_preview)
+  @added(Versions.v2025_05_21)
   senderClientIds?: string[];
 
   /**
    * Remote stub app registration Client ID
    */
+  @removed(Versions.v2025_05_30_preview)
   remoteCallingModeClientId?: string;
 
   /**
-   * Collection of remoteCallingModeClientIds
+   * Optional field to override the audience of the remote endpoint. Deprecated starting 2025-05-30-preview.
    */
-  @added(Versions.v2025_05_30_preview)
-  remoteCallingModeClientIds?: string[];
+  @removed(Versions.v2025_05_30_preview)
+  audienceOverride?: string;
 
   /**
-   * Optional field to override the audience of the remote endpoint
+   * Optional properties to specify the type of authentication for the Azure Data Transfer API Flow.
    */
-  audienceOverride?: string;
+  @added(Versions.v2025_05_30_preview)
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  authentication?: Authentication[];
+
+  /**
+   * Defines the destination remote endpoint for the API calls.
+   */
+  @added(Versions.v2025_05_30_preview)
+  remoteEndpointSettings?: RemoteEndpointSettings;
+}
+
+/**
+ * Properties to configure the destination remote endpoint for API calls.
+ */
+@added(Versions.v2025_05_30_preview)
+model RemoteEndpointSettings {
+  /**
+   * The remote endpoint uri all API calls.
+   */
+  endpoint: string;
+
+  /**
+   * Optional. A list of authentication methods to use against the remote endpoint.
+   */
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  authentication?: Authentication[];
+}
+
+/**
+ * Configures the authentication method and parameters for an Azure Data Transfer API Flow.
+ */
+@added(Versions.v2025_05_30_preview)
+model Authentication {
+  /**
+   * Type of authentication mechanism. JWT by default.
+   */
+  type?: AuthenticationType = AuthenticationType.JWT;
+
+  /**
+   * The identity provider's token service instance.
+   */
+  instance?: string;
+
+  /**
+   * A unique identifier representing the tenant of the identity provider's token service.
+   */
+  tenantId?: string;
+
+  /**
+   * The full URL endpoint used to acquire tokens, typically combining the instance and tenant ID to target a specific authentication context.
+   */
+  authority?: string;
+
+  /**
+   * List of applicationIds allowed to authorize to this flow. This is used as an alternative to the RBAC authorization check.
+   */
+  applicationIds?: string[];
+
+  /**
+   * Audience of the identity of the remote endpoint service. By default, remoteEndpointSettings.endpoint will be used if a value is not provided.
+   */
+  audience?: string;
+
+  /**
+   * The Flow can use an Entra app identity that is provided by the Flow user to obtain the token to call the remote endpoint. This field specifies the user provided app's clientId.
+   */
+  clientIdOverride?: string;
+
+  /**
+   * Determines which identity to use for extracting the user token for Azure Data Transfer API Flow.
+   */
+  identityTranslation?: IdentityTranslation;
 }
 
 /**

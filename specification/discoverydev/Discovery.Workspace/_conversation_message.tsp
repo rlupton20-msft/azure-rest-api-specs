@@ -152,6 +152,9 @@ union MessageStatus {
   @lroFailed
   Failed: "Failed",
 
+  /** Expired */
+  Expired: "Expired",
+
   string,
 }
 

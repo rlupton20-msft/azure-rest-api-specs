@@ -15,7 +15,7 @@ namespace Microsoft.AzureCis;
 @doc("DnsNamespaceManagerUpdateTxtRecordSet properties")
 model DnsNamespaceManagerUpdateTxtRecordSetResourceProperties {
   @doc("Gets or sets the TXT Records")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   txtRecords: TxtRecord[];
 
   @doc("Gets or sets the record set name (relative to the parent DNS zone that is hosting it).")

@@ -15,13 +15,15 @@ namespace Microsoft.IoTFirmwareDefense;
 /**
  * List of CVE results.
  */
-@added(Versions.v2025_08_02)
+@removed(Versions.v2025_08_02)
+@renamedFrom(Versions.v2025_08_02, "CveListResult")
 model LegacyCveListResult is Azure.Core.Page<LegacyCveResource>;
 
 /**
  * The object representing a firmware analysis CVE result resource
  */
-@added(Versions.v2025_08_02)
+@removed(Versions.v2025_08_02)
+@renamedFrom(Versions.v2025_08_02, "CveResource")
 @parentResource(Firmware)
 model LegacyCveResource is ProxyResource<CveResult> {
   /**
@@ -29,14 +31,15 @@ model LegacyCveResource is ProxyResource<CveResult> {
    */
   @path
   @key("cveId")
-  @segment("cves")
+  @segment("commonVulnerabilitiesAndExposures")
   @visibility(Lifecycle.Read)
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
   name: string;
 }
 
 @armResourceOperations
-@added(Versions.v2025_08_02)
+@removed(Versions.v2025_08_02)
+@renamedFrom(Versions.v2025_08_02, "Cves")
 interface LegacyCves {
   /**
    * Lists CVE analysis results of a firmware.

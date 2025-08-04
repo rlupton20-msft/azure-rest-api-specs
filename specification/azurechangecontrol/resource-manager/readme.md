@@ -70,9 +70,11 @@ directive:
       # ChangeState properties - flexible parameter and metadata storage
       - $.definitions.ChangeStateProperties.properties.parameters
       - $.definitions.ChangeStateProperties.properties.additionalData
+      - $.definitions.ChangeStatePropertiesUpdate.properties.parameters
       
       # Parameter types - flexible metadata and value storage
       - $.definitions.Parameter.properties.metadata
+      - $.definitions.ParameterUpdate.properties.metadata
       - $.definitions.StringParameter.properties.metadata
       - $.definitions.NumberParameter.properties.metadata
       - $.definitions.ArrayParameter.properties.metadata

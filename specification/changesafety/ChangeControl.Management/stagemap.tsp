@@ -23,7 +23,6 @@ model StageMap is ProxyResource<StageMapProperties> {
   @doc("The name of the StageMap")
   name: string;
 }
-
 @doc("Detailed properties of the StageMap resource.")
 model StageMapProperties {
   @visibility(Lifecycle.Read)
@@ -86,38 +85,12 @@ interface StageMaps {
     }
   >;
 
-  @added(Versions.v2025_03_01_preview)
-  getAtManagementGroupLevel is ArmResourceRead<
-    StageMap,
-    {
-      ...ApiVersionParameter;
-      ...Azure.ResourceManager.CommonTypes.ManagementGroupNameParameter;
-    }
-  >;
-
-  @added(Versions.v2025_03_01_preview)
-  getAtTenantLevel is ArmResourceRead<
-    StageMap,
-    {
-      ...ApiVersionParameter;
-      ...Azure.ResourceManager.CommonTypes.TenantIdParameter;
-    }
-  >;
-
   createOrUpdate is ArmResourceCreateOrReplaceSync<StageMap>;
   createOrUpdateAtSubscriptionLevel is ArmResourceCreateOrReplaceSync<
     StageMap,
     {
       ...ApiVersionParameter;
       ...SubscriptionIdParameter;
-    }
-  >;
-  @added(Versions.v2025_03_01_preview)
-  createOrUpdateAtManagementGroupLevel is ArmResourceCreateOrReplaceSync<
-    StageMap,
-    {
-      ...ApiVersionParameter;
-      ...Azure.ResourceManager.CommonTypes.ManagementGroupNameParameter;
     }
   >;
 
@@ -130,15 +103,6 @@ interface StageMaps {
       ...SubscriptionIdParameter;
     }
   >;
-  @added(Versions.v2025_03_01_preview)
-  updateAtManagementGroupLevel is ArmResourcePatchSync<
-    StageMap,
-    StageMapProperties,
-    {
-      ...ApiVersionParameter;
-      ...Azure.ResourceManager.CommonTypes.ManagementGroupNameParameter;
-    }
-  >;
 
   delete is ArmResourceDeleteSync<StageMap>;
   deleteAtSubscriptionLevel is ArmResourceDeleteSync<
@@ -146,27 +110,6 @@ interface StageMaps {
     {
       ...ApiVersionParameter;
       ...SubscriptionIdParameter;
-    }
-  >;
-  @added(Versions.v2025_03_01_preview)
-  deleteAtManagementGroupLevel is ArmResourceDeleteSync<
-    StageMap,
-    {
-      ...ApiVersionParameter;
-      ...Azure.ResourceManager.CommonTypes.ManagementGroupNameParameter;
-    }
-  >;
-
-  list is ArmResourceListAtScope<StageMap>;
-  listBySubscription is ArmListBySubscription<StageMap>;
-
-  @doc("List StageMap resources by management group.")
-  @added(Versions.v2025_03_01_preview)
-  listByManagementGroup is ArmResourceListByParent<
-    StageMap,
-    {
-      ...ApiVersionParameter;
-      ...Azure.ResourceManager.CommonTypes.ManagementGroupNameParameter;
     }
   >;
 }

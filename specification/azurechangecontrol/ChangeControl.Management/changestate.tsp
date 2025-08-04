@@ -94,6 +94,15 @@ model ChangeStateProperties {
   @added(Versions.v2025_03_01_preview)
   @doc("Referenced stagemap snapshot.")
   @visibility(Lifecycle.Read)
+  @renamedFrom(Versions.v2025_07_01_preview, "stageMapSnapshot")
+  @removed(Versions.v2025_07_01_preview)
+  stageMapSnapshotOld?: Array<string | StageMap>;
+
+  #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need to have a strong type for the stagemap snapshot. So need to provide all the supported types which are string & StageMap for now."
+  @added(Versions.v2025_07_01_preview)
+  @doc("Referenced stagemap snapshot.")
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  @visibility(Lifecycle.Read)
   stageMapSnapshot?: Array<string | StageMap>;
 
   @visibility(Lifecycle.Read, Lifecycle.Create)
@@ -101,11 +110,11 @@ model ChangeStateProperties {
   @added(Versions.v2025_07_01_preview)
   stageMap: NestedStageMap;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Provides a flexible object schema to support different types of parameters including string, int, and object."
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning of operation parameters should not be of type Record as per ARM."
   @doc("Schema of parameters that will be provided for each stageProgression.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @added(Versions.v2025_07_01_preview)
-  parameters?: {};
+  parameters?: Record<Parameter>;
 
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("Describes the type of the rollout used for the change.")
@@ -164,7 +173,7 @@ model RetrieveNextStagesResponse {
   lastStageProgressionSequence: int32;
 
   @doc("StageProgression resources that are ready to put in 'InProgress' state.")
-  @OpenAPI.extension("x-ms-identifiers", #["stageReference"])
+  @Azure.ResourceManager.identifiers(#["stageReference"])
   nextStages: Array<RetrieveNextStagesResponseItem>;
 }
 
@@ -181,10 +190,11 @@ model RetrieveNextStagesResponseItem {
   @removed(Versions.v2025_07_01_preview)
   parameterValues: Record<string | int32>;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Stage specific key value pairs of parameter names & their values."
   @doc("Variables to apply on the change for the stage. Key value pairs supporting any JSON values.")
   @visibility(Lifecycle.Read)
   @added(Versions.v2025_07_01_preview)
-  stageVariables: StageVariables;
+  stageVariables?: Record<unknown>;
 
   @doc("Current state of the stage progression.")
   @visibility(Lifecycle.Read)
@@ -493,16 +503,22 @@ model VerifyChangeValidityRequest {
   @removed(Versions.v2025_07_01_preview)
   stageProgressionId?: armResourceIdentifier;
 
+  @added(Versions.v2025_03_01_preview)
   @doc("The stage progression resource Id.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  @added(Versions.v2025_07_01_preview)
-  stageProgressionResourceId?: StageProgressionResourceId;
+  stageProgressionResourceId?: armResourceIdentifier;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Enables an extensible object schema to provide additional context data for the verification request."
   @doc("The context of the verify change validity request.")
   @added(Versions.v2025_07_01_preview)
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  context?: {};
+  context?: VerifyChangeValidityRequestContext;
+}
+
+@added(Versions.v2025_07_01_preview)
+@doc("The context object of the verify change validity request.")
+model VerifyChangeValidityRequestContext {
+  @doc("The application Id performing the ARM operation.")
+  applicationId: string;
 }
 
 @added(Versions.v2025_03_01_preview)
@@ -516,11 +532,10 @@ model OperationContent {
   @doc("The location of the resource.")
   location?: string;
 
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: This properties are varying based on different resources. We need list of parameters in key:value format."
-  #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need to provide the parameters of the properties to be string and int."
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("The properties of the resource.")
-  properties: Record<string | int32>;
+  properties: {};
 }
 
 @added(Versions.v2025_03_01_preview)

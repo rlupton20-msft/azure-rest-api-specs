@@ -16,7 +16,7 @@ namespace Microsoft.AzureCis;
 @doc("DnsNamespaceManagerARecordSet properties")
 model DnsNamespaceManagerARecordSetResourceProperties {
   @doc("Gets or sets the array of A Records")
-  @extension("x-ms-identifiers", #[])
+  @Azure.ResourceManager.identifiers(#[])
   aRecords: ARecord[];
 
   @doc("Gets or sets the record set name (relative to the parent DNS zone that is hosting it).")

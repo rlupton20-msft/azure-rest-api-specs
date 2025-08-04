@@ -11,7 +11,7 @@ using TypeSpec.Versioning;
 namespace Private.AzureDataTransfer;
 
 /**
- * The FlowProfile resource patch definition.
+ * Defines the patchable properties for a FlowProfile resource.
  */
 @added(Versions.v2025_05_30_preview)
 model FlowProfilePatch {
@@ -25,348 +25,378 @@ model FlowProfilePatch {
 }
 
 /**
- * Properties of a Patch FlowProfile.
+ * Represents the updatable properties of a FlowProfile.
  */
 @added(Versions.v2025_05_30_preview)
 model FlowProfilePatchProperties {
   /**
-   * Provisioning state of the flow.
+   * The current provisioning state of the FlowProfile resource.
    */
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   /**
-   * The FlowProfile description.
+   * A description of the FlowProfile that defines the replication scenario.
    */
   description: string;
 
   /**
-   * The FlowProfile guid assigned by the backend.
-   */
-  @visibility(Lifecycle.Read)
-  flowProfileId?: string;
-
-  /**
-   * The Rulesets applied to this FlowProfile
+   * A set of configurable rulesets applied to this FlowProfile.
    */
   rulesets: FlowProfileRulesets;
 
   /**
-   * The status of this FlowProfile.
+   * The operational status of the FlowProfile.
    */
   status: FlowProfileStatus;
 }
 
 /**
- * Properties for listing FlowProfiles.
+ * The FlowProfile Metadata used to concisely provide all publicly viewable information.
  */
 @added(Versions.v2025_05_30_preview)
 model FlowProfileMetadata {
   /**
-   * The pipeline that the FlowProfile is created under.
+   * The name of the parent Pipeline Azure resource associated with this FlowProfile.
    */
-  @visibility(Lifecycle.Read)
   pipeline: string;
 
   /**
-   * The FlowProfile's name.
+   * The name of the FlowProfile.
    */
-  @visibility(Lifecycle.Read)
   name: string;
 
   /**
-   * The data class type for the FlowProfile.
+   * The data replication scenario handled by this FlowProfile. Please note, that this value cannot be updated after creation. See the FlowProfilePatchProperties to see updateable properties.
    */
-  @visibility(Lifecycle.Read)
-  dataClassType: DataClassType;
+  replicationScenario: DataClassType;
 
   /**
-   * The FlowProfile guid assigned by the backend.
+   * A guid represented as a string for the FlowProfile resource, assigned by the system.
    */
-  @visibility(Lifecycle.Read)
   flowProfileId: string;
+
+  /**
+   * The operational status of the FlowProfile.
+   */
+  status: FlowProfileStatus;
+
+  /**
+   * A description of the FlowProfile and its rulesets. The description should describe the flowprofile's purpose and rulesets applied.
+   */
+  description: string;
 }
 
 /**
- * Properties of a FlowProfile.
+ * Defines the full set of properties for a FlowProfile resource.
  */
 @added(Versions.v2025_05_30_preview)
 model FlowProfileProperties {
   /**
-   * Provisioning state of the flow.
+   * The current provisioning state of the FlowProfile.
    */
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   /**
-   * The FlowProfile guid assigned by the backend.
+   * A guid represented as a string for the FlowProfile resource, assigned by the system.
    */
   @visibility(Lifecycle.Read)
   flowProfileId?: string;
 
   /**
-   * The data class type applied to this FlowProfile.
+   * The data replication scenario handled by this FlowProfile. Please not, that this value cannot be updated after creation.
    */
-  @visibility(Lifecycle.Read)
-  dataClassType: DataClassType;
+  replicationScenario: DataClassType;
 
   /**
-   * The status of this FlowProfile.
+   * The operational status of the FlowProfile.
    */
   status: FlowProfileStatus;
 
   /**
-   * The description for this FlowProfile.
+   * A user-defined description of the FlowProfile.
    */
   description: string;
 
   /**
-   * The Rulesets applied to this FlowProfile.
+   * A set of configurable rulesets applied to this FlowProfile.
    */
   rulesets?: FlowProfileRulesets;
 }
 
 /**
- * The FlowProfile rulesets.
+ * The allowed set of configurable rulesets for a FlowProfile resource, used during data replication. All rulesets are optional, and any ruleset configured will be applied to every applicable replicating data. Any data that fails a ruleset will be denied replication. If a ruleset is not configured then the ruleset is considered disabled and will not apply towards replicating data.
  */
 @added(Versions.v2025_05_30_preview)
 model FlowProfileRulesets {
   /**
-   * Options for enabling antivirus policies.
+   * Antivirus scanning rules for replicated data.
    */
   antivirus?: AntivirusRuleset;
 
   /**
-   * Options for configuring archive related policies.
+   * Rules for handling archive files during replication.
    */
   archives?: ArchiveRuleset;
 
   /**
-   * Options for configuring data size related policies.
+   * Rules that enforce minimum and maximum data size limits.
    */
   dataSize?: DataSizeRuleset;
 
   /**
-   * Options for configuring mime type based filter policies.
+   * Rules for filtering files based on MIME types.
    */
   mimeFilters?: MimeFilterRuleset;
 
   /**
-   * Options for uploading xml schema filtering policies.
+   * Rules for filtering XML content using XSD schemas.
    */
   xmlFilters?: XmlFilterRuleset;
 
   /**
-   * Options for configuring text matching policies.
+   * Rules for detecting and blocking specific text patterns.
    */
   textMatching?: TextMatchingRuleset;
 }
 
 /**
- * The Antivirus ruleset.
+ * Antivirus scanning rules for replicating data. By default, all antivirus scanning solutions are disabled.
  */
 @added(Versions.v2025_05_30_preview)
 model AntivirusRuleset {
   /**
-   * Clam ruleset.
+   * Optional. The list of antiviruses to be used as a scanning solution for replicating data.
    */
-  clamAv?: EnablementStatus;
-
-  /**
-   * Defender ruleset.
-   */
-  defender?: EnablementStatus;
+  avSolutions?: AntivirusEnums[];
 }
 
 /**
- * The Archive ruleset.
+ * The list of Antivirus solutions currently provided.
+ */
+@added(Versions.v2025_05_30_preview)
+union AntivirusEnums {
+  string,
+
+  /**
+   * Option to use Microsoft Defender antivirus scanning software as the scanning solution.
+   */
+  Defender: "Defender",
+
+  /**
+   * Option to use the external ClamAV open-source software as an antivirus scanning solution.
+   */
+  ClamAv: "ClamAv",
+}
+
+/**
+ * Rules for regulating supported archive files (BZip2, Cpio, Deb, GZip, Iso9660, Rpm, Tar, Zip) during data replication. All properties are optional and only the configured options will be applied against archives. As an example, suppose minimumSizeForExpansion is 10 MiB and maximumExpansionSizeLimit is 1 GiB. Then all archives smaller than 10 MiB will be treated as though the archive ruleset is disabled, although other rulesets will apply as usual. Furthermore, all archives at least 10 MiB in size but with a decompressed size greater than 1 GiB will fail the ruleset. All other archives will have their contents extracted and each extracted element will be applied to all rulesets.
  */
 @added(Versions.v2025_05_30_preview)
 model ArchiveRuleset {
   /**
-   * Minimum size for expansion in bytes (minimum is 0).
+   * Optional. Default is 0. The minimum archive file size (in bytes) required to trigger expansion during replication. Any archive file size below the configured threshold will skip the rest of the configured rulesets for archives.
    */
   @minValue(0)
-  minimumSizeForExpansion?: int64;
+  minimumSizeForExpansion?: int64 = 0;
 
   /**
-   * Maximum allowed expansion size in bytes (minimum is 0).
+   * Optional. The combined maximum size (in bytes) of all extracted files that an expanded archive is allowed to reach. Archives exceeding the max limit will be denied for replication.
    */
   @minValue(0)
   maximumExpansionSizeLimit?: int64;
 
   /**
-   * Maximum allowed archive depth (minimum is 0).
+   * Optional. The maximum depth of nested archives that can be expanded. Limits how many layers of embedded archives will be processed. Archives exceeding the max limit will be denied for replication.
    */
   @minValue(0)
   maximumDepthLimit?: int64;
 
   /**
-   * Maximum allowed compression ratio (minimum is 0).
+   * Optional. Provides the multiplication value for an archive in total based on the initial object being validated. This value takes the root object size and multiplies it by this value to create a maximum. Once this maximum is exceeded, the archive is failed. Used to detect and block archives with suspiciously high compression (e.g., zip bombs).
    */
   @minValue(0)
   maximumCompressionRatioLimit?: float64;
 }
 
 /**
- * The Data Size ruleset.
+ * Defines rules that enforce minimum and maximum file size limits for data replication.
  */
 @added(Versions.v2025_05_30_preview)
 model DataSizeRuleset {
   /**
-   * Maximum size ruleset (minimum is 0).
+   * Optional. Specifies the maximum allowed size (in bytes) for files to be replicated. Any file size greater than maximum will be denied replication.
    */
   @minValue(0)
   maximum?: int64;
 
   /**
-   * Minimum size ruleset (minimum is 0).
+   * Optional. Default is 0. Specifies the minimum required size (in bytes) for a file to be eligible for replication. Any file size less than minimum will be denied replication.
    */
   @minValue(0)
-  minimum?: int64;
+  minimum?: int64 = 0;
 }
 
 /**
- * The File Type ruleset.
+ * Rules for filtering files based on Media types (f.k.a MIME types).
  */
 @added(Versions.v2025_05_30_preview)
 model MimeFilterRuleset {
   /**
-   * Filter type value.
+   * Specifies whether the filter is an allow list or deny list. For more detail, please refer to the FilterType model.
    */
-  type?: FilterType;
+  type: FilterType;
 
   /**
-   * Filtered values.
+   * Defines the Media types (f.k.a MIME types) and associated file extensions to be filtered. For more detail, please refer to the MimeTypeFiler model.
    */
-  filters?: MimeTypeFilter;
+  filters: MimeTypeFilter;
 }
 
 /**
- * Allow list of mime types.
+ * Defines a list of Media types (f.k.a MIME Types) and associated file extensions subject to filtering.
  */
 @added(Versions.v2025_05_30_preview)
 model MimeTypeFilter {
   /**
-   * File mime type value.
+   * The Media Types (f.k.a MIME types), following IANA standards (e.g., application/json, image/png). For a more detailed list of allowed media types please refer to the Tika documentation: https://github.com/apache/tika/blob/main/tika-core/src/main/resources/org/apache/tika/mime/tika-mimetypes.xml
    */
   @pattern(
     "^[a-z]+/[a-zA-Z0-9+\\-\\+.]+$",
-    "String must be a valid IANA Mime type."
+    "Value must be a valid IANA Media type."
   )
-  mime: string;
+  media: string;
 
   /**
-   * File type extension list.
+   * A list of file extensions associated with the specified Media type (e.g., .json, .png). To specify files with no extension, use an empty string ""."
    */
-  extensions?: string[];
+  extensions: string[];
 }
 
 /**
- * Defines the allow or deny filter type.
+ * Specifies whether the filter applies an allow or deny policy.
  */
 @added(Versions.v2025_05_30_preview)
 union FilterType {
   string,
 
   /**
-   * Allow filter.
+   * Defines an allow filter used for whitelisting.
    */
   Allow: "Allow",
 
   /**
-   * Deny filter.
+   * Defines a denying filter used for blacklisting.
    */
   Deny: "Deny",
 }
 
 /**
- * The xsd schema ruleset.
+ * Rules for filtering XML content using XSD schemas.
  */
 @added(Versions.v2025_05_30_preview)
 model XmlFilterRuleset {
   /**
-   * The XSD namespace.
+   * The default XML namespace used for schema validation.
    */
-  defaultNamespace?: string;
+  defaultNamespace: string;
 
   /**
-   * The base64 encoded xsd byte value.
+   * Defines the method for referencing the xml schema.
    */
-  schema?: bytes;
+  reference: XmlReferenceType = XmlReferenceType.Inline;
+
+  /**
+   * The Base64 string representation of the XSD schema(s) bytes used for validation. The type is of string but will be fortmatted as a byte array for consumption.
+   */
+  schema: bytes;
 }
 
 /**
- * The Watchword ruleset.
+ * Specifies how to reference the XML for processing.
+ */
+@added(Versions.v2025_05_30_preview)
+union XmlReferenceType {
+  string,
+
+  /**
+   * Defines a referencing procedure where the xml schema will be provided inline.
+   */
+  Inline: "Inline",
+}
+
+/**
+ * Rules for detecting and blocking specific text patterns. If a file contains a text pattern that is part of the configured deny list, the file will be denied.
  */
 @added(Versions.v2025_05_30_preview)
 model TextMatchingRuleset {
   /**
-   * Deny list of words.
+   * A list of text patterns to block, each with matching rules and case sensitivity options.
    */
   @OpenAPI.extension(
     "x-ms-identifiers",
     #["text", "matchType", "caseSensitivity"]
   )
-  deny?: {
+  deny: {
     ...TextMatch;
   }[];
 }
 
 /**
- * Text matching ruleset configuration options.
+ * Configuration options for the text matching ruleset. For example, if the configuration is to deny "hello world" for partial case-insensitive words then "chello worlds" would get detected and the resulting file would be denied.
  */
 model TextMatch {
   /**
-   * The text to match and deny.
+   * The word or phrase to match against replicated content. A phrase with spaces will be considered a single substring.
    */
   text: string;
 
   /**
-   * The text matching type.
+   * Specifies the text matching condition for text comparison. For more detail please refer to the MatchType model.
    */
   @added(Versions.v2025_05_30_preview)
   matchType: MatchType = MatchType.Partial;
 
   /**
-   * The text's cases sensitivity matching type.
+   * Specifies the text matching conditions based on casing. For more detail please refer to the Casing model.
    */
   @added(Versions.v2025_05_30_preview)
   caseSensitivity: Casing = Casing.Insensitive;
 }
 
 /**
- * The matching types for texts.
+ * The text pattern matching conditions for text comparison.
  */
 @added(Versions.v2025_05_30_preview)
 union MatchType {
   string,
 
   /**
-   * Partial text comparison.
+   * The option to pattern match substrings within all text content. For example, "hello world" would be found in "chello worlds".
    */
   Partial: "Partial",
 
   /**
-   * Complete text comparison.
+   * The option to pattern match the entire string explicitly. For example, "hello world" would NOT be found in "chello worlds".
    */
   Complete: "Complete",
 }
 
 /**
- * Text casing comparision options.
+ * Text casing comparison options - diacritics casing is also supported.
  */
 @added(Versions.v2025_05_30_preview)
 union Casing {
   string,
 
   /**
-   * Casing insensitive comparison option.
+   * Ignores casing when performing pattern matching. For example, "Hello World" would be found in "hello world".
    */
   Insensitive: "Insensitive",
 
   /**
-   * Casing sensitive comparison option.
+   * Requires exact casing for the pattern match. For example, "Hello World" would NOT not be found in "hello world".
    */
   Sensitive: "Sensitive",
 }

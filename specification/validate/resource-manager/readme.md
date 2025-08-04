@@ -40,7 +40,9 @@ input-file:
 ```
 
 ## Suppressions
+
 directive:
-  - suppress: PropertiesMustHaveReferenceModel
-    reason: The object type is used intentionally without a reference model.
-    from: common.tsp
+
+- suppress: PropertiesMustHaveReferenceModel
+  reason: The object type is used intentionally without a reference model.
+  from: common.tsp

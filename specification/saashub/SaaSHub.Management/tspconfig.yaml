@@ -1,5 +1,6 @@
 emit:
   - "@azure-tools/typespec-autorest"
+  # - "@azure-tools/typespec-csharp"  # Temporarily disabled due to beta emitter bug: 'AzureResourceManagerSaasHubContext' does not contain a definition for 'Default'
 parameters:
   service-dir:
     default: "sdk/saashub"
@@ -38,11 +39,19 @@ options:
     namespace: "azure.mgmt.saashub"
     generate-test: true
     generate-sample: true
-  "@azure-tools/typespec-csharp":
-    flavor: azure
-    package-dir: "Azure.ResourceManager.SaasHub"
-    namespace: "{package-dir}"
-    clear-output-folder: true
+  # "@azure-tools/typespec-csharp":  # Temporarily disabled due to beta emitter bug (v0.2.0-beta.20250701.1)
+  #   flavor: azure                 # Error: 'AzureResourceManagerSaasHubContext' does not contain a definition for 'Default'
+  #   package-dir: "Azure.ResourceManager.SaasHub"  # Generated code tries to access AzureResourceManagerSaasHubContext.Default which doesn't exist
+  #   namespace: "{package-dir}"     # Try explicit namespace instead of {package-dir} to avoid context naming issues
+  #   clear-output-folder: true
+  #   unreferenced-types-handling: "keep-all"  # Keep all types to avoid breaking changes
+  #   suppress: ["AZC0030", "AZC0033"]  # Suppress naming convention warnings for Request/Operation models
+  #   # AZC0030: Model name ends with 'Request' - applies to MergeCloudServiceRequest, MergeSaasResourcesRequest
+  #   # AZC0033: Model name ends with 'Operation' - applies to Operation model
+  #   # Alternative workaround approaches to try:
+  #   # 1. Use a different package-dir naming pattern to avoid context naming conflicts
+  #   # 2. Wait for a stable version of the C# emitter (current is beta)
+  #   # 3. Report this as a bug to the TypeSpec C# emitter team
 linter:
   extends:
     - "@azure-tools/typespec-azure-rulesets/resource-manager"

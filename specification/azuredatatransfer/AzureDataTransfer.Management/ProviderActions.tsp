@@ -16,10 +16,14 @@ using TypeSpec.Rest;
 
 namespace Private.AzureDataTransfer;
 
+/**
+ * AzureDataTransfer interface defines provider-level operations for managing
+ * schemas and FlowProfiles in Azure Data Transfer.
+ */
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "This interface corresponds to our Provider level actions, no decorator exists for that."
 interface AzureDataTransfer {
   /**
-   * Lists approved schemas for Azure Data Transfer.
+   * Retrieves the list of approved schemas available for Azure Data Transfer. This operation is deprecated as of version v2025_05_30_preview.
    */
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
   @removed(Versions.v2025_05_30_preview)
@@ -31,7 +35,7 @@ interface AzureDataTransfer {
   >;
 
   /**
-   * Lists FlowProfile resources for a Azure Data Transfer Pipeline resource.
+   * Retrieves a list of FlowProfile resources associated with a specified pipeline.
    */
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
   @added(Versions.v2025_05_30_preview)
@@ -40,14 +44,14 @@ interface AzureDataTransfer {
   listFlowProfiles is ArmProviderActionSync<
     Request = {
       /**
-       * Pipeline(s) to retrieve flows of
+       * The name of the pipeline for which to retrieve associated FlowProfiles.
        */
       @bodyRoot
       pipeline?: string;
     },
     Response = {
       /**
-       * List of FlowProfiles(s)
+       * A list of FlowProfile metadata created under the specified pipeline.
        */
       @added(Versions.v2025_05_30_preview)
       @bodyRoot
@@ -56,7 +60,7 @@ interface AzureDataTransfer {
   >;
 
   /**
-   * Validates a schema for Azure Data Transfer.
+   * Validates the structure and content of a schema for use in Azure Data Transfer. This operation is deprecated as of version v2025_05_30_preview.
    */
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
   @removed(Versions.v2025_05_30_preview)
@@ -73,5 +77,5 @@ interface AzureDataTransfer {
 );
 @@clientName(AzureDataTransfer.validateSchema::parameters.body, "schema");
 @@doc(AzureDataTransfer.listApprovedSchemas::parameters.body,
-  "The request to list approved schemas."
+  "The request payload for listing approved schemas."
 );
