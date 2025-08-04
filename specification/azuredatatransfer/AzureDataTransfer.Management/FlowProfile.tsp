@@ -32,7 +32,7 @@ model FlowProfile
  * Response wrapper for a FlowProfile resource.
  */
 @added(Versions.v2025_05_30_preview)
-model ArmFlowProfileResponse is ArmResponse<FlowProfile>;
+model ArmFlowProfileResponse is FlowProfile;
 
 /**
  * Defines the set of operations available for managing FlowProfile resources.
@@ -53,21 +53,17 @@ interface FlowProfiles {
   /**
    * Applies partial updates to an existing FlowProfile resource.
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-response-body" "Prior OpenAPI2 Json spec provides the resource back in the LRO response."
   @patch(#{ implicitOptionality: false })
   update is ArmCustomPatchAsync<
     FlowProfile,
     PatchModel = FlowProfilePatch,
-    Response = ArmResponse<FlowProfile> | (ArmAcceptedLroResponse & {
-      @bodyRoot
-      _: FlowProfile;
-    })
+    Response = ArmAcceptedLroResponse
   >;
 
   /**
    * Deletes the specified FlowProfile resource.
    */
-  delete is ArmResourceDeleteSync<FlowProfile>;
+  delete is ArmResourceDeleteWithoutOkAsync<FlowProfile>;
 
   /**
    * Lists all FlowProfiles under a given Pipeline.
@@ -81,7 +77,7 @@ interface FlowProfiles {
   "The name of the FlowProfile resource to operate on. Must be 3 to 64 characters long and contain only alphanumeric characters or hyphens."
 );
 @@doc(FlowProfile.properties,
-  "The set of configuration properties that define the behavior and policies of the FlowProfile."
+  "The set of configuration properties that define the behavior and rules of the FlowProfile."
 );
 @@doc(FlowProfiles.createOrUpdate::parameters.resource,
   "The FlowProfile resource definition to create or update."
