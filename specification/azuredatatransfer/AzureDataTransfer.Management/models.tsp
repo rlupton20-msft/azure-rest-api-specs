@@ -363,9 +363,9 @@ union DataClassType {
   "Files",
 
   /**
-   * Represents data related to development, security, and operations workflows such as build artifacts.
+   * Represents data related to development, security, and operations workflows such as build artifacts subject to an NCDSMO policy.
    */
-  "DevSecOps",
+  "SoftwareArtifacts",
 
   /**
    * Represents rich content types such as documents (e.g., Word, PDF) and images that require specialized replication handling.
