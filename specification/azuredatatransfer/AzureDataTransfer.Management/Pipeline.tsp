@@ -30,7 +30,7 @@ model Pipeline is Azure.ResourceManager.TrackedResource<PipelineProperties> {
 /**
  * Response wrapper for a Pipeline resource.
  */
-model ArmPipelineResponse is Pipeline;
+model ArmPipelineResponse is ArmResponse<Pipeline>;
 
 /**
  * Defines the set of operations available for managing Pipeline resources.
