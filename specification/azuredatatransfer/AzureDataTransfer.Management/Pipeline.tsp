@@ -28,6 +28,11 @@ model Pipeline is Azure.ResourceManager.TrackedResource<PipelineProperties> {
 }
 
 /**
+ * Response wrapper for a Pipeline resource.
+ */
+model ArmPipelineResponse is Pipeline;
+
+/**
  * Defines the set of operations available for managing Pipeline resources.
  */
 @armResourceOperations
@@ -45,15 +50,10 @@ interface Pipelines {
   /**
    * Applies partial updates to an existing Pipeline resource. This operation supports patch semantics and returns the updated Pipeline.
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-response-body" "Prior OpenAPI2 Json spec provides the resource back in the LRO response."
   @patch(#{ implicitOptionality: false })
   update is ArmCustomPatchAsync<
     Pipeline,
-    PatchModel = PipelinesPatch,
-    Response = ArmResponse<Pipeline> | (ArmAcceptedLroResponse & {
-      @bodyRoot
-      _: Pipeline;
-    })
+    PatchModel = PipelinesPatch
   >;
 
   /**
@@ -77,7 +77,7 @@ interface Pipelines {
   approveConnection is ArmResourceActionAsync<
     Pipeline,
     ResourceBody,
-    ArmResponse<Connection>
+    ArmConnectionResponse
   >;
 
   /**
@@ -86,7 +86,7 @@ interface Pipelines {
   executeAction is ArmResourceActionAsync<
     Pipeline,
     Action,
-    ArmResponse<Pipeline>
+    ArmPipelineResponse
   >;
 
   /**

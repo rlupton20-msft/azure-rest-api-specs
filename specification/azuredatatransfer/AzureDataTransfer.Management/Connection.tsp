@@ -25,6 +25,11 @@ model Connection
   ...Azure.ResourceManager.ManagedServiceIdentityProperty;
 }
 
+/**
+ * Response wrapper for a Connection resource.
+ */
+model ArmConnectionResponse is Connection;
+
 @armResourceOperations
 interface Connections {
   /**
@@ -40,15 +45,10 @@ interface Connections {
   /**
    * Updates the connection resource.
    */
-  #suppress "@azure-tools/typespec-azure-resource-manager/no-response-body" "Prior OpenAPI2 Json spec provides the resource back in the LRO response."
   @patch(#{ implicitOptionality: false })
   update is ArmCustomPatchAsync<
     Connection,
-    PatchModel = ConnectionsPatch,
-    Response = ArmResponse<Connection> | (ArmAcceptedLroResponse & {
-      @bodyRoot
-      _: Connection;
-    })
+    PatchModel = ConnectionsPatch
   >;
 
   /**
@@ -72,7 +72,7 @@ interface Connections {
   link is ArmResourceActionAsync<
     Connection,
     ResourceBody,
-    ArmResponse<Connection>
+    ArmConnectionResponse
   >;
 
   /**
