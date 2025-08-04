@@ -308,9 +308,9 @@ model XmlFilterRuleset {
   reference: XmlReferenceType = XmlReferenceType.Inline;
 
   /**
-   * The Base64 string representation of the XSD schema(s) bytes used for validation. The type is of string but will be fortmatted as a byte array for consumption.
+   * The XSD schema to be used for validation.
    */
-  schema: bytes;
+  schema: string;
 }
 
 /**

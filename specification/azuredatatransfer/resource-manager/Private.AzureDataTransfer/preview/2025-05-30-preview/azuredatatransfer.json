@@ -2748,6 +2748,72 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/pipelines/{pipelineName}/listFlowProfilesByName": {
+      "post": {
+        "operationId": "Pipelines_ListFlowProfilesByName",
+        "tags": [
+          "Pipelines"
+        ],
+        "description": "Lists the name of FlowProfiles",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "pipelineName",
+            "in": "path",
+            "description": "The name of the pipeline on which to operate.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9-]{3,64}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/stringListResult"
+            }
+          },
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location",
+          "final-state-schema": "#/definitions/Azure.ResourceManager.ArmResponse%3CAzure.ResourceManager.ResourceListCustomResult%3Cstring%3E%3E"
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.AzureDataTransfer/pipelines/{pipelineName}/listFlows": {
       "post": {
         "operationId": "ListFlowsByPipeline_List",
@@ -3169,6 +3235,19 @@
       "type": "string",
       "description": "Represents an Azure Resource Type."
     },
+    "Azure.ResourceManager.ArmResponse<Azure.ResourceManager.ResourceListCustomResult<string>>": {
+      "type": "object",
+      "description": "Azure operation completed successfully.",
+      "properties": {
+        "body": {
+          "$ref": "#/definitions/stringListResult",
+          "description": "The body type of the operation request or response."
+        }
+      },
+      "required": [
+        "body"
+      ]
+    },
     "Azure.ResourceManager.ArmResponse<Connection>": {
       "type": "object",
       "description": "Azure operation completed successfully.",
@@ -3450,8 +3529,7 @@
         "Stream",
         "Files",
         "DevSecOps",
-        "Complex",
-        "Mission"
+        "Complex"
       ],
       "x-ms-enum": {
         "name": "DataClassType",
@@ -3486,11 +3564,6 @@
             "name": "Complex",
             "value": "Complex",
             "description": "Represents rich content types such as documents (e.g., Word, PDF) and images that require specialized replication handling."
-          },
-          {
-            "name": "Mission",
-            "value": "Mission",
-            "description": "Represents standard file-based data, including Azure Blob and Table Storage that is subject to inspection pursuant to the approval of the cloud owner."
           }
         ]
       }
@@ -5269,14 +5342,33 @@
         },
         "schema": {
           "type": "string",
-          "format": "byte",
-          "description": "The Base64 string representation of the XSD schema(s) bytes used for validation. The type is of string but will be fortmatted as a byte array for consumption."
+          "description": "The XSD schema to be used for validation."
         }
       },
       "required": [
         "defaultNamespace",
         "reference",
         "schema"
+      ]
+    },
+    "stringListResult": {
+      "type": "object",
+      "description": "The custom response of a list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The items on this page",
+          "items": {
+            "type": "string"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
       ]
     }
   },
