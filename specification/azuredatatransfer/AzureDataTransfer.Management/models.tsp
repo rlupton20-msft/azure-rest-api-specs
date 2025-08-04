@@ -1050,13 +1050,6 @@ model FlowProperties {
   flowProfile?: FlowProfileMetadata;
 
   /**
-   * The Flow's data class.
-   */
-  @added(Versions.v2025_05_30_preview)
-  @visibility(Lifecycle.Read)
-  dataClass?: DataClass;
-
-  /**
    * The flow type for this flow
    */
   @removed(Versions.v2025_05_30_preview)
@@ -1065,8 +1058,8 @@ model FlowProperties {
   /**
    * Type of data to transfer via the flow.
    */
-  @removed(Versions.v2025_05_30_preview)
-  dataType?: DataType;
+  @typeChangedFrom(Versions.v2025_05_30_preview, DataType)
+  dataType?: DataClass;
 
   /**
    * Provisioning state of the flow
