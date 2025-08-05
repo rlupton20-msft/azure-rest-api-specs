@@ -83,6 +83,10 @@ model ManagedOpsServiceInformation {
   @visibility(Lifecycle.Read)
   changeTrackingAndInventory?: ManagedOpsChangeTrackingInformation;
 
+  @doc("Azure Monitor Insights service information.")
+  @visibility(Lifecycle.Read)
+  azureMonitorInsights?: ManagedOpsAzureMonitorInformation;
+
   @doc("Azure Update Manager service information.")
   @visibility(Lifecycle.Read)
   azureUpdateManager?: ManagedOpsUpdateManagerInformation;
@@ -123,6 +127,21 @@ alias enablementState =
 @added(Versions.v2024_08_01_preview)
 @added(Versions.v2023_04_01_preview)
 model ManagedOpsChangeTrackingInformation {
+  @doc("ID of Data Collection Rule (DCR) associated with this service.")
+  dcrId?: armResourceIdentifier<[
+    {
+      type: "Microsoft.Insights/dataCollectionRules";
+    }
+  ]>;
+
+  @doc("Indicates whether the service is enabled.")
+  enablementStatus: enablementState;
+}
+
+@doc("Azure Monitor service information.")
+@added(Versions.v2024_08_01_preview)
+@added(Versions.v2023_04_01_preview)
+model ManagedOpsAzureMonitorInformation {
   @doc("ID of Data Collection Rule (DCR) associated with this service.")
   dcrId?: armResourceIdentifier<[
     {
@@ -198,6 +217,9 @@ model ManagedOpsDesiredConfiguration {
   @doc("Configuration for the Change Tracking and Inventory service.")
   changeTrackingAndInventory: ManagedOpsChangeTrackingConfiguration;
 
+  @doc("Configuration for the Azure Monitor service.")
+  azureMonitorInsights: ManagedOpsAzureMonitorConfiguration;
+
   @doc("User assigned Managed Identity used to perform operations on machines managed by Ops360.")
   userAssignedManagedIdentityId: armResourceIdentifier<[
     {
@@ -224,6 +246,18 @@ model ManagedOpsChangeTrackingConfiguration {
   logAnalyticsWorkspaceId: armResourceIdentifier<[
     {
       type: "Microsoft.OperationalInsights/workspaces";
+    }
+  ]>;
+}
+
+@doc("Configuration for the Change Tracking and Inventory service.")
+@added(Versions.v2024_08_01_preview)
+@added(Versions.v2023_04_01_preview)
+model ManagedOpsAzureMonitorConfiguration {
+  @doc("Azure Monitor workspace resource ID used by the service.")
+  logAnalyticsWorkspaceId: armResourceIdentifier<[
+    {
+      type: "Microsoft.Monitor/accounts";
     }
   ]>;
 }
