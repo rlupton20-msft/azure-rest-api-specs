@@ -84,6 +84,7 @@ model ManagedOpsServiceInformation {
   changeTrackingAndInventory?: ManagedOpsChangeTrackingInformation;
 
   @doc("Azure Monitor Insights service information.")
+  @added(Versions.v2024_08_01_preview)
   @visibility(Lifecycle.Read)
   azureMonitorInsights?: ManagedOpsAzureMonitorInformation;
 
@@ -140,7 +141,6 @@ model ManagedOpsChangeTrackingInformation {
 
 @doc("Azure Monitor service information.")
 @added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
 model ManagedOpsAzureMonitorInformation {
   @doc("ID of Data Collection Rule (DCR) associated with this service.")
   dcrId?: armResourceIdentifier<[
@@ -255,7 +255,7 @@ model ManagedOpsChangeTrackingConfiguration {
 @added(Versions.v2023_04_01_preview)
 model ManagedOpsAzureMonitorConfiguration {
   @doc("Azure Monitor workspace resource ID used by the service.")
-  logAnalyticsWorkspaceId: armResourceIdentifier<[
+  azureMonitorWorkspaceId: armResourceIdentifier<[
     {
       type: "Microsoft.Monitor/accounts";
     }
