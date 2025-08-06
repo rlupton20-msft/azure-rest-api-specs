@@ -7,7 +7,7 @@ using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ResourceManager;
 
-namespace Microsoft.Validate;
+namespace Private.Validate;
 
 @doc("Validation Test Run represents execution instance(s) of a Validation Test instance under execution plan.")
 @parentResource(ExecutionPlanRun)
@@ -48,13 +48,13 @@ model ValidationTestRunProperties {
   @doc("Detailed failure information when the test fails.")
   @visibility(Lifecycle.Read)
   @OpenAPI.extension("x-ms-identifiers", #[])
-  @maxItems(500)
+  @maxItems(100)
   failureDetails?: ValidationTestFailureDetails[];
 
   @doc("The metrics of the test run.")
   @visibility(Lifecycle.Read)
   @OpenAPI.extension("x-ms-identifiers", #[])
-  @maxItems(500)
+  @maxItems(100)
   metrics?: ValidationTestRunMetrics[];
 }
 
@@ -149,7 +149,7 @@ model ValidationTestRunMetricsSeriesCollection {
 
   @doc("The metrics of the validation test.")
   @visibility(Lifecycle.Read)
-  @maxItems(500)
+  @maxItems(100)
   @OpenAPI.extension("x-ms-identifiers", #[])
   value: ValidationTestRunMetricsSeries[];
 }
@@ -185,7 +185,7 @@ model ValidationTestRunMetricsSeries {
 
   @doc("The time series returned when a data query is performed.")
   @visibility(Lifecycle.Read)
-  @maxItems(500)
+  @maxItems(100)
   @OpenAPI.extension("x-ms-identifiers", #[])
   timeseries: TimeSeriesMetrics[];
 }

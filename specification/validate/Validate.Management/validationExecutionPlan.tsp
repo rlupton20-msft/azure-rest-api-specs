@@ -7,7 +7,7 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-namespace Microsoft.Validate;
+namespace Private.Validate;
 
 @doc("Validation Test Execution Plan")
 @parentResource(CloudValidation)
