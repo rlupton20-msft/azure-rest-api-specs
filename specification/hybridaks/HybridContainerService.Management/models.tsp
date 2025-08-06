@@ -264,11 +264,6 @@ model ProvisionedClusterProperties {
   kubernetesVersion?: string;
 
   /**
-   * Indicates whether to enable FIPS compliant images for the provisioned cluster.
-   */
-  enableFipsImage?: boolean;
-
-  /**
    * The network configuration profile for the provisioned cluster.
    */
   networkProfile?: NetworkProfile;
@@ -441,6 +436,11 @@ model SecurityProfile {
    * The list of base64 encoded certificate strings that will be added to the node trust store. At most 10 certificates can be provided.
    */
   customCATrustCertificates?: SecurityProfileCustomCATrustCertificates;
+
+  /**
+   * FIPS image settings for the security profile.
+   */
+  fipsImage?: SecurityProfileFipsImage;
 }
 
 /**
@@ -451,6 +451,17 @@ model SecurityProfile {
 @minItems(0)
 @maxItems(10)
 model SecurityProfileCustomCATrustCertificates is bytes[];
+
+/**
+ * FIPS image settings for the security profile.
+ */
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Initial suppression to prevent breaking change"
+model SecurityProfileFipsImage {
+  /**
+   * Indicates whether to enable FIPS image.
+   */
+  enabled?: boolean = false;
+}
 
 /**
  * The storage configuration profile for the provisioned cluster.
