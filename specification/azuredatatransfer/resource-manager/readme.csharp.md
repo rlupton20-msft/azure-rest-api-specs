@@ -10,6 +10,6 @@ csharp:
   payload-flattening-threshold: 1
   clear-output-folder: true
   client-side-validation: false
-  namespace: Microsoft.AzureDataTransfer
-  output-folder: $(csharp-sdks-folder)/azuredatatransfer/management/Microsoft.AzureDataTransfer/GeneratedProtocol
+  namespace: Private.AzureDataTransfer
+  output-folder: $(csharp-sdks-folder)/azuredatatransfer/management/Private.AzureDataTransfer/GeneratedProtocol
 ```
