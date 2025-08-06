@@ -218,6 +218,7 @@ model ManagedOpsDesiredConfiguration {
   changeTrackingAndInventory: ManagedOpsChangeTrackingConfiguration;
 
   @doc("Configuration for the Azure Monitor service.")
+  @added(Versions.v2024_08_01_preview)
   azureMonitorInsights: ManagedOpsAzureMonitorConfiguration;
 
   @doc("User assigned Managed Identity used to perform operations on machines managed by Ops360.")
