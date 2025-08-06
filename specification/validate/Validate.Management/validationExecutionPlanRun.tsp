@@ -8,7 +8,7 @@ using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ResourceManager;
 
-namespace Microsoft.Validate;
+namespace Private.Validate;
 
 @doc("The properties of the execution plan run.")
 @parentResource(ValidationExecutionPlan)
@@ -40,7 +40,7 @@ model ExecutionPlanRunProperties {
   @doc("The test runs under this execution plan run.")
   @visibility(Lifecycle.Read)
   @OpenAPI.extension("x-ms-identifiers", #[])
-  @maxItems(200)
+  @maxItems(100)
   testRuns: ValidationTestRun[];
 
   @doc("The provisioning state of the execution plan run.")

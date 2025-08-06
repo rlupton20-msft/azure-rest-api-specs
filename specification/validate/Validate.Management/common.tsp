@@ -5,7 +5,7 @@ using Azure.Core.Traits;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 
-namespace Microsoft.Validate;
+namespace Private.Validate;
 
 alias PaginationQueryParameters = ListQueryParametersTrait<{
   ...OrderByQueryParameter;
@@ -47,7 +47,7 @@ interface OperationStatus {
     @path
     @segment("providers")
     @doc("The provider namespace (this parameter will not show up in operations).")
-    provider: "Microsoft.Validate",
+    provider: "Private.Validate",
 
     ...LocationParameter,
     ...Azure.ResourceManager.Foundations.OperationIdParameter,

@@ -9,7 +9,7 @@ using TypeSpec.Rest;
 using Azure.Core;
 using Azure.ResourceManager;
 
-namespace Microsoft.Validate;
+namespace Private.Validate;
 
 @doc("Cloud Validation Resource")
 model CloudValidation is TrackedResource<CloudValidationProperties> {
