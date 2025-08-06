@@ -169,14 +169,14 @@ model AntivirusRuleset {
   /**
    * Optional. The list of antiviruses to be used as a scanning solution for replicating data.
    */
-  avSolutions?: AntivirusEnums[];
+  avSolutions?: AntivirusSolutions[];
 }
 
 /**
  * The list of Antivirus solutions currently provided.
  */
 @added(Versions.v2025_05_30_preview)
-union AntivirusEnums {
+union AntivirusSolutions {
   string,
 
   /**
@@ -282,12 +282,12 @@ union FilterType {
   string,
 
   /**
-   * Defines an allow filter used for whitelisting.
+   * Defines an allow filter used for allowlist.
    */
   Allow: "Allow",
 
   /**
-   * Defines a denying filter used for blacklisting.
+   * Defines a denying filter used for blocklisting.
    */
   Deny: "Deny",
 }
@@ -308,7 +308,7 @@ model XmlFilterRuleset {
   reference: XmlReferenceType = XmlReferenceType.Inline;
 
   /**
-   * The XSD schema to be used for validation.
+   * The inline XSD schema to be used for validation.
    */
   schema: string;
 }

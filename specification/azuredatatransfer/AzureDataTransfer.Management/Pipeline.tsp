@@ -27,9 +27,6 @@ model Pipeline is Azure.ResourceManager.TrackedResource<PipelineProperties> {
   ...Azure.ResourceManager.ManagedServiceIdentityProperty;
 }
 
-/**
- * Response wrapper for a Pipeline resource.
- */
 model ArmPipelineResponse is ArmResponse<Pipeline>;
 
 /**
@@ -131,17 +128,7 @@ interface Pipelines {
   rejectConnection is ArmResourceActionAsync<
     Pipeline,
     ResourceBody,
-    ArmResponse<Connection>
-  >;
-
-  /**
-   * Lists the name of FlowProfiles
-   */
-  @added(Versions.v2025_05_30_preview)
-  listFlowProfilesByName is ArmResourceActionAsync<
-    Pipeline,
-    void,
-    ArmResponse<ResourceListCustomResult<string>>
+    ArmConnectionResponse
   >;
 }
 
