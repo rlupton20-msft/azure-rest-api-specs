@@ -148,7 +148,6 @@ union LinkStatus {
 /**
  * Flow type for the specified resource. FlowType will be deprecated starting from version 2025_05_30_preview - please create a FlowProfile resource instead.
  */
-@removed(Versions.v2025_05_30_preview)
 union FlowType {
   string,
 
@@ -363,14 +362,9 @@ union DataClassType {
   "Files",
 
   /**
-   * Represents data related to development, security, and operations workflows such as build artifacts subject to an NCDSMO policy.
+   * Represents data related to development, security, and operations workflows subject to two-person cryptographic integrity validations.
    */
-  "SoftwareArtifacts",
-
-  /**
-   * Represents rich content types such as documents (e.g., Word, PDF) and images that require specialized replication handling.
-   */
-  "Complex",
+  "DevSecOps",
 }
 
 /**
@@ -765,7 +759,7 @@ model ConnectionProperties {
   /**
    * Hostname specific to API Flows
    */
-  @added(Versions.v2025_05_21)
+  @added(Versions.v2025_05_30_preview)
   apiHostname?: string;
 }
 
@@ -786,10 +780,9 @@ model PipelineProperties {
   /**
    * Connections associated with pipeline
    */
-  @typeChangedFrom(Versions.v2025_05_30_preview, ReadPipelineConnection[])
   @visibility(Lifecycle.Read)
   @OpenAPI.extension("x-ms-identifiers", #["id"])
-  connections?: Read<PipelineConnection>[];
+  connections?: ReadPipelineConnection[];
 
   /**
    * Subscribers of this resource
@@ -818,8 +811,13 @@ model PipelineProperties {
   /**
    * The flow types that are disabled for this pipeline
    */
-  @removed(Versions.v2025_05_30_preview)
   disabledFlowTypes?: FlowType[];
+
+    /**
+   * The DataClasses that are disabled for this pipeline
+   */
+  @added(Versions.v2025_05_30_preview)
+  disabledDataClass?: DataClass[];
 
   /**
    * Quarantine Download Storage Account
@@ -878,27 +876,6 @@ model PipelineConnection {
    */
   @visibility(Lifecycle.Read)
   systemData?: SystemData;
-
-  /**
-   * Connection properties inside pipeline
-   */
-  @added(Versions.v2025_05_30_preview)
-  @visibility(Lifecycle.Read)
-  properties?: PipelineConnectionProperties;
-}
-
-/**
- * Connection properties inside pipeline
- */
-@added(Versions.v2025_05_30_preview)
-model PipelineConnectionProperties {
-  ...Record<unknown>;
-
-  /**
-   * Internal metadata of the connection inside pipeline.
-   */
-  @visibility(Lifecycle.Read)
-  internalMetadata?: InternalMetadataProperties;
 }
 
 /**
@@ -1187,10 +1164,10 @@ model MessagingOptions {
   billingTier?: FlowBillingTier;
 
   /**
-   * Field indicating whether to enable guaranteed delivery on the flow or not.
+   * Field indicating whether to enable guaranteed delivery on the flow or not. The default disabled option chooses speed over consistency. When enabled, messages are delivered with minimal delay, but delivery is not guaranteed under all conditions
    */
   @added(Versions.v2025_05_30_preview)
-  guaranteedDeliveryEnabled?: EnablementStatus;
+  performancePriority?: EnablementStatus = EnablementStatus.Disabled;
 }
 
 /**
@@ -1226,13 +1203,7 @@ model ApiFlowOptions {
   senderClientId?: string;
 
   /**
-   * Collection of senderClientIds
-   */
-  @added(Versions.v2025_05_21)
-  senderClientIds?: string[];
-
-  /**
-   * Remote stub app registration Client ID
+   * Remote stub app registration Client ID. Deprecated starting 2025-05-30-preview.
    */
   @removed(Versions.v2025_05_30_preview)
   remoteCallingModeClientId?: string;
@@ -1244,7 +1215,7 @@ model ApiFlowOptions {
   audienceOverride?: string;
 
   /**
-   * Optional properties to specify the type of authentication for the Azure Data Transfer API Flow.
+   * Optional and for advanced used only. A list of authentication methods to use when accessing the Azure Data Transfer API Flow. If not provided, the default S2S authentication using Entra (API Flow Managed Identity) and RBAC will be applied.
    */
   @added(Versions.v2025_05_30_preview)
   @OpenAPI.extension("x-ms-identifiers", #[])
@@ -1268,7 +1239,7 @@ model RemoteEndpointSettings {
   endpoint: string;
 
   /**
-   * Optional. A list of authentication methods to use against the remote endpoint.
+   * Optional and for advanced used only. A list of authentication methods to use when accessing the remote endpoint. If not provided, the default S2S authentication using Entra (API Flow Managed Identity) and RBAC will be applied.
    */
   @OpenAPI.extension("x-ms-identifiers", #[])
   authentication?: Authentication[];
@@ -1660,54 +1631,18 @@ model ReadPipelineConnection {
   /**
    * Connection properties inside pipeline
    */
-  properties?: ReadReadPipelineConnectionProperties;
+  properties?: PipelineConnectionProperties;
 }
 
 /**
  * Connection properties inside pipeline
  */
-model ReadReadPipelineConnectionProperties {
+model PipelineConnectionProperties {
   ...Record<unknown>;
 
   /**
    * Internal metadata of the connection inside pipeline.
    */
-  internalMetadata?: ReadReadInternalMetadataProperties;
-}
-
-/**
- * Internal metadata of the connection inside pipeline.
- */
-model ReadReadInternalMetadataProperties {
-  ...Record<unknown>;
-
-  /**
-   * Operation status associated with the last patch request
-   */
-  operationStatus?: ReadReadOperationStatusProperties;
-
-  /**
-   * User that last set the approved status for this connection
-   */
-  statusSetBy?: string;
-}
-
-/**
- * Operation status associated with the last patch request
- */
-model ReadReadOperationStatusProperties {
-  /**
-   * Operation status for the last patch request for this connection.
-   */
-  status?: OperationStatusEnum;
-
-  /**
-   * Operation status ID of the last patch request for this connection.
-   */
-  id?: string;
-
-  /**
-   * Message for the operation for the last patch request for this connection.
-   */
-  message?: string;
+  @visibility(Lifecycle.Read)
+  internalMetadata?: InternalMetadataProperties;
 }
