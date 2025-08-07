@@ -43,6 +43,9 @@
       "name": "ProviderAccounts"
     },
     {
+      "name": "SuiteOffers"
+    },
+    {
       "name": "Operations"
     },
     {
@@ -218,6 +221,45 @@
         "x-ms-examples": {
           "ProviderAccounts_ListBySubscription": {
             "$ref": "./examples/ProviderAccounts_ListBySubscription.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Quantum/suiteOffers": {
+      "get": {
+        "operationId": "SuiteOffers_ListBySubscription",
+        "tags": [
+          "SuiteOffers"
+        ],
+        "description": "Returns the SuiteOffer resource associated with the given name.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/QuantumSuiteOfferListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "SuiteOffers_ListBySubscription": {
+            "$ref": "./examples/SuiteOffers_ListBySubscription.json"
           }
         },
         "x-ms-pageable": {
@@ -432,7 +474,7 @@
         "tags": [
           "ProviderAccounts"
         ],
-        "description": "Updates an existing ProviderAccount's tags.",
+        "description": "Updates an existing ProviderAccount's properties.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -963,12 +1005,7 @@
           "type": "object",
           "description": "The identities assigned to this resource by the user.",
           "additionalProperties": {
-            "allOf": [
-              {
-                "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity"
-              }
-            ],
-            "type": "object",
+            "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity",
             "x-nullable": true
           }
         }
@@ -976,6 +1013,7 @@
     },
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
+      "title": "Tracked Resource",
       "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
       "properties": {
         "tags": {
@@ -1211,19 +1249,20 @@
           "minLength": 2,
           "maxLength": 50
         },
-        "allowedSubscriptions": {
+        "subscriptions": {
           "type": "array",
           "description": "List of Azure Subscriptions that are allowed to view/access resources from this ProviderAccount.",
           "items": {
-            "$ref": "#/definitions/ProviderAccount.SubscriptionId"
+            "$ref": "#/definitions/ProviderAccount.ProviderAccountSubscription"
           }
         },
-        "targets": {
+        "queues": {
           "type": "array",
-          "description": "List of Targets available in this ProviderAccount.",
+          "description": "List of Queues available in this ProviderAccount.",
           "items": {
-            "$ref": "#/definitions/ProviderAccount.ProviderAccountTarget"
-          }
+            "$ref": "#/definitions/ProviderAccount.ProviderAccountQueue"
+          },
+          "readOnly": true
         },
         "managedOnBehalfOfConfiguration": {
           "$ref": "../../../../../common-types/resource-management/v5/mobo.json#/definitions/ManagedOnBehalfOfConfiguration",
@@ -1266,21 +1305,64 @@
           "minLength": 2,
           "maxLength": 50
         },
-        "allowedSubscriptions": {
+        "subscriptions": {
           "type": "array",
           "description": "List of Azure Subscriptions that are allowed to view/access resources from this ProviderAccount.",
           "items": {
-            "$ref": "#/definitions/ProviderAccount.SubscriptionId"
+            "$ref": "#/definitions/ProviderAccount.ProviderAccountSubscription"
           }
+        }
+      }
+    },
+    "ProviderAccount.ProviderAccountQueue": {
+      "type": "object",
+      "description": "A Queue associated with a ProviderAccount, in which jobs are queued in for execution.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique ID of the Queue.",
+          "minLength": 2,
+          "maxLength": 50,
+          "pattern": "^([a-z0-9]+(-[a-z0-9]+)*)$"
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the Queue.",
+          "minLength": 2,
+          "maxLength": 50
         },
         "targets": {
           "type": "array",
-          "description": "List of Targets available in this ProviderAccount.",
+          "description": "The targets associated with the Queue.",
           "items": {
             "$ref": "#/definitions/ProviderAccount.ProviderAccountTarget"
           }
         }
-      }
+      },
+      "required": [
+        "id",
+        "name",
+        "targets"
+      ]
+    },
+    "ProviderAccount.ProviderAccountSubscription": {
+      "type": "object",
+      "description": "A subscription that is allowed to access resources from a ProviderAccount.",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/ProviderAccount.SubscriptionId",
+          "description": "The Azure subscription ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the Azure subscription.",
+          "default": "",
+          "maxLength": 50
+        }
+      },
+      "required": [
+        "id"
+      ]
     },
     "ProviderAccount.ProviderAccountTarget": {
       "type": "object",
@@ -1347,6 +1429,49 @@
         {
           "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
         }
+      ]
+    },
+    "ProviderAccount.QuantumSuiteOffer": {
+      "type": "object",
+      "description": "A Quantum Suite Offer that is available to a subscription.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ProviderAccount.QuantumSuiteOfferProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "ProviderAccount.QuantumSuiteOfferProperties": {
+      "type": "object",
+      "description": "Properties of a Quantum Suite Offer",
+      "properties": {
+        "providerId": {
+          "type": "string",
+          "description": "The provider ID of the offer."
+        },
+        "companyName": {
+          "type": "string",
+          "description": "The name of the company that is providing this offer."
+        },
+        "location": {
+          "type": "string",
+          "description": "The location where this offer is available."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the offer."
+        }
+      },
+      "required": [
+        "providerId",
+        "companyName",
+        "location",
+        "description"
       ]
     },
     "ProviderAccount.SubscriptionId": {
@@ -1526,6 +1651,27 @@
           "description": "The QuantumProviderAccount items on this page",
           "items": {
             "$ref": "#/definitions/ProviderAccount.QuantumProviderAccount"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "QuantumSuiteOfferListResult": {
+      "type": "object",
+      "description": "The response of a QuantumSuiteOffer list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The QuantumSuiteOffer items on this page",
+          "items": {
+            "$ref": "#/definitions/ProviderAccount.QuantumSuiteOffer"
           }
         },
         "nextLink": {
