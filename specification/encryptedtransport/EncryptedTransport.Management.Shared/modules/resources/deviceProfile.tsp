@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-// <copyright file="encryptedTransportAccount.tsp" company="Microsoft Corporation">
+// <copyright file="deviceProfile.tsp" company="Microsoft Corporation">
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -18,10 +18,11 @@ using Azure.Core;
 namespace Microsoft.EncryptedTransport;
 
 @doc("Device Profile Resource Type")
+@parentResource(EncryptedTransportAccount)
 model DeviceProfile is TrackedResource<DeviceProfileProperties> {
   @doc("The device profile name")
   @key("deviceProfileName")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @segment("deviceProfiles")
   @pattern("^[a-zA-Z0-9]{3,24}$")
   @path
@@ -31,17 +32,17 @@ model DeviceProfile is TrackedResource<DeviceProfileProperties> {
 @doc("Device Profile Properties")
 model DeviceProfileProperties {
   @doc("File name such as eud-rhel94-image-0_1_0.vhd corresponding to the device profile image.")
-  @pattern("^[A-Za-z0-9-]+\\.[A-Za-z]$")
-  @visibility("create", "read")
+  @pattern("^[A-Za-z0-9-]+\\.[A-Za-z]+$")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   imageId: string;
 
   @doc("User-friendly name describing the device profile, for example 'Dell Image with Audio and Camera'.")
   @pattern("^[a-zA-Z0-9 ]{3,60}$")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   profileName: string;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
