@@ -61,18 +61,3 @@ model MessageConfirmation {
   @visibility(Lifecycle.Read)
   toolArguments?: string;
 }
-
-@added(Versions.`2025-07-01-preview`)
-interface MessageConfirmations {
-  @doc("Fetch a Message by name.")
-  getConfirmation is ResourceRead<MessageConfirmation>;
-
-  @doc("List Messages in specified conversation")
-  listConfirmations is ResourceList<
-    MessageConfirmation,
-    QueryParametersTrait<WithQueryCreatedSince>
-  >;
-
-  @doc("Creates or updates MessageConfirmation.")
-  createOrUpdateConfirmation is StandardResourceOperations.ResourceCreateOrUpdate<MessageConfirmation>;
-}
