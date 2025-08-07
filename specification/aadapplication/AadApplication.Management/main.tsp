@@ -1,4 +1,4 @@
-import "../versions.tsp";
+import "./versions.tsp";
 import "./aadapplication.tsp";
 
 using TypeSpec.Versioning;
@@ -7,8 +7,8 @@ using Azure.ResourceManager;
 @armProviderNamespace
 @service(#{ title: "Azure CIS FRP" })
 @doc("https://eng.ms/docs/products/azcis-resource-provisioning/template-user-guide/resources/aad-application")
-@versioned(Microsoft.AzureCis.Versions)
-namespace Microsoft.AzureCis;
+@versioned(Microsoft.AadApplication.Versions)
+namespace Microsoft.AadApplication;
 
 interface Operations extends Azure.ResourceManager.Operations {}
 

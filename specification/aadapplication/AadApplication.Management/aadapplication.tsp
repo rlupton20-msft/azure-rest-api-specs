@@ -8,7 +8,7 @@ using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 
-namespace Microsoft.AzureCis;
+namespace Microsoft.AadApplication;
 
 @doc("AadApplication properties")
 model AadApplicationResourceProperties {
