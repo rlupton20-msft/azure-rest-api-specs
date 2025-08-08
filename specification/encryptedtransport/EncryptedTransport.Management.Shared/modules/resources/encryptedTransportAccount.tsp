@@ -22,7 +22,7 @@ model EncryptedTransportAccount
   is TrackedResource<EncryptedTransportAccountProperties> {
   @doc("The encrypted transport account name")
   @key("encryptedTransportAccountName")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @segment("encryptedTransportAccounts")
   @pattern("^[a-zA-Z0-9]{3,24}$")
   @path
@@ -33,23 +33,24 @@ model EncryptedTransportAccount
 model EncryptedTransportAccountProperties {
   @doc("Wi-Fi Pre-Shared Key as printable ASCII string")
   @pattern("^[ -~ ]{8,64}$")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create)
+  @secret
   wifiPsk: string;
 
-  @doc("Reference to an existing azure virtual network")
-  @visibility("create", "read")
-  vnet: VirtualNetworkId;
+  @doc("Reference to an existing subnet in the customer's Azure virtual network")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  subnetId: SubnetId;
 
   @doc("Bandwidth can only be 500, 1000, 2000, 5000, or 10000 Mbps")
-  @visibility("create", "read", "update")
+  @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
   bandwidth: EncryptedTransportAccountBandwidthOptions;
 
   @doc("Private IP address of the account, genearted by the service")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   privateIpAddress: Azure.Core.ipV4Address[];
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -74,11 +75,11 @@ union EncryptedTransportAccountBandwidthOptions {
 }
 
 /* https://azure.github.io/typespec-azure/docs/howtos/ARM/resource-type#using-resource-identifiers */
-@doc("Virtual Network Resource Identifier of customer vnet")
-scalar VirtualNetworkId
+@doc("Subnet Resource Identifier of the subnet in the customer vnet")
+scalar SubnetId
   extends Azure.Core.armResourceIdentifier<[
     {
-      type: "Microsoft.Network/virtualNetworks",
+      type: "Microsoft.Network/virtualNetworks/subnets",
     }
   ]>;
 

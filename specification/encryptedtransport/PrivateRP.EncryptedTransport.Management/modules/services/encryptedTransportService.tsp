@@ -13,7 +13,7 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 @armProviderNamespace("Private.EncryptedTransport")
-@service({
+@service(#{
   title: "Microsoft.EncryptedTransport",
 })
 @versioned(Microsoft.EncryptedTransport.Versions)

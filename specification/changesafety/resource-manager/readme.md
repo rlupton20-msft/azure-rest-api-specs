@@ -27,7 +27,7 @@ These are the global settings for the ChangeSafety.
 
 ```yaml
 openapi-type: arm
-tag: package-2025-03-01-preview
+tag: package-2025-07-01-preview
 openapi-subtype: providerHub
 ```
 
@@ -47,6 +47,15 @@ These settings apply only when `--tag=package-2025-03-01-preview` is specified o
 ```yaml $(tag) == 'package-2025-03-01-preview'
 input-file:
   - Microsoft.ChangeSafety/ChangeControl/preview/2025-03-01-preview/ChangeControl.json
+```
+
+### Tag: package-2025-07-01-preview
+
+These settings apply only when `--tag=package-2025-07-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-07-01-preview'
+input-file:
+  - Microsoft.ChangeSafety/ChangeControl/preview/2025-07-01-preview/ChangeControl.json
 ```
 
 ### Tag: package-2025-05-01-preview
@@ -77,6 +86,19 @@ directive:
       - $.definitions.StageMapProperties.properties.parameters
       - $.definitions.StageMapPropertiesUpdate.properties.parameters
       - $.definitions.OperationContent.properties.properties
+      - $.definitions.ChangeStateProperties.properties.parameters
+      - $.definitions.ChangeStatePropertiesUpdate.properties.parameters
+      - $.definitions.StageProgressionProperties.properties.stageVariables
+      - $.definitions.StageProgressionPropertiesUpdate.properties.stageVariables
+      - $.definitions.RetrieveNextStagesResponseItem.properties.stageVariables
+      - $.definitions.ChangeStateProperties.properties.additionalData
+      - $.definitions.ChangeStatePropertiesUpdate.properties.additionalData
+      - $.definitions.StageProgressionProperties.properties.additionalData
+      - $.definitions.StageProgressionPropertiesUpdate.properties.additionalData
+      - $.definitions.RetrieveNextStagesResponseItem.properties.additionalData
+      - $.definitions.VerifyChangeValidityRequest.properties.context
+      - $.definitions.StageVariables
+      - $.definitions.Stage.properties.stageVariables
 ```
 
 ---

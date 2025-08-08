@@ -10,5 +10,5 @@ export default {
   inputs: [],
   outputs: [],
   system_prompts: {},
-  response_format: "auto",
+  response_format: "auto"
 };

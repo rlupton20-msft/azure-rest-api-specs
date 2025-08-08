@@ -36,6 +36,15 @@ modelerfour:
 tag: package-preview-2025-02
 ```
 
+### Tag: package-preview-2025-09
+
+These settings apply only when `--tag=package-preview-2025-09` is specified on the command line.
+
+```yaml $(tag) == 'package-preview-2025-09'
+input-file:
+  - Microsoft.HybridContainerService/preview/2025-09-01-preview/openapi.json
+```
+
 ### Tag: package-preview-2025-02
 
 These settings apply only when `--tag=package-preview-2025-02` is specified on the command line.

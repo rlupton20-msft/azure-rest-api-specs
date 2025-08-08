@@ -54,9 +54,6 @@ model SliResource {
   @doc("Defines the SLO baseline associated with the SLI.")
   baselineProperties: BaselineProperties;
 
-  @doc("Defines the SLI properties associated with the SLI.")
-  sliProperties: SliProperties;
-
   @visibility(Lifecycle.Read)
   @doc("The streaming rule Id associated with the Sli resource.")
   streamingRuleId: string;
@@ -64,6 +61,9 @@ model SliResource {
   @visibility(Lifecycle.Read)
   @doc("The streaming rule last updated timestamp associated with the Sli resource.")
   streamingRuleLastUpdatedTimestamp: string;
+
+  @doc("Defines the SLI properties associated with the SLI.")
+  sliProperties: SliProperties;
 }
 
 @doc("Represents the current execution state of an SLI.")
@@ -72,7 +72,7 @@ model ExecutionState {
   state: string;
 
   @doc("A descriptive message related to the execution state.")
-  message: string;
+  message?: string;
 }
 
 @doc("Represents an Azure Monitor Workspace (AMW) account used for emitting metrics.")
