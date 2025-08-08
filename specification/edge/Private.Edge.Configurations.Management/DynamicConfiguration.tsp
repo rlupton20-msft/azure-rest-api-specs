@@ -5,9 +5,9 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./Configuration.tsp";
-import "../Private.Edge.ConfigurationManager.Management/ConfigurationModel.tsp";
-import "../Private.Edge.ConfigurationManager.Management/ConfigurationType.tsp";
-import "../Private.Edge.ConfigurationManager.Management/ProvisioningState.tsp";
+import "./ConfigurationModel.tsp";
+import "./ConfigurationType.tsp";
+import "./ProvisioningState.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -22,6 +22,15 @@ namespace Private.Edge;
 model DynamicConfigurationProperties {
   @doc("Current Version of dynamic configuration")
   currentVersion: string;
+
+  @added(Versions.v2025_08_01)
+  @doc("Solution Template ARM Id")
+  @visibility(Lifecycle.Read)
+  solutionTemplateId?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.Edge/SolutionTemplates";
+    }
+  ]>;
 
   @doc("Type of dynamic configuration")
   @visibility(Lifecycle.Read)
