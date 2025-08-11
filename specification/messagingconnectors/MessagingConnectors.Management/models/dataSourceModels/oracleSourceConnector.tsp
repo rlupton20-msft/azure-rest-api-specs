@@ -75,16 +75,16 @@ model OracleSourceConnectorProperties extends DataSourceProperties {
   @doc("Snapshot Mode.")
   oracleSnapshotMode?: OracleSnapshotMode;
 
-  @doc("Tables used as source.")
+  @doc("Tables used as source, comma-separated table name list or regular expressions")
   tableIncludeList?: string;
 
-  @doc("Tables to be excluded.")
+  @doc("Tables to be excluded, comma-separated table name list or regular expressions")
   tableExcludeList?: string;
 
-  @doc("Columns to be included.")
+  @doc("Columns to be included, comma-separated table name list or regular expressions")
   columnIncludeList?: string;
 
-  @doc("Columns to be excluded.")
+  @doc("Columns to be excluded, comma-separated table name list or regular expressions")
   columnExcludeList?: string;
 
   @doc("Handling mode for DECIMAL and NUMERIC.")
