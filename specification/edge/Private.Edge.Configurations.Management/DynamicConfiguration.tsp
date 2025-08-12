@@ -24,13 +24,9 @@ model DynamicConfigurationProperties {
   currentVersion: string;
 
   @added(Versions.v2025_08_01)
-  @doc("Solution Template ARM Id")
+  @doc("Display name of the dynamic configuration")
   @visibility(Lifecycle.Read)
-  solutionTemplateId?: Azure.Core.armResourceIdentifier<[
-    {
-      type: "Private.Edge/SolutionTemplates";
-    }
-  ]>;
+  displayName?: string;
 
   @doc("Type of dynamic configuration")
   @visibility(Lifecycle.Read)
