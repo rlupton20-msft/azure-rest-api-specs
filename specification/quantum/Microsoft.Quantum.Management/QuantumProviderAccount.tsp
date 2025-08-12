@@ -130,34 +130,6 @@ model ProviderAccountQueue {
   targets: ProviderAccountTarget[];
 }
 
-/** A Quantum Suite Offer that is available to a subscription. */
-@added(Versions.v2025_02_15_preview)
-model QuantumSuiteOffer
-  is Azure.ResourceManager.ProxyResource<QuantumSuiteOfferProperties> {
-  ...ResourceNameParameter<
-    Resource = QuantumSuiteOffer,
-    KeyName = "offerName",
-    SegmentName = "suiteOffers"
-  >;
-}
-
-/** Properties of a Quantum Suite Offer */
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state" "Only offers that are fully provisioned as available to subscriptions."
-@added(Versions.v2025_02_15_preview)
-model QuantumSuiteOfferProperties {
-  /** The provider ID of the offer. */
-  providerId: string;
-
-  /** The name of the company that is providing this offer. */
-  companyName: string;
-
-  /** The location where this offer is available. */
-  location: string;
-
-  /** Description of the offer. */
-  description: string;
-}
-
 /** The provisioning state of a resource. */
 @lroStatus
 @added(Versions.v2025_02_15_preview)
@@ -218,15 +190,6 @@ interface ProviderAccounts {
    */
   @added(Versions.v2025_02_15_preview)
   listBySubscription is ArmListBySubscription<QuantumProviderAccount>;
-}
-
-@armResourceOperations
-@added(Versions.v2025_02_15_preview)
-interface SuiteOffers {
-  /**
-   * Returns the SuiteOffer resource associated with the given name.
-   */
-  listBySubscription is ArmListBySubscription<QuantumSuiteOffer>;
 }
 
 @@doc(QuantumProviderAccount.name,
