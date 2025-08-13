@@ -541,6 +541,9 @@ model QuantumSuiteOfferProperties {
   /** The provider ID of the offer. */
   providerId: string;
 
+  /** The provider name of the offer. */
+  providerName: string;
+
   /** The name of the company that is providing this offer. */
   companyName: string;
 
