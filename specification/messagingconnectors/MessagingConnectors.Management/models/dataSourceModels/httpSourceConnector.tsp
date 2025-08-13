@@ -32,7 +32,7 @@ model HttpSourceConnectorProperties extends DataSourceProperties {
   connectorType: Models.Connector.ConnectorType.HttpSource;
 
   @doc("HTTP URL to fetch from.")
-  url: string;
+  url: url;
 
   @doc("HTTP request method. GET or POST.")
   method: HttpMethod;
@@ -56,12 +56,14 @@ model HttpSourceConnectorProperties extends DataSourceProperties {
   pollIntervalMs?: int32;
 
   @doc("Maximum number of retry attempts on error before failing the task.")
+  @minValue(0)
+  @maxValue(100)
   maxRetries?: int32;
 
   @doc("Time to wait in ms before retrying after an error.")
   retryBackoffMs?: int32;
 
-  @doc("HTTP status codes or ranges to retry on.")
+  @doc("HTTP status code or ranges to retry on. eg: 400, or 400- means code large than 400")
   retriableHttpStatusCodes?: string;
 
   @doc("Authentication for HTTP")

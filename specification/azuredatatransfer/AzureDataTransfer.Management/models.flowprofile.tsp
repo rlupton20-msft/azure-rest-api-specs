@@ -11,6 +11,17 @@ using TypeSpec.Versioning;
 namespace Private.AzureDataTransfer;
 
 /**
+ * Defines the required request body for retrieving FlowProfile information for a provided pipeline.
+ */
+@added(Versions.v2025_05_30_preview)
+model ListFlowProfilesRequest {
+  /**
+   * The name of the pipeline for which to retrieve associated FlowProfiles.
+   */
+  pipeline?: string;
+}
+
+/**
  * Defines the patchable properties for a FlowProfile resource.
  */
 @added(Versions.v2025_05_30_preview)
@@ -38,17 +49,17 @@ model FlowProfilePatchProperties {
   /**
    * A description of the FlowProfile that defines the replication scenario.
    */
-  description: string;
+  description?: string;
 
   /**
    * A set of configurable rulesets applied to this FlowProfile.
    */
-  rulesets: FlowProfileRulesets;
+  rulesets?: FlowProfileRulesets;
 
   /**
    * The operational status of the FlowProfile.
    */
-  status: FlowProfileStatus;
+  status?: FlowProfileStatus;
 }
 
 /**
@@ -246,12 +257,12 @@ model MimeFilterRuleset {
   /**
    * Specifies whether the filter is an allow list or deny list. For more detail, please refer to the FilterType model.
    */
-  type: FilterType;
+  type?: FilterType;
 
   /**
    * Defines the Media types (f.k.a MIME types) and associated file extensions to be filtered. For more detail, please refer to the MimeTypeFiler model.
    */
-  filters: MimeTypeFilter;
+  filters?: MimeTypeFilter;
 }
 
 /**
@@ -266,12 +277,12 @@ model MimeTypeFilter {
     "^[a-z]+/[a-zA-Z0-9+\\-\\+.]+$",
     "Value must be a valid IANA Media type."
   )
-  media: string;
+  media?: string;
 
   /**
    * A list of file extensions associated with the specified Media type (e.g., .json, .png). To specify files with no extension, use an empty string ""."
    */
-  extensions: string[];
+  extensions?: string[];
 }
 
 /**
@@ -300,17 +311,17 @@ model XmlFilterRuleset {
   /**
    * The default XML namespace used for schema validation.
    */
-  defaultNamespace: string;
+  defaultNamespace?: string;
 
   /**
    * Defines the method for referencing the xml schema.
    */
-  reference: XmlReferenceType = XmlReferenceType.Inline;
+  reference?: XmlReferenceType;
 
   /**
    * The inline XSD schema to be used for validation.
    */
-  schema: string;
+  schema?: string;
 }
 
 /**
@@ -338,7 +349,7 @@ model TextMatchingRuleset {
     "x-ms-identifiers",
     #["text", "matchType", "caseSensitivity"]
   )
-  deny: {
+  deny?: {
     ...TextMatch;
   }[];
 }

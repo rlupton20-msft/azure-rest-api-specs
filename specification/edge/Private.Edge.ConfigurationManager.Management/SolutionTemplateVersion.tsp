@@ -17,7 +17,7 @@ namespace Private.Edge;
 
 @doc("Available Orchestrator types")
 union OrchestratorType {
-  @doc("Toolchain Orchestrator type")
+  @doc("Default type")
   TO: "TO",
 
   string,
@@ -55,12 +55,12 @@ model SolutionTemplateVersion
 
 @doc("Bulk deploy solution parameter")
 model BulkDeploySolutionParameter {
-  @doc("Targets")
+  @doc("Targets to which solution needs to be deployed")
   @Azure.ResourceManager.identifiers(#[])
   targets: BulkDeployTargetDetails[];
 
   @removed(Versions.v2025_06_01)
-  @doc("Solution instance name")
+  @doc("Name of the solution instance")
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   solutionInstanceName?: string;
 
@@ -81,7 +81,7 @@ model BulkDeployTargetDetails {
   ]>;
 
   @removed(Versions.v2025_06_01)
-  @doc("Solution instance name")
+  @doc("Name of the solution instance")
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   solutionInstanceName?: string;
 
@@ -96,11 +96,11 @@ model BulkDeployTargetDetails {
 
 @doc("Bulk publish solution parameter")
 model BulkPublishSolutionParameter {
-  @doc("Targets")
+  @doc("Targets to which solution needs to be published")
   @Azure.ResourceManager.identifiers(#[])
   targets: BulkPublishTargetDetails[];
 
-  @doc("Solution instance name")
+  @doc("Name of the solution instance")
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   solutionInstanceName?: string;
 
@@ -118,7 +118,7 @@ model BulkPublishTargetDetails {
     }
   ]>;
 
-  @doc("Solution instance name")
+  @doc("Name of the solution instance")
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   solutionInstanceName?: string;
 }
@@ -146,10 +146,10 @@ model HierarchyConfigSchemaDetails {
 
 @doc("Level based apply response")
 model LevelApplyResponse {
-  @doc("Hierrachy Level")
+  @doc("Hierarchy Level")
   level?: string;
 
-  @doc("Hierrachy config and schema details")
+  @doc("Hierarchy config and schema details")
   @Azure.ResourceManager.identifiers(#[])
   configschemadetails: HierarchyConfigSchemaDetails[];
 }
@@ -185,13 +185,13 @@ interface SolutionTemplateVersions {
   @doc("List Solution Template Version Resources")
   listBySolutionTemplate is ArmResourceListByParent<SolutionTemplateVersion>;
 
-  @doc("Post request to bulk deploy")
+  @doc("Post request for bulk deploy")
   bulkDeploySolution is ArmResourceActionNoResponseContentAsync<
     SolutionTemplateVersion,
     BulkDeploySolutionParameter
   >;
 
-  @doc("Post request to bulk publish")
+  @doc("Post request for bulk publish")
   bulkPublishSolution is ArmResourceActionNoResponseContentAsync<
     SolutionTemplateVersion,
     BulkPublishSolutionParameter

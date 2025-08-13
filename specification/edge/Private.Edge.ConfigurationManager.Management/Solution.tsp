@@ -24,9 +24,14 @@ model SolutionProperties {
   @visibility(Lifecycle.Read)
   solutionTemplateId?: string;
 
-  @doc("List of latest revisions for available solution template versions")
-  @Azure.ResourceManager.identifiers(#[])
+  @added(Versions.v2025_08_01)
+  @doc("Display name of the solution")
   @visibility(Lifecycle.Read)
+  displayName?: string;
+
+  @doc("List of latest revisions for available solution template versions")
+  @visibility(Lifecycle.Read)
+  @Azure.ResourceManager.identifiers(#[])
   availableSolutionTemplateVersions?: AvailableSolutionTemplateVersion[];
 
   @doc("Provisioning state of resource")

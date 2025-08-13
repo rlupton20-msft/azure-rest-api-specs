@@ -2728,6 +2728,7 @@
       "properties": {
         "url": {
           "type": "string",
+          "format": "uri",
           "description": "HTTP URL to fetch from."
         },
         "method": {
@@ -2770,7 +2771,9 @@
         "maxRetries": {
           "type": "integer",
           "format": "int32",
-          "description": "Maximum number of retry attempts on error before failing the task."
+          "description": "Maximum number of retry attempts on error before failing the task.",
+          "minimum": 0,
+          "maximum": 100
         },
         "retryBackoffMs": {
           "type": "integer",
@@ -2779,7 +2782,7 @@
         },
         "retriableHttpStatusCodes": {
           "type": "string",
-          "description": "HTTP status codes or ranges to retry on."
+          "description": "HTTP status code or ranges to retry on. eg: 400, or 400- means code large than 400"
         },
         "authentication": {
           "$ref": "#/definitions/Models.Auth.Authentication",
@@ -3485,19 +3488,19 @@
         },
         "tableIncludeList": {
           "type": "string",
-          "description": "Tables used as source."
+          "description": "Tables used as source, comma-separated table name list or regular expressions"
         },
         "tableExcludeList": {
           "type": "string",
-          "description": "Tables to be excluded."
+          "description": "Tables to be excluded, comma-separated table name list or regular expressions"
         },
         "columnIncludeList": {
           "type": "string",
-          "description": "Columns to be included."
+          "description": "Columns to be included, comma-separated table name list or regular expressions"
         },
         "columnExcludeList": {
           "type": "string",
-          "description": "Columns to be excluded."
+          "description": "Columns to be excluded, comma-separated table name list or regular expressions"
         },
         "oracleDecimalHandlingMode": {
           "$ref": "#/definitions/Models.DataSource.Oracle.OracleDecimalHandlingMode",

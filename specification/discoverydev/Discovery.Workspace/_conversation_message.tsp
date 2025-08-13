@@ -194,6 +194,10 @@ model ConversationMessage {
   @doc("Array of data assets.")
   @visibility(Lifecycle.Read)
   dataAssets?: DataAsset[];
+
+  @doc("Array of confirmations related to this message.")
+  @visibility(Lifecycle.Read)
+  confirmations?: MessageConfirmation[];
 }
 
 @doc("A user confirmation for a copilot action related to a message.")
@@ -242,6 +246,9 @@ union ConfirmationStatus {
 
 @doc("A minimal response for confirmation status.")
 model MessageConfirmationStatus {
+  @doc("The confirmation name.")
+  confirmationName: string;
+
   @doc("Enumeration for message status.")
   status: ConfirmationStatus;
 
