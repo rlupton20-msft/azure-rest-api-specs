@@ -33,6 +33,40 @@ interface ProviderLevelActions {
     @bodyRoot
     body: Microsoft.SaaSHub.CanCreateSaasResourceRequest,
   ): ArmResponse<Microsoft.SaaSHub.CanCreateResult> | ErrorResponse;
+
+  /**
+   * Gets coterm end dates for multiple resources.
+   * Only available in API version 2025-07-01-preview.
+   */
+  @route("/providers/Microsoft.SaaSHub/coterminousDates")
+  @post
+  @tag("ProviderLevelActions")
+  getCotermEndDates(
+    ...ApiVersionParameter,
+
+    /**
+     * Request parameters that are provided to the GetCotermEndDates operation.
+     */
+    @bodyRoot
+    body: Microsoft.SaaSHub.CotermEndDatesRequest,
+  ): ArmResponse<Microsoft.SaaSHub.CotermResponseItem[]> | ErrorResponse;
+
+  /**
+   * Processes a proposal request and returns proposal information.
+   * Only available in API version 2025-07-01-preview.
+   */
+  @route("/providers/Microsoft.SaaSHub/proposal")
+  @post
+  @tag("ProviderLevelActions")
+  proposal(
+    ...ApiVersionParameter,
+
+    /**
+     * Request parameters that are provided to the proposal operation.
+     */
+    @bodyRoot
+    body: Microsoft.SaaSHub.ProposalRequest,
+  ): ArmResponse<Microsoft.SaaSHub.ProposalResponse> | ErrorResponse;
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "Resource group level provider actions don't follow standard ARM resource patterns"

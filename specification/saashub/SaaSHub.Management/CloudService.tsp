@@ -9,9 +9,6 @@ import "./versions.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
-using TypeSpec.Http;
-using TypeSpec.OpenAPI;
-using TypeSpec.Versioning;
 
 namespace Microsoft.SaaSHub;
 /**
@@ -95,6 +92,16 @@ interface CloudServices {
     MergeCloudServiceRequest,
     CloudService
   >;
+
+  /**
+   * Gets the refundable quantity for a SaaSHub cloud service.
+   * Only available in API version 2025-07-01-preview.
+   */
+  refundableQuantity is ArmResourceActionSync<
+    CloudService,
+    void,
+    GetRefundableQuantityResponse
+  >;
 }
 
 @@maxLength(CloudService.name, 50);
@@ -117,4 +124,7 @@ interface CloudServices {
 );
 @@doc(CloudServices.merge::parameters.body,
   "Request parameters that are provided to the merge SaaSHub cloud service operation."
+);
+@@doc(CloudServices.refundableQuantity,
+  "Gets the refundable quantity for a SaaSHub cloud service."
 );
