@@ -253,7 +253,7 @@
             "description": "The content of the action request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Signal"
+              "$ref": "#/definitions/SignalPreviewSliProperties"
             }
           }
         ],
@@ -756,6 +756,39 @@
         "signalFormula"
       ]
     },
+    "SignalPreviewSliProperties": {
+      "type": "object",
+      "description": "Defines the properties for signal preview SLI.",
+      "properties": {
+        "evaluationType": {
+          "$ref": "#/definitions/EvaluationType",
+          "description": "Determines how the SLI is evaluated—either based on request counts or time windows."
+        },
+        "baselineProperties": {
+          "$ref": "#/definitions/BaselineProperties",
+          "description": "Defines the SLO baseline associated with the SLI."
+        },
+        "windowUptimeCriteria": {
+          "$ref": "#/definitions/WindowUptimeCriteria",
+          "description": "Defines the uptime criteria for window-based SLIs."
+        },
+        "signals": {
+          "$ref": "#/definitions/Signal",
+          "description": "Signals used for window-based SLI calculations."
+        },
+        "goodSignals": {
+          "$ref": "#/definitions/Signal",
+          "description": "Represents good signals used in request-based SLI calculations."
+        },
+        "totalSignals": {
+          "$ref": "#/definitions/Signal",
+          "description": "Represents total signals used in request-based SLI calculations."
+        }
+      },
+      "required": [
+        "evaluationType"
+      ]
+    },
     "SignalSource": {
       "type": "object",
       "description": "Represents a signal source used in SLIs.",
@@ -1020,33 +1053,33 @@
       "type": "string",
       "description": "Defines comparison operators for window uptime criteria.",
       "enum": [
-        "<",
-        ">",
-        "<=",
-        ">="
+        "lt",
+        "gt",
+        "lte",
+        "gte"
       ],
       "x-ms-enum": {
         "name": "WindowUptimeCriteriaComparator",
         "modelAsString": true,
         "values": [
           {
-            "name": "LessThan",
-            "value": "<",
+            "name": "<",
+            "value": "lt",
             "description": "Less than the target value."
           },
           {
-            "name": "GreaterThan",
-            "value": ">",
+            "name": ">",
+            "value": "gt",
             "description": "Greater than the target value."
           },
           {
-            "name": "LessThanOrEqual",
-            "value": "<=",
+            "name": "<=",
+            "value": "lte",
             "description": "Less than or equal to the target value."
           },
           {
-            "name": "GreaterThanOrEqual",
-            "value": ">=",
+            "name": ">=",
+            "value": "gte",
             "description": "Greater than or equal to the target value."
           }
         ]

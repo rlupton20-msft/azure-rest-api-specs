@@ -163,7 +163,7 @@ interface Slis {
   @doc("Returns preview data for the signal.")
   signalPreview is ArmResourceActionSync<
     Sli,
-    Signal,
+    SignalPreviewSliProperties,
     void,
     ServiceGroupParameters
   >;
