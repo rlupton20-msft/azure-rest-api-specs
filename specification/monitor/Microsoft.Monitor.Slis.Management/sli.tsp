@@ -164,7 +164,7 @@ interface Slis {
   signalPreview is ArmResourceActionSync<
     Sli,
     SignalPreviewSliProperties,
-    void,
+    KqlmQueryResult,
     ServiceGroupParameters
   >;
 }
