@@ -19,13 +19,17 @@ model SignalPreviewParameters {
 union PreviewType {
   @doc("Preview for good signal.")
   GoodSignal: "goodsignal",
+
   @doc("Preview for total signal.")
   TotalSignal: "totalsignal",
+
   @doc("Preview for signal.")
   Signal: "signal",
+
   @doc("Preview for SLO evaluation.")
   Slo: "slo",
-  string
+
+  string,
 }
 
 @doc("Defines the properties for signal preview SLI.")

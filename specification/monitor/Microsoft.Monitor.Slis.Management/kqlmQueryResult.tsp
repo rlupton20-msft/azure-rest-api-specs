@@ -27,9 +27,11 @@ model KqlmQueryResult {
 union QueryState {
   @doc("Query succeeded.")
   Success: "Success",
+
   @doc("Query failed.")
   Failed: "Failed",
-  string
+
+  string,
 }
 
 @doc("Represents a set of time series results for a query statement.")
@@ -78,6 +80,7 @@ model TimeSeriesData {
 model DimensionValue {
   /** The dimension name. */
   key: string;
+
   /** The dimension value. */
   value: string;
 }
@@ -86,6 +89,7 @@ model DimensionValue {
 model SamplingTypeData {
   /** The sampling type. */
   key: string;
+
   /** The metric values for the sampling type. */
   value: float64[];
 }
@@ -109,11 +113,14 @@ model ExecutionMessage {
 union MessageSeverity {
   @doc("Error message.")
   Error: "Error",
+
   @doc("Warning message.")
   Warning: "Warning",
+
   @doc("Informational message.")
   Info: "Info",
-  string
+
+  string,
 }
 
 @doc("Represents statement context information for a message.")
