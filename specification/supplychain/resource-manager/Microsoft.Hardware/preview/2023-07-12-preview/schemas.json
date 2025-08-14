@@ -643,32 +643,62 @@
       "type": "object",
       "description": "Order Line Qty",
       "properties": {
-        "ordered": {
+        "pending": {
           "type": "integer",
           "format": "int64",
-          "description": "Order lineId Ordered Quantity"
+          "description": "Order lineId pending quantity"
         },
-        "confirmed": {
+        "inProgress": {
           "type": "integer",
           "format": "int64",
-          "description": "Order lineId Confirmed Quantity",
+          "description": "Order lineId in-progress quantity",
           "readOnly": true
         },
-        "shipped": {
+        "fulfilled": {
           "type": "integer",
           "format": "int64",
-          "description": "Order lineId Shipped Quantity",
+          "description": "Order lineId fulfilled quantity",
+          "readOnly": true
+        },
+        "pendingProvisioning": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Order lineId quantity pending warranty provisioning",
+          "readOnly": true
+        },
+        "provisioned": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Order lineId warranty provisioned quantity",
+          "readOnly": true
+        },
+        "pendingCancel": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Order lineId quantity pending cancellation",
+          "readOnly": true
+        },
+        "cancelled": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Order lineId cancelled Quantity",
+          "readOnly": true
+        },
+        "pendingReturn": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Order lineId quantity pending return",
           "readOnly": true
         },
         "returned": {
           "type": "integer",
           "format": "int64",
-          "description": "Order lineId Returned Quantity",
+          "description": "Order lineId returned Quantity",
           "readOnly": true
         }
       },
       "required": [
-        "ordered"
+        "pending"
       ]
     },
     "OrderLineStatus": {
@@ -676,16 +706,10 @@
       "description": "Order Line Status",
       "enum": [
         "Pending",
-        "Created",
-        "Confirmed",
-        "PartiallyConfirmed",
-        "PendingCancel",
-        "PendingProvisioning",
-        "PartiallyProvisioned",
-        "Provisioned",
-        "PendingShipment",
-        "PartiallyShipped",
-        "Shipped"
+        "InProgress",
+        "Fulfilled",
+        "Cancelled",
+        "Returned"
       ],
       "x-ms-enum": {
         "name": "OrderLineStatus",
@@ -697,54 +721,24 @@
             "description": "Order is pending"
           },
           {
-            "name": "Created",
-            "value": "Created",
-            "description": "Order is Created"
+            "name": "InProgress",
+            "value": "InProgress",
+            "description": "Order is in-progress"
           },
           {
-            "name": "Confirmed",
-            "value": "Confirmed",
-            "description": "Order is Confirmed"
+            "name": "Fulfilled",
+            "value": "Fulfilled",
+            "description": "Order is fulfilled"
           },
           {
-            "name": "PartiallyConfirmed",
-            "value": "PartiallyConfirmed",
-            "description": "Order is PartiallyConfirmed"
+            "name": "Cancelled",
+            "value": "Cancelled",
+            "description": "Order is cancelled"
           },
           {
-            "name": "PendingCancel",
-            "value": "PendingCancel",
-            "description": "Order is pending cancellation"
-          },
-          {
-            "name": "PendingProvisioning",
-            "value": "PendingProvisioning",
-            "description": "Order is Ready to Provision cannot be cancelled"
-          },
-          {
-            "name": "PartiallyProvisioned",
-            "value": "PartiallyProvisioned",
-            "description": "Order is PartiallyProvisioned"
-          },
-          {
-            "name": "Provisioned",
-            "value": "Provisioned",
-            "description": "Order is Provisioned"
-          },
-          {
-            "name": "PendingShipment",
-            "value": "PendingShipment",
-            "description": "Order is Ready to Ship cannot be cancelled"
-          },
-          {
-            "name": "PartiallyShipped",
-            "value": "PartiallyShipped",
-            "description": "Order is PartiallyShipped"
-          },
-          {
-            "name": "Shipped",
-            "value": "Shipped",
-            "description": "Order is Shipped"
+            "name": "Returned",
+            "value": "Returned",
+            "description": "Order is returned"
           }
         ]
       }
@@ -1195,19 +1189,19 @@
         },
         "class": {
           "type": "string",
-          "description": "Tax Class"
+          "description": "Categorization of the taxation system"
         },
         "name": {
           "type": "string",
-          "description": "Tax Name"
+          "description": "Specific title assigned to the tax entity"
         },
         "jurisdictionEntity": {
           "type": "string",
-          "description": "Jurisdiction Entity"
+          "description": "Level of governing authority"
         },
         "jurisdictionName": {
           "type": "string",
-          "description": "Jurisdiction Name"
+          "description": "Name of the jurisdiction"
         },
         "rate": {
           "type": "number",
