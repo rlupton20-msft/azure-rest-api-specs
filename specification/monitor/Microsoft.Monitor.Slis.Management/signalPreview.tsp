@@ -4,7 +4,29 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
+using TypeSpec.Http;
+
 namespace Microsoft.Monitor;
+
+@doc("Parameters for the signal preview endpoint.")
+model SignalPreviewParameters {
+  @query
+  @doc("The preview type for the signal preview operation.")
+  previewType: PreviewType;
+}
+
+@doc("Defines the available preview types for signal preview.")
+union PreviewType {
+  @doc("Preview for good signal.")
+  GoodSignal: "goodsignal",
+  @doc("Preview for total signal.")
+  TotalSignal: "totalsignal",
+  @doc("Preview for signal.")
+  Signal: "signal",
+  @doc("Preview for SLO evaluation.")
+  Slo: "slo",
+  string
+}
 
 @doc("Defines the properties for signal preview SLI.")
 model SignalPreviewSliProperties {

@@ -165,6 +165,6 @@ interface Slis {
     Sli,
     SignalPreviewSliProperties,
     KqlmQueryResult,
-    ServiceGroupParameters
+    ServiceGroupParameters & SignalPreviewParameters
   >;
 }
