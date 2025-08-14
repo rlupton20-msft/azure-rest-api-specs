@@ -138,7 +138,7 @@ model ServiceGroupParameters is ServiceGroupBaseParameters {
 @doc("ServiceGroup parameters with signal preview query parameters")
 model ServiceGroupParametersWithSignalPreview is ServiceGroupBaseParameters {
   ...Azure.ResourceManager.CommonTypes.ApiVersionParameter;
-  
+
   @query
   @doc("The preview type for the signal preview operation.")
   previewType: PreviewType;
