@@ -38,9 +38,7 @@ These settings apply only when `--tag=package-2025-09-01-preview` is specified o
 input-file:
   - Microsoft.PortalServices/copilotPlans/preview/2025-09-01-preview/copilotPlans.json
   - Microsoft.PortalServices/copilotSettings/preview/2025-08-01-preview/copilotSettings.json
-  - Microsoft.PortalServices/copilotConnectors/preview/2025-05-15-preview/copilotConnectors.json
-  - Microsoft.PortalServices/azurecoreexperiencesassistant/preview/2024-09-01-preview/azurecoreexperiencesassistant.json
-  - Microsoft.PortalServices/dashboards/preview/2024-09-01-preview/dashboards.json
+  - Microsoft.PortalServices/dashboards/preview/2024-10-01-preview/dashboards.json
   - Microsoft.PortalServices/extensions/preview/2024-10-01-preview/extensions.json
   - Microsoft.PortalServices/settings/preview/2025-04-01-preview/settings.json
 suppressions:
