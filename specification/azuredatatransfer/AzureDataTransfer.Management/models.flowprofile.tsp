@@ -210,7 +210,7 @@ model ArchiveRuleset {
    * Optional. Default is 0. The minimum archive file size (in bytes) required to trigger expansion during replication. Any archive file size below the configured threshold will skip the rest of the configured rulesets for archives.
    */
   @minValue(0)
-  minimumSizeForExpansion?: int64 = 0;
+  minimumSizeForExpansion?: int64;
 
   /**
    * Optional. The combined maximum size (in bytes) of all extracted files that an expanded archive is allowed to reach. Archives exceeding the max limit will be denied for replication.
