@@ -38,7 +38,6 @@ These settings apply only when `--tag=package-2025-09-01-preview` is specified o
 input-file:
   - Microsoft.PortalServices/copilotPlans/preview/2025-09-01-preview/copilotPlans.json
 ```
-```
 
 ### Tag: package-2025-08-01-preview
 
