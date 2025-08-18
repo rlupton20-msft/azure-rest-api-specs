@@ -6,6 +6,8 @@ import "./models.tsp";
 import "./disconnectedOperations.tsp";
 import "./images.tsp";
 import "./artifacts.tsp";
+import "./hardwareSettings.tsp";
+import "./billingConfigurations.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -41,4 +43,9 @@ enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   v2025_05_01: "2025-05-01-preview",
+
+  @doc("Version 2025-08-01-preview")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  v2025_08_01: "2025-08-01-preview",
 }
