@@ -216,10 +216,10 @@ model SystemOverrides {
   startDateOnCurrentProductCode?: utcDateTime;
 
   /**
-   * Number of days in the license reassignment period for the current term.
+   * Number of days in the license reassignment period for the current term. Value is an ISO 8601 duration string.
    */
   @visibility(Lifecycle.Read)
-  licenseReassignmentDays?: int32 = 0;
+  licenseReassignmentDays?: string;
 }
 
 /**
