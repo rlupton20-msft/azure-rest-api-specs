@@ -107,6 +107,9 @@ model BulkPublishSolutionParameter {
   @doc("Solution dependencies")
   @Azure.ResourceManager.identifiers(#[])
   solutionDependencies?: SolutionDependencyParameter[];
+
+  @doc("Solution configuration")
+  solutionConfiguration?: string;
 }
 
 @doc("Bulk publish target details")
@@ -128,6 +131,9 @@ model BulkPublishTargetDetails {
   @doc("Name of the solution instance")
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   solutionInstanceName?: string;
+  
+  @doc("Solution configuration")
+  solutionConfiguration?: string;
 }
 
 @doc("Bulk review solution parameter")
