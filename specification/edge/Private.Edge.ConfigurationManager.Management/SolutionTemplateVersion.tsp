@@ -118,9 +118,51 @@ model BulkPublishTargetDetails {
     }
   ]>;
 
+  @doc("Reviewed target solution version id")
+  targetSolutionVersionId?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.Edge/Targets/Solutions/Versions";
+    }
+  ]>;
+
   @doc("Name of the solution instance")
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   solutionInstanceName?: string;
+}
+
+@doc("Bulk review solution parameter")
+model BulkReviewSolutionParameter {
+  @doc("Targets to which solution needs to be published")
+  @Azure.ResourceManager.identifiers(#[])
+  targets: BulkReviewTargetDetails[];
+
+  @doc("Name of the solution instance")
+  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
+  solutionInstanceName?: string;
+
+  @doc("Solution dependencies")
+  @Azure.ResourceManager.identifiers(#[])
+  solutionDependencies?: SolutionDependencyParameter[];
+
+  @doc("Solution configuration")
+  solutionConfiguration?: string;
+}
+
+@doc("Bulk review target details")
+model BulkReviewTargetDetails {
+  @doc("ArmId of Target")
+  targetId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.Edge/Targets";
+    }
+  ]>;
+
+  @doc("Name of the solution instance")
+  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
+  solutionInstanceName?: string;
+
+  @doc("Solution configuration")
+  solutionConfiguration?: string;
 }
 
 @doc("Apply Hierarchy parameter")
@@ -195,6 +237,12 @@ interface SolutionTemplateVersions {
   bulkPublishSolution is ArmResourceActionNoResponseContentAsync<
     SolutionTemplateVersion,
     BulkPublishSolutionParameter
+  >;
+
+  @doc("Post request for bulk review")
+  bulkReviewSolution is ArmResourceActionNoResponseContentAsync<
+    SolutionTemplateVersion,
+    BulkReviewSolutionParameter
   >;
 
   @doc("Post request to apply")
