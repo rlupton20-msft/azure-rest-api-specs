@@ -95,11 +95,17 @@ model AutonomousDatabaseBackupProperties {
   @visibility(Lifecycle.Read)
   lifecycleState?: AutonomousDatabaseBackupLifecycleState;
 
+  @removed(Versions.v20250815_preview)
   @doc("Retention period, in days, for long-term backups.")
   @minValue(60)
   @maxValue(3650)
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   retentionPeriodInDays?: int32;
+
+  @added(Versions.v20250815_preview)
+  @encodedName("application/json", "retentionPeriodInDays")
+  @doc("Retention period, in days, for long-term backups.")
+  retentionPeriodInDaysV2?: LongTermBackUpRetentionPeriod;
 
   @doc("The backup size in terabytes (TB).")
   @visibility(Lifecycle.Read)
