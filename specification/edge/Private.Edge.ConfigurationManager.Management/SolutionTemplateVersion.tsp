@@ -122,7 +122,7 @@ model BulkPublishTargetDetails {
   ]>;
 
   @doc("Reviewed target solution version id")
-  targetSolutionVersionId?: Azure.Core.armResourceIdentifier<[
+  solutionVersionId?: Azure.Core.armResourceIdentifier<[
     {
       type: "Private.Edge/Targets/Solutions/Versions";
     }
