@@ -16,7 +16,9 @@ using Azure.ResourceManager;
 
 /** Microsoft.ApplicationMigration ConnectionHubs Resource Provider management API. */
 @armProviderNamespace
-@service(#{ title: "Microsoft.ApplicationMigration ConnectionHubs management service" })
+@service(#{
+  title: "Microsoft.ApplicationMigration ConnectionHubs management service",
+})
 @versioned(Microsoft.ApplicationMigration.Versions)
 namespace Microsoft.ApplicationMigration;
 
