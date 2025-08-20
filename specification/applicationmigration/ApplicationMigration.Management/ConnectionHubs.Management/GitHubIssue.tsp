@@ -35,7 +35,7 @@ model GitHubIssueProperties {
   status?: GitHubIssueStatus;
 
   /** Issue ID */
-  issueId?: int32;
+  issueId?: string;
 
   /** Issue number */
   number?: int32;
