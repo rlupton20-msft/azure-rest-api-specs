@@ -15,29 +15,29 @@ model CodeScanIssueProperties {
   @doc("The provisioning state of the CodeScanIssue.")
   @visibility(Lifecycle.Read)
   provisioningState?: Azure.ResourceManager.ResourceProvisioningState;
-  
+
   @doc("The rule ID of the scan issue.")
   ruleId?: string;
-  
+
   @doc("The rule label of the scan issue.")
   ruleLabel?: string;
-  
+
   @doc("The rule description of the scan issue.")
   ruleDescription?: string;
-  
+
   @doc("The issue category.")
   issueCategory?: IssueCategory;
-  
+
   @doc("The story points for the issue.")
   storyPoints?: int32;
-  
+
   @doc("Reference links for the issue.")
   @OpenAPI.extension("x-ms-identifiers", #["url"])
   referenceLinks?: ReferenceLink[];
-  
+
   @doc("The number of occurrences of the issue.")
   occurrences?: int32;
-  
+
   @doc("The migration targets affected by this issue.")
   targets?: MigrationTarget[];
 }

@@ -7,10 +7,10 @@ namespace Microsoft.ApplicationMigration;
 union ReportFramework {
   @doc("Java framework.")
   Java: "Java",
-  
+
   @doc(".NET framework.")
   DOTNET: "DOTNET",
-  
+
   string,
 }
 
@@ -18,13 +18,13 @@ union ReportFramework {
 union MigrationTarget {
   @doc("Azure Kubernetes Service.")
   AKS: "AKS",
-  
+
   @doc("App Service Container.")
   ASC: "ASC",
-  
+
   @doc("App Service Native.")
   ASN: "ASN",
-  
+
   string,
 }
 
@@ -32,7 +32,7 @@ union MigrationTarget {
 union ReportFormat {
   @doc("JSON format.")
   JSON: "JSON",
-  
+
   string,
 }
 
@@ -40,7 +40,7 @@ union ReportFormat {
 union ReportType {
   @doc("AppCAT report type.")
   AppCAT: "AppCAT",
-  
+
   string,
 }
 
@@ -48,10 +48,10 @@ union ReportType {
 union ReportStatus {
   @doc("The report is available.")
   Available: "Available",
-  
+
   @doc("Scan has been requested.")
   ScanRequested: "ScanRequested",
-  
+
   string,
 }
 
@@ -59,7 +59,7 @@ union ReportStatus {
 union ProcessStatus {
   @doc("The operation has been accepted.")
   Accepted: "Accepted",
-  
+
   string,
 }
 
@@ -67,13 +67,13 @@ union ProcessStatus {
 union IssueCategory {
   @doc("Issue category.")
   Issue: "Issue",
-  
+
   @doc("Warning category.")
   Warning: "Warning",
-  
+
   @doc("Info category.")
   Info: "Info",
-  
+
   string,
 }
 
@@ -81,13 +81,13 @@ union IssueCategory {
 union CodeScanMappingStatus {
   @doc("The mapping operation has succeeded.")
   Succeeded: "Succeeded",
-  
+
   @doc("The mapping operation is in progress.")
   InProgress: "InProgress",
-  
+
   @doc("The mapping operation has failed.")
   Failed: "Failed",
-  
+
   string,
 }
 
@@ -107,7 +107,7 @@ model ProcessReportRequest {
 model ProcessReportProperties {
   @doc("The SAS URI of the report to process.")
   sasuri: string;
-  
+
   @doc("The type of the report.")
   reportType: ReportType;
 }
@@ -116,7 +116,7 @@ model ProcessReportProperties {
 model ProcessReportResponse {
   @doc("The status of the process operation.")
   status: ProcessStatus;
-  
+
   @doc("The ARM ID of the created job.")
   jobArmId: string;
 }
@@ -125,7 +125,7 @@ model ProcessReportResponse {
 model ReferenceLink {
   @doc("The URL of the reference link.")
   url: string;
-  
+
   @doc("The label of the reference link.")
   label: string;
 }

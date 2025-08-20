@@ -14,16 +14,16 @@ namespace Microsoft.ApplicationMigration;
 model CodeScanReportConfigurations {
   @doc("The ARM ID of the connection.")
   connectionArmId?: string;
-  
+
   @doc("The issue ID.")
   issueId?: string;
-  
+
   @doc("The external web application name.")
   externalWebAppName?: string;
-  
+
   @doc("The report framework.")
   reportFramework?: ReportFramework;
-  
+
   @doc("The migration targets.")
   targets?: MigrationTarget[];
 }
@@ -32,24 +32,24 @@ model CodeScanReportConfigurations {
 model CodeScanReportDetails {
   @doc("The report ID.")
   reportId?: string;
-  
+
   @doc("The report type.")
   reportType?: ReportType;
-  
+
   @doc("The report name.")
   reportName?: string;
-  
+
   @doc("The report format.")
   reportFormat?: ReportFormat;
-  
+
   @doc("The timestamp when the report was last updated.")
   @visibility(Lifecycle.Read)
   updatedTimestamp?: utcDateTime;
-  
+
   @doc("The timestamp when the report was created.")
   @visibility(Lifecycle.Read)
   createdTimestamp?: utcDateTime;
-  
+
   @doc("The status of the report.")
   @visibility(Lifecycle.Read)
   status?: ReportStatus;
@@ -60,17 +60,18 @@ model CodeScanReportProperties {
   @doc("The provisioning state of the CodeScanReport.")
   @visibility(Lifecycle.Read)
   provisioningState?: Azure.ResourceManager.ResourceProvisioningState;
-  
+
   @doc("Configuration properties for the code scan report.")
   configurations?: CodeScanReportConfigurations;
-  
+
   @doc("Details of the code scan report.")
   reportDetails?: CodeScanReportDetails;
 }
 
 @parentResource(CodeScanSite)
 @doc("CodeScanReport resource.")
-model CodeScanReport is Azure.ResourceManager.ProxyResource<CodeScanReportProperties> {
+model CodeScanReport
+  is Azure.ResourceManager.ProxyResource<CodeScanReportProperties> {
   @doc("CodeScanReport name")
   @key("reportId")
   @segment("codeScanReports")
