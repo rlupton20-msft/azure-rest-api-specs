@@ -216,10 +216,25 @@ model SystemOverrides {
   startDateOnCurrentProductCode?: utcDateTime;
 
   /**
-   * Number of days in the license reassignment period for the current term. Value is an ISO 8601 duration string.
+   * Duration of license reassignment period for the current term. Value is an ISO 8601 duration string.
+   * Expected to be P0D (0 days) or greater.
    */
   @visibility(Lifecycle.Read)
-  licenseReassignmentDays?: string;
+  licenseReassignmentDuration?: string;
+
+  /**
+   * ISO 8601 duration string representing the data retention period for the resource.
+   * Read-only property.
+   */
+  @visibility(Lifecycle.Read)
+  dataRetentionDuration?: string;
+
+  /**
+   * URL pointing to the product information in the Catalog endpoint.
+   * Read-only property.
+   */
+  @visibility(Lifecycle.Read)
+  productUrl?: string;
 }
 
 /**
