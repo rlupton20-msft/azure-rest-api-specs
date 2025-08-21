@@ -22,6 +22,9 @@ union JobType {
   @doc("A deployment job.")
   Deploy: "deploy",
 
+  @doc("A publish job.")
+  Publish: "publish",
+
   @doc("A staging job.")
   Staging: "staging",
 
