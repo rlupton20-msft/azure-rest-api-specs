@@ -324,15 +324,12 @@ model HardwareSettingProperties {
   @doc("The resource provisioning state")
   provisioningState?: ResourceProvisioningState;
 
-  @visibility(Lifecycle.Update, Lifecycle.Read)
   @doc("Total number of cores")
   totalCores: int32;
 
-  @visibility(Lifecycle.Update, Lifecycle.Read)
   @doc("Disk space in MB")
   diskSpace: int64;
 
-  @visibility(Lifecycle.Update, Lifecycle.Read)
   @doc("Memory in MB")
   memory: int64;
 }
@@ -340,19 +337,15 @@ model HardwareSettingProperties {
 @doc("Billing information")
 @added(Versions.v2025_08_01)
 model BillingInfo {
-  @visibility(Lifecycle.Update, Lifecycle.Read)
   @doc("Number of cores")
   cores: int32;
 
-  @visibility(Lifecycle.Update, Lifecycle.Read)
   @doc("Pricing model")
   pricingModel: PricingModel;
 
-  @visibility(Lifecycle.Update, Lifecycle.Read)
   @doc("Billing start date")
   startDate: plainDate;
 
-  @visibility(Lifecycle.Update, Lifecycle.Read)
   @doc("Billing end date")
   endDate: plainDate;
 }
@@ -361,7 +354,6 @@ model BillingInfo {
 @added(Versions.v2025_08_01)
 model BillingConfiguration {
   @doc("Current billing configuration")
-  @visibility(Lifecycle.Update, Lifecycle.Read)
   current: BillingInfo;
 
   @doc("Next billing configuration")
