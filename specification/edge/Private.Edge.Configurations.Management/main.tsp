@@ -14,10 +14,7 @@ import "./SecurityConfiguration.tsp";
 import "./ProvisioningConfigurations.tsp";
 import "./StaticConfiguration.tsp";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Azure.Core;
 using Azure.ResourceManager;
 
 /** Private.Edge Resource Provider management API. */
