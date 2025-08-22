@@ -15,9 +15,7 @@ using TypeSpec.OpenAPI;
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Operations API is published as part of same RP in edge folder."
 @doc("Azure Edge Sites Resource Provider management API.")
 @armProviderNamespace
-@service({
-  title: "Private.Edge",
-})
+@service(#{ title: "Private.Edge" })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Private.Edge;
@@ -37,7 +35,7 @@ model Site is ProxyResource<SiteProperties> {
   @path
   @key("siteName")
   @segment("sites")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   name: string;
 }
 
