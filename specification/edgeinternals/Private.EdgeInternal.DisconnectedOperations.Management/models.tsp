@@ -347,7 +347,7 @@ model BillingInfo {
   startDate: plainDate;
 
   @doc("Billing end date")
-  endDate: plainDate;
+  endDate?: plainDate;
 }
 
 @doc("The billing configuration")
