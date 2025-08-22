@@ -36,7 +36,7 @@ model IngestSubvolumeProperties {
   path?: string;
 
   @doc("Authentication config for certain subvolumes.")
-  auth?: AuthConfig;
+  authentication?: AuthConfig;
 
   @doc("Blob storage endpoint, for example: https://mysa.core.windows.net")
   @minLength(3)
@@ -45,7 +45,7 @@ model IngestSubvolumeProperties {
 
   @doc("Blob container name.")
   @minLength(3)
-  container?: string;
+  containerName?: string;
 
   @doc("Optional Unix-like ownership info (UID/GID) for the subvolume.")
   authSys?: AuthSysConfig;
@@ -74,8 +74,7 @@ union IngestOrder {
   @doc("Upload dirty files in the order of newest first.")
   `newest-first`: "newest-first",
 
-  @doc("Any other string value is allowed as a custom order.")
-  string, // Open enum allows any other string value
+  string,
 }
 
 @doc("The ingest configuration for the subvolume.")

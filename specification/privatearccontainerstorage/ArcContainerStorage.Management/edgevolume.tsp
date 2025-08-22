@@ -58,7 +58,7 @@ model EdgeVolumeStatus {
   @pattern("^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$")
   spaceAvailable?: string;
 
-  @doc("A reference to the underlying persistent volume.")
+  @doc("The name of the kubernetes persistent volume resource underlying this edgevolume.")
   persistentVolume?: string;
 }
 
@@ -72,9 +72,6 @@ union EdgeVolumeState {
 
   @doc("edgevolume is deployed and running")
   Deployed: "deployed",
-
-  @doc("edgevolume deployment is being deleted")
-  DeploymentDeletion: "deployment_deletion",
 
   string,
 }

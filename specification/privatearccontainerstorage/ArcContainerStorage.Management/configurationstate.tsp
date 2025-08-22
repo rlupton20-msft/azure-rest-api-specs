@@ -12,7 +12,7 @@ union ConfigurationState {
   @doc("The configuration is terminating")
   Terminating: "Terminating",
 
-  @doc("The configuration is upgrading")
+  @doc("The configuration is updating")
   Updating: "Updating",
 
   @doc("We can't determine the status of the configuration")
