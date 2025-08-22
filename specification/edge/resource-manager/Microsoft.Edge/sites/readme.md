@@ -35,7 +35,7 @@ These are the global settings for the edgesites.
 ```yaml
 openapi-type: arm
 openapi-subtype: providerHub
-tag: package-2023-08-01-preview
+tag: package-2025-03-01-preview
 
 ```
 ### Tag: package-2025-03-01-preview
