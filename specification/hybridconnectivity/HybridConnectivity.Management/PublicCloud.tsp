@@ -108,7 +108,8 @@ model PublicCloudConnector is TrackedResource<PublicCloudConnectorProperties> {
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" ""
   @doc("The kind of the public cloud connector.")
-  kind: HostType;
+  @visibility(Lifecycle.Read)
+  kind?: HostType;
 }
 
 @doc("Properties of public cloud connectors.")
