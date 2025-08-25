@@ -19,10 +19,12 @@ namespace Private.Edge;
 @doc("ConfigTemplateMetadata Properties")
 model ConfigTemplateMetadataProperties {
   @doc("Hierarchy ARM Ids")
-  hierarchyIds: string[];
+  @visibility(Lifecycle.Read)
+  hierarchyIds?: string[];
 
-  @doc("Heirarchy Level")
-  level: string;
+  @doc("Hierarchy Level")
+  @visibility(Lifecycle.Read)
+  level?: string;
 
   @doc("Provisioning state of resource")
   @visibility(Lifecycle.Read)

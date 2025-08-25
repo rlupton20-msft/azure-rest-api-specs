@@ -19,10 +19,12 @@ namespace Private.Edge;
 @doc("SolutionSchema Properties")
 model SolutionSchemaProperties {
   @doc("Value of schema")
-  value: string;
+  @visibility(Lifecycle.Read)
+  value?: string;
 
-  @doc("Heirarchy Level")
-  level: string;
+  @doc("Hierarchy Level")
+  @visibility(Lifecycle.Read)
+  level?: string;
 
   @doc("Provisioning state of resource")
   @visibility(Lifecycle.Read)
