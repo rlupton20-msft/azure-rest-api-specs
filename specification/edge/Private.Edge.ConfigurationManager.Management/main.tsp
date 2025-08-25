@@ -33,6 +33,9 @@ import "./Diagnostics.tsp";
 import "./Context.tsp";
 import "./SiteReference.tsp";
 import "./EventGridFilters.tsp";
+import "./SolutionSchema.tsp";
+import "./ConfigTemplateSchema.tsp";
+import "./ConfigTemplateMetadata.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
