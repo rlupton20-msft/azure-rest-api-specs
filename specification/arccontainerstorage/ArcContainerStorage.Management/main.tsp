@@ -2,7 +2,6 @@ import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/versioning";
 import "@azure-tools/typespec-azure-resource-manager";
-import "./acstorconfiguration.tsp";
 import "./edgestorageconfiguration.tsp";
 import "./ingestsubvolume.tsp";
 import "./edgevolume.tsp";
