@@ -1,12 +1,15 @@
 import "../versions.tsp";
 import "./dsmsallowlist.tsp";
-import "./dstsserviceaccount.tsp";
-import "./dstsapplication.tsp";
 import "./dsmsrootfolder.tsp";
+import "./dstsapplication.tsp";
+import "./dstsserviceaccount.tsp";
 import "./dstsserviceclientidentity.tsp";
+import "./dstsserviceclientidentitygroup.tsp";
+import "./dstsserviceclientidentitygroupmanaged.tsp";
+import "./dstsserviceclientidentitygroupsubjectnamebased.tsp";
 
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
+using TypeSpec.Versioning;
 
 @armProviderNamespace
 @service(#{ title: "Azure CIS FRP" })

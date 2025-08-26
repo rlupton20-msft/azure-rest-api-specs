@@ -150,7 +150,7 @@ model ApplicationGroup {
 
 @doc("The claim rule which apply to Application.")
 model ApplicationClaimRule {
-  @doc("A claim used to identifiy client. e.g., group claim, application name claim, object id claim.")
+  @doc("A claim used to identify client. e.g., group claim, application name claim, object id claim.")
   clientIdentifier: Claim;
 
   @doc("The claim")
@@ -163,7 +163,7 @@ model ApplicationClaimRule {
   isRegionalEnforced?: boolean = true;
 }
 
-@doc("A claim used to identifiy client. e.g., group claim, application name claim, object id claim.")
+@doc("A claim used to identify client. e.g., group claim, application name claim, object id claim.")
 model Claim {
   @doc("Type of the claim")
   type: string;
