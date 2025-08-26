@@ -240,6 +240,9 @@
             "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
           },
           {
+            "$ref": "#/parameters/ServiceGroupParametersWithSignalPreview.previewType"
+          },
+          {
             "name": "sliName",
             "in": "path",
             "description": "Name of the SLI that is given by the user.",
@@ -253,13 +256,16 @@
             "description": "The content of the action request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Signal"
+              "$ref": "#/definitions/SignalPreviewSliProperties"
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "Azure operation completed successfully."
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/KqlmQueryResult"
+            }
           },
           "default": {
             "description": "An unexpected error response.",
@@ -511,6 +517,24 @@
         ]
       }
     },
+    "DimensionValue": {
+      "type": "object",
+      "description": "Represents a dimension value pair.",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The dimension name."
+        },
+        "value": {
+          "type": "string",
+          "description": "The dimension value."
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ]
+    },
     "EvaluationCalculationType": {
       "type": "string",
       "description": "Specifies the method for evaluation calculation.",
@@ -559,6 +583,34 @@
         ]
       }
     },
+    "ExecutionMessage": {
+      "type": "object",
+      "description": "Represents a KQL-M query execution message.",
+      "properties": {
+        "severity": {
+          "$ref": "#/definitions/MessageSeverity",
+          "description": "The message severity."
+        },
+        "text": {
+          "type": "string",
+          "description": "The message text."
+        },
+        "documentationLink": {
+          "type": "string",
+          "description": "The message documentation link."
+        },
+        "statementContext": {
+          "$ref": "#/definitions/StatementContextInformation",
+          "description": "The message statement context."
+        }
+      },
+      "required": [
+        "severity",
+        "text",
+        "documentationLink",
+        "statementContext"
+      ]
+    },
     "ExecutionState": {
       "type": "object",
       "description": "Represents the current execution state of an SLI.",
@@ -575,6 +627,72 @@
       "required": [
         "state"
       ]
+    },
+    "KqlmQueryResult": {
+      "type": "object",
+      "description": "Represents the result of a KQL-M query.",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "description": "The request ID."
+        },
+        "state": {
+          "$ref": "#/definitions/QueryState",
+          "description": "The query state."
+        },
+        "timeSeriesSets": {
+          "type": "array",
+          "description": "The list of time series sets, where each set represents results for a query statement.",
+          "items": {
+            "$ref": "#/definitions/TimeSeriesSet"
+          },
+          "x-ms-identifiers": []
+        },
+        "executionMessages": {
+          "type": "array",
+          "description": "The list of KQL-M query execution messages.",
+          "items": {
+            "$ref": "#/definitions/ExecutionMessage"
+          },
+          "x-ms-identifiers": []
+        }
+      },
+      "required": [
+        "requestId",
+        "state",
+        "timeSeriesSets",
+        "executionMessages"
+      ]
+    },
+    "MessageSeverity": {
+      "type": "string",
+      "description": "Represents the severity of a message.",
+      "enum": [
+        "Error",
+        "Warning",
+        "Info"
+      ],
+      "x-ms-enum": {
+        "name": "MessageSeverity",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Error",
+            "value": "Error",
+            "description": "Error message."
+          },
+          {
+            "name": "Warning",
+            "value": "Warning",
+            "description": "Warning message."
+          },
+          {
+            "name": "Info",
+            "value": "Info",
+            "description": "Informational message."
+          }
+        ]
+      }
     },
     "Metric": {
       "type": "object",
@@ -594,9 +712,117 @@
         "metricName"
       ]
     },
+    "PreviewType": {
+      "type": "string",
+      "description": "Defines the available preview types for signal preview.",
+      "enum": [
+        "goodsignal",
+        "totalsignal",
+        "signal",
+        "slo"
+      ],
+      "x-ms-enum": {
+        "name": "PreviewType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "GoodSignal",
+            "value": "goodsignal",
+            "description": "Preview for good signal."
+          },
+          {
+            "name": "TotalSignal",
+            "value": "totalsignal",
+            "description": "Preview for total signal."
+          },
+          {
+            "name": "Signal",
+            "value": "signal",
+            "description": "Preview for signal."
+          },
+          {
+            "name": "Slo",
+            "value": "slo",
+            "description": "Preview for SLO evaluation."
+          }
+        ]
+      }
+    },
     "ProvisioningState": {
       "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
       "x-nullable": false
+    },
+    "QueryState": {
+      "type": "string",
+      "description": "Represents the state of a KQL-M query.",
+      "enum": [
+        "Success",
+        "Failed"
+      ],
+      "x-ms-enum": {
+        "name": "QueryState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Success",
+            "value": "Success",
+            "description": "Query succeeded."
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Query failed."
+          }
+        ]
+      }
+    },
+    "ResultsMetadata": {
+      "type": "object",
+      "description": "Represents metadata for a KQL-M query result.",
+      "properties": {
+        "startTimeUtc": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The start time for the KQL-M query result."
+        },
+        "endTimeUtc": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The end time for the KQL-M query result."
+        },
+        "dataResolution": {
+          "type": "string",
+          "format": "duration",
+          "description": "The data resolution of the KQL-M query result."
+        },
+        "resultantDimensions": {
+          "type": "array",
+          "description": "The list of output dimensions of the KQL-M query result.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "resultantSamplingTypes": {
+          "type": "array",
+          "description": "The list of output sampling types of the KQL-M query result.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "datapointsCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The number of datapoints in the KQL-M query result."
+        }
+      },
+      "required": [
+        "startTimeUtc",
+        "endTimeUtc",
+        "dataResolution",
+        "resultantDimensions",
+        "resultantSamplingTypes",
+        "datapointsCount"
+      ]
     },
     "SamplingType": {
       "type": "string",
@@ -633,6 +859,28 @@
           }
         ]
       }
+    },
+    "SamplingTypeData": {
+      "type": "object",
+      "description": "Represents a sampling type and its associated metric values.",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The sampling type."
+        },
+        "value": {
+          "type": "array",
+          "description": "The metric values for the sampling type.",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ]
     },
     "ScalarFunction": {
       "type": "string",
@@ -712,6 +960,52 @@
       "required": [
         "signalSources",
         "signalFormula"
+      ]
+    },
+    "SignalPreviewParameters": {
+      "type": "object",
+      "description": "Parameters for the signal preview endpoint.",
+      "properties": {
+        "previewType": {
+          "$ref": "#/definitions/PreviewType",
+          "description": "The preview type for the signal preview operation."
+        }
+      },
+      "required": [
+        "previewType"
+      ]
+    },
+    "SignalPreviewSliProperties": {
+      "type": "object",
+      "description": "Defines the properties for signal preview SLI.",
+      "properties": {
+        "evaluationType": {
+          "$ref": "#/definitions/EvaluationType",
+          "description": "Determines how the SLI is evaluated—either based on request counts or time windows."
+        },
+        "baselineProperties": {
+          "$ref": "#/definitions/BaselineProperties",
+          "description": "Defines the SLO baseline associated with the SLI."
+        },
+        "windowUptimeCriteria": {
+          "$ref": "#/definitions/WindowUptimeCriteria",
+          "description": "Defines the uptime criteria for window-based SLIs."
+        },
+        "signals": {
+          "$ref": "#/definitions/Signal",
+          "description": "Signals used for window-based SLI calculations."
+        },
+        "goodSignals": {
+          "$ref": "#/definitions/Signal",
+          "description": "Represents good signals used in request-based SLI calculations."
+        },
+        "totalSignals": {
+          "$ref": "#/definitions/Signal",
+          "description": "Represents total signals used in request-based SLI calculations."
+        }
+      },
+      "required": [
+        "evaluationType"
       ]
     },
     "SignalSource": {
@@ -1127,6 +1421,46 @@
       "required": true,
       "type": "string",
       "pattern": "^[a-zA-Z0-9-]{3,24}$",
+      "x-ms-parameter-location": "method"
+    },
+    "ServiceGroupParametersWithSignalPreview.previewType": {
+      "name": "previewType",
+      "in": "query",
+      "description": "The preview type for the signal preview operation.",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "goodsignal",
+        "totalsignal",
+        "signal",
+        "slo"
+      ],
+      "x-ms-enum": {
+        "name": "PreviewType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "GoodSignal",
+            "value": "goodsignal",
+            "description": "Preview for good signal."
+          },
+          {
+            "name": "TotalSignal",
+            "value": "totalsignal",
+            "description": "Preview for total signal."
+          },
+          {
+            "name": "Signal",
+            "value": "signal",
+            "description": "Preview for signal."
+          },
+          {
+            "name": "Slo",
+            "value": "slo",
+            "description": "Preview for SLO evaluation."
+          }
+        ]
+      },
       "x-ms-parameter-location": "method"
     }
   }

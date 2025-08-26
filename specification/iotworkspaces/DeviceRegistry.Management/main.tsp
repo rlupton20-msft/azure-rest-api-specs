@@ -69,6 +69,12 @@ enum Versions {
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2025_07_01_preview: "2025-07-01-preview",
 
+  @doc("Private.DeviceRegistry Resource Provider management API version 2025-10-01")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_10_01: "2025-10-01",
+
   @doc("Private.DeviceRegistry Resource Provider management API version 2025-08-01-preview.")
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)

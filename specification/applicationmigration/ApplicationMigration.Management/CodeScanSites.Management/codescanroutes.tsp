@@ -30,21 +30,15 @@ interface CodeScanSites {
   delete is ArmResourceDeleteSync<CodeScanSite>;
 
   @added(CodeScanSitesApiVersions.v2025_09_09_preview)
-  fetchSasUri is ArmResourceActionSync<
-    CodeScanSite,
-    void,
-    SasUriResponse
-  >;
+  fetchSasUri is ArmResourceActionSync<CodeScanSite, void, SasUriResponse>;
 
   @added(CodeScanSitesApiVersions.v2025_09_09_preview)
   processReport is ArmResourceActionAsync<
     CodeScanSite,
     ProcessReportRequest,
     ProcessReportResponse,
-    LroHeaders = ArmAsyncOperationHeader<FinalResult =
-    ProcessReportResponse> &
-      ArmLroLocationHeader<FinalResult =
-      ProcessReportResponse> &
+    LroHeaders = ArmAsyncOperationHeader<FinalResult = ProcessReportResponse> &
+      ArmLroLocationHeader<FinalResult = ProcessReportResponse> &
       Azure.Core.Foundations.RetryAfterHeader
   >;
 }

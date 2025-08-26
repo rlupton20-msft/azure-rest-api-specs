@@ -135,6 +135,15 @@ model ServiceGroupParameters is ServiceGroupBaseParameters {
   ...Azure.ResourceManager.CommonTypes.ApiVersionParameter;
 }
 
+@doc("ServiceGroup parameters with signal preview query parameters")
+model ServiceGroupParametersWithSignalPreview is ServiceGroupBaseParameters {
+  ...Azure.ResourceManager.CommonTypes.ApiVersionParameter;
+
+  @query
+  @doc("The preview type for the signal preview operation.")
+  previewType: PreviewType;
+}
+
 @doc("Defines operations for managing SLI resources.")
 @armResourceOperations(Sli)
 interface Slis {
@@ -163,8 +172,8 @@ interface Slis {
   @doc("Returns preview data for the signal.")
   signalPreview is ArmResourceActionSync<
     Sli,
-    Signal,
-    void,
-    ServiceGroupParameters
+    SignalPreviewSliProperties,
+    KqlmQueryResult,
+    ServiceGroupParametersWithSignalPreview
   >;
 }

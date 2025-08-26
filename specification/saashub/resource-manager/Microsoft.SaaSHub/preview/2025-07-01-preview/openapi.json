@@ -56,6 +56,51 @@
     }
   ],
   "paths": {
+    "/providers/Microsoft.SaaSHub/coterminousDates": {
+      "post": {
+        "operationId": "ProviderLevelActions_GetCotermEndDates",
+        "tags": [
+          "ProviderLevelActions"
+        ],
+        "description": "Gets coterm end dates for multiple resources.\nOnly available in API version 2025-07-01-preview.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Request parameters that are provided to the GetCotermEndDates operation.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CotermEndDatesRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CotermResponseItem"
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "GetCotermEndDates for Provider Level": {
+            "$ref": "./examples/ProviderLevelActions_GetCotermEndDates.json"
+          }
+        }
+      }
+    },
     "/providers/Microsoft.SaaSHub/operations": {
       "get": {
         "operationId": "Operations_List",
@@ -89,6 +134,48 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/providers/Microsoft.SaaSHub/proposal": {
+      "post": {
+        "operationId": "ProviderLevelActions_Proposal",
+        "tags": [
+          "ProviderLevelActions"
+        ],
+        "description": "Processes a proposal request and returns proposal information.\nOnly available in API version 2025-07-01-preview.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Request parameters that are provided to the proposal operation.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProposalRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ProposalResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Proposal for Provider Level": {
+            "$ref": "./examples/ProviderLevelActions_Proposal.json"
+          }
         }
       }
     },
@@ -717,6 +804,49 @@
           "final-state-via": "location"
         },
         "x-ms-long-running-operation": true
+      }
+    },
+    "/providers/Microsoft.SaaSHub/saasResources/{saasResourceName}/refundableQuantity": {
+      "post": {
+        "operationId": "SaasResources_RefundableQuantity",
+        "tags": [
+          "SaasResources"
+        ],
+        "description": "Gets the refundable quantity for a SaaSHub Saas resource.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "saasResourceName",
+            "in": "path",
+            "description": "The name that uniquely identifies a SaaSHub Saas resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/GetRefundableQuantityResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "GetRefundableQuantity for SaaS Resource": {
+            "$ref": "./examples/SaasResources_GetRefundableQuantity.json"
+          }
+        }
       }
     },
     "/providers/Microsoft.SaaSHub/tenantLevelCanCreate": {
@@ -1546,6 +1676,55 @@
         },
         "x-ms-long-running-operation": true
       }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SaaSHub/cloudServices/{cloudServiceResourceName}/refundableQuantity": {
+      "post": {
+        "operationId": "CloudServices_RefundableQuantity",
+        "tags": [
+          "CloudServices"
+        ],
+        "description": "Gets the refundable quantity for a SaaSHub cloud service.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "cloudServiceResourceName",
+            "in": "path",
+            "description": "The name that uniquely identifies a SaaSHub cloud service.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 50,
+            "pattern": "^[-_0-9a-zA-Z]{3,50}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/GetRefundableQuantityResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "GetRefundableQuantity for Cloud Service": {
+            "$ref": "./examples/CloudService_GetRefundableQuantity.json"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -2196,6 +2375,89 @@
         ]
       }
     },
+    "CotermEndDateItem": {
+      "type": "object",
+      "description": "End date information for coterm calculation.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the end date entry."
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End date in UTC time."
+        },
+        "termDuration": {
+          "type": "string",
+          "description": "Term duration for this specific end date."
+        }
+      },
+      "required": [
+        "id",
+        "endDate",
+        "termDuration"
+      ]
+    },
+    "CotermEndDatesRequest": {
+      "type": "object",
+      "description": "Request model for GetCotermEndDates operation.",
+      "properties": {
+        "endDates": {
+          "type": "array",
+          "description": "List of end dates to calculate coterm targets for.",
+          "items": {
+            "$ref": "#/definitions/CotermEndDateItem"
+          }
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start date for the coterm calculation in UTC time."
+        },
+        "termDuration": {
+          "type": "string",
+          "description": "Term duration for the coterm calculation.\nAn ISO 8601 duration using exactly one of the year, month or day designators. E.g. P1Y, P1M."
+        }
+      },
+      "required": [
+        "endDates",
+        "startDate",
+        "termDuration"
+      ]
+    },
+    "CotermResponseItem": {
+      "type": "object",
+      "description": "Response model for GetCotermEndDates operation.",
+      "properties": {
+        "coTermTarget": {
+          "type": "string",
+          "description": "Target cloud resource or contract name to coterm to.",
+          "readOnly": true
+        },
+        "coTermTargetType": {
+          "type": "string",
+          "description": "Whether the target is cloud resource or contract.",
+          "readOnly": true
+        },
+        "termEndDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Term end date in UTC time.",
+          "readOnly": true
+        },
+        "errorCode": {
+          "type": "string",
+          "description": "Error code if coterm calculation failed.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "coTermTarget",
+        "coTermTargetType",
+        "errorCode"
+      ]
+    },
     "EligibilityConstraint": {
       "type": "object",
       "description": "Shared eligibility constraint model.",
@@ -2264,6 +2526,51 @@
             "description": "Validation result is failed"
           }
         ]
+      }
+    },
+    "GetRefundableQuantityInfo": {
+      "type": "object",
+      "description": "Model to present detailed refundable quantity information with event details.",
+      "properties": {
+        "eventDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time when the event occurred that created this refundable quantity.",
+          "readOnly": true
+        },
+        "deltaQuantity": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The change in quantity from this event.",
+          "readOnly": true
+        },
+        "returnWindowEndDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The end date and time in UTC when the refund window ends for this quantity.\nOptional - may be null if there is no specific window limit.",
+          "readOnly": true
+        }
+      }
+    },
+    "GetRefundableQuantityResponse": {
+      "type": "object",
+      "description": "Response model for GetRefundableQuantity operation.",
+      "properties": {
+        "refundableQuantities": {
+          "type": "array",
+          "description": "List of refundable quantity information with event details.",
+          "items": {
+            "$ref": "#/definitions/GetRefundableQuantityInfo"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        },
+        "totalRefundableQuantity": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total refundable quantity across all events.",
+          "readOnly": true
+        }
       }
     },
     "LinkedResources": {
@@ -2456,6 +2763,114 @@
         ]
       }
     },
+    "ProposalLineItem": {
+      "type": "object",
+      "description": "Line item information in a proposal response.",
+      "properties": {
+        "lineItemId": {
+          "type": "string",
+          "description": "Unique identifier for the line item."
+        },
+        "productId": {
+          "type": "string",
+          "description": "Product identifier."
+        },
+        "skuId": {
+          "type": "string",
+          "description": "SKU identifier."
+        },
+        "availabilityId": {
+          "type": "string",
+          "description": "Availability identifier."
+        },
+        "bigId": {
+          "type": "string",
+          "description": "BigId identifier."
+        },
+        "productCode": {
+          "type": "string",
+          "description": "Product code for the line item."
+        },
+        "error": {
+          "$ref": "#/definitions/ProposalLineItemError",
+          "description": "Error information if any issues occurred with this line item."
+        },
+        "additionalInfo": {
+          "$ref": "#/definitions/ProposalLineItemAdditionalInfo",
+          "description": "Additional information for the line item."
+        }
+      }
+    },
+    "ProposalLineItemAdditionalInfo": {
+      "type": "object",
+      "description": "Additional information for proposal line items.",
+      "properties": {
+        "etag": {
+          "type": "string",
+          "description": "ETag for concurrency control."
+        },
+        "systemId": {
+          "type": "string",
+          "description": "System identifier."
+        },
+        "trackingId": {
+          "type": "string",
+          "description": "Tracking identifier."
+        }
+      }
+    },
+    "ProposalLineItemError": {
+      "type": "object",
+      "description": "Error information for proposal line items.",
+      "properties": {
+        "errorCode": {
+          "type": "string",
+          "description": "Error code for the line item."
+        },
+        "message": {
+          "type": "string",
+          "description": "Error message for the line item."
+        }
+      }
+    },
+    "ProposalRequest": {
+      "type": "object",
+      "description": "Request model for Proposal operation.",
+      "properties": {
+        "proposalId": {
+          "type": "string",
+          "description": "The unique identifier for the proposal."
+        }
+      },
+      "required": [
+        "proposalId"
+      ]
+    },
+    "ProposalResponse": {
+      "type": "object",
+      "description": "Response model for Proposal operation.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the proposal response.",
+          "readOnly": true
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the proposal.",
+          "readOnly": true
+        },
+        "lineItems": {
+          "type": "array",
+          "description": "List of line items in the proposal.",
+          "items": {
+            "$ref": "#/definitions/ProposalLineItem"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        }
+      }
+    },
     "ProvisioningState": {
       "type": "string",
       "description": "Gets the status of the SaaSHub saas resource at the time the operation was called.",
@@ -2560,7 +2975,7 @@
         },
         "value": {
           "type": "string",
-          "description": "The value of the resource token."
+          "description": "Encoded resource token."
         }
       }
     },
@@ -2766,6 +3181,10 @@
           "format": "date-time",
           "description": "The end date for the schedule action"
         },
+        "linkedResource": {
+          "$ref": "#/definitions/ScheduleActionLinkedResource",
+          "description": "Linked resource for the scheduled action.\nOptional property."
+        },
         "resourceTokens": {
           "type": "array",
           "description": "Resource tokens for various authorization and context purposes.",
@@ -2775,6 +3194,20 @@
           "x-ms-identifiers": [
             "type"
           ]
+        }
+      }
+    },
+    "ScheduleActionLinkedResource": {
+      "type": "object",
+      "description": "Linked resource for scheduled actions",
+      "properties": {
+        "resourceUri": {
+          "type": "string",
+          "description": "The URI of the target resource for the scheduled action"
+        },
+        "billingScope": {
+          "type": "string",
+          "description": "The billing scope for the linked resource. Only applicable for SaaS resources.\nFormat: /providers/Microsoft.Billing/billingAccounts/{baId}/billingProfiles/{bfId}/invoiceSections/{isId}"
         }
       }
     },
@@ -2888,11 +3321,19 @@
           "description": "The start date in UTC time on the current product code.",
           "readOnly": true
         },
-        "licenseReassignmentDays": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Number of days in the license reassignment period for the current term.",
-          "default": 0,
+        "licenseReassignmentDuration": {
+          "type": "string",
+          "description": "Duration of license reassignment period for the current term. Value is an ISO 8601 duration string.\nExpected to be P0D (0 days) or greater.",
+          "readOnly": true
+        },
+        "dataRetentionDuration": {
+          "type": "string",
+          "description": "ISO 8601 duration string representing the data retention period for the resource.\nRead-only property.",
+          "readOnly": true
+        },
+        "productUrl": {
+          "type": "string",
+          "description": "URL pointing to the product information in the Catalog endpoint.\nRead-only property.",
           "readOnly": true
         }
       }

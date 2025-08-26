@@ -748,6 +748,58 @@
         "azureMonitorWorkspaceId"
       ]
     },
+    "ManagedOpsAzureMonitorConfigurationUpdate": {
+      "type": "object",
+      "description": "Configuration for the Change Tracking and Inventory service.",
+      "properties": {
+        "azureMonitorWorkspaceId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "Azure Monitor workspace resource ID used by the service.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Monitor/accounts"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "ManagedOpsAzureMonitorInformation": {
+      "type": "object",
+      "description": "Azure Monitor service information.",
+      "properties": {
+        "dcrId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "ID of Data Collection Rule (DCR) associated with this service.",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Insights/dataCollectionRules"
+              }
+            ]
+          }
+        },
+        "enablementStatus": {
+          "type": "string",
+          "description": "Indicates whether the service is enabled.",
+          "enum": [
+            "Enabled",
+            "InProgress",
+            "Failed",
+            "Disabled"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true
+          }
+        }
+      },
+      "required": [
+        "enablementStatus"
+      ]
+    },
     "ManagedOpsChangeTrackingConfiguration": {
       "type": "object",
       "description": "Configuration for the Change Tracking and Inventory service.",
@@ -829,6 +881,10 @@
           "$ref": "#/definitions/ManagedOpsChangeTrackingConfiguration",
           "description": "Configuration for the Change Tracking and Inventory service."
         },
+        "azureMonitorInsights": {
+          "$ref": "#/definitions/ManagedOpsAzureMonitorConfiguration",
+          "description": "Configuration for the Azure Monitor service."
+        },
         "userAssignedManagedIdentityId": {
           "type": "string",
           "format": "arm-id",
@@ -876,6 +932,7 @@
       },
       "required": [
         "changeTrackingAndInventory",
+        "azureMonitorInsights",
         "userAssignedManagedIdentityId"
       ]
     },
@@ -886,6 +943,10 @@
         "changeTrackingAndInventory": {
           "$ref": "#/definitions/ManagedOpsChangeTrackingConfigurationUpdate",
           "description": "Configuration for the Change Tracking and Inventory service."
+        },
+        "azureMonitorInsights": {
+          "$ref": "#/definitions/ManagedOpsAzureMonitorConfigurationUpdate",
+          "description": "Configuration for the Azure Monitor service."
         },
         "userAssignedManagedIdentityId": {
           "type": "string",
@@ -1043,6 +1104,11 @@
         "changeTrackingAndInventory": {
           "$ref": "#/definitions/ManagedOpsChangeTrackingInformation",
           "description": "Change Tracking and Inventory service information.",
+          "readOnly": true
+        },
+        "azureMonitorInsights": {
+          "$ref": "#/definitions/ManagedOpsAzureMonitorInformation",
+          "description": "Azure Monitor Insights service information.",
           "readOnly": true
         },
         "azureUpdateManager": {

@@ -180,9 +180,6 @@
           "Offerings_List": {
             "$ref": "./examples/Offerings_List.json"
           }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
         }
       }
     },
@@ -432,7 +429,7 @@
         "tags": [
           "ProviderAccounts"
         ],
-        "description": "Updates an existing ProviderAccount's tags.",
+        "description": "Updates an existing ProviderAccount's properties.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -963,12 +960,7 @@
           "type": "object",
           "description": "The identities assigned to this resource by the user.",
           "additionalProperties": {
-            "allOf": [
-              {
-                "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity"
-              }
-            ],
-            "type": "object",
+            "$ref": "../../../../../common-types/resource-management/v5/managedidentity.json#/definitions/UserAssignedIdentity",
             "x-nullable": true
           }
         }
@@ -976,6 +968,7 @@
     },
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
+      "title": "Tracked Resource",
       "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
       "properties": {
         "tags": {
@@ -1211,19 +1204,20 @@
           "minLength": 2,
           "maxLength": 50
         },
-        "allowedSubscriptions": {
+        "subscriptions": {
           "type": "array",
           "description": "List of Azure Subscriptions that are allowed to view/access resources from this ProviderAccount.",
           "items": {
-            "$ref": "#/definitions/ProviderAccount.SubscriptionId"
+            "$ref": "#/definitions/ProviderAccount.ProviderAccountSubscription"
           }
         },
-        "targets": {
+        "queues": {
           "type": "array",
-          "description": "List of Targets available in this ProviderAccount.",
+          "description": "List of Queues available in this ProviderAccount.",
           "items": {
-            "$ref": "#/definitions/ProviderAccount.ProviderAccountTarget"
-          }
+            "$ref": "#/definitions/ProviderAccount.ProviderAccountQueue"
+          },
+          "readOnly": true
         },
         "managedOnBehalfOfConfiguration": {
           "$ref": "../../../../../common-types/resource-management/v5/mobo.json#/definitions/ManagedOnBehalfOfConfiguration",
@@ -1266,21 +1260,64 @@
           "minLength": 2,
           "maxLength": 50
         },
-        "allowedSubscriptions": {
+        "subscriptions": {
           "type": "array",
           "description": "List of Azure Subscriptions that are allowed to view/access resources from this ProviderAccount.",
           "items": {
-            "$ref": "#/definitions/ProviderAccount.SubscriptionId"
+            "$ref": "#/definitions/ProviderAccount.ProviderAccountSubscription"
           }
+        }
+      }
+    },
+    "ProviderAccount.ProviderAccountQueue": {
+      "type": "object",
+      "description": "A Queue associated with a ProviderAccount, in which jobs are queued in for execution.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique ID of the Queue.",
+          "minLength": 2,
+          "maxLength": 50,
+          "pattern": "^([a-z0-9]+(-[a-z0-9]+)*)$"
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the Queue.",
+          "minLength": 2,
+          "maxLength": 50
         },
         "targets": {
           "type": "array",
-          "description": "List of Targets available in this ProviderAccount.",
+          "description": "The targets associated with the Queue.",
           "items": {
             "$ref": "#/definitions/ProviderAccount.ProviderAccountTarget"
           }
         }
-      }
+      },
+      "required": [
+        "id",
+        "name",
+        "targets"
+      ]
+    },
+    "ProviderAccount.ProviderAccountSubscription": {
+      "type": "object",
+      "description": "A subscription that is allowed to access resources from a ProviderAccount.",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/ProviderAccount.SubscriptionId",
+          "description": "The Azure subscription ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the Azure subscription.",
+          "default": "",
+          "maxLength": 50
+        }
+      },
+      "required": [
+        "id"
+      ]
     },
     "ProviderAccount.ProviderAccountTarget": {
       "type": "object",

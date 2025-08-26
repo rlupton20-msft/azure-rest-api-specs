@@ -88,6 +88,7 @@ model DbSystemBaseProperties {
   @maxLength(11)
   clusterName?: string;
 
+  @removed(Versions.v20250815_preview)
   @doc("The number of CPU cores enabled on the DB system.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   @minValue(1)

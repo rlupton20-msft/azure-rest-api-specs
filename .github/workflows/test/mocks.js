@@ -6,6 +6,7 @@ export function createMockGithub() {
   return {
     hook: {
       after: vi.fn(),
+      before: vi.fn(),
     },
     paginate: async (func, params) => {
       // Assume all test data fits in single page
@@ -33,6 +34,7 @@ export function createMockGithub() {
       },
       repos: {
         createCommitStatus: vi.fn(),
+        listCommitStatusesForRef: vi.fn().mockResolvedValue({ data: [] }),
         listPullRequestsAssociatedWithCommit: vi.fn().mockResolvedValue({
           data: [],
         }),
@@ -40,6 +42,9 @@ export function createMockGithub() {
       search: {
         issuesAndPullRequests: vi.fn(),
       },
+    },
+    request: {
+      endpoint: vi.fn(),
     },
   };
 }

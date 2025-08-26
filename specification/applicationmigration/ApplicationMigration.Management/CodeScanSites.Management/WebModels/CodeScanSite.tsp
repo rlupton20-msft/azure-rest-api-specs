@@ -14,13 +14,14 @@ model CodeScanSiteProperties {
   @doc("The provisioning state of the CodeScanSite.")
   @visibility(Lifecycle.Read)
   provisioningState?: Azure.ResourceManager.ResourceProvisioningState;
-  
+
   @doc("Description of the CodeScanSite.")
   description?: string;
 }
 
 @doc("CodeScanSite resource.")
-model CodeScanSite is Azure.ResourceManager.TrackedResource<CodeScanSiteProperties> {
+model CodeScanSite
+  is Azure.ResourceManager.TrackedResource<CodeScanSiteProperties> {
   @doc("CodeScanSite name")
   @key("codeScanSiteName")
   @segment("codeScanSites")

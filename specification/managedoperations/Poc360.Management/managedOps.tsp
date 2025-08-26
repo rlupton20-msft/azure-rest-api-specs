@@ -84,7 +84,6 @@ model ManagedOpsServiceInformation {
   changeTrackingAndInventory?: ManagedOpsChangeTrackingInformation;
 
   @doc("Azure Monitor Insights service information.")
-  @added(Versions.v2024_08_01_preview)
   @visibility(Lifecycle.Read)
   azureMonitorInsights?: ManagedOpsAzureMonitorInformation;
 
@@ -140,7 +139,6 @@ model ManagedOpsChangeTrackingInformation {
 }
 
 @doc("Azure Monitor service information.")
-@added(Versions.v2024_08_01_preview)
 model ManagedOpsAzureMonitorInformation {
   @doc("ID of Data Collection Rule (DCR) associated with this service.")
   dcrId?: armResourceIdentifier<[
@@ -218,7 +216,6 @@ model ManagedOpsDesiredConfiguration {
   changeTrackingAndInventory: ManagedOpsChangeTrackingConfiguration;
 
   @doc("Configuration for the Azure Monitor service.")
-  @added(Versions.v2024_08_01_preview)
   azureMonitorInsights: ManagedOpsAzureMonitorConfiguration;
 
   @doc("User assigned Managed Identity used to perform operations on machines managed by Ops360.")
