@@ -4,6 +4,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-client-generator-core";
 import "./common.tsp";
 
+using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
@@ -86,5 +87,43 @@ interface Investigations {
   listInvestigations is ResourceList<
     Investigation,
     QueryParametersTrait<WithQueryCreatedSince>
+  >;
+
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  @doc("Start the cognitive loop for an investigation.")
+  @route("/projects/{projectName}/investigations/{investigationName}:startCognition")
+  @post
+  startCognitiveLoop is Azure.Core.Foundations.Operation<
+    {
+      @doc("The project name.")
+      @path
+      @pattern(resourceNamePattern)
+      projectName: string;
+
+      @doc("The investigation name.")
+      @path
+      @pattern(resourceNamePattern)
+      investigationName: string;
+    },
+    Investigation
+  >;
+
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  @doc("Stop the cognitive loop for an investigation.")
+  @route("/projects/{projectName}/investigations/{investigationName}:stopCognition")
+  @post
+  stopCognitiveLoop is Azure.Core.Foundations.Operation<
+    {
+      @doc("The project name.")
+      @path
+      @pattern(resourceNamePattern)
+      projectName: string;
+
+      @doc("The investigation name.")
+      @path
+      @pattern(resourceNamePattern)
+      investigationName: string;
+    },
+    Investigation
   >;
 }
