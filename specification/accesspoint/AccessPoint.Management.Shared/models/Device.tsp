@@ -44,14 +44,14 @@ model DeviceProperties {
   @visibility(Lifecycle.Create, Lifecycle.Read)
   serial: string;
 
-  @doc("Indicates whether the device is enabled.")
-  enabled: boolean;
+  @doc("Indicates the current state of the device.")
+  deviceState: DeviceState;
 
-  @doc("The fully qualified ARM URI of the associated Update Group resource.")
-  updateGroupId: armResourceIdentifier;
+  @doc("The Azure Resource ID of the associated Update Group resource.")
+  updateGroupResourceId: armResourceIdentifier;
 
-  @doc("The fully qualified ARM URI of the associated Network resource.")
-  networkId: armResourceIdentifier;
+  @doc("The Azure Resource ID of the associated Network resource.")
+  networkResourceId: armResourceIdentifier;
 
   @doc("The IP address of the device that belongs to the attached network.")
   ipAddress: ipV4Address;
@@ -66,12 +66,6 @@ model DeviceProperties {
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
-
-// Suppress because we have no custom properties for the response,
-// but the ArmResourceActionAsync requires a response model to generate the correct response types.
-#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
-@doc("The base response for all device actions.")
-model DeviceActionResponse {}
 
 @doc("The request body for the displayMessage device action.")
 model DisplayMessageRequest {
@@ -89,44 +83,34 @@ interface DeviceOperations {
 
   // Device actions
   @doc("Displays a provided messages on a device.")
-  displayMessage is ArmResourceActionAsync<
+  displayMessage is ArmResourceActionNoResponseContentAsync<
     Device,
-    DisplayMessageRequest,
-    ArmResponse<DeviceActionResponse>
+    DisplayMessageRequest
   >;
 
   @doc("Refreshes the connection of a device.")
-  refreshConnection is ArmResourceActionAsync<
-    Device,
-    void,
-    ArmResponse<DeviceActionResponse>
-  >;
+  refreshConnection is ArmResourceActionNoResponseContentAsync<Device, void>;
 
   @doc("Revokes device certificates.")
-  revokeCertificates is ArmResourceActionAsync<
-    Device,
-    void,
-    ArmResponse<DeviceActionResponse>
-  >;
+  revokeCertificates is ArmResourceActionNoResponseContentAsync<Device, void>;
 
   @doc("Sends a restart command to a device.")
-  reboot is ArmResourceActionAsync<
-    Device,
-    void,
-    ArmResponse<DeviceActionResponse>
-  >;
+  reboot is ArmResourceActionNoResponseContentAsync<Device, void>;
 
   @doc("Sends a shutdown command to a device.")
-  shutdown is ArmResourceActionAsync<
-    Device,
-    void,
-    ArmResponse<DeviceActionResponse>
-  >;
+  shutdown is ArmResourceActionNoResponseContentAsync<Device, void>;
 
   @doc("Sends a user log off command to a device.")
-  logOffUser is ArmResourceActionAsync<
-    Device,
-    void,
-    ArmResponse<DeviceActionResponse>
-  >;
+  logOffUser is ArmResourceActionNoResponseContentAsync<Device, void>;
+}
+
+@doc("The current state of the device.")
+union DeviceState {
+  @doc("Device is disabled.")
+  Disabled: "Disabled",
+
+  @doc("Device is enabled.")
+  Enabled: "Enabled",
+
+  string,
 }
