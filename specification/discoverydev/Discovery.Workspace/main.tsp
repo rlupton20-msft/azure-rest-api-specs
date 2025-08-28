@@ -8,6 +8,7 @@ import "./_conversation.tsp";
 import "./_conversation_message.tsp";
 import "./_conversation_message_logs.tsp";
 import "./_tool.tsp";
+import "./_task.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Versioning;

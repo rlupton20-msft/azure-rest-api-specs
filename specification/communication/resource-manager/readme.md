@@ -28,7 +28,34 @@ These are the global settings for the Azure Communication Services API.
 title: CommunicationServiceManagementClient
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2025-05-01
+tag: package-2025-09-01
+```
+### Tag: package-2025-09-01
+
+These settings apply only when `--tag=package-2025-09-01` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-09-01'
+input-file:
+  - Microsoft.Communication/stable/2025-09-01/CommunicationServices.json
+  - Microsoft.Communication/stable/2025-09-01/Domains.json
+  - Microsoft.Communication/stable/2025-09-01/EmailServices.json
+  - Microsoft.Communication/stable/2025-09-01/SenderUsernames.json
+  - Microsoft.Communication/stable/2025-09-01/SmtpUsernames.json
+  - Microsoft.Communication/stable/2025-09-01/SuppressionLists.json
+```
+
+### Tag: package-preview-2025-08-22-preview
+
+These settings apply only when `--tag=package-preview-2025-08-22-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-preview-2025-08-22-preview'
+input-file:
+  - Microsoft.Communication/preview/2025-08-22-preview/CommunicationServices.json
+  - Microsoft.Communication/preview/2025-08-22-preview/Domains.json
+  - Microsoft.Communication/preview/2025-08-22-preview/EmailServices.json
+  - Microsoft.Communication/preview/2025-08-22-preview/Locations.json
+  - Microsoft.Communication/preview/2025-08-22-preview/SenderUsernames.json
+  - Microsoft.Communication/preview/2025-08-22-preview/SmtpUsernames.json
 ```
 
 ### Tag: package-preview-2025-08-21-preview
@@ -64,6 +91,7 @@ These settings apply only when `--tag=package-preview-2025-06-01-preview` is spe
 ```yaml $(tag) == 'package-preview-2026-05-01-preview'
 input-file:
   - Microsoft.Communication/preview/2025-06-01-preview/EventGridFilters.json
+tag: package-2025-09-01
 ```
 
 ### Tag: package-preview-2025-05-01-preview
