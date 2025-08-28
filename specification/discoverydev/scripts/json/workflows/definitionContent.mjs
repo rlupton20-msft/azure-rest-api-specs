@@ -7,33 +7,33 @@ export default {
         {
           agent: "Science",
           humanInLoopMode: "onNoMessage",
-          streamOutput: true,
+          streamOutput: true
         },
         {
           agent: "ADFTAgent",
           humanInLoopMode: "onNoMessage",
-          streamOutput: true,
+          streamOutput: true
         },
         {
           agent: "RDKITExecutePython",
           humanInLoopMode: "onNoMessage",
-          streamOutput: true,
-        },
+          streamOutput: true
+        }
       ],
-      isFinal: false,
+      isFinal: false
     },
     {
       name: "Terminal",
       actors: [],
-      isFinal: true,
-    },
+      isFinal: true
+    }
   ],
   transitions: [
     {
       from: "UserProxyAnalysis",
-      to: "Terminal",
-    },
+      to: "Terminal"
+    }
   ],
   variables: [],
-  startstate: "UserProxyAnalysis",
+  startstate: "UserProxyAnalysis"
 };

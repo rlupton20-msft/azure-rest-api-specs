@@ -91,6 +91,10 @@ model OrderLine {
   @doc("Order line status")
   @visibility("read")
   status?: OrderLineStatus;
+
+  @doc("Billing State")
+  @visibility("read")
+  billingState?: BillingState;
   
   @doc("Order line created date time")
   @visibility("read")
@@ -132,18 +136,38 @@ model OrderLine {
 
 @doc("Order Line Qty")
 model OrderLineQty {
-  @doc("Order lineId Ordered Quantity")
-  ordered: int64;
+  @doc("Order lineId pending quantity")
+  pending: int64;
 
-  @doc("Order lineId Confirmed Quantity")
+  @doc("Order lineId in-progress quantity")
   @visibility("read")
-  confirmed?: int64;
+  inProgress?: int64;
   
-  @doc("Order lineId Shipped Quantity")
+  @doc("Order lineId fulfilled quantity")
   @visibility("read")
-  shipped?:int64;
+  fulfilled?:int64;
   
-  @doc("Order lineId Returned Quantity")
+  @doc("Order lineId quantity pending warranty provisioning")
+  @visibility("read")
+  pendingProvisioning?: int64;
+  
+  @doc("Order lineId warranty provisioned quantity")
+  @visibility("read")
+  provisioned?:int64;
+  
+  @doc("Order lineId quantity pending cancellation")
+  @visibility("read")
+  pendingCancel?:int64;
+  
+  @doc("Order lineId cancelled Quantity")
+  @visibility("read")
+  cancelled?:int64;
+  
+  @doc("Order lineId quantity pending return")
+  @visibility("read")
+  pendingReturn?:int64;
+  
+  @doc("Order lineId returned Quantity")
   @visibility("read")
   returned?:int64;
 }
@@ -155,6 +179,15 @@ model Product {
 
   @doc("ProductId Type")
   type:ProductIdType;
+
+  @doc("BundleProductId")
+  bundleProductId?: string;
+
+  @doc("BundleInstanceId")
+  bundleInstanceId?: string;
+
+  @doc("BundleSlotId")
+  bundleSlotId?: int64;
 }
 
 @doc("Order line fulfillment instructions")
@@ -324,26 +357,30 @@ enum OrderStatus{
 enum OrderLineStatus{
   @doc("Order is pending")
   Pending,
-  @doc("Order is Created")
-  Created,
-  @doc("Order is Confirmed")
-  Confirmed,
-  @doc("Order is PartiallyConfirmed")
-  PartiallyConfirmed,
-  @doc("Order is pending cancellation")
-  PendingCancel,
-  @doc("Order is Ready to Provision cannot be cancelled")
-  PendingProvisioning,
-  @doc("Order is PartiallyProvisioned")
-  PartiallyProvisioned,
-  @doc("Order is Provisioned")
-  Provisioned,
-  @doc("Order is Ready to Ship cannot be cancelled")
-  PendingShipment,
-  @doc("Order is PartiallyShipped")
-  PartiallyShipped,
-  @doc("Order is Shipped")
-  Shipped
+  @doc("Order is in-progress")
+  InProgress,
+  @doc("Order is fulfilled")
+  Fulfilled,
+  @doc("Order is cancelled")
+  Cancelled,
+  @doc("Order is returned")
+  Returned
+}
+
+@doc("Billing State")
+enum BillingState {
+  @doc("The default state, initialized or reset after a failed operation")
+  Pending,
+  @doc("The payment is pending capture.")
+  PendingCapture,
+  @doc("The payment has been captured successfully.")
+  Captured,
+  @doc("The payment capture failed.")
+  CaptureFailed,
+  @doc("The payment is pending a refund.")
+  PendingRefund,
+  @doc("The payment has been refunded.")
+  Refunded
 }
 
 @doc("Provisioning State")

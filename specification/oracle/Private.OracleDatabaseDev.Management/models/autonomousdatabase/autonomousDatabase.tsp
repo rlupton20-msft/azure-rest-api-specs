@@ -6,6 +6,7 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
+using OpenAPI;
 
 namespace Private.OracleDatabaseDev;
 
@@ -424,8 +425,14 @@ model LongTermBackUpScheduleDetails {
   @doc("The timestamp for the long-term backup schedule. For a MONTHLY cadence, months having fewer days than the provided date will have the backup taken on the last day of that month.")
   timeOfBackup?: utcDateTime;
 
+  @removed(Versions.v20250815_preview)
   @doc("Retention period, in days, for backups.")
   retentionPeriodInDays?: RetentionPeriod;
+
+  @added(Versions.v20250815_preview)
+  @encodedName("application/json", "retentionPeriodInDays")
+  @doc("Retention period, in days, for long-term backups")
+  retentionPeriodInDaysV2?: LongTermBackUpRetentionPeriod;
 
   @doc("Indicates if the long-term backup schedule should be deleted. The default value is `FALSE`.")
   isDisabled?: boolean;

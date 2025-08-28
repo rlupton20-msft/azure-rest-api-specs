@@ -49,8 +49,19 @@ These are the global settings for the edge.
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2025-01-01-preview
+tag: package-2025-08-15-preview
 ```
+
+### Tag: package-2025-08-01
+
+These settings apply only when `--tag=package-2025-08-01` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-08-01'
+input-file:
+  - configurations/stable/2025-08-01/configurations.json
+  - configurationmanager/stable/2025-08-01/configurationmanager.json
+```
+
 ### Tag: package-2025-06-01
 
 These settings apply only when `--tag=package-2025-06-01` is specified on the command line.
@@ -58,6 +69,15 @@ These settings apply only when `--tag=package-2025-06-01` is specified on the co
 ```yaml $(tag) == 'package-2025-06-01'
 input-file:
   - configurationmanager/stable/2025-06-01/configurationmanager.json
+```
+
+### Tag: package-2025-08-15-preview
+
+These settings apply only when `--tag=package-2025-08-15-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-08-15-preview'
+input-file:
+  - configurationmanager/preview/2025-08-15-preview/configurationmanager.json
 ```
 
 ### Tag: package-2025-01-01-preview

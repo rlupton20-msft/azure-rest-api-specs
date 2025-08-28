@@ -14,8 +14,8 @@ export default {
       name: "worker",
       infra_type: "maap",
       image: {
-        model_id: "azure ml registry value",
-      },
-    },
-  ],
+        model_id: "azure ml registry value"
+      }
+    }
+  ]
 };

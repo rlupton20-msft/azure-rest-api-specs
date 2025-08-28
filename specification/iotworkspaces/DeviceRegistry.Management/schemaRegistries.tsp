@@ -193,7 +193,15 @@ interface SchemaRegistries {
 interface Schemas {
   get is ArmResourceRead<Schema>;
   createOrReplace is ArmResourceCreateOrReplaceSync<Schema>;
-  delete is ArmResourceDeleteSync<Schema>;
+
+  @removed(Versions.v2025_07_01_preview)
+  @sharedRoute
+  @renamedFrom(Versions.v2025_07_01_preview, "delete")
+  deleteSync is ArmResourceDeleteSync<Schema>;
+
+  @added(Versions.v2025_07_01_preview)
+  @sharedRoute
+  delete is ArmResourceDeleteWithoutOkAsync<Schema>;
   listBySchemaRegistry is ArmResourceListByParent<Schema>;
 }
 

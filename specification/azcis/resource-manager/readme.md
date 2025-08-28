@@ -49,6 +49,7 @@ input-file:
   - Microsoft.AzureCis/preview/2023-08-22-preview/dscm.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/dsmsmanagedkeysecret.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/environment.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/eventgrid.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/ficp.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/genevaActions.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/plannedQuota.json

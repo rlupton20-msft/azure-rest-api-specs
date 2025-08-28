@@ -5,11 +5,7 @@ import "@typespec/rest";
 import "./SaasResourceModels.tsp";
 import "./SharedModels.tsp";
 
-using TypeSpec.Rest;
 using Azure.ResourceManager;
-using TypeSpec.Http;
-using TypeSpec.OpenAPI;
-using Microsoft.SaaSHub;
 
 namespace Microsoft.SaaSHub;
 /**
@@ -114,6 +110,17 @@ interface SaasResources {
     SaasResource,
     BaseParameters = ApiVersionParameter
   >;
+
+  /**
+   * Gets the refundable quantity for a SaaSHub Saas resource.
+   * Only available in API version 2025-07-01-preview.
+   */
+  refundableQuantity is ArmResourceActionSync<
+    SaasResource,
+    void,
+    Microsoft.SaaSHub.GetRefundableQuantityResponse,
+    BaseParameters = ApiVersionParameter
+  >;
 }
 
 @@maxLength(SaasResource.name, 50);
@@ -136,4 +143,7 @@ interface SaasResources {
 );
 @@doc(SaasResources.merge::parameters.body,
   "Request parameters that are provided to the merge SaaSHub Saas resource operation."
+);
+@@doc(SaasResources.refundableQuantity,
+  "Gets the refundable quantity for a SaaSHub Saas resource."
 );

@@ -5,63 +5,129 @@
     "api-version": "2025-03-01-preview",
     "sliName": "testSli",
     "serviceGroupName": "testSG",
+    "previewType": "slo",
     "body": {
-      "signalSources": [
-        {
-          "signalSourceId": "A",
-          "sourceAmwAccountManagedIdentity": "sourceAccountIdentity",
-          "sourceAmwAccountResourceId": "/source/Account/Resource",
-          "metricNamespace": "ContosoMetricsWest",
-          "metricName": "Stamp1Latency",
-          "filters": [
-            {
-              "dimensionName": "ApiName",
-              "operator": "==",
-              "value": "GetContosoUsers"
+      "evaluationType": "RequestBased",
+      "goodSignals": {
+        "signalSources": [
+          {
+            "signalSourceId": "A",
+            "metricNamespace": "junminsg0220",
+            "metricName": "mfrei0728_1_mdmtest1_ppe1_raw1:maxOfAverage",
+            "sourceAmwAccountManagedIdentity": "/subscriptions/0f991b9d-ab0e-4827-9cc7-984d7319017d/resourceGroups/test-slis/providers/Microsoft.ManagedIdentity/userAssignedIdentities/TapIdentity1",
+            "sourceAmwAccountResourceId": "/subscriptions/0f991b9d-ab0e-4827-9cc7-984d7319017d/resourceGroups/test-slis/providers/microsoft.monitor/accounts/streaming-3p-slo-ppe1-eastus-raw1",
+            "filters": [],
+            "spatialAggregation": {
+              "type": "Count",
+              "dimensions": [
+                "Datacenter"
+              ]
             }
-          ],
-          "spatialAggregation": {
-            "type": "Average",
-            "dimensions": [
-              "Region",
-              "ResponseCode"
-            ]
           },
-          "temporalAggregation": {
-            "type": "Average",
-            "windowSizeMinutes": 5
-          }
-        },
-        {
-          "signalSourceId": "B",
-          "sourceAmwAccountManagedIdentity": "sourceAccountIdentity",
-          "sourceAmwAccountResourceId": "/source/Account/Resource",
-          "metricNamespace": "ContosoMetricsEast",
-          "metricName": "Stamp2Latency",
-          "filters": [
-            {
-              "dimensionName": "ApiName",
-              "operator": "==",
-              "value": "GetContosoUsers"
+          {
+            "signalSourceId": "B",
+            "metricNamespace": "junminsg0220",
+            "metricName": "mfrei0728_2_mdmtest1_ppe1_raw1:maxOfAverage",
+            "sourceAmwAccountManagedIdentity": "/subscriptions/0f991b9d-ab0e-4827-9cc7-984d7319017d/resourceGroups/test-slis/providers/Microsoft.ManagedIdentity/userAssignedIdentities/TapIdentity1",
+            "sourceAmwAccountResourceId": "/subscriptions/0f991b9d-ab0e-4827-9cc7-984d7319017d/resourceGroups/test-slis/providers/microsoft.monitor/accounts/streaming-3p-slo-ppe1-eastus-raw1",
+            "filters": [],
+            "spatialAggregation": {
+              "type": "Count",
+              "dimensions": [
+                "Datacenter"
+              ]
             }
-          ],
-          "spatialAggregation": {
-            "type": "Average",
-            "dimensions": [
-              "Region",
-              "ResponseCode"
-            ]
-          },
-          "temporalAggregation": {
-            "type": "Average",
-            "windowSizeMinutes": 5
           }
-        }
-      ],
-      "signalFormula": "(A + B) /2"
+        ],
+        "signalFormula": "A + B"
+      },
+      "totalSignals": {
+        "signalSources": [
+          {
+            "signalSourceId": "A",
+            "metricNamespace": "junminsg0220",
+            "metricName": "mfrei0728_1_mdmtest1_ppe1_raw1:maxOfAverage",
+            "sourceAmwAccountManagedIdentity": "/subscriptions/0f991b9d-ab0e-4827-9cc7-984d7319017d/resourceGroups/test-slis/providers/Microsoft.ManagedIdentity/userAssignedIdentities/TapIdentity1",
+            "sourceAmwAccountResourceId": "/subscriptions/0f991b9d-ab0e-4827-9cc7-984d7319017d/resourceGroups/test-slis/providers/microsoft.monitor/accounts/streaming-3p-slo-ppe1-eastus-raw1",
+            "filters": [],
+            "spatialAggregation": {
+              "type": "Count",
+              "dimensions": [
+                "Datacenter"
+              ]
+            }
+          },
+          {
+            "signalSourceId": "B",
+            "metricNamespace": "junminsg0220",
+            "metricName": "mfrei0728_2_mdmtest1_ppe1_raw1:maxOfAverage",
+            "sourceAmwAccountManagedIdentity": "/subscriptions/0f991b9d-ab0e-4827-9cc7-984d7319017d/resourceGroups/test-slis/providers/Microsoft.ManagedIdentity/userAssignedIdentities/TapIdentity1",
+            "sourceAmwAccountResourceId": "/subscriptions/0f991b9d-ab0e-4827-9cc7-984d7319017d/resourceGroups/test-slis/providers/microsoft.monitor/accounts/streaming-3p-slo-ppe1-eastus-raw1",
+            "filters": [],
+            "spatialAggregation": {
+              "type": "Count",
+              "dimensions": [
+                "Datacenter"
+              ]
+            }
+          }
+        ],
+        "signalFormula": "A + B"
+      }
     }
   },
   "responses": {
-    "204": {}
+    "200": {
+      "body": {
+        "requestId": "12345678-1234-1234-1234-123456789012",
+        "state": "Success",
+        "timeSeriesSets": [
+          {
+            "resultsMetadata": {
+              "startTimeUtc": "2024-01-01T00:00:00Z",
+              "endTimeUtc": "2024-01-01T01:00:00Z",
+              "dataResolution": "PT5M",
+              "resultantDimensions": [
+                "Datacenter"
+              ],
+              "resultantSamplingTypes": [
+                "Count"
+              ],
+              "datapointsCount": 12
+            },
+            "timeSeriesData": [
+              {
+                "dimensionValues": [
+                  {
+                    "key": "Datacenter",
+                    "value": "EastUS"
+                  }
+                ],
+                "samplingTypesData": [
+                  {
+                    "key": "Count",
+                    "value": [
+                      100.0,
+                      150.0,
+                      120.0,
+                      180.0,
+                      200.0,
+                      175.0,
+                      160.0,
+                      140.0,
+                      190.0,
+                      170.0,
+                      155.0,
+                      165.0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "executionMessages": []
+      }
+    }
   }
 }
