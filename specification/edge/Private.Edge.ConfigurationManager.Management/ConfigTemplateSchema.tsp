@@ -16,22 +16,20 @@ using Azure.ResourceManager;
 
 namespace Private.Edge;
 
+@added(Versions.v2025_08_15_preview)
 @doc("ConfigTemplateSchema Properties")
 model ConfigTemplateSchemaProperties {
   @doc("Value of schema")
   @visibility(Lifecycle.Read)
   value?: string;
 
-  @doc("Hierarchy Level")
-  @visibility(Lifecycle.Read)
-  level?: string;
-
   @doc("Provisioning state of resource")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
-@doc("SolutionSchema Resource")
+@added(Versions.v2025_08_15_preview)
+@doc("ConfigTemplateSchema Resource")
 @parentResource(ConfigTemplateVersion)
 model ConfigTemplateSchema is ProxyResource<ConfigTemplateSchemaProperties> {
   @doc("The name of the ConfigTemplateSchemaProperties")
@@ -44,6 +42,7 @@ model ConfigTemplateSchema is ProxyResource<ConfigTemplateSchemaProperties> {
   ...EntityTagProperty;
 }
 
+@added(Versions.v2025_08_15_preview)
 @armResourceOperations
 interface ConfigTemplateSchemas {
   @doc("Get a ConfigTemplateSchema Resource")

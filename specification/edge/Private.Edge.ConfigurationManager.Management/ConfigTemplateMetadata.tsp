@@ -16,6 +16,7 @@ using Azure.ResourceManager;
 
 namespace Private.Edge;
 
+@added(Versions.v2025_08_15_preview)
 @doc("ConfigTemplateMetadata Properties")
 model ConfigTemplateMetadataProperties {
   @doc("Hierarchy ARM Ids")
@@ -31,8 +32,9 @@ model ConfigTemplateMetadataProperties {
   provisioningState?: ProvisioningState;
 }
 
-@doc("SolutionSchema Resource")
-@parentResource(ConfigTemplateVersion)
+@added(Versions.v2025_08_15_preview)
+@doc("ConfigTemplateMetadata Resource")
+@parentResource(ConfigTemplate)
 model ConfigTemplateMetadata
   is ProxyResource<ConfigTemplateMetadataProperties> {
   @doc("The name of the ConfigTemplateMetadataProperties")
@@ -45,6 +47,7 @@ model ConfigTemplateMetadata
   ...EntityTagProperty;
 }
 
+@added(Versions.v2025_08_15_preview)
 @armResourceOperations
 interface ConfigTemplateMetadatas {
   @doc("Get a ConfigTemplateMetadata Resource")
