@@ -101,6 +101,10 @@ model ProviderAccountSubscription {
   @maxLength(50)
   name?: string = "";
 
+  /** Indicates whether this subscription is enabled for access to the ProviderAccount resources. */
+  @added(Versions.v2025_02_15_preview)
+  enabled: boolean = true;
+
   /** Quota allocations for this subscription. */
   @added(Versions.v2025_02_15_preview)
   quotas?: SubscriptionQuotaAllocations;
