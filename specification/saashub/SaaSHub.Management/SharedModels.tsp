@@ -799,7 +799,8 @@ model SeatBasedResourceProperties {
    * Type of the offer for which the resource is purchased
    */
   @visibility(Lifecycle.Read)
-  offerType?: OfferType;
+  @typeChangedFrom(SaaSHubVersions.v2025_07_01_preview, OfferType)
+  offerType?: string;
 
   /**
    * Product Universal Product Number of the product
