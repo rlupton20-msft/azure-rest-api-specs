@@ -16,6 +16,7 @@ using Azure.ResourceManager;
 
 namespace Private.Edge;
 
+@added(Versions.v2025_08_15_preview)
 @doc("SolutionSchema Properties")
 model SolutionSchemaProperties {
   @doc("Value of schema")
@@ -31,6 +32,7 @@ model SolutionSchemaProperties {
   provisioningState?: ProvisioningState;
 }
 
+@added(Versions.v2025_08_15_preview)
 @doc("SolutionSchema Resource")
 @parentResource(SolutionTemplateVersion)
 model SolutionSchema is ProxyResource<SolutionSchemaProperties> {
@@ -44,6 +46,7 @@ model SolutionSchema is ProxyResource<SolutionSchemaProperties> {
   ...EntityTagProperty;
 }
 
+@added(Versions.v2025_08_15_preview)
 @armResourceOperations
 interface SolutionSchemas {
   @doc("Get a SolutionSchema Resource")

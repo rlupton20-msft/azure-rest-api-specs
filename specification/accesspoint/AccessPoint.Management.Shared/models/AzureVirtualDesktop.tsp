@@ -32,16 +32,16 @@ model AzureVirtualDesktop is ProxyResource<AzureVirtualDesktopProperties> {
 
 @doc("Azure Virtual Desktop Properties")
 model AzureVirtualDesktopProperties is VirtualDesktopInfrastructureProperties {
-  @doc("Indicates whether audio output is enabled.")
-  audioOutputEnabled?: boolean;
+  @doc("Selected capability for audio output.")
+  audioOutputCapability: AudioOutputCapability;
 
-  @doc("Indicates whether audio input is enabled.")
-  audioInputEnabled?: boolean;
+  @doc("Selected capability for audio input.")
+  audioInputCapability: AudioInputCapability;
 
-  @doc("Indicates whether the camera is enabled.")
-  cameraEnabled?: boolean;
+  @doc("Selected capability for camera.")
+  cameraCapability: CameraCapability;
 
-  @doc("The application id for the service.")
+  @doc("The Entra Application (client) ID to associate with this service instance.")
   applicationId: string;
 
   @doc("The redirect URL for the service.")
@@ -58,4 +58,37 @@ interface AzureVirtualDesktopOperations {
   >;
   delete is ArmResourceDeleteWithoutOkAsync<AzureVirtualDesktop>;
   listByParent is ArmResourceListByParent<AzureVirtualDesktop>;
+}
+
+@doc("Audio output options for Azure Virtual Desktop.")
+union AudioOutputCapability {
+  @doc("Audio output is disabled.")
+  Disabled: "Disabled",
+
+  @doc("Audio output is enabled.")
+  Enabled: "Enabled",
+
+  string,
+}
+
+@doc("Audio input options for Azure Virtual Desktop.")
+union AudioInputCapability {
+  @doc("Audio input is disabled.")
+  Disabled: "Disabled",
+
+  @doc("Audio input is enabled.")
+  Enabled: "Enabled",
+
+  string,
+}
+
+@doc("Camera options for Azure Virtual Desktop.")
+union CameraCapability {
+  @doc("Camera is disabled.")
+  Disabled: "Disabled",
+
+  @doc("Camera is enabled.")
+  Enabled: "Enabled",
+
+  string,
 }

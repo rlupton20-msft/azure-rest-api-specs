@@ -690,6 +690,10 @@
           "$ref": "#/definitions/AccountProperties",
           "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": false
+        },
+        "identity": {
+          "$ref": "#/definitions/ManagedServiceIdentity",
+          "description": "Managed identity of the Syntex Account."
         }
       },
       "description": "An Account is a SyntexProviderHub resource",
@@ -798,6 +802,9 @@
           },
           "description": "Resource tags."
         },
+        "identity": {
+          "$ref": "#/definitions/ManagedServiceIdentity"
+        },
         "properties": {
           "type": "object",
           "x-ms-client-flatten": true,
@@ -836,7 +843,7 @@
             },
             "subFeaturesToAdd": {
               "type": "object",
-              "description": "A dictionary mapping feature names to lists of sub-feature GUIDs to be added.",
+              "description": "A dictionary mapping feature names to lists of sub-features to be added.",
               "additionalProperties": {
                 "type": "array",
                 "items": {
@@ -847,7 +854,7 @@
             },
             "subFeaturesToRemove": {
               "type": "object",
-              "description": "A dictionary mapping feature names to lists of sub-feature GUIDs to be removed.",
+              "description": "A dictionary mapping feature names to lists of sub-features to be removed.",
               "additionalProperties": {
                 "type": "array",
                 "items": {
@@ -943,6 +950,37 @@
           "description": "Unique identifier (GUID) of the associated Azure Action Group resource."
         }
       }
+    },
+    "ManagedServiceIdentity": {
+      "type": "object",
+      "description": "Managed identity for the resource.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The identity type.",
+          "enum": [
+            "SystemAssigned",
+            "None"
+          ],
+          "x-ms-enum": {
+            "name": "ManagedServiceIdentityType",
+            "modelAsString": true
+          }
+        },
+        "principalId": {
+          "type": "string",
+          "readOnly": true,
+          "description": "AAD principal ID of the system-assigned identity."
+        },
+        "tenantId": {
+          "type": "string",
+          "readOnly": true,
+          "description": "AAD tenant ID of the system-assigned identity."
+        }
+      },
+      "required": [
+        "type"
+      ]
     }
   },
   "parameters": {
