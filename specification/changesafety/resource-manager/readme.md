@@ -28,7 +28,7 @@ These are the global settings for the ChangeSafety.
 ```yaml
 openapi-type: arm
 tag: package-2025-07-01-preview
-openapi-subtype: providerHub
+openapi-subtype: rpaas
 ```
 
 ### Tag: package-2024-10-01-preview
