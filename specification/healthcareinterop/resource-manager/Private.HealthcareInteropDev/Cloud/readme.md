@@ -27,7 +27,29 @@ These are the global settings for the Private HealthcareInteropDev Cloud service
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2025-06-01-preview
+tag: package-2025-07-01-preview
+```
+
+### Tag: package-2025-07-01-preview
+
+These settings apply only when `--tag=package-2025-07-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-07-01-preview'
+input-file:
+  - preview/2025-07-01-preview/Cloud.json
+suppressions:
+  - code: PatchBodyParametersSchema
+    from: Cloud.json
+    where: $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.HealthcareInteropDev/fhirQueryEventBatchChannels/{fhirQueryEventBatchChannelName}"].patch.parameters[4].schema.properties.properties
+    reason: There are properties (connectorType, emrSystem, triggerType) used as discriminators to support polymorphic resource definitions. The discriminators need to be provided during PATCH to allow updates on certain polymorphic resource properties.
+  - code: PatchBodyParametersSchema
+    from: Cloud.json
+    where: $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.HealthcareInteropDev/fhirQueryFlatFileBatchChannels/{fhirQueryFlatFileBatchChannelName}"].patch.parameters[4].schema.properties.properties
+    reason: There are properties (connectorType, emrSystem, triggerType) used as discriminators to support polymorphic resource definitions. The discriminators need to be provided during PATCH to allow updates on certain polymorphic resource properties.
+  - code: PatchBodyParametersSchema
+    from: Cloud.json
+    where: $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.HealthcareInteropDev/dicomDirectChannels/{dicomDirectChannelName}"].patch.parameters[4].schema.properties.properties
+    reason: There are properties (connectorType) used as discriminators to support polymorphic resource definitions. The discriminators need to be provided during PATCH to allow updates on certain polymorphic resource properties.
 ```
 
 ### Tag: package-2025-06-01-preview
