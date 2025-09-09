@@ -86,7 +86,7 @@ model DdmsHl7ConnectorSourceProperties
 @doc("The transformation configuration for the DdmsFhirEventBatchChannel resource.")
 model DdmsFhirEventBatchChannelTransformationProperties {
   @doc("The Fhir Query configuration.")
-  fhirQueryConfiguration: FhirQueryProperties;
+  fhirQueryConfiguration: FhirServerProperties;
 }
 
 // #endregion Transformation

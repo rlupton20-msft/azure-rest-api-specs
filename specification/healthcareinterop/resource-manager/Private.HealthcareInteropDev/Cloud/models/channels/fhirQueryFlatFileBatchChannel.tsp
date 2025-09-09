@@ -80,7 +80,7 @@ model StorageAccountConnectorSourceProperties
 @doc("The transformation configuration for the FhirQueryFlatFileBatchChannel resource.")
 model FhirQueryFlatFileBatchChannelTransformationProperties {
   @doc("The FHIR Query configuration.")
-  fhirQueryConfiguration: FhirQueryProperties;
+  fhirQueryConfiguration: FhirServerProperties;
 }
 
 // #endregion Transformation
