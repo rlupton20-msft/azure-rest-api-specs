@@ -59,6 +59,7 @@ model DdmsFhirEventBatchChannelSourceProperties {
   connectorType: DdmsFhirEventBatchChannelSourceConnectorType;
 }
 
+@added(Versions.v2025_07_01_preview)
 @doc("Types of source connectors supported for the DdmsFhirEventBatchChannel resource.")
 union DdmsFhirEventBatchChannelSourceConnectorType {
   string,
