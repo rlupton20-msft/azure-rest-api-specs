@@ -100,6 +100,7 @@ model DdmsFhirEventBatchChannelDestinationProperties {
   connectorType: DdmsFhirEventBatchChannelDestinationConnectorType;
 }
 
+@added(Versions.v2025_07_01_preview)
 @doc("Types of destination connectors supported for the DdmsFhirEventBatchChannel resource.")
 union DdmsFhirEventBatchChannelDestinationConnectorType {
   string,

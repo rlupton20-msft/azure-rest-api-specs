@@ -53,7 +53,7 @@ suppressions:
   - code: PatchBodyParametersSchema
     from: Cloud.json
     where: $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.HealthcareInteropDev/ddmsFhirEventBatchChannels/{ddmsFhirEventBatchChannelName}"].patch.parameters[4].schema.properties.properties
-    reason: There are properties used as discriminators to support polymorphic resource definitions. The discriminators need to be provided during PATCH to allow updates on polymorphic resource properties.
+    reason: There are properties (connectorType) used as discriminators to support polymorphic resource definitions. The discriminators need to be provided during PATCH to allow updates on polymorphic resource properties.
 ```
 
 ### Tag: package-2025-06-01-preview
