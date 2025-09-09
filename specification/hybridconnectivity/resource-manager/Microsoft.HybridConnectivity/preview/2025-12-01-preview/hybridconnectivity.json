@@ -1211,7 +1211,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "type": "object"
+              "$ref": "#/definitions/GenerateAwsTemplateResponse"
             }
           },
           "default": {
@@ -1235,6 +1235,10 @@
           "GenerateGcpTemplate"
         ],
         "description": "Retrieve GCP Access Control template",
+        "produces": [
+          "text/plain",
+          "application/json"
+        ],
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -1256,7 +1260,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "type": "object"
+              "type": "string"
             }
           },
           "default": {
@@ -1828,25 +1832,6 @@
         }
       }
     },
-    "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
-      "type": "object",
-      "title": "Tracked Resource",
-      "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
-        }
-      ]
-    },
     "Azure.ResourceManager.ResourceProvisioningState": {
       "type": "string",
       "description": "The provisioning state of a resource type.",
@@ -2000,7 +1985,13 @@
     },
     "GcpCloudProfileUpdate": {
       "type": "object",
-      "description": "cloud profile for GCP."
+      "description": "cloud profile for GCP.",
+      "properties": {
+        "organizationProperties": {
+          "$ref": "#/definitions/GcpOrganizationPropertiesUpdate",
+          "description": "The organization properties of the GCP organization."
+        }
+      }
     },
     "GcpOrganizationProperties": {
       "type": "object",
@@ -2009,6 +2000,22 @@
         "organizationId": {
           "type": "string",
           "description": "The organization id of the GCP organization.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "managementProjectNumber": {
+          "type": "string",
+          "description": "The project number of the management project under the GCP organization.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "managementProjectId": {
+          "type": "string",
+          "description": "The project Id of the management project under the GCP organization.",
           "x-ms-mutability": [
             "read",
             "create"
@@ -2024,11 +2031,44 @@
             "read",
             "create"
           ]
+        },
+        "excludedFolderIds": {
+          "type": "array",
+          "description": "List of GCP folders which need to be excluded.",
+          "items": {
+            "type": "string"
+          },
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "required": [
-        "organizationId"
+        "organizationId",
+        "managementProjectNumber",
+        "managementProjectId"
       ]
+    },
+    "GcpOrganizationPropertiesUpdate": {
+      "type": "object",
+      "description": "GCP organization properties for update.",
+      "properties": {
+        "excludedProjectNumbers": {
+          "type": "array",
+          "description": "List of GCP projects which need to be excluded.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "excludedFolderIds": {
+          "type": "array",
+          "description": "List of GCP folders which need to be excluded.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     },
     "GcpProjectProperties": {
       "type": "object",
@@ -2041,10 +2081,19 @@
             "read",
             "create"
           ]
+        },
+        "projectId": {
+          "type": "string",
+          "description": "The project id of the GCP project.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         }
       },
       "required": [
-        "projectNumber"
+        "projectNumber",
+        "projectId"
       ]
     },
     "GenerateAwsTemplateRequest": {
@@ -2060,12 +2109,17 @@
           "description": "The list of solution types and their settings",
           "items": {
             "$ref": "#/definitions/SolutionTypeSettings"
-          }
+          },
+          "x-ms-identifiers": []
         }
       },
       "required": [
         "connectorId"
       ]
+    },
+    "GenerateAwsTemplateResponse": {
+      "type": "object",
+      "description": "The HybridConnectivity post operation response"
     },
     "GenerateGcpTemplateRequest": {
       "type": "object",
@@ -2080,6 +2134,36 @@
           "description": "The list of solution types and their settings",
           "items": {
             "$ref": "#/definitions/SolutionTypeSettings"
+          },
+          "x-ms-identifiers": []
+        },
+        "gcpCloudProfile": {
+          "$ref": "#/definitions/GcpCloudProfile",
+          "description": "The GCP cloud profile."
+        },
+        "gcpTemplateFormat": {
+          "type": "string",
+          "description": "The GCP template format, default to terraform",
+          "default": "terraform",
+          "enum": [
+            "terraform",
+            "shellscript"
+          ],
+          "x-ms-enum": {
+            "name": "gcpTemplateFormat",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "terraform",
+                "value": "terraform",
+                "description": "Terraform template format"
+              },
+              {
+                "name": "shellscript",
+                "value": "shellscript",
+                "description": "Shell script template format"
+              }
+            ]
           }
         }
       },
@@ -2415,7 +2499,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+          "$ref": "#/definitions/TrackedResourceUpdate"
         }
       ]
     },
@@ -2738,7 +2822,7 @@
         },
         "hostTypes": {
           "type": "array",
-          "description": "The cloud providers this solution supported in.",
+          "description": "The supported host types for the current solution type.",
           "items": {
             "$ref": "#/definitions/HostType"
           }
@@ -2748,7 +2832,8 @@
           "description": "Array of solution settings and its description.",
           "items": {
             "$ref": "#/definitions/SolutionTypeSettingsProperties"
-          }
+          },
+          "x-ms-identifiers": []
         }
       }
     },
@@ -2833,16 +2918,16 @@
             "type": "string"
           }
         },
-        "defaultValue": {
-          "type": "string",
-          "description": "Default value for this solution settings property."
-        },
         "hostTypes": {
           "type": "array",
-          "description": "The cloud providers this solution settings supported in.",
+          "description": "The supported host types for the current solution setting",
           "items": {
             "$ref": "#/definitions/HostType"
           }
+        },
+        "defaultValue": {
+          "type": "string",
+          "description": "Default value for this solution settings property."
         }
       },
       "required": [
@@ -2851,8 +2936,26 @@
         "type",
         "description",
         "allowedValues",
-        "defaultValue",
-        "hostTypes"
+        "hostTypes",
+        "defaultValue"
+      ]
+    },
+    "TrackedResourceUpdate": {
+      "type": "object",
+      "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
       ]
     },
     "Type": {

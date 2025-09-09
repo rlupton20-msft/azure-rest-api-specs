@@ -52,9 +52,6 @@
       "name": "GenerateAwsTemplate"
     },
     {
-      "name": "GenerateGcpTemplate"
-    },
-    {
       "name": "PublicCloudConnectors"
     },
     {
@@ -1211,7 +1208,7 @@
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "type": "object"
+              "$ref": "#/definitions/GenerateAwsTemplateResponse"
             }
           },
           "default": {
@@ -1224,46 +1221,6 @@
         "x-ms-examples": {
           "GenerateAwsTemplate_Post": {
             "$ref": "./examples/GenerateAwsTemplate_Post.json"
-          }
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/generateGcpTemplate": {
-      "post": {
-        "operationId": "GenerateGcpTemplate_Post",
-        "tags": [
-          "GenerateGcpTemplate"
-        ],
-        "description": "Retrieve GCP Access Control template",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "name": "generateGcpTemplateRequest",
-            "in": "body",
-            "description": "ConnectorId and SolutionTypes and their properties to Generate GCP Access Control Template.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/GenerateGcpTemplateRequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "type": "object"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
           }
         }
       }
@@ -1828,25 +1785,6 @@
         }
       }
     },
-    "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
-      "type": "object",
-      "title": "Tracked Resource",
-      "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
-      "properties": {
-        "tags": {
-          "type": "object",
-          "description": "Resource tags.",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
-        }
-      ]
-    },
     "Azure.ResourceManager.ResourceProvisioningState": {
       "type": "string",
       "description": "The provisioning state of a resource type.",
@@ -1967,86 +1905,6 @@
         "value"
       ]
     },
-    "GcpCloudProfile": {
-      "type": "object",
-      "description": "cloud profile for GCP.",
-      "properties": {
-        "projectProperties": {
-          "$ref": "#/definitions/GcpProjectProperties",
-          "description": "The project properties of the GCP project.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "organizationProperties": {
-          "$ref": "#/definitions/GcpOrganizationProperties",
-          "description": "The organization properties of the GCP organization.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "isOrganization": {
-          "type": "boolean",
-          "description": "Boolean value that indicates whether the connector connects to a GCP organization or project. True represents organization, whereas false represents a single project.",
-          "default": false,
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      }
-    },
-    "GcpCloudProfileUpdate": {
-      "type": "object",
-      "description": "cloud profile for GCP."
-    },
-    "GcpOrganizationProperties": {
-      "type": "object",
-      "description": "GCP organization properties.",
-      "properties": {
-        "organizationId": {
-          "type": "string",
-          "description": "The organization id of the GCP organization.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "excludedProjectNumbers": {
-          "type": "array",
-          "description": "List of GCP projects which need to be excluded.",
-          "items": {
-            "type": "string"
-          },
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      },
-      "required": [
-        "organizationId"
-      ]
-    },
-    "GcpProjectProperties": {
-      "type": "object",
-      "description": "GCP project properties.",
-      "properties": {
-        "projectNumber": {
-          "type": "string",
-          "description": "The project number of the GCP project.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        }
-      },
-      "required": [
-        "projectNumber"
-      ]
-    },
     "GenerateAwsTemplateRequest": {
       "type": "object",
       "description": "ConnectorId and SolutionTypes and their properties to Generate AWS CFT Template.",
@@ -2060,39 +1918,23 @@
           "description": "The list of solution types and their settings",
           "items": {
             "$ref": "#/definitions/SolutionTypeSettings"
-          }
+          },
+          "x-ms-identifiers": []
         }
       },
       "required": [
         "connectorId"
       ]
     },
-    "GenerateGcpTemplateRequest": {
+    "GenerateAwsTemplateResponse": {
       "type": "object",
-      "description": "ConnectorId and SolutionTypes and their properties to Generate GCP Access Control Template.",
-      "properties": {
-        "connectorId": {
-          "type": "string",
-          "description": "The name of public cloud connector"
-        },
-        "solutionTypes": {
-          "type": "array",
-          "description": "The list of solution types and their settings",
-          "items": {
-            "$ref": "#/definitions/SolutionTypeSettings"
-          }
-        }
-      },
-      "required": [
-        "connectorId"
-      ]
+      "description": "The HybridConnectivity post operation response"
     },
     "HostType": {
       "type": "string",
       "description": "Enum of host cloud the public cloud connector is referencing.",
       "enum": [
-        "AWS",
-        "GCP"
+        "AWS"
       ],
       "x-ms-enum": {
         "name": "HostType",
@@ -2102,11 +1944,6 @@
             "name": "AWS",
             "value": "AWS",
             "description": "AWS state"
-          },
-          {
-            "name": "GCP",
-            "value": "GCP",
-            "description": "GCP state"
           }
         ]
       }
@@ -2320,11 +2157,6 @@
           "$ref": "#/definitions/PublicCloudConnectorProperties",
           "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": true
-        },
-        "kind": {
-          "$ref": "#/definitions/HostType",
-          "description": "The kind of the public cloud connector.",
-          "readOnly": true
         }
       },
       "allOf": [
@@ -2362,10 +2194,6 @@
           "$ref": "#/definitions/AwsCloudProfile",
           "description": "Cloud profile for AWS."
         },
-        "gcpCloudProfile": {
-          "$ref": "#/definitions/GcpCloudProfile",
-          "description": "Cloud profile for GCP."
-        },
         "hostType": {
           "$ref": "#/definitions/HostType",
           "description": "Host cloud the public cloud connector.",
@@ -2386,6 +2214,7 @@
         }
       },
       "required": [
+        "awsCloudProfile",
         "hostType"
       ]
     },
@@ -2396,10 +2225,6 @@
         "awsCloudProfile": {
           "$ref": "#/definitions/AwsCloudProfileUpdate",
           "description": "Cloud profile for AWS."
-        },
-        "gcpCloudProfile": {
-          "$ref": "#/definitions/GcpCloudProfileUpdate",
-          "description": "Cloud profile for GCP."
         }
       }
     },
@@ -2415,7 +2240,7 @@
       },
       "allOf": [
         {
-          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+          "$ref": "#/definitions/TrackedResourceUpdate"
         }
       ]
     },
@@ -2736,19 +2561,13 @@
             "type": "string"
           }
         },
-        "hostTypes": {
-          "type": "array",
-          "description": "The cloud providers this solution supported in.",
-          "items": {
-            "$ref": "#/definitions/HostType"
-          }
-        },
         "solutionSettings": {
           "type": "array",
           "description": "Array of solution settings and its description.",
           "items": {
             "$ref": "#/definitions/SolutionTypeSettingsProperties"
-          }
+          },
+          "x-ms-identifiers": []
         }
       }
     },
@@ -2836,13 +2655,6 @@
         "defaultValue": {
           "type": "string",
           "description": "Default value for this solution settings property."
-        },
-        "hostTypes": {
-          "type": "array",
-          "description": "The cloud providers this solution settings supported in.",
-          "items": {
-            "$ref": "#/definitions/HostType"
-          }
         }
       },
       "required": [
@@ -2852,6 +2664,24 @@
         "description",
         "allowedValues",
         "defaultValue"
+      ]
+    },
+    "TrackedResourceUpdate": {
+      "type": "object",
+      "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
       ]
     },
     "Type": {
