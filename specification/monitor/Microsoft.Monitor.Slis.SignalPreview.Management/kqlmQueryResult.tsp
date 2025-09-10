@@ -6,6 +6,10 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 namespace Microsoft.Monitor;
 
+@doc("Duration in HH:MM:SS format (e.g. 00:01:00) to match service response.")
+@pattern("^[0-9]{2}:[0-9]{2}:[0-9]{2}$")
+scalar HmsDuration extends string;
+
 @doc("Represents the result of a KQL-M query.")
 model KqlmQueryResult {
   @doc("The request ID.")
@@ -52,8 +56,8 @@ model ResultsMetadata {
   @doc("The end time for the KQL-M query result.")
   endTimeUtc: utcDateTime;
 
-  @doc("The data resolution of the KQL-M query result.")
-  dataResolution: duration;
+  @doc("The data resolution of the KQL-M query result in HH:MM:SS format.")
+  dataResolution: HmsDuration;
 
   @doc("The list of output dimensions of the KQL-M query result.")
   resultantDimensions: string[];
