@@ -25,7 +25,7 @@ model CopilotPlanResource is TrackedResource<CopilotPlanProperties> {
 interface CopilotPlans {
   get is ArmResourceRead<CopilotPlanResource>;
   createOrUpdate is ArmResourceCreateOrReplaceSync<CopilotPlanResource>;
-  update is ArmCustomPatchAsync<CopilotPlanResource, CopilotPlanUpdate>;
+  update is ArmCustomPatchSync<CopilotPlanResource, CopilotPlanUpdate>;
   delete is ArmResourceDeleteSync<CopilotPlanResource>;
   listByResourceGroup is ArmResourceListByParent<CopilotPlanResource>;
   listBySubscription is ArmListBySubscription<CopilotPlanResource>;

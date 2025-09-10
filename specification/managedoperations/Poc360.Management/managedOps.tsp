@@ -10,6 +10,10 @@ using Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
+@armProviderNamespace
+@service(#{ title: "Managed Operations control plane service" })
+@doc("Managed Operations API.")
+@versioned(global.Private.Poc360.Versions)
 namespace global.Private.Poc360;
 
 @doc("The Managed Operations resource.")
