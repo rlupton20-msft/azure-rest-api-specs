@@ -9,7 +9,7 @@ namespace Microsoft.Monitor;
 @doc("Represents the result of a KQL-M query.")
 model KqlmQueryResult {
   @doc("The request ID.")
-  requestId: string;
+  requestId?: string;
 
   @doc("The query state.")
   state: QueryState;
@@ -65,33 +65,25 @@ model ResultsMetadata {
   datapointsCount: int64;
 }
 
+@doc("Dictionary of dimension names to dimension values.")
+model DimensionValuesDictionary {
+  ...Record<string>;
+}
+
+@doc("Dictionary of sampling types to metric values.")
+model SamplingTypesDataDictionary {
+  ...Record<float64[]>;
+}
+
 @doc("Represents a time series data entry.")
 model TimeSeriesData {
-  @doc("The list of key-value pairs of dimension names to dimension values.")
+  @doc("The dictionary of dimension names to dimension values.")
   @OpenAPI.extension("x-ms-identifiers", #[])
-  dimensionValues: DimensionValue[];
+  dimensionValues: DimensionValuesDictionary;
 
-  @doc("The list of key-value pairs of sampling types to metric values (as list of doubles).")
+  @doc("The dictionary of sampling types to metric values (as list of doubles).")
   @OpenAPI.extension("x-ms-identifiers", #[])
-  samplingTypesData: SamplingTypeData[];
-}
-
-@doc("Represents a dimension value pair.")
-model DimensionValue {
-  /** The dimension name. */
-  key: string;
-
-  /** The dimension value. */
-  value: string;
-}
-
-@doc("Represents a sampling type and its associated metric values.")
-model SamplingTypeData {
-  /** The sampling type. */
-  key: string;
-
-  /** The metric values for the sampling type. */
-  value: float64[];
+  samplingTypesData: SamplingTypesDataDictionary;
 }
 
 @doc("Represents a KQL-M query execution message.")
