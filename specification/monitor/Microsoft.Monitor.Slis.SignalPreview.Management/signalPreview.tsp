@@ -102,7 +102,7 @@ interface SignalPreview {
   @route(SignalPreviewServiceGroupRoute)
   @post
   @armResourceCollectionAction
-  @action("providers/Microsoft.Monitor/signalPreview")
+  @action("providers/Microsoft.Monitor/sliSignalPreview")
   @doc("Returns preview data for the signal.")
   signalPreview(
     @path
