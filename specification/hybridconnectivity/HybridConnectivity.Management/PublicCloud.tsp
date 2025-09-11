@@ -43,9 +43,6 @@ model GenerateGcpTemplateRequest {
 
   @doc("The GCP cloud profile.")
   gcpCloudProfile?: GcpCloudProfile;
-
-  @doc("The GCP template format, default to terraform")
-  gcpTemplateFormat?: gcpTemplateFormat = gcpTemplateFormat.terraform;
 }
 
 @doc("The properties of Solution Type")
@@ -55,17 +52,6 @@ model SolutionTypeSettings {
 
   @doc("Solution settings")
   solutionSettings?: SolutionSettings;
-}
-
-@doc("GCP template format.")
-union gcpTemplateFormat {
-  string,
-
-  @doc("Terraform template format")
-  terraform: "terraform",
-
-  @doc("Shell script template format")
-  shellscript: "shellscript",
 }
 
 //------------------- Test Permissions -------------------
@@ -522,15 +508,7 @@ interface GenerateGcpTemplate {
  */
 #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
 @added(Versions.v2025_12_01_preview)
-model GenerateGcpTemplateResponse {
-  @doc("The content type of the response.")
-  @header
-  contentType: "text/plain";
-
-  @doc("The body of the response.")
-  @body
-  body: string;
-}
+model GenerateGcpTemplateResponse {}
 
 @armResourceOperations
 interface PublicCloudConnectors {
