@@ -11,7 +11,7 @@ using Azure.ResourceManager;
 
 namespace Private.HealthcareInteropDev;
 
-@added(Versions.v2025_07_01_preview)
+@added(Versions.v2025_10_01_preview)
 @doc("The healthcare interop DDMS connector resource to capture the configuration pertaining to an existing DDMS instance.")
 @resource("ddmsConnectors")
 model DdmsConnector is TrackedResource<DdmsConnectorProperties> {
@@ -23,7 +23,7 @@ model DdmsConnector is TrackedResource<DdmsConnectorProperties> {
   name: string;
 }
 
-@added(Versions.v2025_07_01_preview)
+@added(Versions.v2025_10_01_preview)
 @doc("The properties to configure the DdmsConnector resource.")
 model DdmsConnectorProperties {
   @doc("The status of the last provisioning operation.")
@@ -43,7 +43,7 @@ model DdmsConnectorProperties {
   customerEnvironmentId: string;
 }
 
-@added(Versions.v2025_07_01_preview)
+@added(Versions.v2025_10_01_preview)
 @armResourceOperations
 interface DdmsConnectors {
   get is ArmResourceRead<DdmsConnector>;

@@ -14,7 +14,7 @@ using Azure.ResourceManager;
 
 namespace Private.HealthcareInteropDev;
 
-@added(Versions.v2025_07_01_preview)
+@added(Versions.v2025_10_01_preview)
 @doc("The healthcare interop resource that extracts IDs from input healthcare events/messages and queries the configured EMR FHIR endpoint to retrieve the representative resources, then sends the data to DDMS for further processing.")
 @resource("ddmsFhirEventBatchChannels")
 model DdmsFhirEventBatchChannel
@@ -27,7 +27,7 @@ model DdmsFhirEventBatchChannel
   name: string;
 }
 
-@added(Versions.v2025_07_01_preview)
+@added(Versions.v2025_10_01_preview)
 @doc("The properties to configure the DdmsFhirEventBatchChannel resource.")
 model DdmsFhirEventBatchChannelProperties {
   @doc("The status of the last provisioning operation.")
@@ -51,7 +51,7 @@ model DdmsFhirEventBatchChannelProperties {
 }
 
 // #region Source
-@added(Versions.v2025_07_01_preview)
+@added(Versions.v2025_10_01_preview)
 @doc("The source configuration for the DdmsFhirEventBatchChannel resource.")
 @discriminator("connectorType")
 model DdmsFhirEventBatchChannelSourceProperties {
@@ -59,7 +59,7 @@ model DdmsFhirEventBatchChannelSourceProperties {
   connectorType: DdmsFhirEventBatchChannelSourceConnectorType;
 }
 
-@added(Versions.v2025_07_01_preview)
+@added(Versions.v2025_10_01_preview)
 @doc("Types of source connectors supported for the DdmsFhirEventBatchChannel resource.")
 union DdmsFhirEventBatchChannelSourceConnectorType {
   string,
@@ -68,7 +68,7 @@ union DdmsFhirEventBatchChannelSourceConnectorType {
   Hl7Connector: "Hl7Connector",
 }
 
-@added(Versions.v2025_07_01_preview)
+@added(Versions.v2025_10_01_preview)
 @doc("Hl7Connector source properties for DDMS FHIR event batch channel.")
 model DdmsHl7ConnectorSourceProperties
   extends DdmsFhirEventBatchChannelSourceProperties {
@@ -83,7 +83,7 @@ model DdmsHl7ConnectorSourceProperties
 
 // #region Transformation
 
-@added(Versions.v2025_07_01_preview)
+@added(Versions.v2025_10_01_preview)
 @doc("The transformation configuration for the DdmsFhirEventBatchChannel resource.")
 model DdmsFhirEventBatchChannelTransformationProperties {
   @doc("The Fhir Query configuration.")
@@ -93,7 +93,7 @@ model DdmsFhirEventBatchChannelTransformationProperties {
 // #endregion Transformation
 
 // #region Destination
-@added(Versions.v2025_07_01_preview)
+@added(Versions.v2025_10_01_preview)
 @doc("The destination configuration for the DdmsFhirEventBatchChannel resource.")
 @discriminator("connectorType")
 model DdmsFhirEventBatchChannelDestinationProperties {
@@ -101,7 +101,7 @@ model DdmsFhirEventBatchChannelDestinationProperties {
   connectorType: DdmsFhirEventBatchChannelDestinationConnectorType;
 }
 
-@added(Versions.v2025_07_01_preview)
+@added(Versions.v2025_10_01_preview)
 @doc("Types of destination connectors supported for the DdmsFhirEventBatchChannel resource.")
 union DdmsFhirEventBatchChannelDestinationConnectorType {
   string,
@@ -110,7 +110,7 @@ union DdmsFhirEventBatchChannelDestinationConnectorType {
   DdmsConnector: "DdmsConnector",
 }
 
-@added(Versions.v2025_07_01_preview)
+@added(Versions.v2025_10_01_preview)
 @doc("DdmsConnector destination properties for DDMS FHIR event batch channel.")
 model DdmsFhirEventBatchDdmsConnectorDestinationProperties
   extends DdmsFhirEventBatchChannelDestinationProperties {
@@ -124,7 +124,7 @@ model DdmsFhirEventBatchDdmsConnectorDestinationProperties
 // #endregion Destination
 
 // #region Job
-@added(Versions.v2025_07_01_preview)
+@added(Versions.v2025_10_01_preview)
 @doc("Properties for DDMS FHIR event batch channel job configuration.")
 model DdmsFhirEventBatchChannelJobProperties {
   @doc("The trigger configuration")
@@ -132,7 +132,7 @@ model DdmsFhirEventBatchChannelJobProperties {
 }
 
 // #endregion Job
-@added(Versions.v2025_07_01_preview)
+@added(Versions.v2025_10_01_preview)
 @armResourceOperations
 interface DdmsFhirEventBatchChannels {
   get is ArmResourceRead<DdmsFhirEventBatchChannel>;
