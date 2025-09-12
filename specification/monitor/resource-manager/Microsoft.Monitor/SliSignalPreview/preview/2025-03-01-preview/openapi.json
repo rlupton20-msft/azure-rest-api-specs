@@ -251,12 +251,23 @@
         ]
       }
     },
-    "DimensionValuesDictionary": {
+    "DimensionValueType": {
       "type": "object",
-      "description": "Dictionary of dimension names to dimension values.",
-      "additionalProperties": {
-        "type": "string"
-      }
+      "description": "Represents a dimension name/value pair.",
+      "properties": {
+        "dimensionName": {
+          "type": "string",
+          "description": "The name of the dimension."
+        },
+        "dimensionValue": {
+          "type": "string",
+          "description": "The value of the dimension."
+        }
+      },
+      "required": [
+        "dimensionName",
+        "dimensionValue"
+      ]
     },
     "EvaluationCalculationType": {
       "type": "string",
@@ -547,16 +558,27 @@
         ]
       }
     },
-    "SamplingTypesDataDictionary": {
+    "SamplingTypeData": {
       "type": "object",
-      "description": "Dictionary of sampling types to metric values.",
-      "additionalProperties": {
-        "items": {
-          "type": "number",
-          "format": "double"
+      "description": "Represents a sampling type and its values.",
+      "properties": {
+        "samplingType": {
+          "type": "string",
+          "description": "The name of the sampling type."
         },
-        "type": "array"
-      }
+        "values": {
+          "type": "array",
+          "description": "The values for this sampling type.",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "required": [
+        "samplingType",
+        "values"
+      ]
     },
     "ScalarFunction": {
       "type": "string",
@@ -912,14 +934,24 @@
       "description": "Represents a time series data entry.",
       "properties": {
         "dimensionValues": {
-          "$ref": "#/definitions/DimensionValuesDictionary",
-          "description": "The dictionary of dimension names to dimension values.",
-          "x-ms-identifiers": []
+          "type": "array",
+          "description": "The list of dimension name/value pairs.",
+          "items": {
+            "$ref": "#/definitions/DimensionValueType"
+          },
+          "x-ms-identifiers": [
+            "dimensionName"
+          ]
         },
         "samplingTypesData": {
-          "$ref": "#/definitions/SamplingTypesDataDictionary",
-          "description": "The dictionary of sampling types to metric values (as list of doubles).",
-          "x-ms-identifiers": []
+          "type": "array",
+          "description": "The list of sampling type/value pairs.",
+          "items": {
+            "$ref": "#/definitions/SamplingTypeData"
+          },
+          "x-ms-identifiers": [
+            "samplingType"
+          ]
         }
       },
       "required": [
