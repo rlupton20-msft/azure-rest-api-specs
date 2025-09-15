@@ -69,25 +69,33 @@ model ResultsMetadata {
   datapointsCount: int64;
 }
 
-@doc("Dictionary of dimension names to dimension values.")
-model DimensionValuesDictionary {
-  ...Record<string>;
+@doc("Represents a sampling type and its values.")
+model SamplingTypeData {
+  @doc("The name of the sampling type.")
+  samplingType: string;
+
+  @doc("The values for this sampling type.")
+  values: float64[];
 }
 
-@doc("Dictionary of sampling types to metric values.")
-model SamplingTypesDataDictionary {
-  ...Record<float64[]>;
+@doc("Represents a dimension name/value pair.")
+model DimensionValueType {
+  @doc("The name of the dimension.")
+  dimensionName: string;
+
+  @doc("The value of the dimension.")
+  dimensionValue: string;
 }
 
 @doc("Represents a time series data entry.")
 model TimeSeriesData {
-  @doc("The dictionary of dimension names to dimension values.")
-  @OpenAPI.extension("x-ms-identifiers", #[])
-  dimensionValues: DimensionValuesDictionary;
+  @doc("The list of dimension name/value pairs.")
+  @OpenAPI.extension("x-ms-identifiers", #["dimensionName"])
+  dimensionValues: DimensionValueType[];
 
-  @doc("The dictionary of sampling types to metric values (as list of doubles).")
-  @OpenAPI.extension("x-ms-identifiers", #[])
-  samplingTypesData: SamplingTypesDataDictionary;
+  @doc("The list of sampling type/value pairs.")
+  @OpenAPI.extension("x-ms-identifiers", #["samplingType"])
+  samplingTypesData: SamplingTypeData[];
 }
 
 @doc("Represents a KQL-M query execution message.")
