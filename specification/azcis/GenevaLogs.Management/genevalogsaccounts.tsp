@@ -13,8 +13,8 @@ using Autorest;
 
 namespace Microsoft.AzureCis;
 
-@doc("GenevaLogsAccount properties")
-model GenevaLogsAccountConfigurationResourceProperties {
+@doc("GenevaLogsAccounts properties")
+model GenevaLogsAccountsResourceProperties {
   @doc("The name of the warm path account. This must be unique. Logs Account name must start with a letter and can contain numbers/letters.")
   @pattern("^[a-zA-Z0-9-]{6,32}$")
   accountName: string;
@@ -43,63 +43,52 @@ model GenevaLogsAccountConfigurationResourceProperties {
   defaultStorageReplicationType: string;
 
   @doc("DSMS certificate for configuring the MACommunication User Role.")
-  dsmsCertificate: DsmsCertificate;
+  dsmsCertificate?: DsmsCertificate;
 
   @doc("Key Vault certificate for configuring the MACommunication User Role.")
-  keyVaultCertificate: KeyVaultCertificate;
+  keyVaultCertificate?: KeyVaultCertificate;
 
   @doc("Namespaces to register with MDS.")
   @extension("x-ms-identifiers", [])
   namespaceNames: Array<string>;
 
   @doc("Flag, indicating whether to create default storage groups.")
-  createDefaultStorageGroups: CreateDefaultStorageGroups;
+  createDefaultStorageGroups: boolean;
 
   @doc("Region where the initial monikers would be created for default storage groups.")
-  defaultAzureRegion: string;
+  defaultAzureRegion?: string;
 
   @doc("SAS for config package zip file containing a configuration to upload.")
-  namespaceConfig: string;
+  namespaceConfig?: string;
 
   @doc("Specifies the SAS for configuration main file, if provided instead of config package zip file.")
-  namespaceConfigMainFile: string;
+  namespaceConfigMainFile?: string;
 
   @doc("Specifies the SAS for zip import file.")
-  namespaceConfigImportZip: string;
+  namespaceConfigImportZip?: string;
 
   @doc("Explicitly specify SAS for each import file, if provided not in zip format.")
   @extension("x-ms-identifiers", [])
-  namespaceConfigImportFiles: Array<string>;
+  namespaceConfigImportFiles?: Array<string>;
 
   @doc("Define custom storage groups instead of using the default storage groups, and setup Kusto streaming.")
   @extension("x-ms-identifiers", [])
-  storageGroups: Array<StorageGroup>;
+  storageGroups?: Array<StorageGroup>;
 
   @doc("Define custom user roles in addition to the user roles created by default (MaCommunication and MdsAccountAdmin roles).")
   @extension("x-ms-identifiers", [])
-  userRoles: Array<UserRole>;
+  userRoles?: Array<UserRole>;
 
   @doc("The Azure location.")
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: GenevaLogsProvisioningState;
 
   @doc("Resource event argument result; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   configDetails?: ConfigDetails;
-}
-
-@doc("Create default storage group flag values")
-union CreateDefaultStorageGroups {
-  @doc("Create default storage groups")
-  Yes: "True",
-
-  @doc("Do not create default storage groups")
-  No: "False",
-
-  string,
 }
 
 @doc("Storage Group")
@@ -172,7 +161,7 @@ model UserRole {
 
   @doc("The agent claims")
   @extension("x-ms-identifiers", [])
-  agentClaims: Array<string>;
+  agentClaims: Array<AgentClaim>;
 
   @doc("The config claims")
   @extension("x-ms-identifiers", [])
@@ -244,13 +233,84 @@ union KustoSettingsMode {
   string,
 }
 
-@doc("genevaLogsAccountConfiguration Resource")
-model GenevaLogsAccountConfigurationResource
-  is ProxyResource<GenevaLogsAccountConfigurationResourceProperties> { // this can be TrackedResource based on resourcetype
+@doc("MDS environment")
+union MdsEnvironment {
+  @doc("Smoke emvironment")
+  Smoke: "Smoke",
+
+  @doc("Canary environment")
+  Canary: "Canary",
+
+  @doc("Test environment")
+  Test: "Test",
+
+  @doc("Stage environment")
+  Stage: "Stage",
+
+  @doc("DiagnosticsProd environment")
+  DiagnosticsProd: "DiagnosticsProd",
+
+  @doc("FirstPartyProd environment")
+  FirstPartyProd: "FirstPartyProd",
+
+  @doc("BillingProd environment")
+  BillingProd: "BillingProd",
+
+  @doc("CaFairfax environment")
+  CaFairfax: "CaFairfax",
+
+  @doc("CaMooncake environment")
+  CaMooncake: "CaMooncake",
+
+  @doc("CaBlackForest environment")
+  CaBlackForest: "CaBlackForest",
+
+  @doc("UsSec environment")
+  UsSec: "UsSec",
+
+  @doc("UsNat environment")
+  UsNat: "UsNat",
+
+  @doc("ExternalProd environment")
+  ExternalProd: "ExternalProd",
+
+  @doc("CanaryEast environment")
+  CanaryEast: "CanaryEast",
+
+  @doc("CanaryWest environment")
+  CanaryWest: "CanaryWest",
+
+  @doc("CanaryNorth environment")
+  CanaryNorth: "CanaryNorth",
+
+  @doc("CanarySouth environment")
+  CanarySouth: "CanarySouth",
+
+  @doc("Bleu environment")
+  Bleu: "Bleu",
+
+  @doc("Delos environment")
+  Delos: "Delos",
+
+  @doc("GovSG environment")
+  GovSG: "GovSG",
+
+  string,
+}
+
+@doc("Configuration details result")
+model ConfigDetails {
+  @doc("Configuration version")
+  configVersion: string;
+}
+
+@doc("genevaLogsAccounts Resource")
+model GenevaLogsAccountsResource
+  is ProxyResource<GenevaLogsAccountsResourceProperties> { // this can be TrackedResource based on resourcetype
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
-  @segment("genevaLogsAccountConfigurations") // start with lower case
+  @segment("genevaLogsAccountss") // start with lower case
   @visibility("read")
   @path
   name: string;
@@ -259,8 +319,8 @@ model GenevaLogsAccountConfigurationResource
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
 interface GenevaLogsAccountConfiguration {
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<GenevaLogsAccountConfigurationResource>;
-  listBySubscription is ArmListBySubscription<GenevaLogsAccountConfigurationResource>;
-  listByResourceGroup is ArmResourceListByParent<GenevaLogsAccountConfigurationResource>;
-  get is ArmResourceRead<GenevaLogsAccountConfigurationResource>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<GenevaLogsAccountsResource>;
+  listBySubscription is ArmListBySubscription<GenevaLogsAccountsResource>;
+  listByResourceGroup is ArmResourceListByParent<GenevaLogsAccountsResource>;
+  get is ArmResourceRead<GenevaLogsAccountsResource>;
 }
