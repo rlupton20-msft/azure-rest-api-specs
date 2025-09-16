@@ -63,39 +63,73 @@ model ResultsMetadata {
   resultantDimensions: string[];
 
   @doc("The list of output sampling types of the KQL-M query result.")
-  resultantSamplingTypes: string[];
+  resultantSamplingTypes: SamplingTypeProjection[];
 
   @doc("The number of datapoints in the KQL-M query result.")
   datapointsCount: int64;
 }
 
-@doc("Represents a sampling type and its values.")
-model SamplingTypeData {
-  @doc("The name of the sampling type.")
-  samplingType: string;
+@doc("Represents sampling types used in SLI calculations.")
+union SamplingTypeProjection {
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property names need to match the service response."
+  @doc("The calculated SLI value.")
+  Value: "Value",
 
-  @doc("The values for this sampling type.")
-  values: float64[];
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property names need to match the service response."
+  @doc("Count of good requests or events.")
+  Good: "Good",
+
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property names need to match the service response."
+  @doc("Total count of requests or events.")
+  Total: "Total",
+
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property names need to match the service response."
+  @doc("Uptime measurement.")
+  Uptime: "Uptime",
+
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property names need to match the service response."
+  @doc("Downtime measurement.")
+  Downtime: "Downtime",
+
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property names need to match the service response."
+  @doc("Error budget burn rate.")
+  Burnrate: "Burnrate",
+
+  string,
 }
 
-@doc("Represents a dimension name/value pair.")
-model DimensionValueType {
-  @doc("The name of the dimension.")
-  dimensionName: string;
+#suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property names need to match the service response."
+@doc("Dictionary of sampling types to metric values.")
+model SamplingTypesDataDictionary {
+  @doc("Error budget burn rate values.")
+  Burnrate?: float64[];
 
-  @doc("The value of the dimension.")
-  dimensionValue: string;
+  @doc("Count of good requests or events values.")
+  Good?: float64[];
+
+  @doc("Total count of requests or events values.")
+  Total?: float64[];
+
+  @doc("The calculated SLI value.")
+  Value?: float64[];
+
+  @doc("Uptime measurement values.")
+  Uptime?: float64[];
+
+  @doc("Downtime measurement values.")
+  Downtime?: float64[];
 }
 
 @doc("Represents a time series data entry.")
 model TimeSeriesData {
-  @doc("The list of dimension name/value pairs.")
-  @OpenAPI.extension("x-ms-identifiers", #["dimensionName"])
-  dimensionValues: DimensionValueType[];
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Record types are required for dictionary structures in query results where keys are dynamic and provided by customers."
+  @doc("The dictionary of dimension names to dimension values.")
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  dimensionValues: Record<string>[];
 
-  @doc("The list of sampling type/value pairs.")
-  @OpenAPI.extension("x-ms-identifiers", #["samplingType"])
-  samplingTypesData: SamplingTypeData[];
+  @doc("The dictionary of sampling types to metric values (as list of doubles).")
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  samplingTypesData: SamplingTypesDataDictionary[];
 }
 
 @doc("Represents a KQL-M query execution message.")
