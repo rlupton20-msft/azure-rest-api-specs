@@ -69,24 +69,29 @@ model ResultsMetadata {
   datapointsCount: int64;
 }
 
-#suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property names need to match the service response."
 @doc("Represents sampling types used in SLI calculations.")
 union SamplingTypeProjection {
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property names need to match the service response."
   @doc("The calculated SLI value.")
   Value: "Value",
 
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property names need to match the service response."
   @doc("Count of good requests or events.")
   Good: "Good",
 
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property names need to match the service response."
   @doc("Total count of requests or events.")
   Total: "Total",
 
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property names need to match the service response."
   @doc("Uptime measurement.")
   Uptime: "Uptime",
 
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property names need to match the service response."
   @doc("Downtime measurement.")
   Downtime: "Downtime",
 
+  #suppress "@azure-tools/typespec-azure-core/casing-style" "Suppress casing style as the property names need to match the service response."
   @doc("Error budget burn rate.")
   Burnrate: "Burnrate",
 
@@ -117,13 +122,14 @@ model SamplingTypesDataDictionary {
 
 @doc("Represents a time series data entry.")
 model TimeSeriesData {
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record as the values come from customer as a property bag."
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Record types are required for dictionary structures in query results where keys are dynamic and provided by customers."
   @doc("The dictionary of dimension names to dimension values.")
   @OpenAPI.extension("x-ms-identifiers", #[])
-  dimensionValues: Record<string>;
+  dimensionValues: Record<string>[];
 
   @doc("The dictionary of sampling types to metric values (as list of doubles).")
-  samplingTypesData: SamplingTypesDataDictionary;
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  samplingTypesData: SamplingTypesDataDictionary[];
 }
 
 @doc("Represents a KQL-M query execution message.")
