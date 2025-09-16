@@ -124,12 +124,10 @@ model SamplingTypesDataDictionary {
 model TimeSeriesData {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Record types are required for dictionary structures in query results where keys are dynamic and provided by customers."
   @doc("The dictionary of dimension names to dimension values.")
-  @OpenAPI.extension("x-ms-identifiers", #[])
-  dimensionValues: Record<string>[];
+  dimensionValues: Record<string>;
 
   @doc("The dictionary of sampling types to metric values (as list of doubles).")
-  @OpenAPI.extension("x-ms-identifiers", #[])
-  samplingTypesData: SamplingTypesDataDictionary[];
+  samplingTypesData: SamplingTypesDataDictionary;
 }
 
 @doc("Represents a KQL-M query execution message.")
