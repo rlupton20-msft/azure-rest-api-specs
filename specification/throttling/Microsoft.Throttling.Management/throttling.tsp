@@ -10,7 +10,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 })
 @versioned(Versions)
 @armProviderNamespace
-@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
 namespace Microsoft.Throttling;
 
 @doc("Service versions")
@@ -110,7 +110,8 @@ model Account is TrackedResource<AccountProperties> {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Account kind")
   @visibility("create", "read")
-  kind: AccountKind;
+  @pattern("^direct|indirect,[a-z]+$")
+  kind: string;
 }
 
 @armResourceOperations
@@ -121,26 +122,6 @@ interface Accounts {
   delete is ArmResourceDeleteWithoutOkAsync<Account>;
   listByResourceGroup is ArmResourceListByParent<Account>;
   listBySubscription is ArmListBySubscription<Account>;
-}
-
-@doc("Account kind")
-union AccountKind {
-  @doc("Direct account")
-  Direct: "direct",
-
-  @doc("Indirect account behind AAD Gateway")
-  IndirectAadGateway: "indirect,aadgateway",
-
-  @doc("Indirect account behind Azure Frontdoor")
-  IndirectAzureFrontdoor: "indirect,azurefrontdoor",
-
-  @doc("Indirect account behind Cafe")
-  IndirectCafe: "indirect,cafe",
-
-  @doc("Indirect account behind Graph AGS")
-  IndirectGraphAgs: "indirect,graphags",
-
-  string,
 }
 
 @doc("Account properties")

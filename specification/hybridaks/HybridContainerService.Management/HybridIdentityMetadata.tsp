@@ -38,7 +38,7 @@ interface HybridIdentityMetadataOperationGroup {
   /**
    * Creates the hybrid identity metadata proxy resource that facilitates the managed identity provisioning.
    */
-  put is ArmResourceCreateOrReplaceSync<
+  create is ArmResourceCreateOrReplaceSync<
     HybridIdentityMetadata,
     BaseParameters = ConnectedClusterResourceUriParameters
   >;
@@ -60,6 +60,6 @@ interface HybridIdentityMetadataOperationGroup {
   >;
 }
 
-@@doc(HybridIdentityMetadataOperationGroup.put::parameters.resource,
+@@doc(HybridIdentityMetadataOperationGroup.create::parameters.resource,
   "Hybrid Identity Metadata resource definition"
 );

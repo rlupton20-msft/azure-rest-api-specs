@@ -1713,6 +1713,13 @@
           "format": "int32",
           "description": "The maximum number of pods that can run on a node."
         },
+        "availabilityZones": {
+          "type": "array",
+          "description": "The list of Availability zones to use for nodes.",
+          "items": {
+            "type": "string"
+          }
+        },
         "count": {
           "type": "integer",
           "format": "int32",
@@ -1787,6 +1794,27 @@
         }
       }
     },
+    "AzureBlobWitnessProfile": {
+      "type": "object",
+      "description": "Schema of witness properties to support provisioned cluster with 2 control plane nodes when the witness type is AzureBlob.",
+      "properties": {
+        "sasToken": {
+          "type": "string",
+          "description": "The SAS token to access the Azure Blob storage as the witness.",
+          "x-ms-mutability": [
+            "update",
+            "create"
+          ],
+          "x-ms-secret": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/WitnessProfile"
+        }
+      ],
+      "x-ms-discriminator-value": "AzureBlob"
+    },
     "CloudProviderProfile": {
       "type": "object",
       "description": "The profile for the underlying cloud infrastructure provider for the provisioned cluster.",
@@ -1851,7 +1879,7 @@
         "count": {
           "type": "integer",
           "format": "int32",
-          "description": "Number of control plane nodes. The default value is 1, and the count should be an odd number",
+          "description": "Number of control plane nodes. The default value is 1, and the count can be either 2 or odd numbers.",
           "default": 1
         },
         "vmSize": {
@@ -1861,6 +1889,10 @@
         "controlPlaneEndpoint": {
           "$ref": "#/definitions/ControlPlaneProfileControlPlaneEndpoint",
           "description": "IP Address of the Kubernetes API server"
+        },
+        "witness": {
+          "$ref": "#/definitions/WitnessProfile",
+          "description": "Profile of witness to support 2 control plane nodes for provisioned cluster."
         }
       }
     },
@@ -2331,6 +2363,13 @@
           "format": "int32",
           "description": "The maximum number of pods that can run on a node."
         },
+        "availabilityZones": {
+          "type": "array",
+          "description": "The list of Availability zones to use for nodes.",
+          "items": {
+            "type": "string"
+          }
+        },
         "count": {
           "type": "integer",
           "format": "int32",
@@ -2431,6 +2470,16 @@
           "description": "Number of HA Proxy load balancer VMs. The default value is 0."
         }
       }
+    },
+    "NfsWitnessProfile": {
+      "type": "object",
+      "description": "Schema of witness properties to support provisioned cluster with 2 control plane nodes when the witness type is NFS.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/WitnessProfile"
+        }
+      ],
+      "x-ms-discriminator-value": "NFS"
     },
     "OSSKU": {
       "type": "string",
@@ -2653,6 +2702,7 @@
             "minCount",
             "enableAutoScaling",
             "maxPods",
+            "availabilityZones",
             "count",
             "vmSize",
             "kubernetesVersion",
@@ -2961,6 +3011,34 @@
         ]
       },
       "readOnly": true
+    },
+    "SMBWitnessProfile": {
+      "type": "object",
+      "description": "Schema of witness properties to support provisioned cluster with 2 control plane nodes when the witness type is SMB.",
+      "properties": {
+        "userName": {
+          "type": "string",
+          "description": "The username to access the SMB file share as the witness."
+        },
+        "password": {
+          "type": "string",
+          "description": "The password to access the SMB file share as the witness.",
+          "x-ms-mutability": [
+            "update",
+            "create"
+          ],
+          "x-ms-secret": true
+        }
+      },
+      "required": [
+        "userName"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/WitnessProfile"
+        }
+      ],
+      "x-ms-discriminator-value": "SMB"
     },
     "StorageProfile": {
       "type": "object",
@@ -3354,6 +3432,55 @@
           "description": "The size of the VM SKU",
           "readOnly": true
         }
+      }
+    },
+    "WitnessProfile": {
+      "type": "object",
+      "description": "Schema of common witness property to support provisioned cluster with 2 control plane nodes.",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/WitnessType",
+          "description": "Specifies the witness type used for provisioned cluster with 2 control plane nodes."
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "The endpoint of witness for provisioned cluster with 2 control plane nodes."
+        }
+      },
+      "discriminator": "type",
+      "required": [
+        "type",
+        "endpoint"
+      ]
+    },
+    "WitnessType": {
+      "type": "string",
+      "description": "Schema of supported witness types for provisioned cluster with 2 control plane nodes.",
+      "enum": [
+        "NFS",
+        "SMB",
+        "AzureBlob"
+      ],
+      "x-ms-enum": {
+        "name": "WitnessType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "NFS",
+            "value": "NFS",
+            "description": "Use NFS file share as the witness type."
+          },
+          {
+            "name": "SMB",
+            "value": "SMB",
+            "description": "Use SMB file share as the witness type."
+          },
+          {
+            "name": "AzureBlob",
+            "value": "AzureBlob",
+            "description": "Use Azure Blob storage as the witness type."
+          }
+        ]
       }
     }
   },

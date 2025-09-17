@@ -9,11 +9,25 @@ using OpenAPI;
 namespace Private.OracleDatabaseDev;
 
 @added(Versions.v20241201_preview)
+scalar ExascaleDbStorageVaultResourceId
+  extends armResourceIdentifier<[
+    {
+      type: "Private.OracleDatabaseDev/exascaleDbStorageVaults",
+    }
+  ]>;
+
+@added(Versions.v20241201_preview)
 @doc("ExascaleDbStorageVault resource definition")
 model ExascaleDbStorageVault
   is TrackedResource<ExascaleDbStorageVaultProperties> {
-  ...ResourceNameParameter<ExascaleDbStorageVault>;
   ...AvailabilityZonesProperty;
+
+  @doc("The name of the ExascaleDbStorageVault")
+  @key("exascaleDbStorageVaultName")
+  @path
+  @segment("exascaleDbStorageVaults")
+  @pattern(".*")
+  name: string;
 }
 
 @added(Versions.v20241201_preview)
@@ -42,7 +56,7 @@ model ExascaleDbStorageVaultProperties {
 
   @doc("Response exadata Database Storage Details")
   @visibility("read")
-  highCapacityDatabaseStorage: ExascaleDbStorageDetails;
+  highCapacityDatabaseStorage?: ExascaleDbStorageDetails;
 
   @doc("The time zone that you want to use for the Exadata Database Storage Vault")
   @minLength(1)
@@ -56,15 +70,11 @@ model ExascaleDbStorageVaultProperties {
 
   @doc("Exadata Database Storage Vault lifecycle state")
   @visibility("read")
-  lifecycleState: ExascaleDbStorageVaultLifecycleState;
+  lifecycleState?: ExascaleDbStorageVaultLifecycleState;
 
   @doc("Additional information about the current lifecycle state.")
   @visibility("read")
   lifecycleDetails?: string;
-
-  @doc("The date and time that the Exadata Database Storage Vault was created.")
-  @visibility("read")
-  timeCreated?: utcDateTime;
 
   @doc("The number of Exadata VM clusters used the Exadata Database Storage Vault.")
   @visibility("read")

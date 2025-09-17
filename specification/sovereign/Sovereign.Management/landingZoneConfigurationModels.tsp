@@ -36,6 +36,10 @@ model LandingZoneConfigurationProperties {
     }
   ]>;
 
+  @doc("Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  tags?: Tags[];
+
   @doc("To deploy firewall, choose the Standard/Premium based on the desired SKU. Choose None for no firewall and UseExisting for a pre existing one.")
   firewallCreationOption: FirewallCreationOptions;
 
@@ -93,8 +97,4 @@ model LandingZoneConfigurationProperties {
 
   @doc("This will be applied to the sandbox management group.")
   sandboxMgMetadata?: SandboxManagementGroupProperties;
-
-  @doc("Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.")
-  @OpenAPI.extension("x-ms-identifiers", [])
-  tags?: Tags[];
 }

@@ -65,9 +65,11 @@ model EnclaveVirtualNetwork {
   name?: string;
 
   @doc("Network Size.")
+  @visibility("read", "create")
   networkSize: string;
 
   @doc("Custom CIDR Range.")
+  @visibility("read", "create")
   customCidrRange?: string;
 
   @doc("Subnet Configurations.")
@@ -75,17 +77,20 @@ model EnclaveVirtualNetwork {
   subnetConfigurations?: SubnetConfiguration[];
 
   @doc("Allow Subnet Communication.")
+  @visibility("read", "create")
   @added(Microsoft.Mission.Versions.v2024_06_01_preview)
-  allowSubnetCommunication?: boolean;
+  allowSubnetCommunication?: boolean = false;
 
   @added(Microsoft.Mission.Versions.v2024_01_01_preview)
   @doc("Connect to Azure Services (True or False).")
-  connectToAzureServices?: boolean;
+  @visibility("read", "create")
+  connectToAzureServices?: boolean = false;
 }
 
 @doc("Virtual Enclave Default Settings")
 model EnclaveDefaultSettings {
   @doc("Key Vault Resource Id.")
+  @visibility("read")
   keyVaultResourceId?: KeyVaultResourceId;
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
@@ -94,17 +99,20 @@ model EnclaveDefaultSettings {
   logAnalyticsResourceId?: LogAnalyticsResourceId;
 
   @doc("Storage Account Resource Id.")
+  @visibility("read")
   storageAccountResourceId?: StorageAccountResourceId;
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Adding required property is a breaking change."
   @added(Microsoft.Mission.Versions.v2024_01_01_preview)
   @doc("Log Analytics Resource Ids.")
+  @visibility("read")
   logAnalyticsResourceIdCollection?: LogAnalyticsResourceId[];
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "Adding required property is a breaking change."
   @added(Microsoft.Mission.Versions.v2024_01_01_preview)
   @doc("Diagnostic Destination.")
-  diagnosticDestination?: DiagnosticDestination;
+  @visibility("read", "create")
+  diagnosticDestination?: DiagnosticDestination = DiagnosticDestination.EnclaveOnly;
 }
 
 @doc("Enclave Address Spaces")
@@ -122,13 +130,13 @@ model EnclaveAddressSpaces {
 @doc("Maintenance Mode")
 model MaintenanceModeConfiguration {
   @doc("Current mode of Maintenance Mode Configuration")
-  mode: "On" | "CanNotDelete" | "Off" | string;
+  mode: "On" | "CanNotDelete" | "Off" | "General" | "Advanced" | string = "Off";
 
   @doc("The user, group or service principal object affected by Maintenance Mode")
-  principals?: Principal[];
+  principals?: Principal[] = [];
 
   @doc("Justification for entering or exiting Maintenance Mode")
-  justification?: "Networking" | "Governance" | "Off" | string;
+  justification?: "Networking" | "Governance" | "Off" | string = "Off";
 }
 
 @doc("Virtual Enclave Resource properties")
@@ -151,18 +159,21 @@ model VirtualEnclaveProperties {
   enclaveAddressSpaces?: EnclaveAddressSpaces;
 
   @doc("Community Resource Id.")
+  @visibility("read", "create")
   communityResourceId: CommunityResourceId;
 
   @doc("Default Settings")
   enclaveDefaultSettings?: EnclaveDefaultSettings;
 
   @doc("List of resource ids created by Virtual Enclave.")
+  @visibility("read")
   resourceCollection?: string[];
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
   @added(Microsoft.Mission.Versions.v2023_08_01_preview)
   @madeOptional(Microsoft.Mission.Versions.v2023_08_01_preview)
   @doc("Managed resource group configuration.")
+  @visibility("read")
   managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
@@ -172,7 +183,7 @@ model VirtualEnclaveProperties {
 
   @added(Microsoft.Mission.Versions.v2024_06_01_preview)
   @doc("Deploy Bastion service (True or False).")
-  bastionEnabled?: boolean;
+  bastionEnabled?: boolean = false;
 
   @added(Microsoft.Mission.Versions.v2024_10_01_preview)
   @madeOptional(Microsoft.Mission.Versions.v2024_10_01_preview)

@@ -32,6 +32,10 @@ model ReservationProperties {
   @doc("The set of Servers to create the reservation.")
   @extension("x-ms-identifiers", ["server"])
   serverAssociations?: ServerAssociation[];
+
+  @doc("List of reserved pool servers")
+  @visibility("read", "create")
+  servers: PoolServerResourceId[];
 }
 
 @armResourceOperations

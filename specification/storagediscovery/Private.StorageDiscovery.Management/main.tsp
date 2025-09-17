@@ -31,48 +31,106 @@ model StorageDiscoveryWorkspace
   >;
 }
 
-@doc("Storage Discovery Workspace Properties.")
+@doc("Storage Discovery Workspace Properties")
 model StorageDiscoveryWorkspaceProperties {
-  @doc("The storage discovery tier.")
-  tier: StorageDiscoveryTier;
+  @doc("The storage discovery sku.")
+  @renamedFrom(ApiVersion.v2025_03_01_preview, "tier")
+  sku: StorageDiscoverySku;
 
-  @doc("Value indicating whether the storage discovery workspace is enabled or not.")
-  enabled: boolean;
+  @doc("The state of storage discovery workspace")
+  @added(ApiVersion.v2025_03_01_preview)
+  workspaceState: WorkspaceState;
 
-  @doc("The display name of the storage discovery workspace.")
-  displayName: string;
+  @doc("The state of storage discovery data export")
+  @madeOptional(ApiVersion.v2025_03_01_preview)
+  exportState?: DataExportState;
 
-  @doc("The description of the storage discovery workspace.")
+  @doc("The description of the storage discovery workspace")
   description?: string;
+
+  @doc("The view level storage discovery data estate")
+  @added(ApiVersion.v2025_01_01_preview)
+  @renamedFrom(ApiVersion.v2025_03_01_preview, "storageEstateViewLevel")
+  @typeChangedFrom(
+    ApiVersion.v2025_03_01_preview,
+    Azure.Core.armResourceIdentifier
+  )
+  discoveryScopeLevels: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.Storage/storageAccounts";
+      scopes: ["tenant", "subscription", "resourceGroup"];
+    }
+  ]>[];
 
   @doc("The scope of the storage discovery workspace.")
   @extension("x-ms-identifiers", ["displayName"])
-  scopes: StorageDiscoveryScope[];
+  @removed(ApiVersion.v2025_01_01_preview)
+  scopes: StorageDiscoveryScopeV1[];
 
-  @doc("The destinations to which the storage workspace rule sends data.")
-  destinations: StorageDiscoveryDestination;
+  @doc("The storage discovery resource collections.")
+  @extension("x-ms-identifiers", ["displayName"])
+  @added(ApiVersion.v2025_01_01_preview)
+  @renamedFrom(ApiVersion.v2025_03_01_preview, "storageCollections")
+  discoveryScopes: StorageDiscoveryScope[];
+
+  @doc("The destinations to which the storage workspace sends data")
+  @removed(ApiVersion.v2025_01_01_preview)
+  @added(ApiVersion.v2025_03_01_preview)
+  @madeOptional(ApiVersion.v2025_03_01_preview)
+  destinations?: StorageDiscoveryDestination;
 
   @visibility("read")
   @doc("The status of the last operation.")
   provisioningState?: ResourceProvisioningState;
 }
 
-@doc("Storage Discovery Tier")
-union StorageDiscoveryTier {
-  @doc("Standard")
+@doc("The state of storage discovery workspace")
+@added(ApiVersion.v2025_03_01_preview)
+union WorkspaceState {
+  @doc("Workspace is Enabled")
+  Enabled: "Enabled",
+
+  @doc("Workspace is Disabled")
+  Disabled: "Disabled",
+
+  string,
+}
+
+@doc("The state of storage discovery data export")
+union DataExportState {
+  @doc("Data export is stopped.")
+  Stopped: "Stopped",
+
+  @doc("Data export is running continuously")
+  Running: "Running",
+
+  string,
+}
+
+@doc("Storage Discovery Sku")
+@renamedFrom(ApiVersion.v2025_03_01_preview, "StorageDiscoveryTier")
+union StorageDiscoverySku {
+  @doc("Basic Sku")
+  @removed(ApiVersion.v2025_03_01_preview)
+  Basic: "Basic",
+
+  @doc("Free Sku")
+  @added(ApiVersion.v2025_03_01_preview)
+  Free: "Free",
+
+  @doc("Standard Sku")
   Standard: "Standard",
 
-  @doc("Premium")
+  @doc("Premium Sku")
   Premium: "Premium",
-
-  @doc("Basic")
-  Basic: "Basic",
 
   string,
 }
 
 @doc("Storage Discovery Scope")
-model StorageDiscoveryScope {
+@removed(ApiVersion.v2025_01_01_preview)
+@renamedFrom(ApiVersion.v2025_03_01_preview, "StorageDiscoveryScope")
+model StorageDiscoveryScopeV1 {
   @doc("Display name of the scope")
   displayName: string;
 
@@ -81,7 +139,7 @@ model StorageDiscoveryScope {
     {
       type: "Microsoft.Storage/storageAccounts";
     }
-  ]>;
+  ]>[];
 
   @doc("ARM scope URIs for the scope")
   armScopes: string[];
@@ -91,17 +149,46 @@ model StorageDiscoveryScope {
 }
 
 @doc("Storage resource filters for the scope")
+@removed(ApiVersion.v2025_01_01_preview)
 model StorageDiscoveryResourceFilter {
-  @doc("The storage account locations to filter.")
+  @doc("The storage account locations to filter")
   locations: string[];
 
   ...ArmTagsProperty;
 }
 
-@doc("Destinations for storage discovery data.")
+@doc("Storage Discovery Collection")
+@added(ApiVersion.v2025_01_01_preview)
+@renamedFrom(ApiVersion.v2025_03_01_preview, "StorageDiscoveryCollection")
+model StorageDiscoveryScope {
+  @doc("Display name of the collection")
+  displayName: string;
+
+  @doc("Resource types for the collection")
+  resourceTypes: StorageDiscoveryResourceType[];
+
+  @doc("The storage account tags keys to filter")
+  tagKeysOnly?: string[];
+
+  ...ArmTagsProperty;
+}
+
+@doc("Storage Discovery Resource Type")
+@added(ApiVersion.v2025_01_01_preview)
+union StorageDiscoveryResourceType {
+  @doc("Storage Account Resource Type")
+  StorageAccounts: "Microsoft.Storage/storageAccounts",
+
+  string,
+}
+
+@doc("Destinations for storage discovery data")
+@removed(ApiVersion.v2025_01_01_preview)
+@added(ApiVersion.v2025_03_01_preview)
 model StorageDiscoveryDestination {
   @doc("The ADX destination sink for analytics data")
-  storageAccountArmId?: Azure.Core.armResourceIdentifier<[
+  @renamedFrom(ApiVersion.v2025_03_01_preview, "storageAccountArmId")
+  storageAccountResourceId?: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.Storage/storageAccounts";
     }
@@ -115,19 +202,29 @@ enum ApiVersion {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2024_12_01_preview: "2024-12-01-preview",
+
+  /** 2025-01-01-preview version */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_01_01_preview: "2025-01-01-preview",
+
+  /** 2025-03-01-preview version */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_03_01_preview: "2025-03-01-preview",
 }
 
 @armResourceOperations
 interface StorageDiscoveryWorkspaces {
   get is ArmResourceRead<StorageDiscoveryWorkspace>;
   createOrUpdate is ArmResourceCreateOrReplaceSync<StorageDiscoveryWorkspace>;
-
-  @parameterVisibility
   update is ArmResourcePatchSync<
     StorageDiscoveryWorkspace,
     StorageDiscoveryWorkspaceProperties
   >;
-
+  @parameterVisibility
   delete is ArmResourceDeleteSync<StorageDiscoveryWorkspace>;
   listByResourceGroup is ArmResourceListByParent<StorageDiscoveryWorkspace>;
   listBySubscription is ArmListBySubscription<StorageDiscoveryWorkspace>;

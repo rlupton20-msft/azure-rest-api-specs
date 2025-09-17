@@ -93,20 +93,6 @@ union LicenseModel {
   string,
 }
 
-@doc("DbIormConfig for cloud vm cluster")
-model DbIormConfig {
-  @doc("The database name. For the default DbPlan, the dbName is default.")
-  dbName?: string;
-
-  @doc("The flash cache limit for this database. This value is internally configured based on the share value assigned to the database.")
-  flashCacheLimit?: string;
-
-  @doc("The relative priority of this database.")
-  @minValue(1)
-  @maxValue(32)
-  share?: int32;
-}
-
 @doc("ExadataIormConfig for cloud vm cluster")
 model ExadataIormConfig {
   @doc("An array of IORM settings for all the database in the Exadata DB system.")
@@ -121,46 +107,6 @@ model ExadataIormConfig {
 
   @doc("The current value for the IORM objective. The default is AUTO.")
   objective?: Objective;
-}
-
-@doc("IORMLifecycleState enum")
-union IormLifecycleState {
-  @doc("BOOTSTRAPPING value")
-  BootStrapping: "BootStrapping",
-
-  @doc("ENABLED value")
-  Enabled: "Enabled",
-
-  @doc("DISABLED value")
-  Disabled: "Disabled",
-
-  @doc("UPDATING value")
-  Updating: "Updating",
-
-  @doc("FAILED value")
-  Failed: "Failed",
-
-  string,
-}
-
-@doc("Objective enum")
-union Objective {
-  @doc("LOW_LATENCY value")
-  LowLatency: "LowLatency",
-
-  @doc("HIGH_THROUGHPUT value")
-  HighThroughput: "HighThroughput",
-
-  @doc("BALANCED value")
-  Balanced: "Balanced",
-
-  @doc("AUTO value")
-  Auto: "Auto",
-
-  @doc("BASIC value")
-  Basic: "Basic",
-
-  string,
 }
 
 @doc("validation result")
@@ -305,4 +251,31 @@ model CreateValidationDetails<T extends TypeSpec.Reflection.Model> {
 // only properties are passed for Patch Validation extension
 model PatchValidationDetails<T extends TypeSpec.Reflection.Model> {
   properties: T;
+}
+
+@doc("Compute model enum")
+union ComputeModel {
+  @doc("ECPU model type")
+  ECPU: "ECPU",
+
+  @doc("OCPU model type")
+  OCPU: "OCPU",
+
+  string,
+}
+
+@added(Versions.v20241201_preview)
+@doc("Allowed values for System Shapes")
+union SystemShapes {
+  @doc("Exadata X9M shape")
+  ExadataX9M: "Exadata.X9M",
+
+  @added(Versions.v20250101_preview)
+  @doc("Exadata X11M shape")
+  ExadataX11M: "Exadata.X11M",
+
+  @doc("Exadata DB on Exascale Infrastructure shape")
+  ExaDbXs: "ExaDbXS",
+
+  string,
 }

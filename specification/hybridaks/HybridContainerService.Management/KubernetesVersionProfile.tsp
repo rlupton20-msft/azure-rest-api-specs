@@ -42,7 +42,7 @@ interface KubernetesVersionProfiles {
   /**
    * Puts the default kubernetes version resource type (one time operation, before listing the kubernetes versions)
    */
-  putKubernetesVersions is ArmResourceCreateOrReplaceAsync<
+  createKubernetesVersions is ArmResourceCreateOrReplaceAsync<
     KubernetesVersionProfile,
     BaseParameters = CustomLocationResourceUriParameters
   >;
@@ -64,6 +64,6 @@ interface KubernetesVersionProfiles {
   >;
 }
 
-@@doc(KubernetesVersionProfiles.putKubernetesVersions::parameters.resource,
+@@doc(KubernetesVersionProfiles.createKubernetesVersions::parameters.resource,
   "Kubernetes Versions resource definition"
 );

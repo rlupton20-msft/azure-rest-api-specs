@@ -11,7 +11,7 @@ using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 
-namespace Private.ChangeSafety;
+namespace Microsoft.ChangeSafety;
 
 @doc("Resource allows the user to define the change that they intended to execute & indicate the progression it will use.")
 model ChangeState is ProxyResource<ChangeStateProperties> {
@@ -104,6 +104,52 @@ model RetrieveNextStagesResponseItem {
   @doc("Parameters to apply on the change for the stage.")
   @visibility("read")
   parameterValues: Record<string | int32>;
+}
+
+@doc("VerifyChangeValidity POST Action request.")
+model VerifyChangeValidityRequest {
+  @doc("The resource operation.")
+  operation: ResourceOperation;
+
+  @doc("The stage progression Id.")
+  stageProgressionId?: string;
+}
+
+@doc("Resource operation model.")
+model ResourceOperation {
+  @doc("The uri of the operation.")
+  uri: url;
+
+  @doc("The http method of the operation.")
+  httpMethod: ArmOperation;
+
+  @doc("The resource operation content.")
+  content?: ResourceContent;
+}
+
+#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
+@doc("Resource operation content model.")
+model ResourceContent {
+  @doc("The name of the resource.")
+  name?: string;
+
+  @doc("The location of the resource.")
+  location?: string;
+
+  @doc("The properties of the resource.")
+  properties: {};
+}
+
+@doc("VerifyChangeValidity POST Action response.")
+model VerifyChangeValidityResponse {
+  @doc("The outcome of the verification.")
+  outcome: string;
+
+  @doc("The explanation message of the verification.")
+  message: string;
+
+  @doc("The experation time of the change.")
+  validUntil?: utcDateTime;
 }
 
 @doc("Internal status of the ChangeState resource.")
@@ -301,13 +347,19 @@ union ArmOperation {
 
   @doc("DELETE ARM Operation.")
   DELETE: "DELETE",
+
+  @doc("PUT ARM Operation.")
+  PUT: "PUT",
+
+  @doc("PATCH ARM Operation.")
+  PATCH: "PATCH",
 }
 
 @doc("Azure resource Id of a ChangeState.")
 scalar ChangeStateResourceId
   extends Azure.Core.armResourceIdentifier<[
     {
-      type: "Private.ChangeSafety/changeStates",
+      type: "Microsoft.ChangeSafety/changeStates",
     }
   ]>;
 
@@ -365,6 +417,26 @@ interface ChangeStates {
     ChangeState,
     void,
     RetrieveNextStagesResponse,
+    {
+      ...ApiVersionParameter;
+      ...SubscriptionIdParameter;
+    }
+  >;
+
+  @doc("Verify the change validity.")
+  @action("verifyChangeValidity")
+  verifyChangeValidity is ArmResourceActionSync<
+    ChangeState,
+    VerifyChangeValidityRequest,
+    VerifyChangeValidityResponse
+  >;
+
+  @doc("Verify the change validity at subscription level.")
+  @action("verifyChangeValidity")
+  verifyChangeValidityAtSubscriptionLevel is ArmResourceActionSync<
+    ChangeState,
+    VerifyChangeValidityRequest,
+    VerifyChangeValidityResponse,
     {
       ...ApiVersionParameter;
       ...SubscriptionIdParameter;

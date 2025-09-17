@@ -9,10 +9,23 @@ using OpenAPI;
 namespace Private.OracleDatabaseDev;
 
 @added(Versions.v20241201_preview)
+scalar ExascaleDbNodeResourceId
+  extends armResourceIdentifier<[
+    {
+      type: "Private.OracleDatabaseDev/exadbVmCluster/dbNode",
+    }
+  ]>;
+
+@added(Versions.v20241201_preview)
 @doc("The DbNode resource belonging to ExadbVmCluster")
 @parentResource(ExadbVmCluster)
 model ExascaleDbNode is ProxyResource<ExascaleDbNodeProperties> {
-  ...ResourceNameParameter<ExascaleDbNode, SegmentName = "dbNodes">;
+  @doc("The OCID of the ExascaleDbNode")
+  @key("exascaleDbNodeOcid")
+  @segment("dbNodes")
+  @path
+  @pattern(".*")
+  name: Ocid;
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state" "Read-only resource. No provisioning state provided."
@@ -40,19 +53,17 @@ model ExascaleDbNodeProperties {
   hostname?: string;
 
   @doc("The current state of the database node.")
-  lifecycleState: DbNodeProvisioningState;
+  lifecycleState?: DbNodeProvisioningState;
 
   @doc("The type of database node maintenance.")
-  maintenanceType?: ExascaleDbNodeMaintenanceType;
+  @visibility("read")
+  maintenanceType?: string;
 
   @doc("The allocated memory in GBs on the Db node.")
   memorySizeInGbs?: int32;
 
   @doc("The size (in GB) of the block storage volume allocation for the DB system. This attribute applies only for virtual machine DB systems.")
   softwareStorageSizeInGb?: int32;
-
-  @doc("The date and time that the database node was created.")
-  timeCreated: utcDateTime;
 
   @doc("End date and time of maintenance window.")
   timeMaintenanceWindowEnd?: utcDateTime;
@@ -65,20 +76,8 @@ model ExascaleDbNodeProperties {
 }
 
 @added(Versions.v20241201_preview)
-@doc("The type of database node maintenance.")
-union ExascaleDbNodeMaintenanceType {
-  @doc("VMDB reboot migration maintenance type")
-  VmdbRebootMigration: "VmdbRebootMigration",
-
-  @doc("ExaDbXs reboot migration maintenance type")
-  ExaDbXsRebootMigration: "ExaDbXsRebootMigration",
-
-  string,
-}
-
-@added(Versions.v20241201_preview)
-@doc("ExascaleDbNode action response")
+@doc("Exascale DB Node action response")
 model DbActionResponse {
-  @doc("ExascaleDbNode provisioning state")
+  @doc("Exascale DB Node provisioning state")
   provisioningState?: AzureResourceProvisioningState;
 }

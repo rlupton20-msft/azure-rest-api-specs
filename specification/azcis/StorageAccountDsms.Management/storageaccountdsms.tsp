@@ -95,6 +95,7 @@ model StorageAccountDsmsResourceProperties {
   additionalLocations?: string;
 
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-duplicate-property" "Duplicate property found in the resource envelope and resource properties."
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Generic object model is used, because the number of nested properties can be different."
   @doc("Properties can be used to save customer key-value pairs associated with the dSMS secrets. Optional.")
   properties?: {};
 

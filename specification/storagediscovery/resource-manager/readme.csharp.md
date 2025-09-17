@@ -10,6 +10,6 @@ csharp:
   payload-flattening-threshold: 1
   clear-output-folder: true
   client-side-validation: false
-  namespace: Microsoft.StorageDiscovery
-  output-folder: $(csharp-sdks-folder)/storagediscovery/management/Microsoft.StorageDiscovery/GeneratedProtocol
+  namespace: Private.StorageDiscovery
+  output-folder: $(csharp-sdks-folder)/storagediscovery/management/Private.StorageDiscovery/GeneratedProtocol
 ```

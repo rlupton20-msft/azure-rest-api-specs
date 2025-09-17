@@ -36,6 +36,10 @@ model LandingZoneConfigurationResourceProperties {
     }
   ]>;
 
+  @doc("Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  tags?: Tags[];
+
   @doc("To deploy firewall, choose the Standard/Premium based on the desired SKU. Choose None for no firewall and UseExisting for a pre existing one.")
   firewallCreationOption: FirewallCreationOptions;
 
@@ -94,13 +98,23 @@ model LandingZoneConfigurationResourceProperties {
   @doc("This will be applied to the sandbox management group.")
   sandboxMgMetadata?: SandboxManagementGroupProperties;
 
-  @doc("Array of tag objects in format of {'name':'a tag name', 'value':'a tag value'}.")
-  @OpenAPI.extension("x-ms-identifiers", [])
-  tags?: Tags[];
-
   @added(Versions.Preview20241031)
   @doc("The managed identity to be tied to this landing zone configuration")
   managedIdentity: ManagedIdentityProperties;
+
+  @added(Versions.Preview20250227)
+  @doc("Platform children management group properties.")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  platformMgChildren?: PlatformManagementGroupProperties[];
+
+  @added(Versions.Preview20250227)
+  @doc("The naming convention that's used by default for all resource types for this landing zone configuration")
+  namingConventionFormula?: string;
+
+  @added(Versions.Preview20250227)
+  @doc("The customized naming convention for one or more resource types in this landing zone configuration")
+  @OpenAPI.extension("x-ms-identifiers", [])
+  customNamingConvention?: CustomNamingConvention[];
 }
 
 @added(Versions.Preview20241031)
@@ -135,7 +149,8 @@ model Tags {
   name: string;
 
   @doc("A tag value.")
-  value: string;
+  @madeOptional(Versions.Preview20250227)
+  value?: string;
 }
 
 @doc("Landing zone management group properties.")
@@ -236,8 +251,12 @@ model GenerateLandingZoneRequest {
   @pattern("^([a-zA-Z0-9]+)$")
   deploymentLocation: string;
 
-  @doc("The name of the country/region or agency the landing zone is being deployed for")
+  @doc("The name of the organization or agency the landing zone is being deployed for.")
   organization?: string;
+
+  @added(Versions.Preview20250227)
+  @doc("The environment for which the landing zone is being deployed")
+  environment?: string;
 }
 
 @doc("The response for the request to generate landing zone code.")
@@ -378,4 +397,59 @@ model CreateLandingZoneConfigurationCopyResponse {
       type: "Microsoft.Sovereign/landingZoneAccounts/landingZoneConfigurations";
     }
   ]>;
+}
+
+@doc("The details for the custom resource override.")
+@added(Versions.Preview20250227)
+model CustomNamingConvention {
+  @doc("The type of the resource.")
+  resourceType: ResourceType;
+
+  @doc("The custom formula for the resource type.")
+  formula: string;
+}
+
+@doc("The input values for defining resource types for naming conventions.")
+@added(Versions.Preview20250227)
+union ResourceType {
+  @doc("Value when customer wants to provide custom naming convention for Azure Firewall.")
+  azureFirewalls: "azureFirewalls",
+
+  @doc("Value when customer wants to provide custom naming convention for Log Analytics workspace.")
+  workspaces: "workspaces",
+
+  @doc("Value when customer wants to provide custom naming convention for automation account.")
+  automationAccounts: "automationAccounts",
+
+  @doc("Value when customer wants to provide custom naming convention for dashboard.")
+  dashboards: "dashboards",
+
+  @doc("Value when customer wants to provide custom naming convention for managed identity.")
+  userAssignedIdentities: "userAssignedIdentities",
+
+  @doc("Value when customer wants to provide custom naming convention for Bastion.")
+  bastionHosts: "bastionHosts",
+
+  @doc("Value when customer wants to provide custom naming convention for DDoS protection plan.")
+  ddosProtectionPlans: "ddosProtectionPlans",
+
+  @doc("Value when customer wants to provide custom naming convention for Bastion NSG.")
+  networkSecurityGroups: "networkSecurityGroups",
+
+  @doc("Value when customer wants to provide custom naming convention for virtual network.")
+  virtualNetworks: "virtualNetworks",
+
+  @doc("Value when customer wants to provide custom naming convention for route table.")
+  routeTables: "routeTables",
+
+  string,
+}
+
+@added(Versions.Preview20250227)
+@doc("Platform management group properties.")
+model PlatformManagementGroupProperties {
+  ...ManagementGroupProperties;
+
+  @doc("Management group name.")
+  name: string;
 }

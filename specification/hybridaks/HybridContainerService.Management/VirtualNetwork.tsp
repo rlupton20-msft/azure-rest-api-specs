@@ -38,7 +38,7 @@ interface VirtualNetworks {
   /**
    * Gets the specified virtual network resource
    */
-  retrieve is ArmResourceRead<VirtualNetwork>;
+  get is ArmResourceRead<VirtualNetwork>;
 
   /**
    * Creates or updates the virtual network resource

@@ -299,7 +299,7 @@
             "description": "The resource properties to be updated.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/StorageDiscoveryWorkspace"
+              "$ref": "#/definitions/StorageDiscoveryWorkspaceUpdate"
             }
           }
         ],
@@ -371,6 +371,24 @@
     }
   },
   "definitions": {
+    "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
+      "type": "object",
+      "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "description": "Resource tags.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+        }
+      ]
+    },
     "Azure.ResourceManager.ResourceProvisioningState": {
       "type": "string",
       "description": "The provisioning state of a resource type.",
@@ -401,6 +419,30 @@
         ]
       },
       "readOnly": true
+    },
+    "DataExportState": {
+      "type": "string",
+      "description": "The state of storage discovery data export",
+      "enum": [
+        "Stopped",
+        "Running"
+      ],
+      "x-ms-enum": {
+        "name": "DataExportState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Stopped",
+            "value": "Stopped",
+            "description": "Data export is stopped."
+          },
+          {
+            "name": "Running",
+            "value": "Running",
+            "description": "Data export is running continuously."
+          }
+        ]
+      }
     },
     "StorageDiscoveryDestination": {
       "type": "object",
@@ -452,15 +494,19 @@
           "description": "Display name of the scope"
         },
         "resourceTypes": {
-          "type": "string",
-          "format": "arm-id",
+          "type": "array",
           "description": "Resource types for the scope",
-          "x-ms-arm-id-details": {
-            "allowedResources": [
-              {
-                "type": "Microsoft.Storage/storageAccounts"
-              }
-            ]
+          "items": {
+            "type": "string",
+            "format": "arm-id",
+            "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+            "x-ms-arm-id-details": {
+              "allowedResources": [
+                {
+                  "type": "Microsoft.Storage/storageAccounts"
+                }
+              ]
+            }
           }
         },
         "armScopes": {
@@ -497,17 +543,17 @@
           {
             "name": "Standard",
             "value": "Standard",
-            "description": "Standard"
+            "description": "Standard Tier"
           },
           {
             "name": "Premium",
             "value": "Premium",
-            "description": "Premium"
+            "description": "Premium Tier"
           },
           {
             "name": "Basic",
             "value": "Basic",
-            "description": "Basic"
+            "description": "Basic Tier"
           }
         ]
       }
@@ -556,13 +602,9 @@
           "$ref": "#/definitions/StorageDiscoveryTier",
           "description": "The storage discovery tier."
         },
-        "enabled": {
-          "type": "boolean",
-          "description": "Value indicating whether the storage discovery workspace is enabled or not."
-        },
-        "displayName": {
-          "type": "string",
-          "description": "The display name of the storage discovery workspace."
+        "exportState": {
+          "$ref": "#/definitions/DataExportState",
+          "description": "The state of storage discovery data export"
         },
         "description": {
           "type": "string",
@@ -590,10 +632,56 @@
       },
       "required": [
         "tier",
-        "enabled",
-        "displayName",
+        "exportState",
         "scopes",
         "destinations"
+      ]
+    },
+    "StorageDiscoveryWorkspacePropertiesUpdate": {
+      "type": "object",
+      "description": "Storage Discovery Workspace Properties.",
+      "properties": {
+        "tier": {
+          "$ref": "#/definitions/StorageDiscoveryTier",
+          "description": "The storage discovery tier."
+        },
+        "exportState": {
+          "$ref": "#/definitions/DataExportState",
+          "description": "The state of storage discovery data export"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the storage discovery workspace."
+        },
+        "scopes": {
+          "type": "array",
+          "description": "The scope of the storage discovery workspace.",
+          "items": {
+            "$ref": "#/definitions/StorageDiscoveryScope"
+          },
+          "x-ms-identifiers": [
+            "displayName"
+          ]
+        },
+        "destinations": {
+          "$ref": "#/definitions/StorageDiscoveryDestination",
+          "description": "The destinations to which the storage workspace rule sends data."
+        }
+      }
+    },
+    "StorageDiscoveryWorkspaceUpdate": {
+      "type": "object",
+      "description": "A Storage Discovery Workspace resource. This resource configures the collection of storage account metrics.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/StorageDiscoveryWorkspacePropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
       ]
     }
   },

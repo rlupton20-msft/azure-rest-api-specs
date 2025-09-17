@@ -8,7 +8,7 @@ using TypeSpec.Http;
 using Azure.Core;
 using Azure.ResourceManager;
 
-namespace Private.ChangeSafety;
+namespace Microsoft.ChangeSafety;
 
 @doc("Defines the progression of a change using these child resources, with ChangeState parent resource.")
 @parentResource(ChangeState)
@@ -81,6 +81,14 @@ union StageProgressionState {
   @doc("Change is not applied to the stage.")
   Skipped: "Skipped",
 }
+
+@doc("Azure resource Id of a ChangeState.")
+scalar StageProgressionResourceId
+  extends Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.ChangeSafety/changeStates/stageProgressions",
+    }
+  ]>;
 
 @armResourceOperations
 @doc("The operations of the stageProgression resource.")

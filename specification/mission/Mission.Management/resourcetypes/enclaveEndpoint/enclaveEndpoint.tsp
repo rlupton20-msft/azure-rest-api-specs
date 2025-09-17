@@ -79,6 +79,7 @@ model EnclaveEndpointProperties {
 
   @added(Microsoft.Mission.Versions.v2024_01_01_preview)
   @doc("List of resource ids created by community endpoint.")
+  @visibility("read")
   resourceCollection?: string[];
 
   @doc("Provisioning State.")
@@ -86,6 +87,7 @@ model EnclaveEndpointProperties {
   provisioningState?: ProvisioningState;
 
   @added(Microsoft.Mission.Versions.v2024_06_01_preview)
+  @removed(Microsoft.Mission.Versions.v2024_12_01_preview)
   @doc("Whether approval is needed for the connection (True or False).")
   approvalRequired?: boolean;
 }

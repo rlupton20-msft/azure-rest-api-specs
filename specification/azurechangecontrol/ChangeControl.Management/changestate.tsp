@@ -75,9 +75,11 @@ model ChangeStateProperties {
   @visibility("read", "create")
   stageParameters: Record<Parameter>;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppressing the warning: We need list of parameters in key:value format."
+  #suppress "@azure-tools/typespec-autorest/union-unsupported" "Suppressing warning: We need the Parameters to be strong type. So need to provide all the supported types which are string & int for now."
   @doc("Referenced stagemap snapshot.")
-  @visibility("hidden")
-  stageMapSnapshot?: string;
+  @visibility("read")
+  stageMapSnapshot?: Array<string | StageMap>;
 }
 
 @doc("RetrieveNextStage POST Action response.")

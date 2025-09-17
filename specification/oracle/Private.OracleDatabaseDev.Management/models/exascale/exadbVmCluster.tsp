@@ -9,18 +9,16 @@ using OpenAPI;
 namespace Private.OracleDatabaseDev;
 
 @added(Versions.v20241201_preview)
-scalar ExascaleDbStorageVaultId
-  extends armResourceIdentifier<[
-    {
-      type: "Oracle.Database/exascaleDbStorageVaults",
-    }
-  ]>;
-
-@added(Versions.v20241201_preview)
 @doc("ExadbVmCluster resource definition")
 model ExadbVmCluster is TrackedResource<ExadbVmClusterProperties> {
-  ...ResourceNameParameter<ExadbVmCluster>;
   ...AvailabilityZonesProperty;
+
+  @doc("The name of the ExadbVmCluster")
+  @key("exadbVmClusterName")
+  @path
+  @segment("exadbVmClusters")
+  @pattern(".*")
+  name: string;
 }
 
 @added(Versions.v20241201_preview)
@@ -81,15 +79,15 @@ model ExadbVmClusterProperties {
   @visibility("create", "read")
   enabledEcpuCount: int32;
 
-  @doc("The ID of the Exadata Database Storage Vault.")
+  @doc("The Azure Resource ID of the Exadata Database Storage Vault.")
   @visibility("create", "read")
-  exascaleDbStorageVaultId: ExascaleDbStorageVaultId;
+  exascaleDbStorageVaultId: ExascaleDbStorageVaultResourceId;
 
-  @doc("Grid Setup will be done using this grid image id.")
+  @doc("Grid Setup will be done using this Grid Image OCID. Can be obtained using giMinorVersions API")
   @minLength(1)
   @maxLength(255)
   @visibility("create", "read")
-  gridImageId?: string;
+  gridImageOcid?: Ocid;
 
   @doc("The type of Grid Image")
   @visibility("read")
@@ -125,8 +123,12 @@ model ExadbVmClusterProperties {
   nsgCidrs?: NsgCidr[];
 
   @doc("The OCID of the zone the Exadata VM cluster on Exascale Infrastructure is associated with.")
+  @visibility("read")
+  zoneOcid?: Ocid;
+
+  @doc("The OCID of the zone the Exadata VM cluster on Exascale Infrastructure is associated with.")
   @visibility("create", "read")
-  privateZoneId?: Ocid;
+  privateZoneOcid?: Ocid;
 
   @doc("The TCP Single Client Access Name (SCAN) port. The default port is 1521.")
   @visibility("create", "read")
@@ -141,7 +143,7 @@ model ExadbVmClusterProperties {
   listenerPort?: int32;
 
   @doc("The shape of the Exadata VM cluster on Exascale Infrastructure resource")
-  @visibility("read", "create")
+  @visibility("create", "read")
   shape: string;
 
   @doc("The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.")
@@ -191,10 +193,6 @@ model ExadbVmClusterProperties {
   @visibility("read")
   snapshotFileSystemStorage?: ExadbVmClusterStorageDetails;
 
-  @doc("The date and time that the Exadata VM cluster on Exascale Infrastructure was created.")
-  @visibility("read")
-  timeCreated?: utcDateTime;
-
   @doc("Total file system storage details.")
   @visibility("read")
   totalFileSystemStorage?: ExadbVmClusterStorageDetails;
@@ -202,10 +200,6 @@ model ExadbVmClusterProperties {
   @doc("The virtual IP (VIP) addresses associated with the Exadata VM cluster on Exascale Infrastructure. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the Exadata Cloud Service instance to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster. **Note:** For a single-node DB system, this list is empty.")
   @visibility("read")
   vipIds?: string[];
-
-  @doc("The OCID of the zone the Exadata VM cluster on Exascale Infrastructure is associated with.")
-  @visibility("read")
-  zoneId?: Ocid;
 
   @doc("HTTPS link to OCI resources exposed to Azure Customer via Azure Interface.")
   @visibility("read")
@@ -232,10 +226,18 @@ model ExadbVmClusterStorageDetails {
 }
 
 @added(Versions.v20241201_preview)
+@doc("Details of removing Virtual Machines from the Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Database Service on Exascale Infrastructure only.")
+model RemoveVirtualMachineFromExadbVmClusterDetails {
+  @doc("The list of ExaCS DB nodes for the Exadata VM cluster on Exascale Infrastructure to be removed.")
+  @extension("x-ms-identifiers", [])
+  dbNodes: Array<DbNodeDetails>;
+}
+
+@added(Versions.v20241201_preview)
 @doc("Details of the ExaCS Db node. Applies to Exadata Database Service on Exascale Infrastructure only.")
 model DbNodeDetails {
-  @doc("DbNode Ocid")
-  dbNodeId: Ocid;
+  @doc("Exascale DbNode Azure Resource ID")
+  dbNodeId: ExascaleDbNodeResourceId;
 }
 
 @added(Versions.v20241201_preview)

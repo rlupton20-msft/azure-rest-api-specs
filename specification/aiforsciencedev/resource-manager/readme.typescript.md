@@ -6,8 +6,8 @@ Please also specify `--typescript-sdks-folder=<path to root folder of your azure
 ``` yaml $(typescript)
 typescript:
   azure-arm: true
-  package-name: "@azure/arm-aiforscience"
-  output-folder: "$(typescript-sdks-folder)/sdk/aiforscience/arm-aiforscience"
+  package-name: "@azure/arm-science"
+  output-folder: "$(typescript-sdks-folder)/sdk/science/arm-science"
   payload-flattening-threshold: 1
   clear-output-folder: true
   generate-metadata: true

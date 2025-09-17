@@ -779,7 +779,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/commonVulnerabilityAndExposureId": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/firmwares/{firmwareId}/commonVulnerabilitiesAndExposures": {
       "get": {
         "operationId": "Cves_ListByFirmware",
         "tags": [
@@ -1302,7 +1302,7 @@
             "type": "string",
             "enum": [
               "Firmware",
-              "CommonVulnerablityExposure",
+              "CommonVulnerabilitiesAndExposures",
               "BinaryHardening",
               "CryptoCertificate",
               "CryptoKey"
@@ -1317,8 +1317,8 @@
                   "description": "The summary contains information about the submitted firmware"
                 },
                 {
-                  "name": "CommonVulnerablityExposure",
-                  "value": "CommonVulnerablityExposure",
+                  "name": "CommonVulnerabilitiesAndExposures",
+                  "value": "CommonVulnerabilitiesAndExposures",
                   "description": "The summary contains information about the Common Vulnerabilites and Exposures analysis results"
                 },
                 {
@@ -1429,15 +1429,15 @@
       "type": "object",
       "description": "Binary hardening features.",
       "properties": {
-        "nx": {
+        "noExecute": {
           "type": "boolean",
           "description": "Flag indicating the binary's stack is set to NX (no-execute)."
         },
-        "pie": {
+        "positionIndependentExecutable": {
           "type": "boolean",
           "description": "Flag indicating the binary was compiled to be a position independent executable."
         },
-        "relro": {
+        "relocationReadOnly": {
           "type": "boolean",
           "description": "Flag indicating the binary has enabled relocation read-only protections."
         },
@@ -1535,30 +1535,30 @@
           "format": "int64",
           "description": "Total number of binaries that were analyzed"
         },
-        "percentNotExecutableStack": {
+        "notExecutableStackCount": {
           "type": "integer",
-          "format": "int32",
-          "description": "Percentage of analyzed files that were found to have a nonexecutable stack"
+          "format": "int64",
+          "description": "Total number of analyzed files that were found to have a nonexecutable stack"
         },
-        "percentPositionIndependentExectuable": {
+        "positionIndependentExecutableCount": {
           "type": "integer",
-          "format": "int32",
-          "description": "Percentage of analyzed files that were compiled to be a position independent executable"
+          "format": "int64",
+          "description": "Total number of analyzed files that were compiled to be a position independent executable"
         },
-        "percentRelocationReadOnly": {
+        "relocationReadOnlyCount": {
           "type": "integer",
-          "format": "int32",
-          "description": "Percentage of analyzed files that have enabled relocation read-only protections"
+          "format": "int64",
+          "description": "Total number of analyzed files that have enabled relocation read-only protections"
         },
-        "percentWithStackCanary": {
+        "stackCanaryCount": {
           "type": "integer",
-          "format": "int32",
-          "description": "Percentage of analyzed files that have stack canaries enabled"
+          "format": "int64",
+          "description": "Total number of analyzed files that have stack canaries enabled"
         },
-        "percentWithStrippedSymbols": {
+        "strippedBinaryCount": {
           "type": "integer",
-          "format": "int32",
-          "description": "Percentage of analyzed files that have debug symbols stripped"
+          "format": "int64",
+          "description": "Total number of analyzed files that have debug symbols stripped"
         }
       },
       "allOf": [
@@ -1579,9 +1579,9 @@
         "dataEncipherment",
         "keyAgreement",
         "keyCertSign",
-        "cRLSign",
+        "crlSign",
         "encipherOnly",
-        "dencipherOnly",
+        "decipherOnly",
         "serverAuth",
         "clientAuth",
         "codeSigning",
@@ -1630,7 +1630,7 @@
           },
           {
             "name": "CRLSign",
-            "value": "cRLSign",
+            "value": "crlSign",
             "description": "This certificate can be used to verift a certificate revocation list"
           },
           {
@@ -1639,8 +1639,8 @@
             "description": "This certificate can be only be used to encrypt data"
           },
           {
-            "name": "DencipherOnly",
-            "value": "dencipherOnly",
+            "name": "DecipherOnly",
+            "value": "decipherOnly",
             "description": "This certificate can only be used to decrypt data"
           },
           {
@@ -1843,12 +1843,12 @@
       "type": "object",
       "description": "Properties for cryptographic certificate summary.",
       "properties": {
-        "totalCertificatesCount": {
+        "totalCertificateCount": {
           "type": "integer",
           "format": "int64",
           "description": "Total number of certificates found."
         },
-        "pairedKeysCount": {
+        "pairedKeyCount": {
           "type": "integer",
           "format": "int64",
           "description": "Total number of paired private keys found for the certificates."
@@ -1868,7 +1868,7 @@
           "format": "int64",
           "description": "Total number of certificates found using a weak signature algorithm."
         },
-        "selfSignedCertificatesCount": {
+        "selfSignedCertificateCount": {
           "type": "integer",
           "format": "int64",
           "description": "Total number of certificates found that are self-signed."
@@ -1977,22 +1977,22 @@
       "type": "object",
       "description": "Properties for cryptographic key summary.",
       "properties": {
-        "totalKeysCount": {
+        "totalKeyCount": {
           "type": "integer",
           "format": "int64",
           "description": "Total number of cryptographic keys found."
         },
-        "publicKeysCount": {
+        "publicKeyCount": {
           "type": "integer",
           "format": "int64",
           "description": "Total number of (non-certificate) public keys found."
         },
-        "privateKeysCount": {
+        "privateKeyCount": {
           "type": "integer",
           "format": "int64",
           "description": "Total number of private keys found."
         },
-        "pairedKeysCount": {
+        "pairedKeyCount": {
           "type": "integer",
           "format": "int64",
           "description": "Total number of keys found that have a matching paired key or certificate."
@@ -2188,7 +2188,7 @@
           "$ref": "#/definitions/SummaryResourceProperties"
         }
       ],
-      "x-ms-discriminator-value": "CommonVulnerablityExposure"
+      "x-ms-discriminator-value": "CommonVulnerabilitiesAndExposures"
     },
     "CvssScore": {
       "type": "object",
@@ -2712,7 +2712,7 @@
       "description": "Describes the type of summary.",
       "enum": [
         "Firmware",
-        "CommonVulnerablityExposure",
+        "CommonVulnerabilitiesAndExposures",
         "BinaryHardening",
         "CryptoCertificate",
         "CryptoKey"
@@ -2727,8 +2727,8 @@
             "description": "The summary contains information about the submitted firmware"
           },
           {
-            "name": "CommonVulnerablityExposure",
-            "value": "CommonVulnerablityExposure",
+            "name": "CommonVulnerabilitiesAndExposures",
+            "value": "CommonVulnerabilitiesAndExposures",
             "description": "The summary contains information about the Common Vulnerabilites and Exposures analysis results"
           },
           {

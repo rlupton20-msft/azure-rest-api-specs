@@ -120,24 +120,9 @@ union DataBaseType {
   @doc("Clone DB")
   Clone: "Clone",
 
-  @added(Versions.v20240801_preview)
-  @doc("Clone DB from backup timestamp")
-  CloneFromBackupTimestamp: "CloneFromBackupTimestamp",
-
   @added(Versions.v20241001_preview)
   @doc("Cross Region Disaster Recovery")
   CrossRegionDisasterRecovery: "CrossRegionDisasterRecovery",
-
-  string,
-}
-
-@doc("Compute model enum")
-union ComputeModel {
-  @doc("ECPU model type")
-  ECPU: "ECPU",
-
-  @doc("OCPU model type")
-  OCPU: "OCPU",
 
   string,
 }
@@ -680,34 +665,6 @@ model AutonomousDatabaseCrossRegionDisasterRecoveryProperties
   isReplicateAutomaticBackups?: boolean;
 }
 
-@added(Versions.v20240801_preview)
-@doc("Autonomous Database From Backup Timestamp resource model.")
-model AutonomousDatabaseFromBackupTimestampProperties
-  extends AutonomousDatabaseBaseProperties {
-  @doc("Database type to be created.")
-  dataBaseType: DataBaseType.CloneFromBackupTimestamp;
-
-  @doc("The source of the database.")
-  @visibility("create")
-  source: SourceType.BackupFromTimestamp;
-
-  @doc("The ID of the source Autonomous Database that you will clone to create a new Autonomous Database.")
-  @visibility("create", "read")
-  sourceId: AutonomousDatabaseId;
-
-  @doc("The Autonomous Database clone type.")
-  @visibility("create")
-  cloneType: CloneType;
-
-  @doc("The timestamp specified for the point-in-time clone of the source Autonomous Database. The timestamp must be in the past.")
-  @visibility("create")
-  timestamp?: string;
-
-  @doc("Clone from latest available backup timestamp.")
-  @visibility("create")
-  useLatestAvailableBackupTimeStamp?: boolean;
-}
-
 @discriminator("dataBaseType")
 @doc("Autonomous Database base resource model.")
 model AutonomousDatabaseBaseProperties {
@@ -1073,18 +1030,14 @@ model AutonomousDatabaseWalletFile {
 @doc("Configurations of a Disaster Recovery Details")
 model DisasterRecoveryConfigurationDetails {
   @doc("Indicates the disaster recovery (DR) type of the Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.")
-  @visibility("create", "read")
   disasterRecoveryType?: DisasterRecoveryType;
 
   @doc("Time and date stored as an RFC 3339 formatted timestamp string. For example, 2022-01-01T12:00:00.000Z would set a limit for the snapshot standby to be converted back to a cross-region standby database.")
-  @visibility("create", "read")
   timeSnapshotStandbyEnabledTill?: utcDateTime;
 
   @doc("Indicates if user wants to convert to a snapshot standby. For example, true would set a standby database to snapshot standby database. False would set a snapshot standby database back to regular standby database.")
-  @visibility("create", "read")
   isSnapshotStandby?: boolean;
 
   @doc("If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.")
-  @visibility("create", "read")
   isReplicateAutomaticBackups?: boolean;
 }

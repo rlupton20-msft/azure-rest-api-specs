@@ -48,6 +48,7 @@ model PlannedQuotaResourceProperties {
   @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
   fulfilledPlan?: FulfilledPlan;
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Generic object model is used, because the number of nested properties can be different."
   @doc("Dictionary of the SKUs with alternative assigned. The key is the original SKU and the value is the alternative; a part of provisioning ResultData output.")
   @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
   alternatives?: {};
@@ -55,9 +56,11 @@ model PlannedQuotaResourceProperties {
 
 @doc("Fulfilled Plan details after fulfilling the quota of the plan.")
 model FulfilledPlan {
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Generic object model is used, because the number of nested properties can be different."
   @doc("Same as the \"arm\" node in the plan for the corresponding Subscription.")
   arm?: {};
 
+  #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Generic object model is used, because the number of nested properties can be different."
   @doc("Same as the \"rdfe\" node in the plan for the corresponding Subscription.")
   rdfe?: {};
 

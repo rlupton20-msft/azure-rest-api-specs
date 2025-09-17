@@ -16,55 +16,109 @@ scalar CloudExadataInfrastructureId
     }
   ]>;
 
-@doc("UpdateAction enum")
+@doc("Update action enum")
 union UpdateAction {
-  @doc("ROLLING_APPLY value")
+  @doc("Rolling apply action")
   RollingApply: "RollingApply",
 
-  @doc("NON_ROLLING_APPLY value")
+  @doc("Non rolling apply action")
   NonRollingApply: "NonRollingApply",
 
-  @doc("PRECHECK value")
+  @doc("Pre-check action")
   PreCheck: "PreCheck",
 
-  @doc("ROLLBACK value")
+  @doc("Rollback action")
   RollBack: "RollBack",
 
   string,
 }
 
-@doc("DiskRedundancy enum")
+@doc("DbIormConfig for cloud vm cluster")
+model DbIormConfig {
+  @doc("The database name. For the default DbPlan, the dbName is default.")
+  dbName?: string;
+
+  @doc("The flash cache limit for this database. This value is internally configured based on the share value assigned to the database.")
+  flashCacheLimit?: string;
+
+  @doc("The relative priority of this database.")
+  @minValue(1)
+  @maxValue(32)
+  share?: int32;
+}
+
+@doc("Objective enum")
+union Objective {
+  @doc("Low latency objective")
+  LowLatency: "LowLatency",
+
+  @doc("High throughput objective")
+  HighThroughput: "HighThroughput",
+
+  @doc("Balanced objective")
+  Balanced: "Balanced",
+
+  @doc("Auto objective")
+  Auto: "Auto",
+
+  @doc("Basic objective")
+  Basic: "Basic",
+
+  string,
+}
+
+@doc("ORM lifecycle state enum")
+union IormLifecycleState {
+  @doc("Indicates that resource in Provisioning state")
+  BootStrapping: "BootStrapping",
+
+  @doc("Indicates that resource in Enabled state")
+  Enabled: "Enabled",
+
+  @doc("Indicates that resource in Disabled state")
+  Disabled: "Disabled",
+
+  @doc("Indicates that resource in Updating state")
+  Updating: "Updating",
+
+  @doc("Indicates that resource in Failed state")
+  Failed: "Failed",
+
+  string,
+}
+
+@doc("Disk redundancy enum")
 union DiskRedundancy {
-  @doc("High value")
+  @doc("High redundancy")
   High: "High",
 
-  @doc("Normal value")
+  @doc("Normal redundancy")
   Normal: "Normal",
 
   string,
 }
 
-@doc("CloudVmClusterLifecycleState enum")
+@doc("Cloud VM Cluster lifecycle state enum")
 union CloudVmClusterLifecycleState {
-  @doc("PROVISIONING value")
+  @doc("Indicates that resource in Provisioning state")
   Provisioning: "Provisioning",
 
-  @doc("AVAILABLE value")
+  @doc("Indicates that resource in Available state")
   Available: "Available",
 
-  @doc("UPDATING value")
+  @doc("Indicates that resource in Updating state")
   Updating: "Updating",
 
-  @doc("TERMINATING value")
+  @doc("Indicates that resource in Terminating state")
   Terminating: "Terminating",
 
-  @doc("TERMINATED value")
+  @doc("Indicates that resource in Terminated state")
   Terminated: "Terminated",
 
-  @doc("MAINTENANCE_IN_PROGRESS value")
+  @doc("Indicates that resource Maintenance in progress state")
   MaintenanceInProgress: "MaintenanceInProgress",
 
-  @doc("FAILED value")
+  @doc("Indicates that resource in Failed state")
   Failed: "Failed",
 
   string,
@@ -82,7 +136,7 @@ model CloudVmCluster is TrackedResource<CloudVmClusterProperties> {
 
 @doc("File configuration options")
 @added(Versions.v20241201_preview)
-model FileSystemConfigurationDetail {
+model FileSystemConfigurationDetails {
   @doc("Mount path")
   mountPoint?: string;
 
@@ -112,7 +166,7 @@ model CloudVmClusterProperties {
   @added(Versions.v20241201_preview)
   @visibility("read", "update")
   @extension("x-ms-identifiers", [])
-  fileSystemConfigurationDetail?: FileSystemConfigurationDetail[];
+  fileSystemConfigurationDetails?: FileSystemConfigurationDetails[];
 
   @doc("The data disk group size to be allocated in TBs.")
   dataStorageSizeInTbs?: float64;
@@ -180,7 +234,7 @@ model CloudVmClusterProperties {
   isSparseDiskgroupEnabled?: boolean = false;
 
   @doc("Operating system version of the image.")
-  @visibility("read")
+  @visibility("create", "read")
   @minLength(1)
   @maxLength(255)
   systemVersion?: string;
@@ -245,11 +299,11 @@ model CloudVmClusterProperties {
 
   @doc("HTTPS link to OCI resources exposed to Azure Customer via Azure Interface.")
   @visibility("read")
-  ociUrl?: string;
+  ociUrl?: url;
 
   @doc("HTTPS link to OCI Network Security Group exposed to Azure Customer via the Azure Interface.")
   @visibility("read")
-  nsgUrl?: string;
+  nsgUrl?: url;
 
   @doc("Client subnet")
   @visibility("create", "read")
@@ -297,6 +351,11 @@ model CloudVmClusterProperties {
   @doc("Cluster subnet ocid")
   @visibility("read")
   subnetOcid?: Ocid;
+
+  @added(Versions.v20250101_preview)
+  @doc("The compute model of the VM Cluster.")
+  @visibility("read")
+  computeModel?: ComputeModel;
 }
 
 @doc("Add/Remove (Virtual Machine) DbNode model")

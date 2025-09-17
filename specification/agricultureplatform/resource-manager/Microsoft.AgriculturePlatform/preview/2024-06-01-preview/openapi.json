@@ -584,23 +584,29 @@
           "readOnly": true
         },
         "dataConnectorCredentials": {
-          "type": "object",
+          "type": "array",
           "description": "Data connector credentials of AgriService instance.",
-          "additionalProperties": {
-            "$ref": "#/definitions/DataConnectorCredentials"
+          "items": {
+            "$ref": "#/definitions/DataConnectorCredentialMap"
           },
+          "x-ms-identifiers": [
+            "key"
+          ],
           "x-ms-mutability": [
             "read",
             "update",
             "create"
           ]
         },
-        "solutions": {
-          "type": "object",
+        "installedSolutions": {
+          "type": "array",
           "description": "AgriService installed solutions.",
-          "additionalProperties": {
-            "$ref": "#/definitions/Solution"
+          "items": {
+            "$ref": "#/definitions/InstalledSolutionMap"
           },
+          "x-ms-identifiers": [
+            "key"
+          ],
           "x-ms-mutability": [
             "read",
             "update",
@@ -648,23 +654,29 @@
           ]
         },
         "dataConnectorCredentials": {
-          "type": "object",
+          "type": "array",
           "description": "Data connector credentials of AgriService instance.",
-          "additionalProperties": {
-            "$ref": "#/definitions/DataConnectorCredentials"
+          "items": {
+            "$ref": "#/definitions/DataConnectorCredentialMap"
           },
+          "x-ms-identifiers": [
+            "key"
+          ],
           "x-ms-mutability": [
             "read",
             "update",
             "create"
           ]
         },
-        "solutions": {
-          "type": "object",
+        "installedSolutions": {
+          "type": "array",
           "description": "AgriService installed solutions.",
-          "additionalProperties": {
-            "$ref": "#/definitions/Solution"
+          "items": {
+            "$ref": "#/definitions/InstalledSolutionMap"
           },
+          "x-ms-identifiers": [
+            "key"
+          ],
           "x-ms-mutability": [
             "read",
             "update",
@@ -672,70 +684,6 @@
           ]
         }
       }
-    },
-    "AgriSolution": {
-      "type": "object",
-      "description": "Available agri solution.",
-      "properties": {
-        "partnerId": {
-          "type": "string",
-          "description": "Partner Id."
-        },
-        "solutionId": {
-          "type": "string",
-          "description": "Solution Id."
-        },
-        "partnerTenantId": {
-          "type": "string",
-          "description": "Partner tenant Id."
-        },
-        "dataAccessScopes": {
-          "type": "array",
-          "description": "Data access scopes.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "marketPlaceOfferDetails": {
-          "$ref": "#/definitions/MarketPlaceOfferDetails",
-          "description": "Marketplace offer details."
-        },
-        "openApiSpecsDictionary": {
-          "type": "object",
-          "description": "Open Api specs dictionary.",
-          "additionalProperties": {
-            "$ref": "#/definitions/object"
-          }
-        },
-        "saasApplicationId": {
-          "type": "string",
-          "description": "Saas application Id."
-        },
-        "accessAzureDataManagerForAgricultureApplicationId": {
-          "type": "string",
-          "description": "Entra application Id used to access azure data manager for agriculture instance."
-        },
-        "accessAzureDataManagerForAgricultureApplicationName": {
-          "type": "string",
-          "description": "Entra application name used to access azure data manager for agriculture instance."
-        },
-        "isValidateInput": {
-          "type": "boolean",
-          "description": "Whether solution inference will validate input."
-        }
-      },
-      "required": [
-        "partnerId",
-        "solutionId",
-        "partnerTenantId",
-        "dataAccessScopes",
-        "marketPlaceOfferDetails",
-        "openApiSpecsDictionary",
-        "saasApplicationId",
-        "accessAzureDataManagerForAgricultureApplicationId",
-        "accessAzureDataManagerForAgricultureApplicationName",
-        "isValidateInput"
-      ]
     },
     "AuthCredentialsKind": {
       "type": "string",
@@ -769,7 +717,7 @@
           "type": "array",
           "description": "Agri solutions list.",
           "items": {
-            "$ref": "#/definitions/AgriSolution"
+            "$ref": "#/definitions/DataManagerForAgricultureSolution"
           },
           "x-ms-identifiers": []
         }
@@ -828,6 +776,24 @@
         }
       }
     },
+    "DataConnectorCredentialMap": {
+      "type": "object",
+      "description": "Mapping of data connector credentials.",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The key representing the credential."
+        },
+        "value": {
+          "$ref": "#/definitions/DataConnectorCredentials",
+          "description": "The data connector credential value."
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ]
+    },
     "DataConnectorCredentials": {
       "type": "object",
       "description": "The properties related to an AgriService data connector.",
@@ -883,6 +849,80 @@
         }
       }
     },
+    "DataManagerForAgricultureSolution": {
+      "type": "object",
+      "description": "Data Manager for Agriculture solution.",
+      "properties": {
+        "partnerId": {
+          "type": "string",
+          "description": "Partner Id."
+        },
+        "solutionId": {
+          "type": "string",
+          "description": "Solution Id."
+        },
+        "partnerTenantId": {
+          "type": "string",
+          "description": "Partner tenant Id."
+        },
+        "dataAccessScopes": {
+          "type": "array",
+          "description": "Data access scopes.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "marketPlaceOfferDetails": {
+          "$ref": "#/definitions/MarketPlaceOfferDetails",
+          "description": "Marketplace offer details."
+        },
+        "saasApplicationId": {
+          "type": "string",
+          "description": "Saas application Id."
+        },
+        "accessAzureDataManagerForAgricultureApplicationId": {
+          "type": "string",
+          "description": "Entra application Id used to access azure data manager for agriculture instance."
+        },
+        "accessAzureDataManagerForAgricultureApplicationName": {
+          "type": "string",
+          "description": "Entra application name used to access azure data manager for agriculture instance."
+        },
+        "isValidateInput": {
+          "type": "boolean",
+          "description": "Whether solution inference will validate input."
+        }
+      },
+      "required": [
+        "partnerId",
+        "solutionId",
+        "partnerTenantId",
+        "dataAccessScopes",
+        "marketPlaceOfferDetails",
+        "saasApplicationId",
+        "accessAzureDataManagerForAgricultureApplicationId",
+        "accessAzureDataManagerForAgricultureApplicationName",
+        "isValidateInput"
+      ]
+    },
+    "InstalledSolutionMap": {
+      "type": "object",
+      "description": "Mapping of installed solutions.",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "The key representing the installed solution."
+        },
+        "value": {
+          "$ref": "#/definitions/Solution",
+          "description": "The installed solution value."
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ]
+    },
     "ManagedOnBehalfOfConfiguration": {
       "type": "object",
       "description": "Configuration of the managed on behalf of resource.",
@@ -902,7 +942,7 @@
     },
     "MarketPlaceOfferDetails": {
       "type": "object",
-      "description": "Marketplace offer details of agri solution.",
+      "description": "Marketplace offer details of Agri solution.",
       "properties": {
         "saasOfferId": {
           "type": "string",
@@ -924,6 +964,7 @@
       "properties": {
         "id": {
           "type": "string",
+          "description": "The fully qualified resource ID of the MoboBroker resource.\nExample: `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}`",
           "readOnly": true
         }
       },
@@ -988,7 +1029,7 @@
     },
     "Solution": {
       "type": "object",
-      "description": "AgriService solution model.",
+      "description": "Installed data manager for Agriculture solution detail.",
       "properties": {
         "applicationName": {
           "type": "string",
@@ -1051,10 +1092,6 @@
           ]
         }
       }
-    },
-    "object": {
-      "type": "object",
-      "description": "Represent a model"
     }
   },
   "parameters": {}

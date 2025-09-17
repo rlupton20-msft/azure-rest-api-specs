@@ -27,7 +27,13 @@ These are the global settings for the AOPC.
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2024-01-31-preview
+tag: package-2025-02-11-preview
+suppressions:
+    - code: AvoidAnonymousTypes
+      where: 
+        - $.definitions["ManagedServiceIdentityUpdate"].properties["userAssignedIdentities"].additionalProperties
+      reason: 
+        Issue with common-types
 ```
 
 ### Tag: package-2024-01-31-preview
@@ -37,4 +43,13 @@ These settings apply only when `--tag=package-2024-01-31-preview` is specified o
 ```yaml $(tag) == 'package-2024-01-31-preview'
 input-file:
   - Microsoft.Orbital/preview/2024-01-31-preview/aopc.json
+```
+
+### Tag: package-2025-02-11-preview
+
+These settings apply only when `--tag=package-2025-02-11-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-02-11-preview'
+input-file:
+  - Microsoft.Orbital/preview/2025-02-11-preview/aopc.json
 ```

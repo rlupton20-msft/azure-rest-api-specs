@@ -90,6 +90,10 @@ model IndustryServicesResourceProperties {
   @visibility("read")
   @doc("Managed On Behalf Of Configuration.")
   managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
+
+  @doc("Deny Assignments exclusion list.")
+  @visibility("read", "update")
+  denyAssignmentExclusions?: DenyAssignmentExclusion[];
 }
 
 @doc("Configuration of the managed resource group associated with the resource.")
@@ -114,6 +118,17 @@ model MoboBrokerResource {
   id: string;
 }
 
+
+@doc("The properties related to Deny Assignment Exclusions")
+model DenyAssignmentExclusion {
+  @doc("Object Id of Identity")
+  @visibility("read","update")
+  id: string;
+
+  @doc("Type of Identity")
+  @visibility("read","update")
+  type: string;
+}
 
 @armResourceOperations(IndustryServicesResource)
 interface IndustryServices  {

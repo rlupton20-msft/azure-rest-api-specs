@@ -1,0 +1,2497 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Private.ArcContainerStorage management service",
+    "version": "2024-10-01-preview",
+    "description": "Private.ArcContainerStorage Resource Provider management API.",
+    "x-typespec-generated": [
+      {
+        "emitter": "@azure-tools/typespec-autorest"
+      }
+    ]
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "management.azure.com",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Operations"
+    },
+    {
+      "name": "OperationStatus"
+    },
+    {
+      "name": "AcStorConfigurations"
+    },
+    {
+      "name": "EdgeIngestPolicies"
+    },
+    {
+      "name": "EdgeStorageConfigurations"
+    },
+    {
+      "name": "EdgeSubvolumes"
+    },
+    {
+      "name": "EdgeVolumes"
+    },
+    {
+      "name": "SyncSubvolumes"
+    }
+  ],
+  "paths": {
+    "/{resourceUri}/providers/Private.ArcContainerStorage/acstorconfigurations": {
+      "get": {
+        "operationId": "AcStorConfigurations_List",
+        "tags": [
+          "AcStorConfigurations"
+        ],
+        "description": "List AcStorConfiguration resources by parent",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AcStorConfigurationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.ArcContainerStorage/acstorconfigurations/{acstorConfigurationName}": {
+      "get": {
+        "operationId": "AcStorConfigurations_Get",
+        "tags": [
+          "AcStorConfigurations"
+        ],
+        "description": "Get a AcStorConfiguration",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "acstorConfigurationName",
+            "in": "path",
+            "description": "The name of the AcStorConfiguration resource, which is always 'acstor-configuration' to enforce singleton.",
+            "required": true,
+            "type": "string",
+            "default": "acstor-configuration",
+            "pattern": "^acstor-configuration$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AcStorConfiguration"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "AcStorConfigurations_CreateOrReplace",
+        "tags": [
+          "AcStorConfigurations"
+        ],
+        "description": "Create a AcStorConfiguration",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "acstorConfigurationName",
+            "in": "path",
+            "description": "The name of the AcStorConfiguration resource, which is always 'acstor-configuration' to enforce singleton.",
+            "required": true,
+            "type": "string",
+            "default": "acstor-configuration",
+            "pattern": "^acstor-configuration$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AcStorConfiguration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'AcStorConfiguration' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AcStorConfiguration"
+            }
+          },
+          "201": {
+            "description": "Resource 'AcStorConfiguration' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/AcStorConfiguration"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "AcStorConfigurations_Delete",
+        "tags": [
+          "AcStorConfigurations"
+        ],
+        "description": "Delete a AcStorConfiguration",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "acstorConfigurationName",
+            "in": "path",
+            "description": "The name of the AcStorConfiguration resource, which is always 'acstor-configuration' to enforce singleton.",
+            "required": true,
+            "type": "string",
+            "default": "acstor-configuration",
+            "pattern": "^acstor-configuration$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/{resourceUri}/providers/Private.ArcContainerStorage/edgeingestpolicies": {
+      "get": {
+        "operationId": "EdgeIngestPolicies_List",
+        "tags": [
+          "EdgeIngestPolicies"
+        ],
+        "description": "List EdgeIngestPolicy resources by parent",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EdgeIngestPolicyListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.ArcContainerStorage/edgeingestpolicies/{edgeIngestPolicyName}": {
+      "get": {
+        "operationId": "EdgeIngestPolicies_Get",
+        "tags": [
+          "EdgeIngestPolicies"
+        ],
+        "description": "Get a EdgeIngestPolicy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeIngestPolicyName",
+            "in": "path",
+            "description": "The name of the EdgeIngestPolicy resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9]([a-z0-9-]*[a-z0-9])?$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EdgeIngestPolicy"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "EdgeIngestPolicies_CreateOrReplace",
+        "tags": [
+          "EdgeIngestPolicies"
+        ],
+        "description": "Create a EdgeIngestPolicy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeIngestPolicyName",
+            "in": "path",
+            "description": "The name of the EdgeIngestPolicy resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9]([a-z0-9-]*[a-z0-9])?$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EdgeIngestPolicy"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'EdgeIngestPolicy' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EdgeIngestPolicy"
+            }
+          },
+          "201": {
+            "description": "Resource 'EdgeIngestPolicy' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EdgeIngestPolicy"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "EdgeIngestPolicies_Delete",
+        "tags": [
+          "EdgeIngestPolicies"
+        ],
+        "description": "Delete a EdgeIngestPolicy",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeIngestPolicyName",
+            "in": "path",
+            "description": "The name of the EdgeIngestPolicy resource.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9]([a-z0-9-]*[a-z0-9])?$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/{resourceUri}/providers/Private.ArcContainerStorage/edgestorageconfigurations": {
+      "get": {
+        "operationId": "EdgeStorageConfigurations_List",
+        "tags": [
+          "EdgeStorageConfigurations"
+        ],
+        "description": "List EdgeStorageConfiguration resources by parent",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EdgeStorageConfigurationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.ArcContainerStorage/edgestorageconfigurations/{edgeStorageConfigurationName}": {
+      "get": {
+        "operationId": "EdgeStorageConfigurations_Get",
+        "tags": [
+          "EdgeStorageConfigurations"
+        ],
+        "description": "Get a EdgeStorageConfiguration",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeStorageConfigurationName",
+            "in": "path",
+            "description": "The name of the EdgeStorageConfiguration resource, which must be 'edge-storage-configuration'.",
+            "required": true,
+            "type": "string",
+            "pattern": "^edge-storage-configuration$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EdgeStorageConfiguration"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "EdgeStorageConfigurations_CreateOrReplace",
+        "tags": [
+          "EdgeStorageConfigurations"
+        ],
+        "description": "Create a EdgeStorageConfiguration",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeStorageConfigurationName",
+            "in": "path",
+            "description": "The name of the EdgeStorageConfiguration resource, which must be 'edge-storage-configuration'.",
+            "required": true,
+            "type": "string",
+            "pattern": "^edge-storage-configuration$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EdgeStorageConfiguration"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'EdgeStorageConfiguration' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EdgeStorageConfiguration"
+            }
+          },
+          "201": {
+            "description": "Resource 'EdgeStorageConfiguration' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EdgeStorageConfiguration"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "EdgeStorageConfigurations_Delete",
+        "tags": [
+          "EdgeStorageConfigurations"
+        ],
+        "description": "Delete a EdgeStorageConfiguration",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeStorageConfigurationName",
+            "in": "path",
+            "description": "The name of the EdgeStorageConfiguration resource, which must be 'edge-storage-configuration'.",
+            "required": true,
+            "type": "string",
+            "pattern": "^edge-storage-configuration$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/{resourceUri}/providers/Private.ArcContainerStorage/edgevolumes": {
+      "get": {
+        "operationId": "EdgeVolumes_List",
+        "tags": [
+          "EdgeVolumes"
+        ],
+        "description": "List EdgeVolume resources by parent",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EdgeVolumeListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.ArcContainerStorage/edgevolumes/{edgeVolumeName}": {
+      "get": {
+        "operationId": "EdgeVolumes_Get",
+        "tags": [
+          "EdgeVolumes"
+        ],
+        "description": "Get a EdgeVolume",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeVolumeName",
+            "in": "path",
+            "description": "The name of the EdgeVolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EdgeVolume"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "EdgeVolumes_CreateOrReplace",
+        "tags": [
+          "EdgeVolumes"
+        ],
+        "description": "Create a EdgeVolume",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeVolumeName",
+            "in": "path",
+            "description": "The name of the EdgeVolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EdgeVolume"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'EdgeVolume' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EdgeVolume"
+            }
+          },
+          "201": {
+            "description": "Resource 'EdgeVolume' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EdgeVolume"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "EdgeVolumes_Delete",
+        "tags": [
+          "EdgeVolumes"
+        ],
+        "description": "Delete a EdgeVolume",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeVolumeName",
+            "in": "path",
+            "description": "The name of the EdgeVolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/{resourceUri}/providers/Private.ArcContainerStorage/edgevolumes/{edgeVolumeName}/edgesubvolumes": {
+      "get": {
+        "operationId": "EdgeSubvolumes_List",
+        "tags": [
+          "EdgeSubvolumes"
+        ],
+        "description": "List EdgeSubvolume resources by EdgeVolume",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeVolumeName",
+            "in": "path",
+            "description": "The name of the EdgeVolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EdgeSubvolumeListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.ArcContainerStorage/edgevolumes/{edgeVolumeName}/edgesubvolumes/{edgeSubvolumeName}": {
+      "get": {
+        "operationId": "EdgeSubvolumes_Get",
+        "tags": [
+          "EdgeSubvolumes"
+        ],
+        "description": "Get a EdgeSubvolume",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeVolumeName",
+            "in": "path",
+            "description": "The name of the EdgeVolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          },
+          {
+            "name": "edgeSubvolumeName",
+            "in": "path",
+            "description": "The name of the EdgeSubvolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/EdgeSubvolume"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "EdgeSubvolumes_CreateOrReplace",
+        "tags": [
+          "EdgeSubvolumes"
+        ],
+        "description": "Create a EdgeSubvolume",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeVolumeName",
+            "in": "path",
+            "description": "The name of the EdgeVolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          },
+          {
+            "name": "edgeSubvolumeName",
+            "in": "path",
+            "description": "The name of the EdgeSubvolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EdgeSubvolume"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'EdgeSubvolume' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EdgeSubvolume"
+            }
+          },
+          "201": {
+            "description": "Resource 'EdgeSubvolume' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/EdgeSubvolume"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "EdgeSubvolumes_Delete",
+        "tags": [
+          "EdgeSubvolumes"
+        ],
+        "description": "Delete a EdgeSubvolume",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "edgeVolumeName",
+            "in": "path",
+            "description": "The name of the EdgeVolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          },
+          {
+            "name": "edgeSubvolumeName",
+            "in": "path",
+            "description": "The name of the EdgeSubvolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/{resourceUri}/providers/Private.ArcContainerStorage/syncsubvolumes": {
+      "get": {
+        "operationId": "SyncSubvolumes_List",
+        "tags": [
+          "SyncSubvolumes"
+        ],
+        "description": "List SyncSubvolume resources by parent",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SyncSubvolumeListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/{resourceUri}/providers/Private.ArcContainerStorage/syncsubvolumes/{syncSubvolumeName}": {
+      "get": {
+        "operationId": "SyncSubvolumes_Get",
+        "tags": [
+          "SyncSubvolumes"
+        ],
+        "description": "Get a SyncSubvolume",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "syncSubvolumeName",
+            "in": "path",
+            "description": "The name of the SyncSubvolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SyncSubvolume"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "SyncSubvolumes_CreateOrReplace",
+        "tags": [
+          "SyncSubvolumes"
+        ],
+        "description": "Create a SyncSubvolume",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "syncSubvolumeName",
+            "in": "path",
+            "description": "The name of the SyncSubvolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SyncSubvolume"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'SyncSubvolume' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/SyncSubvolume"
+            }
+          },
+          "201": {
+            "description": "Resource 'SyncSubvolume' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/SyncSubvolume"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "SyncSubvolumes_Delete",
+        "tags": [
+          "SyncSubvolumes"
+        ],
+        "description": "Delete a SyncSubvolume",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/Azure.ResourceManager.ResourceUriParameter"
+          },
+          {
+            "name": "syncSubvolumeName",
+            "in": "path",
+            "description": "The name of the SyncSubvolume resource.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-_.]*[a-zA-Z0-9])?$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/providers/Private.ArcContainerStorage/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "tags": [
+          "Operations"
+        ],
+        "description": "List the operations for the provider",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Private.ArcContainerStorage/locations/{location}/operationStatuses/{operationId}": {
+      "get": {
+        "operationId": "OperationStatus_Get",
+        "tags": [
+          "OperationStatus"
+        ],
+        "description": "Returns the current status of an async operation.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/OperationIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/OperationStatusResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AcStorConfiguration": {
+      "type": "object",
+      "description": "AcStorConfiguration is a custom resource that defines the configuration for a storage system.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AcStorConfigurationProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "AcStorConfigurationListResult": {
+      "type": "object",
+      "description": "The response of a AcStorConfiguration list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The AcStorConfiguration items on this page",
+          "items": {
+            "$ref": "#/definitions/AcStorConfiguration"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "AcStorConfigurationProperties": {
+      "type": "object",
+      "description": "Defines the properties of the AcStorConfiguration resource.",
+      "properties": {
+        "diskMountPoint": {
+          "type": "string",
+          "description": "The mount point for the disk.",
+          "default": "/mnt",
+          "readOnly": true
+        },
+        "diskCapacity": {
+          "type": "string",
+          "description": "The capacity of the disk, including storage unit (e.g., 60Gi).",
+          "pattern": "^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$",
+          "readOnly": true
+        },
+        "createStoragePool": {
+          "$ref": "#/definitions/StoragePoolConfig",
+          "description": "Configuration for creating a storage pool.",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/provisioningState",
+          "description": "The provisioning state of the resource.",
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/AcStorConfigurationStatus",
+          "description": "Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "diskCapacity"
+      ]
+    },
+    "AcStorConfigurationStatus": {
+      "type": "object",
+      "description": "Defines the observed status of the AcStorConfiguration resource.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "The current state of the configuration."
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional details about the configuration's status."
+        }
+      }
+    },
+    "AuthConfig": {
+      "type": "object",
+      "description": "Authentication settings for secure access to storage.",
+      "properties": {
+        "authType": {
+          "$ref": "#/definitions/AuthType",
+          "description": "Auth method to use."
+        },
+        "secretName": {
+          "type": "string",
+          "description": "Name of the K8s secret storing credentials. Required for SAS/KEY/CONNECTION_STRING."
+        },
+        "secretNamespace": {
+          "type": "string",
+          "description": "Namespace of the K8s secret storing credentials."
+        }
+      },
+      "required": [
+        "authType"
+      ]
+    },
+    "AuthSysConfig": {
+      "type": "object",
+      "description": "Unix-like ownership of the subvolume via UID/GID.",
+      "properties": {
+        "uid": {
+          "type": "integer",
+          "format": "int64",
+          "description": "User ID owning the subvolume (default 4294967294).",
+          "minimum": 1,
+          "maximum": 4294967294
+        },
+        "gid": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Group ID owning the subvolume (default 4294967294).",
+          "minimum": 1,
+          "maximum": 4294967294
+        }
+      },
+      "required": [
+        "uid",
+        "gid"
+      ]
+    },
+    "AuthType": {
+      "type": "string",
+      "description": "Possible authentication methods.",
+      "enum": [
+        "SAS",
+        "KEY",
+        "CONNECTION_STRING",
+        "WORKLOAD_IDENTITY",
+        "MANAGED_IDENTITY"
+      ],
+      "x-ms-enum": {
+        "name": "AuthType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "SAS",
+            "value": "SAS",
+            "description": "SAS"
+          },
+          {
+            "name": "KEY",
+            "value": "KEY",
+            "description": "Key"
+          },
+          {
+            "name": "CONNECTION_STRING",
+            "value": "CONNECTION_STRING",
+            "description": "Connection String"
+          },
+          {
+            "name": "WORKLOAD_IDENTITY",
+            "value": "WORKLOAD_IDENTITY",
+            "description": "Workload Identity"
+          },
+          {
+            "name": "MANAGED_IDENTITY",
+            "value": "MANAGED_IDENTITY",
+            "description": "Managed Identity"
+          }
+        ]
+      }
+    },
+    "EdgeIngestPolicy": {
+      "type": "object",
+      "description": "EdgeIngestPolicy is a custom resource that defines the configuration for edge ingest policies.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/EdgeIngestPolicyProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "EdgeIngestPolicyListResult": {
+      "type": "object",
+      "description": "The response of a EdgeIngestPolicy list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The EdgeIngestPolicy items on this page",
+          "items": {
+            "$ref": "#/definitions/EdgeIngestPolicy"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "EdgeIngestPolicyProperties": {
+      "type": "object",
+      "description": "Defines the properties of the EdgeIngestPolicy resource.",
+      "properties": {
+        "ingest": {
+          "$ref": "#/definitions/IngestConfig",
+          "description": "Defines the configuration for ingest policies."
+        },
+        "eviction": {
+          "$ref": "#/definitions/EvictionConfig",
+          "description": "Defines the configuration for eviction policies."
+        },
+        "onDelete": {
+          "type": "string",
+          "description": "Possible values: trigger-immediate-ingest or abandon. Can be extended to other string values.",
+          "default": "trigger-immediate-ingest",
+          "enum": [
+            "trigger-immediate-ingest",
+            "abandon"
+          ],
+          "x-ms-enum": {
+            "name": "OnDeleteAction",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "trigger-immediate-ingest",
+                "value": "trigger-immediate-ingest",
+                "description": "Trigger immediate ingestion for linked EdgeSubVolumes."
+              },
+              {
+                "name": "abandon",
+                "value": "abandon",
+                "description": "Abandon linked EdgeSubVolumes without any action."
+              }
+            ]
+          }
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/provisioningState",
+          "description": "The provisioning state of the resource.",
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/EdgeIngestPolicyStatus",
+          "description": "Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.",
+          "readOnly": true
+        }
+      }
+    },
+    "EdgeIngestPolicyStatus": {
+      "type": "object",
+      "description": "Defines the observed status of the EdgeIngestPolicy resource.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "The current state of the policy."
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional details about the policy's status."
+        }
+      }
+    },
+    "EdgeStorageConfiguration": {
+      "type": "object",
+      "description": "EdgeStorageConfiguration is a custom resource that defines the configuration for edge storage settings.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/EdgeStorageConfigurationProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "EdgeStorageConfigurationListResult": {
+      "type": "object",
+      "description": "The response of a EdgeStorageConfiguration list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The EdgeStorageConfiguration items on this page",
+          "items": {
+            "$ref": "#/definitions/EdgeStorageConfiguration"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "EdgeStorageConfigurationProperties": {
+      "type": "object",
+      "description": "Defines the properties of the EdgeStorageConfiguration resource.",
+      "properties": {
+        "defaultDiskStorageClasses": {
+          "type": "array",
+          "description": "The default disk storage class(es) to be used for edge volumes. Must not be empty and is immutable once set.",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/StorageClass"
+          },
+          "readOnly": true
+        },
+        "failoverEdgeVolumeConsumers": {
+          "type": "boolean",
+          "description": "Automatically failover edge volume consumers.",
+          "default": true
+        },
+        "workloadIdentity": {
+          "$ref": "#/definitions/WorkloadIdentity",
+          "description": "Object containing optional workload identity information."
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/provisioningState",
+          "description": "The provisioning state of the resource.",
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/EdgeStorageConfigurationStatus",
+          "description": "Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "defaultDiskStorageClasses"
+      ]
+    },
+    "EdgeStorageConfigurationStatus": {
+      "type": "object",
+      "description": "Defines the observed status of the EdgeStorageConfiguration resource.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "The current state of the configuration."
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional details about the configuration's status."
+        }
+      }
+    },
+    "EdgeSubvolume": {
+      "type": "object",
+      "description": "EdgeSubvolume is a custom resource that defines the configuration for a subvolume.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/EdgeSubvolumeProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "EdgeSubvolumeListResult": {
+      "type": "object",
+      "description": "The response of a EdgeSubvolume list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The EdgeSubvolume items on this page",
+          "items": {
+            "$ref": "#/definitions/EdgeSubvolume"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "EdgeSubvolumeProperties": {
+      "type": "object",
+      "description": "Defines the properties of the EdgeSubvolume resource.",
+      "properties": {
+        "subvolumeType": {
+          "type": "string",
+          "description": "Type of the subvolume.",
+          "default": "INGEST",
+          "enum": [
+            "INGEST",
+            "MIRROR"
+          ],
+          "x-ms-enum": {
+            "name": "SubvolumeType",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "INGEST",
+                "value": "INGEST",
+                "description": "Data ingestion subvolume."
+              },
+              {
+                "name": "MIRROR",
+                "value": "MIRROR",
+                "description": "Mirror subvolume for replication."
+              }
+            ]
+          },
+          "readOnly": true
+        },
+        "edgevolume": {
+          "type": "string",
+          "description": "Name of the EdgeVolume that this subvolume references.",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "path": {
+          "type": "string",
+          "description": "Top-level path for this subvolume (e.g., /mysubvol).",
+          "minLength": 1,
+          "maxLength": 255,
+          "pattern": "^/?[a-zA-Z0-9-\\._]*$"
+        },
+        "ingestPolicy": {
+          "type": "string",
+          "description": "EdgeIngestPolicy used by this subvolume.",
+          "default": "edgeingestpolicy-default",
+          "minLength": 1,
+          "maxLength": 253,
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-\\.]+[a-zA-Z0-9]$"
+        },
+        "auth": {
+          "$ref": "#/definitions/AuthConfig",
+          "description": "Authentication config for certain subvolumes."
+        },
+        "storageaccountendpoint": {
+          "type": "string",
+          "description": "Blob storage endpoint, for example: https://mysa.core.windows.net",
+          "minLength": 3,
+          "maxLength": 1024
+        },
+        "container": {
+          "type": "string",
+          "description": "Blob container name.",
+          "minLength": 3
+        },
+        "authSys": {
+          "$ref": "#/definitions/AuthSysConfig",
+          "description": "Optional Unix-like ownership info (UID/GID) for the subvolume."
+        },
+        "provisioningState": {
+          "type": "string",
+          "description": "The provisioning state of the resource.",
+          "enum": [
+            "Succeeded",
+            "Failed",
+            "Canceled",
+            "NotInUse",
+            "InProgress",
+            "Pending",
+            "Running",
+            "Terminating",
+            "Updating",
+            "Unknown",
+            "configuring",
+            "configured",
+            "cleaning_up"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Succeeded",
+                "value": "Succeeded",
+                "description": "Succeeded"
+              },
+              {
+                "name": "Failed",
+                "value": "Failed",
+                "description": "Failed"
+              },
+              {
+                "name": "Canceled",
+                "value": "Canceled",
+                "description": "Canceled"
+              },
+              {
+                "name": "ConfigNotInUse",
+                "value": "NotInUse",
+                "description": "ConfigNotInUse"
+              },
+              {
+                "name": "InProgress",
+                "value": "InProgress",
+                "description": "InProgress"
+              },
+              {
+                "name": "Pending",
+                "value": "Pending",
+                "description": "Pending"
+              },
+              {
+                "name": "Running",
+                "value": "Running",
+                "description": "Running"
+              },
+              {
+                "name": "Terminating",
+                "value": "Terminating",
+                "description": "Terminating"
+              },
+              {
+                "name": "Updating",
+                "value": "Updating",
+                "description": "Updating"
+              },
+              {
+                "name": "Unknown",
+                "value": "Unknown",
+                "description": "Unknown"
+              },
+              {
+                "name": "configuring",
+                "value": "configuring",
+                "description": "configuring"
+              },
+              {
+                "name": "configured",
+                "value": "configured",
+                "description": "configured"
+              },
+              {
+                "name": "cleaning_up",
+                "value": "cleaning_up",
+                "description": "cleaning_up"
+              }
+            ]
+          },
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/EdgeSubvolumeStatus",
+          "description": "Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "edgevolume",
+        "path",
+        "auth",
+        "storageaccountendpoint",
+        "container"
+      ]
+    },
+    "EdgeSubvolumeStatus": {
+      "type": "object",
+      "description": "Defines the observed status of the EdgeSubvolume resource.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "The current state of the subvolume. Defaults to 'unknown'.",
+          "default": "unknown"
+        },
+        "lastConfigError": {
+          "type": "string",
+          "description": "Last config error message."
+        },
+        "edgeVolumeRef": {
+          "type": "string",
+          "description": "A reference to the EdgeVolume resource."
+        },
+        "numberFilesLeftToUpload": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of files left to upload."
+        },
+        "backendConnection": {
+          "type": "string",
+          "description": "Describes the backend connection."
+        },
+        "requestedSyncSubvolume": {
+          "type": "string",
+          "description": "The subvolume requested for sync."
+        },
+        "runningSync": {
+          "type": "string",
+          "description": "The current running sync state."
+        },
+        "connectedStorageAccountEndpoint": {
+          "type": "string",
+          "description": "The connected storage account endpoint in use."
+        },
+        "connectedContainer": {
+          "type": "string",
+          "description": "The connected container in use."
+        },
+        "fileErrors": {
+          "type": "array",
+          "description": "List of file errors encountered.",
+          "items": {
+            "$ref": "#/definitions/FileError"
+          },
+          "x-ms-identifiers": []
+        },
+        "totalFileErrors": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total count of file errors."
+        }
+      },
+      "required": [
+        "connectedContainer"
+      ]
+    },
+    "EdgeVolume": {
+      "type": "object",
+      "description": "EdgeVolume is a custom resource for defining an edge volume.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/EdgeVolumeProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        }
+      },
+      "required": [
+        "properties"
+      ],
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "EdgeVolumeListResult": {
+      "type": "object",
+      "description": "The response of a EdgeVolume list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The EdgeVolume items on this page",
+          "items": {
+            "$ref": "#/definitions/EdgeVolume"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "EdgeVolumeProperties": {
+      "type": "object",
+      "description": "Defines the desired state (spec) of the EdgeVolume resource.",
+      "properties": {
+        "requestedSize": {
+          "type": "string",
+          "description": "Size of the EdgeVolume (example: 1Gi). Must be a valid storage size and is immutable once set.",
+          "default": "1Gi",
+          "pattern": "^[0-9][0-9]*([.][0-9]+)?[KMGTP]i?$",
+          "x-ms-mutability": [
+            "create"
+          ]
+        },
+        "ingestOperationConcurrency": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Weight of concurrency for ingest operations (between 1 and 256).",
+          "minimum": 1,
+          "maximum": 256
+        },
+        "provisioningState": {
+          "type": "string",
+          "description": "The provisioning state of the resource.",
+          "enum": [
+            "Succeeded",
+            "Failed",
+            "Canceled",
+            "NotInUse",
+            "InProgress",
+            "Pending",
+            "Running",
+            "Terminating",
+            "Updating",
+            "Unknown",
+            "deploying",
+            "deployed",
+            "deployment_deletion"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Succeeded",
+                "value": "Succeeded",
+                "description": "Succeeded"
+              },
+              {
+                "name": "Failed",
+                "value": "Failed",
+                "description": "Failed"
+              },
+              {
+                "name": "Canceled",
+                "value": "Canceled",
+                "description": "Canceled"
+              },
+              {
+                "name": "ConfigNotInUse",
+                "value": "NotInUse",
+                "description": "ConfigNotInUse"
+              },
+              {
+                "name": "InProgress",
+                "value": "InProgress",
+                "description": "InProgress"
+              },
+              {
+                "name": "Pending",
+                "value": "Pending",
+                "description": "Pending"
+              },
+              {
+                "name": "Running",
+                "value": "Running",
+                "description": "Running"
+              },
+              {
+                "name": "Terminating",
+                "value": "Terminating",
+                "description": "Terminating"
+              },
+              {
+                "name": "Updating",
+                "value": "Updating",
+                "description": "Updating"
+              },
+              {
+                "name": "Unknown",
+                "value": "Unknown",
+                "description": "Unknown"
+              },
+              {
+                "name": "deploying",
+                "value": "deploying",
+                "description": "deploying"
+              },
+              {
+                "name": "deployed",
+                "value": "deployed",
+                "description": "deployed"
+              },
+              {
+                "name": "deployment_deletion",
+                "value": "deployment_deletion",
+                "description": "deployment_deletion"
+              }
+            ]
+          },
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/EdgeVolumeStatus",
+          "description": "Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "requestedSize"
+      ]
+    },
+    "EdgeVolumeStatus": {
+      "type": "object",
+      "description": "Defines the observed state (status) of the EdgeVolume resource.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "The current state of the EdgeVolume. Defaults to 'unknown'.",
+          "default": "unknown"
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional details about the EdgeVolume status."
+        },
+        "spaceAvailable": {
+          "type": "string",
+          "description": "The amount of space available (string format, e.g., '500Mi')."
+        },
+        "persistentVolume": {
+          "type": "string",
+          "description": "A reference to the underlying persistent volume."
+        },
+        "subvolumesWithErrors": {
+          "type": "array",
+          "description": "List of subvolumes (by name or ID) that have encountered errors.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "EvictionConfig": {
+      "type": "object",
+      "description": "Defines the configuration for eviction policies.",
+      "properties": {
+        "order": {
+          "type": "string",
+          "description": "The order in which clean files will be evicted.",
+          "default": "unordered",
+          "enum": [
+            "never",
+            "unordered"
+          ],
+          "x-ms-enum": {
+            "name": "EvictionOrder",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "never",
+                "value": "never",
+                "description": "Do not evict any files."
+              },
+              {
+                "name": "unordered",
+                "value": "unordered",
+                "description": "Evict files in an unordered manner."
+              }
+            ]
+          }
+        },
+        "minDelaySec": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of seconds before a clean file is eligible for eviction.",
+          "default": 300,
+          "minimum": 0,
+          "maximum": 31536000
+        }
+      }
+    },
+    "FileError": {
+      "type": "object",
+      "description": "File error model for tracking errors on individual files.",
+      "properties": {
+        "fileName": {
+          "type": "string",
+          "description": "The name of the file that encountered the error."
+        },
+        "lastSeen": {
+          "type": "string",
+          "description": "A timestamp (or date string) indicating when this error was last observed."
+        },
+        "error": {
+          "type": "string",
+          "description": "A human-readable description of the error."
+        },
+        "export": {
+          "type": "integer",
+          "format": "int32",
+          "description": "An optional integer code or identifier related to the error."
+        }
+      }
+    },
+    "IngestConfig": {
+      "type": "object",
+      "description": "Defines the configuration for ingest policies.",
+      "properties": {
+        "order": {
+          "type": "string",
+          "description": "The order in which dirty files will be uploaded.",
+          "default": "oldest-first",
+          "enum": [
+            "oldest-first",
+            "newest-first"
+          ],
+          "x-ms-enum": {
+            "name": "IngestOrder",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "oldest-first",
+                "value": "oldest-first",
+                "description": "Upload dirty files in the order of oldest first."
+              },
+              {
+                "name": "newest-first",
+                "value": "newest-first",
+                "description": "Upload dirty files in the order of newest first."
+              }
+            ]
+          }
+        },
+        "minDelaySec": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The minimum number of seconds before a dirty file is eligible for ingest.",
+          "default": 60,
+          "minimum": 0,
+          "maximum": 31536000
+        }
+      }
+    },
+    "StorageClass": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 253
+    },
+    "StoragePoolConfig": {
+      "type": "object",
+      "description": "Defines the configuration for creating a storage pool.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether to create a storage pool.",
+          "default": true
+        },
+        "replicas": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of replicas to create.",
+          "default": 3,
+          "minimum": 1,
+          "maximum": 10
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the storage pool.",
+          "default": "arccontainerstorage-storage-pool"
+        },
+        "engineType": {
+          "type": "string",
+          "description": "The storage engine to use.",
+          "default": "xfs",
+          "enum": [
+            "xfs",
+            "spaces"
+          ],
+          "x-ms-enum": {
+            "name": "EngineTypes",
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "xfs",
+                "value": "xfs",
+                "description": "xfs"
+              },
+              {
+                "name": "spaces",
+                "value": "spaces",
+                "description": "spaces"
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "enabled"
+      ]
+    },
+    "SyncSubvolume": {
+      "type": "object",
+      "description": "SyncSubvolume is a custom resource that defines the configuration for synchronizing an EdgeSubvolume.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SyncSubvolumeProperties",
+          "description": "The resource-specific properties for this resource.",
+          "x-ms-client-flatten": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "SyncSubvolumeListResult": {
+      "type": "object",
+      "description": "The response of a SyncSubvolume list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The SyncSubvolume items on this page",
+          "items": {
+            "$ref": "#/definitions/SyncSubvolume"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "SyncSubvolumeProperties": {
+      "type": "object",
+      "description": "Defines the properties (spec) of the SyncSubvolume resource.",
+      "properties": {
+        "edgesubvolume": {
+          "type": "string",
+          "description": "Name of the EdgeSubvolume to sync.",
+          "minLength": 1,
+          "maxLength": 255,
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "provisioningState": {
+          "type": "string",
+          "description": "The provisioning state of the resource.",
+          "enum": [
+            "Succeeded",
+            "Failed",
+            "Canceled",
+            "NotInUse",
+            "InProgress",
+            "Pending",
+            "Running",
+            "Terminating",
+            "Updating",
+            "Unknown",
+            "configuring",
+            "cleaning_up",
+            "completed"
+          ],
+          "x-ms-enum": {
+            "modelAsString": true,
+            "values": [
+              {
+                "name": "Succeeded",
+                "value": "Succeeded",
+                "description": "Succeeded"
+              },
+              {
+                "name": "Failed",
+                "value": "Failed",
+                "description": "Failed"
+              },
+              {
+                "name": "Canceled",
+                "value": "Canceled",
+                "description": "Canceled"
+              },
+              {
+                "name": "ConfigNotInUse",
+                "value": "NotInUse",
+                "description": "ConfigNotInUse"
+              },
+              {
+                "name": "InProgress",
+                "value": "InProgress",
+                "description": "InProgress"
+              },
+              {
+                "name": "Pending",
+                "value": "Pending",
+                "description": "Pending"
+              },
+              {
+                "name": "Running",
+                "value": "Running",
+                "description": "Running"
+              },
+              {
+                "name": "Terminating",
+                "value": "Terminating",
+                "description": "Terminating"
+              },
+              {
+                "name": "Updating",
+                "value": "Updating",
+                "description": "Updating"
+              },
+              {
+                "name": "Unknown",
+                "value": "Unknown",
+                "description": "Unknown"
+              },
+              {
+                "name": "configuring",
+                "value": "configuring",
+                "description": "configuring"
+              },
+              {
+                "name": "cleaning_up",
+                "value": "cleaning_up",
+                "description": "cleaning_up"
+              },
+              {
+                "name": "completed",
+                "value": "completed",
+                "description": "completed"
+              }
+            ]
+          },
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/SyncSubvolumeStatus",
+          "description": "Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "edgesubvolume"
+      ]
+    },
+    "SyncSubvolumeStatus": {
+      "type": "object",
+      "description": "Defines the observed status (status) of the SyncSubvolume resource.",
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "The current state of the SyncSubvolume. Defaults to 'unknown'.",
+          "default": "unknown"
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional details about the SyncSubvolume status."
+        },
+        "edgeSubvolumeRef": {
+          "type": "string",
+          "description": "Reference to the EdgeSubvolume being synchronized."
+        }
+      }
+    },
+    "WorkloadIdentity": {
+      "type": "object",
+      "description": "Defines the workload identity properties.",
+      "properties": {
+        "clientId": {
+          "type": "string",
+          "description": "The client ID for the workload identity.",
+          "pattern": "^[0-9a-fA-F-]{36}$"
+        },
+        "tenantId": {
+          "type": "string",
+          "description": "The tenant ID for the workload identity.",
+          "pattern": "^[0-9a-fA-F-]{36}$"
+        }
+      },
+      "required": [
+        "clientId",
+        "tenantId"
+      ]
+    },
+    "provisioningState": {
+      "type": "string",
+      "description": "provisioningState",
+      "enum": [
+        "Succeeded",
+        "Failed",
+        "Canceled",
+        "NotInUse",
+        "InProgress",
+        "Pending",
+        "Running",
+        "Terminating",
+        "Updating",
+        "Unknown"
+      ],
+      "x-ms-enum": {
+        "name": "provisioningState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Succeeded"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Failed"
+          },
+          {
+            "name": "Canceled",
+            "value": "Canceled",
+            "description": "Canceled"
+          },
+          {
+            "name": "ConfigNotInUse",
+            "value": "NotInUse",
+            "description": "ConfigNotInUse"
+          },
+          {
+            "name": "InProgress",
+            "value": "InProgress",
+            "description": "InProgress"
+          },
+          {
+            "name": "Pending",
+            "value": "Pending",
+            "description": "Pending"
+          },
+          {
+            "name": "Running",
+            "value": "Running",
+            "description": "Running"
+          },
+          {
+            "name": "Terminating",
+            "value": "Terminating",
+            "description": "Terminating"
+          },
+          {
+            "name": "Updating",
+            "value": "Updating",
+            "description": "Updating"
+          },
+          {
+            "name": "Unknown",
+            "value": "Unknown",
+            "description": "Unknown"
+          }
+        ]
+      },
+      "readOnly": true
+    }
+  },
+  "parameters": {
+    "Azure.ResourceManager.ResourceUriParameter": {
+      "name": "resourceUri",
+      "in": "path",
+      "description": "The fully qualified Azure Resource manager identifier of the resource.",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method",
+      "x-ms-skip-url-encoding": true
+    }
+  }
+}

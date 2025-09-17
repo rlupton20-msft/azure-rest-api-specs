@@ -798,9 +798,6 @@
           },
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
-          },
-          {
-            "$ref": "#/parameters/GiVersionFilter"
           }
         ],
         "responses": {
@@ -819,48 +816,6 @@
         },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
-        }
-      }
-    },
-    "/subscriptions/{subscriptionId}/providers/Private.OracleDatabaseDev/locations/{location}/giVersions/{giversionname}": {
-      "get": {
-        "operationId": "GiVersions_Get",
-        "tags": [
-          "GiVersions"
-        ],
-        "description": "Get a GiVersion",
-        "parameters": [
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/LocationParameter"
-          },
-          {
-            "name": "giversionname",
-            "in": "path",
-            "description": "GiVersion name",
-            "required": true,
-            "type": "string",
-            "pattern": ".*"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/GiVersion"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
         }
       }
     },
@@ -4751,65 +4706,6 @@
       ],
       "x-ms-discriminator-value": "Clone"
     },
-    "AutonomousDatabaseFromBackupTimestampProperties": {
-      "type": "object",
-      "description": "Autonomous Database From Backup Timestamp resource model.",
-      "properties": {
-        "source": {
-          "type": "string",
-          "description": "The source of the database.",
-          "enum": [
-            "BackupFromTimestamp"
-          ],
-          "x-ms-enum": {
-            "modelAsString": false
-          },
-          "x-ms-mutability": [
-            "create"
-          ]
-        },
-        "sourceId": {
-          "$ref": "#/definitions/AutonomousDatabaseId",
-          "description": "The ID of the source Autonomous Database that you will clone to create a new Autonomous Database.",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ]
-        },
-        "cloneType": {
-          "$ref": "#/definitions/CloneType",
-          "description": "The Autonomous Database clone type.",
-          "x-ms-mutability": [
-            "create"
-          ]
-        },
-        "timestamp": {
-          "type": "string",
-          "description": "The timestamp specified for the point-in-time clone of the source Autonomous Database. The timestamp must be in the past.",
-          "x-ms-mutability": [
-            "create"
-          ]
-        },
-        "useLatestAvailableBackupTimeStamp": {
-          "type": "boolean",
-          "description": "Clone from latest available backup timestamp.",
-          "x-ms-mutability": [
-            "create"
-          ]
-        }
-      },
-      "required": [
-        "source",
-        "sourceId",
-        "cloneType"
-      ],
-      "allOf": [
-        {
-          "$ref": "#/definitions/AutonomousDatabaseBaseProperties"
-        }
-      ],
-      "x-ms-discriminator-value": "CloneFromBackupTimestamp"
-    },
     "AutonomousDatabaseId": {
       "type": "string",
       "format": "arm-id",
@@ -5638,37 +5534,37 @@
           {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "PROVISIONING value"
+            "description": "Indicates that resource in Provisioning state"
           },
           {
             "name": "Available",
             "value": "Available",
-            "description": "AVAILABLE value"
+            "description": "Indicates that resource in Available state"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "UPDATING value"
+            "description": "Indicates that resource in Updating state"
           },
           {
             "name": "Terminating",
             "value": "Terminating",
-            "description": "TERMINATING value"
+            "description": "Indicates that resource in Terminating state"
           },
           {
             "name": "Terminated",
             "value": "Terminated",
-            "description": "TERMINATED value"
+            "description": "Indicates that resource in Terminated state"
           },
           {
             "name": "MaintenanceInProgress",
             "value": "MaintenanceInProgress",
-            "description": "MAINTENANCE_IN_PROGRESS value"
+            "description": "Indicates that resource maintenance in progress state"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "FAILED value"
+            "description": "Indicates that resource in Failed state"
           }
         ]
       }
@@ -5792,6 +5688,7 @@
         },
         "ociUrl": {
           "type": "string",
+          "format": "uri",
           "description": "HTTPS link to OCI resources exposed to Azure Customer via Azure Interface.",
           "readOnly": true
         },
@@ -5832,8 +5729,8 @@
           "readOnly": true
         },
         "dataStorageSizeInTbs": {
-          "type": "integer",
-          "format": "int32",
+          "type": "number",
+          "format": "double",
           "description": "The quantity of data in the database, in terabytes.",
           "readOnly": true
         },
@@ -6002,7 +5899,7 @@
     },
     "CloudVmClusterLifecycleState": {
       "type": "string",
-      "description": "CloudVmClusterLifecycleState enum",
+      "description": "Cloud VM Cluster lifecycle state enum",
       "enum": [
         "Provisioning",
         "Available",
@@ -6019,37 +5916,37 @@
           {
             "name": "Provisioning",
             "value": "Provisioning",
-            "description": "PROVISIONING value"
+            "description": "Indicates that resource in Provisioning state"
           },
           {
             "name": "Available",
             "value": "Available",
-            "description": "AVAILABLE value"
+            "description": "Indicates that resource in Available state"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "UPDATING value"
+            "description": "Indicates that resource in Updating state"
           },
           {
             "name": "Terminating",
             "value": "Terminating",
-            "description": "TERMINATING value"
+            "description": "Indicates that resource in Terminating state"
           },
           {
             "name": "Terminated",
             "value": "Terminated",
-            "description": "TERMINATED value"
+            "description": "Indicates that resource in Terminated state"
           },
           {
             "name": "MaintenanceInProgress",
             "value": "MaintenanceInProgress",
-            "description": "MAINTENANCE_IN_PROGRESS value"
+            "description": "Indicates that resource Maintenance in progress state"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "FAILED value"
+            "description": "Indicates that resource in Failed state"
           }
         ]
       }
@@ -6227,7 +6124,10 @@
           "description": "Operating system version of the image.",
           "minLength": 1,
           "maxLength": 255,
-          "readOnly": true
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
         },
         "sshPublicKeys": {
           "type": "array",
@@ -6326,11 +6226,13 @@
         },
         "ociUrl": {
           "type": "string",
+          "format": "uri",
           "description": "HTTPS link to OCI resources exposed to Azure Customer via Azure Interface.",
           "readOnly": true
         },
         "nsgUrl": {
           "type": "string",
+          "format": "uri",
           "description": "HTTPS link to OCI Network Security Group exposed to Azure Customer via the Azure Interface.",
           "readOnly": true
         },
@@ -6691,8 +6593,7 @@
       "description": "Database type enum",
       "enum": [
         "Regular",
-        "Clone",
-        "CloneFromBackupTimestamp"
+        "Clone"
       ],
       "x-ms-enum": {
         "name": "DataBaseType",
@@ -6707,11 +6608,6 @@
             "name": "Clone",
             "value": "Clone",
             "description": "Clone DB"
-          },
-          {
-            "name": "CloneFromBackupTimestamp",
-            "value": "CloneFromBackupTimestamp",
-            "description": "Clone DB from backup timestamp"
           }
         ]
       }
@@ -7254,7 +7150,7 @@
     },
     "DbServerPatchingStatus": {
       "type": "string",
-      "description": "Db Server patching status enum",
+      "description": "DB Server patching status enum",
       "enum": [
         "Scheduled",
         "MaintenanceInProgress",
@@ -7268,22 +7164,22 @@
           {
             "name": "Scheduled",
             "value": "Scheduled",
-            "description": "SCHEDULED value"
+            "description": "Patching scheduled"
           },
           {
             "name": "MaintenanceInProgress",
             "value": "MaintenanceInProgress",
-            "description": "MAINTENANCE_IN_PROGRESS value"
+            "description": "Patching in progress"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "FAILED value"
+            "description": "Patching failed"
           },
           {
             "name": "Complete",
             "value": "Complete",
-            "description": "COMPLETE value"
+            "description": "Patching completed"
           }
         ]
       }
@@ -7435,32 +7331,32 @@
           {
             "name": "Creating",
             "value": "Creating",
-            "description": "CREATING value"
+            "description": "Indicates that resource in Creating state"
           },
           {
             "name": "Available",
             "value": "Available",
-            "description": "AVAILABLE value"
+            "description": "Indicates that resource in Available state"
           },
           {
             "name": "Unavailable",
             "value": "Unavailable",
-            "description": "UNAVAILABLE value"
+            "description": "Indicates that resource in Unavailable state"
           },
           {
             "name": "Deleting",
             "value": "Deleting",
-            "description": "DELETING value"
+            "description": "Indicates that resource in Deleting state"
           },
           {
             "name": "Deleted",
             "value": "Deleted",
-            "description": "DELETED value"
+            "description": "Indicates that resource in Deleted state"
           },
           {
             "name": "MaintenanceInProgress",
             "value": "MaintenanceInProgress",
-            "description": "MAINTENANCE_IN_PROGRESS value"
+            "description": "Indicates that resource maintenance in progress state"
           }
         ]
       }
@@ -7637,7 +7533,7 @@
     },
     "DiskRedundancy": {
       "type": "string",
-      "description": "DiskRedundancy enum",
+      "description": "Disk redundancy enum",
       "enum": [
         "High",
         "Normal"
@@ -7649,12 +7545,12 @@
           {
             "name": "High",
             "value": "High",
-            "description": "High value"
+            "description": "High redundancy"
           },
           {
             "name": "Normal",
             "value": "Normal",
-            "description": "Normal value"
+            "description": "Normal redundancy"
           }
         ]
       }
@@ -8129,7 +8025,7 @@
     },
     "IormLifecycleState": {
       "type": "string",
-      "description": "IORMLifecycleState enum",
+      "description": "ORM lifecycle state enum",
       "enum": [
         "BootStrapping",
         "Enabled",
@@ -8144,27 +8040,27 @@
           {
             "name": "BootStrapping",
             "value": "BootStrapping",
-            "description": "BOOTSTRAPPING value"
+            "description": "Indicates that resource in Provisioning state"
           },
           {
             "name": "Enabled",
             "value": "Enabled",
-            "description": "ENABLED value"
+            "description": "Indicates that resource in Enabled state"
           },
           {
             "name": "Disabled",
             "value": "Disabled",
-            "description": "DISABLED value"
+            "description": "Indicates that resource in Disabled state"
           },
           {
             "name": "Updating",
             "value": "Updating",
-            "description": "UPDATING value"
+            "description": "Indicates that resource in Updating state"
           },
           {
             "name": "Failed",
             "value": "Failed",
-            "description": "FAILED value"
+            "description": "Indicates that resource in Failed state"
           }
         ]
       }
@@ -8423,27 +8319,27 @@
           {
             "name": "LowLatency",
             "value": "LowLatency",
-            "description": "LOW_LATENCY value"
+            "description": "Low latency objective"
           },
           {
             "name": "HighThroughput",
             "value": "HighThroughput",
-            "description": "HIGH_THROUGHPUT value"
+            "description": "High throughput objective"
           },
           {
             "name": "Balanced",
             "value": "Balanced",
-            "description": "BALANCED value"
+            "description": "Balanced objective"
           },
           {
             "name": "Auto",
             "value": "Auto",
-            "description": "AUTO value"
+            "description": "Auto objective"
           },
           {
             "name": "Basic",
             "value": "Basic",
-            "description": "BASIC value"
+            "description": "Basic objective"
           }
         ]
       }
@@ -8763,7 +8659,7 @@
     },
     "PatchingMode": {
       "type": "string",
-      "description": "PatchingMode enum",
+      "description": "Patching mode enum",
       "enum": [
         "Rolling",
         "NonRolling"
@@ -8775,12 +8671,12 @@
           {
             "name": "Rolling",
             "value": "Rolling",
-            "description": "Rolling value"
+            "description": "Rolling patching"
           },
           {
             "name": "NonRolling",
             "value": "NonRolling",
-            "description": "Non Rolling value"
+            "description": "Non Rolling patching"
           }
         ]
       }
@@ -8859,12 +8755,12 @@
           {
             "name": "NoPreference",
             "value": "NoPreference",
-            "description": "NoPreference value"
+            "description": "No preference"
           },
           {
             "name": "CustomPreference",
             "value": "CustomPreference",
-            "description": "CustomPreference value"
+            "description": "Custom preference"
           }
         ]
       }
@@ -9500,7 +9396,7 @@
     },
     "UpdateAction": {
       "type": "string",
-      "description": "UpdateAction enum",
+      "description": "Update action enum",
       "enum": [
         "RollingApply",
         "NonRollingApply",
@@ -9514,22 +9410,22 @@
           {
             "name": "RollingApply",
             "value": "RollingApply",
-            "description": "ROLLING_APPLY value"
+            "description": "Rolling apply action"
           },
           {
             "name": "NonRollingApply",
             "value": "NonRollingApply",
-            "description": "NON_ROLLING_APPLY value"
+            "description": "Non rolling apply action"
           },
           {
             "name": "PreCheck",
             "value": "PreCheck",
-            "description": "PRECHECK value"
+            "description": "Pre-check action"
           },
           {
             "name": "RollBack",
             "value": "RollBack",
-            "description": "ROLLBACK value"
+            "description": "Rollback action"
           }
         ]
       }
@@ -9805,16 +9701,5 @@
       "maxLength": 1024
     }
   },
-  "parameters": {
-    "GiVersionFilter": {
-      "name": "shape",
-      "in": "query",
-      "description": "If provided, filters the results for the given shape",
-      "required": false,
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 255,
-      "x-ms-parameter-location": "method"
-    }
-  }
+  "parameters": {}
 }

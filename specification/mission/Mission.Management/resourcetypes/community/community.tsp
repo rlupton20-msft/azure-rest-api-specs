@@ -123,6 +123,13 @@ union ApprovalPolicy {
   NotRequired: "NotRequired",
 }
 
+@added(Microsoft.Mission.Versions.v2024_12_01_preview)
+@doc("Approver Metadata for approvals request.")
+model MandatoryApprover {
+  @doc("EntraId of the approver")
+  approverEntraId: string;
+}
+
 @added(Microsoft.Mission.Versions.v2024_11_01_preview)
 @doc("ApprovalSettings Properties")
 model ApprovalSettings {
@@ -158,6 +165,27 @@ model ApprovalSettings {
 
   @doc("Approval required for deploying service catalog templates (Required or NotRequired).")
   serviceCatalogDeployment?: ApprovalPolicy;
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @doc("Notification will be sent on creation of an Approval Request")
+  notificationOnApprovalCreation?: ApprovalPolicy;
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @doc("Notification will be sent on any action taken (Approve/Reject) on an Approval Request")
+  notificationOnApprovalAction?: ApprovalPolicy;
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @doc("Notification will be sent on deletion of an Approval Request")
+  notificationOnApprovalDeletion?: ApprovalPolicy;
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @OpenAPI.extension("x-ms-identifiers", ["approverEntraId"])
+  @doc("List of mandatory approvers for the approval request")
+  mandatoryApprovers?: MandatoryApprover[];
+
+  @added(Microsoft.Mission.Versions.v2024_12_01_preview)
+  @doc("Minimum number of approvers required for the approval request")
+  minimumApproversRequired?: int64;
 }
 
 @doc("Community Resource Properties")
@@ -168,6 +196,7 @@ model CommunityProperties {
   description?: string;
 
   @doc("Address Space.")
+  @visibility("read", "create")
   addressSpace?: string;
 
   @doc("Dns Servers.")
@@ -178,6 +207,7 @@ model CommunityProperties {
   provisioningState?: ProvisioningState;
 
   @doc("List of resource ids created by communities.")
+  @visibility("read")
   resourceCollection?: string[];
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
@@ -195,6 +225,7 @@ model CommunityProperties {
   @added(Microsoft.Mission.Versions.v2023_08_01_preview)
   @madeOptional(Microsoft.Mission.Versions.v2023_08_01_preview)
   @doc("Managed resource group configuration.")
+  @visibility("read")
   managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
 
   #suppress "@azure-tools/typespec-providerhub/non-breaking-versioning" "New version does not have any breaking change."
@@ -211,4 +242,8 @@ model CommunityProperties {
   @added(Microsoft.Mission.Versions.v2024_11_01_preview)
   @doc("Approval requirements for various actions on the community's resources.")
   approvalSettings?: ApprovalSettings;
+
+  @added(Microsoft.Mission.Versions.v2024_11_01_preview)
+  @doc("Maintenance Mode configuration.")
+  maintenanceModeConfiguration?: MaintenanceModeConfiguration;
 }
