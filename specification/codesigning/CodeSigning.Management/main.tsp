@@ -15,9 +15,7 @@ using TypeSpec.Versioning;
 
 @doc("Code Signing resource provider api.")
 @armProviderNamespace("Microsoft.CodeSigning")
-@service({
-  title: "CodeSigningManagementClient",
-})
+@service(#{ title: "CodeSigningManagementClient" })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.CodeSigning;
@@ -30,4 +28,6 @@ enum Versions {
   v2024_02_05_preview: "2024-02-05-preview",
 
   v2024_09_30_preview: "2024-09-30-preview",
+
+  v2025_07_30_preview: "2025-07-30-preview"
 }

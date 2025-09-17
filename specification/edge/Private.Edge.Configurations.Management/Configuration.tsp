@@ -5,25 +5,33 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 
-using TypeSpec.OpenAPI;
+using TypeSpec.Versioning;
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
-using Azure.Core;
 using Azure.ResourceManager;
 
 namespace Private.Edge;
 
-@doc("Configuration Resource")
-model Configuration is TrackedResource<ConfigurationProperties> {
-  ...ResourceNameParameter<Configuration>;
-}
-
 @doc("Configuration Properties")
 model ConfigurationProperties {
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ResourceProvisioningState;
+
+  @doc("Managed On Behalf Of Configuration.")
+  @visibility(Lifecycle.Read)
+  @removed(Versions.v2025_08_01)
+  managedOnBehalfOfConfiguration?: CommonTypes.ManagedOnBehalfOfConfiguration;
+}
+
+@doc("Configuration Resource")
+model Configuration is TrackedResource<ConfigurationProperties> {
+  @doc("Name of the Configuration")
+  @pattern("^(?!.*\\.\\.)[a-zA-Z0-9-][a-zA-Z0-9._-]{1,68}[a-zA-Z0-9-]$")
+  @path
+  @key("configurationName")
+  @segment("configurations")
+  name: string;
 }
 
 @armResourceOperations
@@ -56,7 +64,7 @@ model ConfigurationReference
 @doc("Properties for ConfigurationReference Resource")
 model ConfigurationReferenceProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ResourceProvisioningState;
 
   @doc("ArmId of Configuration resource")

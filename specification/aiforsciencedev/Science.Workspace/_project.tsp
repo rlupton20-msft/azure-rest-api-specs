@@ -9,8 +9,8 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
 
-@versioned(Microsoft.Science.Workspace.Versions)
-namespace Microsoft.Science.Workspace;
+@versioned(Microsoft.AiForScience.Workspace.Versions)
+namespace Microsoft.AiForScience.Workspace;
 
 @doc("A project.")
 @resource("projects")

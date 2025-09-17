@@ -1,7 +1,6 @@
-import "./workspace.tsp";
+import "./agent.tsp";
 import "./bookshelf.tsp";
+import "./dataAsset.tsp";
+import "./model.tsp";
 import "./project.tsp";
-import "./sciencetool.tsp";
-import "./sciencemodel.tsp";
-import "./AIAgent.tsp";
-import "./dataasset.tsp";
+import "./tool.tsp";

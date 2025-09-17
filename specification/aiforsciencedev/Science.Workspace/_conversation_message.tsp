@@ -11,8 +11,8 @@ using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
 
-@versioned(Microsoft.Science.Workspace.Versions)
-namespace Microsoft.Science.Workspace;
+@versioned(Microsoft.AiForScience.Workspace.Versions)
+namespace Microsoft.AiForScience.Workspace;
 
 /**
 User Request allows:

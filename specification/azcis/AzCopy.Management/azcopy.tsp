@@ -1,14 +1,12 @@
-import "@typespec/http";
-import "@typespec/rest";
-import "@typespec/versioning";
-import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/http";
+import "@typespec/rest";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using Azure.Core;
 using Azure.ResourceManager;
+using TypeSpec.Http;
+using TypeSpec.Rest;
 
 namespace Microsoft.AzureCis;
 
@@ -39,11 +37,11 @@ model AzCopyResourceProperties {
   azureLocation?: azureLocation;
 
   @doc("Provisioning state")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: AzCopyProvisioningState;
 
   @doc("Raw value of AzCopy result response message.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   azCopy?: string;
 }
 
@@ -53,7 +51,7 @@ model AzCopyResource is ProxyResource<AzCopyResourceProperties> {
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("azCopies")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }

@@ -28,7 +28,7 @@ model ExtensionVersion
   @path
   @key("versionName")
   @segment("versions")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   name: string;
 }
 

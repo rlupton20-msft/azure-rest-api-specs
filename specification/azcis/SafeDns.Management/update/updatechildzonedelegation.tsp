@@ -1,15 +1,12 @@
-import "@typespec/rest";
-import "@typespec/versioning";
-import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/http";
+import "@typespec/rest";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
-using Autorest;
+using TypeSpec.Http;
+using TypeSpec.Rest;
 
 namespace Microsoft.AzureCis;
 
@@ -31,7 +28,7 @@ model DnsNamespaceManagerUpdateDelegationResourceProperties {
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: DnsNamespaceManagerProvisioningState;
 }
 
@@ -42,7 +39,7 @@ model DnsNamespaceManagerUpdateDelegationResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("dnsNamespaceManagerUpdateDelegations") // start with lower case
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }

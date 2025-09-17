@@ -1,0 +1,40 @@
+export default {
+  tool_id: "discovery-m1",
+  name: "discovery",
+  description: "Advanced DFT computational tools for molecular geometry optimization and property calculations",
+  actions: [
+    {
+      name: "GeometryOptimization",
+      description: "Optimize geometry of 'xyz's from the input data asset. This is a prerequisite for all other discovery computations.",
+      input_schema: {
+        type: "object",
+        properties: {
+          inputDataAssetId: {
+            type: "string",
+            description: "Identifier of the input data asset"
+          },
+          xyzColumnName: {
+            type: "string",
+            description: "Column containing xyz data within the input data table asset"
+          },
+          outputDataAssetId: {
+            type: "string",
+            description: "Identifier to use for the new output data asset which will be created."
+          },
+          basisSet: {
+            type: "string",
+            description: "Basis set. Must be one of the supported basis sets (e.g., def2-svp, def2-tzvp)."
+          }
+        },
+        required: ["inputDataAssetId", "xyzColumnName"]
+      },
+      command: "python3 submit_dft.py ",
+      environment_variables: [
+        {
+          name: "OUTPUT_DIRECTORY_PATH",
+          value: "{{ outputDataAssetId }}"
+        }
+      ]
+    }
+  ]
+};

@@ -694,10 +694,6 @@
           "$ref": "#/definitions/StartAt",
           "description": "Start date of the discount. No duration will be supported. Future dates will be supported."
         },
-        "systemId": {
-          "$ref": "#/definitions/DiscountSystemId",
-          "description": "This is the globally unique identifier of the Discount which will not change for the lifetime of the Discount."
-        },
         "provisioningState": {
           "$ref": "#/definitions/DiscountProvisioningState",
           "readOnly": true,
@@ -751,6 +747,9 @@
         "endAt": {
           "$ref": "#/definitions/AffiliateEndAt",
           "description": "End date of the discount. No duration will be supported."
+        }, 
+        "systemId": {
+          "$ref": "#/definitions/ProductCode"
         }
       }
     },
@@ -773,12 +772,20 @@
         "endAt": {
           "$ref": "#/definitions/EndAt",
           "description": "End date of the discount. No duration will be supported."
+        },
+        "systemId": {
+          "$ref": "#/definitions/DiscountSystemId"
         }
       }
     },
     "DiscountTypeProperties": {
       "type": "object",
       "description": "This defines the conditions for a given discount type.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/DiscountPercentageDiscountPrice"
+        }
+      ],
       "required": [
         "discountType",
         "applyDiscountOn"
@@ -790,20 +797,27 @@
         "applyDiscountOn": {
           "$ref": "#/definitions/ApplyDiscountOn"
         },
-        "discountPercentage": {
-          "$ref": "#/definitions/DiscountPercentage"
-        },
         "discountCombinationRule": {
           "$ref": "#/definitions/DiscountCombinationRule"
-        },
-        "priceGuaranteeProperties": {
-          "$ref": "#/definitions/PriceGuaranteeProperties"
         },
         "conditions": {
           "$ref": "#/definitions/Conditions"
         }
       },
       "discriminator": "discountType"
+    },
+    "DiscountPercentageDiscountPrice": {
+      "type": "object",
+      "properties": {
+        "discountPercentage": {
+          "$ref": "#/definitions/DiscountPercentage"
+        },
+        "priceGuaranteeProperties": {
+          "$ref": "#/definitions/PriceGuaranteeProperties"
+        }
+      },
+      "minProperties": 1,
+      "maxProperties": 1
     },
     "DiscountTypeProductFamily": {
       "type": "object",

@@ -5,8 +5,10 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
+using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
+using Azure.ResourceManager.CommonTypes;
 
 namespace Microsoft.Quantum;
 
@@ -106,7 +108,7 @@ model ProviderDescription {
   /**
    * Provider's display name.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   name?: string;
 
   /**
@@ -122,25 +124,25 @@ model ProviderProperties {
   /**
    * A description about this provider.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   description?: string;
 
   /**
    * Provider type.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   providerType?: string;
 
   /**
    * Company name.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   company?: string;
 
   /**
    * Provider's default endpoint.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   defaultEndpoint?: string;
 
   /**
@@ -181,13 +183,13 @@ model ProviderPropertiesAad {
   /**
    * Provider's application id.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   applicationId?: string;
 
   /**
    * Provider's tenant id.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   tenantId?: string;
 }
 
@@ -198,13 +200,13 @@ model ProviderPropertiesManagedApplication {
   /**
    * Provider's publisher id.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   publisherId?: string;
 
   /**
    * Provider's offer id.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   offerId?: string;
 }
 
@@ -370,37 +372,87 @@ model WorkspaceResourceProperties {
   /**
    * List of Providers selected for this Workspace
    */
-  @OpenAPI.extension("x-ms-identifiers", ["providerId"])
+  @Azure.ResourceManager.identifiers(#["providerId"])
   providers?: Provider[];
 
   /**
    * Whether the current workspace is ready to accept Jobs.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   usable?: UsableStatus;
 
   /**
    * Provisioning status field
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: WorkspaceProvisioningStatus;
 
   /**
    * ARM Resource Id of the storage account associated with this workspace.
    */
-  storageAccount?: string;
+  @typeChangedFrom(Versions.v2025_01_01_preview, string)
+  storageAccount?: StorageAccountResourceId;
 
   /**
    * The URI of the workspace endpoint.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   endpointUri?: string;
 
   /**
    * Indicator of enablement of the Quantum workspace Api keys.
    */
   apiKeyEnabled?: boolean;
+
+  /**
+   * Managed On Behalf Of configuration.
+   */
+  @added(Versions.v2025_01_01_preview)
+  @visibility(Lifecycle.Read)
+  managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
+
+  /**
+   * ARM Resource Id of the managed storage account associated with this workspace.
+   */
+  @added(Versions.v2025_01_01_preview)
+  @visibility(Lifecycle.Read)
+  managedStorageAccount?: StorageAccountResourceId;
+
+  /**
+   * Quota allocations associated with this workspace. Available only for special providers.
+   */
+  @added(Versions.v2025_08_11_preview)
+  quotas?: QuotaAllocations;
 }
+
+/**
+ * Quota allocations with each field representing different quota type.
+ */
+@added(Versions.v2025_08_11_preview)
+model QuotaAllocations {
+  /**
+   * Lifetime limit for standard priority jobs execution in minutes.
+   */
+  @minValue(0)
+  standardMinutesLifetime: int32;
+
+  /**
+   * Lifetime limit for high priority jobs execution in minutes.
+   */
+  @minValue(0)
+  highMinutesLifetime?: int32;
+}
+
+/**
+ * ARM Resource Id of a storage account.
+ */
+@added(Versions.v2025_01_01_preview)
+scalar StorageAccountResourceId
+  extends Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.Storage/storageAccounts",
+    }
+  ]>;
 
 /**
  * Information about a Provider. A Provider is an entity that offers Targets to run Azure Quantum Jobs.
@@ -438,47 +490,6 @@ model Provider {
 }
 
 /**
- * Common fields that are returned in the response for all Azure Resource Manager resources
- */
-model Resource {
-  /**
-   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
-   */
-  @visibility("read")
-  id?: Azure.Core.armResourceIdentifier;
-
-  /**
-   * The name of the resource
-   */
-  @visibility("read")
-  name?: string;
-
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   */
-  @visibility("read")
-  type?: string;
-
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   */
-  @visibility("read")
-  systemData?: SystemData;
-}
-
-/**
- * Tags object for patch operations.
- */
-#suppress "@azure-tools/typespec-azure-resource-manager/patch-envelope" ""
-model TagsObject {
-  /**
-   * Resource tags.
-   */
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" ""
-  tags?: Record<string>;
-}
-
-/**
  * Result of list Api keys and connection strings.
  */
 model ListKeysResult {
@@ -500,13 +511,13 @@ model ListKeysResult {
   /**
    * The connection string of the primary api key.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   primaryConnectionString?: string;
 
   /**
    * The connection string of the secondary api key.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   secondaryConnectionString?: string;
 }
 
@@ -522,7 +533,7 @@ model ApiKey {
   /**
    * The Api key.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   key?: string;
 }
 
@@ -534,4 +545,41 @@ model ApiKeys {
    * A list of api key names.
    */
   keys?: KeyType[];
+}
+
+/** A Quantum Suite Offer that is available to a subscription. */
+@added(Versions.v2025_02_15_preview)
+model QuantumSuiteOffer
+  is Azure.ResourceManager.ProxyResource<QuantumSuiteOfferProperties> {
+  ...ResourceNameParameter<
+    Resource = QuantumSuiteOffer,
+    KeyName = "offerName",
+    SegmentName = "suiteOffers"
+  >;
+}
+
+/** Properties of a Quantum Suite Offer */
+#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state" "Only offers that are fully provisioned as available to subscriptions."
+@added(Versions.v2025_02_15_preview)
+model QuantumSuiteOfferProperties {
+  /** The provider ID of the offer. */
+  providerId: string;
+
+  /** The provider name of the offer. */
+  providerName: string;
+
+  /** The name of the company that is providing this offer. */
+  companyName: string;
+
+  /** The location where this offer is available. */
+  location: string;
+
+  /** Description of the offer. */
+  description: string;
+
+  /**
+   * Quota allocations associated with this offer.
+   */
+  @added(Versions.v2025_08_11_preview)
+  quotas?: QuotaAllocations;
 }

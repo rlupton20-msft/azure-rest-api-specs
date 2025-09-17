@@ -13,12 +13,11 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
 @parentResource(Namespace)
-@doc("Asset Endpoint Profile definition.")
+@doc("Namespace Asset Endpoint Profile definition.")
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 model NamespaceAssetEndpointProfile
@@ -35,9 +34,21 @@ model NamespaceAssetEndpointProfile
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("The extended location.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   extendedLocation: ExtendedLocation;
 }
+
+alias NamespaceAssetEndpointProfilePropertiesUpdate = {
+  ...OptionalProperties<UpdateableProperties<OmitProperties<
+    AssetEndpointProfileProperties,
+    "authentication"
+  >>>;
+
+  @added(Versions.v2024_10_01_preview)
+  @removed(Versions.v2024_11_01)
+  @doc("Object that describes the default user authentication information for the asset endpoint profile.")
+  authentication?: OptionalProperties<OmitDefaults<Authentication>>;
+};
 
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
@@ -49,10 +60,9 @@ interface NamespaceAssetEndpointProfiles {
     NamespaceAssetEndpointProfile,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       NamespaceAssetEndpointProfile,
-      AssetEndpointProfileProperties
+      NamespaceAssetEndpointProfilePropertiesUpdate
     >
   >;
   delete is ArmResourceDeleteWithoutOkAsync<NamespaceAssetEndpointProfile>;
   listByResourceGroup is ArmResourceListByParent<NamespaceAssetEndpointProfile>;
-  listBySubscription is ArmListBySubscription<NamespaceAssetEndpointProfile>;
 }

@@ -3,6 +3,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-client-generator-core";
 import "./common.tsp";
+import "./_run.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -11,31 +12,16 @@ using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
 
-@versioned(Microsoft.Science.Workspace.Versions)
-namespace Microsoft.Science.Workspace;
+@versioned(Microsoft.AiForScience.Workspace.Versions)
+namespace Microsoft.AiForScience.Workspace;
 
 @doc("Status")
 union InvestigationStatus {
-  /** Investigation Archived/discarded */
-  Archived: "Archived",
+  /** Investigation Created */
+  Created: "Created",
 
-  /** Investigation In draft */
-  Draft: "Draft",
-
-  //  /** Investigation Locked */
-  //  Locked: "Locked",
-
-  /** Investigation Committed */
-  Committed: "Committed",
-
-  /** Investigation Paused */
-  Paused: "Paused",
-
-  /** Investigation Running */
-  Running: "Running",
-
-  /** Investigation Success */
-  Success: "Success",
+  /** Investigation Validated */
+  Validated: "Validated",
 
   /** Investigation Failed */
   Failed: "Failed",
@@ -55,50 +41,27 @@ model RunResponse {
   //  stepStatusList: StepStatus[];
 }
 
-@doc("Input type")
-union InputType {
-  /** Azure Blob URI */
-  AzureBlobUri: "AzureBlobUri",
-
-  string,
-}
-
-@doc("For adding Input name")
-model WithInputName {
-  /** Name used to identify the input */
-  name: string;
-}
-
-@doc("For adding Input value")
-model WithInputValue {
-  /** Value of the input */
-  value: string;
-}
-
-@access(Access.internal)
-@doc("Input to an investigation")
-model InputBase {
-  ...WithInputValue;
-  ...WithInputName;
-
-  /** Input type */
-  type: InputType;
-}
-
 @doc("Input to an investigation")
 model Input {
-  ...InputBase;
+  @doc("The Data Asset ID")
+  @visibility("read", "create", "update")
+  dataAssetId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/dataAsset";
+    }
+  ]>;
+
   ...WithCreatedAt;
 
   /** The properties derived from pre-processing the input */
-  properties?: string[];
+  //  properties?: string[];
 }
 
 @doc("For tracking investigation inputs")
 model WithInvestigationInputs {
   @doc("The inputs for the Investigation")
-  @visibility("read")
-  inputs: Input[];
+  @visibility("read", "create", "update")
+  inputs?: Input[];
 }
 
 @doc("For timeout timestamp")
@@ -140,6 +103,10 @@ model Investigation {
   ...InvestigationCore;
   ...WithStatus<InvestigationStatus>;
 
+  /** Status of latest run */
+  @visibility("read")
+  latestRunStatus?: RunStatus;
+
   @doc("The ID of the user who locked the Investigation for editing, if any.")
   @visibility("read")
   lockedBy?: string;
@@ -169,7 +136,13 @@ union RunCacheMode {
 
 @doc("Run parameters.")
 model RunParams {
-  ...WithRunMode;
+  @doc("Data asset to which run results output will be written")
+  @visibility("read", "create")
+  outputDataAssetId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/dataAsset";
+    }
+  ]>;
 
   @doc("Caching behavior")
   @visibility("read", "create")
@@ -225,15 +198,15 @@ interface Investigations {
   @doc("Clone investigation (to a new one).")
   clone is Operations.ResourceAction<Investigation, WithRunName, Investigation>;
 
-  @doc("Add an input.")
-  addInput is Operations.ResourceAction<
-    Investigation,
-    {
-      ...InputBase;
-    },
-    Input
-  >;
-
-  @doc("Remove an input.")
-  removeInput is Operations.ResourceAction<Investigation, WithInputName, Input>;
+  //  @doc("Add an input.")
+  //  addInput is Operations.ResourceAction<
+  //    Investigation,
+  //    {
+  //      ...InputBase;
+  //    },
+  //    Input
+  //  >;
+  //
+  //  @doc("Remove an input.")
+  //  removeInput is Operations.ResourceAction<Investigation, WithInputName, Input>;
 }

@@ -153,37 +153,37 @@ model PortalExtensionProperties {
   /**
    * Readonly. The ICM routing details for any live site issues for the extension set in service tree
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   icm?: PortalExtensionPropertiesIcm;
 
   /**
    * Readonly. Email for customer feedback from service tree.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   feedbackEmail?: string;
 
   /**
    * Readonly. The service tree id.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   serviceTreeId?: string;
 
   /**
    * Readonly. The oAuthClientId guid from service tree.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   oAuthClientId?: string;
 
   /**
    * Readonly. The preview stamp from service tree.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   previewStamp?: string;
 
   /**
    * Readonly. The Azure portal extension name e.g Microsoft_Azure_Storage. Comes in from extension.pdl or extension.dx.json or is generated.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   portalName?: string;
 
   /**
@@ -194,19 +194,19 @@ model PortalExtensionProperties {
   /**
    * The current registration or provisioning state which only appears in the response
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   /**
    * The visibility of the extension. By default status will be NotOnboarded. Microsoft owned extensions can promote using service tree. External extensions can promote your application use partner center.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   publicStatus?: PublicStatusKind;
 
   /**
    * Once provisioningState is in the terminal state of Succeeded this is the portal runtime uri for portal extensions with status of private
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   runtimeUri?: string;
 }
 
@@ -234,7 +234,7 @@ model DeploymentConfig {
    * Defines the deployment stages, regions to deploy to for each stage and sequence to rollout to individual stages.
    */
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "For matching existin APIs on the service model."
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   stageDefinition?: Record<Array<string>>;
 }
 
@@ -245,19 +245,19 @@ model PortalExtensionPropertiesIcm {
   /**
    * Readonly. The ICM service route e.g Azure Portal (IbizaFx) from ICM for the service tree icm teamId.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   service?: string;
 
   /**
    * Readonly. The team under the ICM service e.g Portal from ICM for the service tree icm teamId.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   team?: string;
 
   /**
    * Readonly. The ICM team Id from service tree.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   teamId?: int32;
 }
 
@@ -283,19 +283,19 @@ model ArmCommonProperties {
   /**
    * Resource Id
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   id?: string;
 
   /**
    * Resource name
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   name?: string;
 
   /**
    * Resource type
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   type?: string;
 
   /**
@@ -312,7 +312,7 @@ model ArmCommonProperties {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   systemData?: SystemData;
 }
 
@@ -339,7 +339,7 @@ model PortalExtensionAlter {
   /**
    * The list of alterations to perform on the source code.
    */
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   alterations?: Array<PortalExtensionAlterAlterationsItem>;
 }
 
@@ -459,7 +459,7 @@ model ExtensionVersionProperties {
   /**
    * Indicates if the version has ever been deployed
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   hasBeenDeployed?: boolean;
 
   /**
@@ -470,7 +470,7 @@ model ExtensionVersionProperties {
   /**
    * Readonly. The provisioning state.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   /**
@@ -542,13 +542,13 @@ model ExtensionDeploymentProperties {
   /**
    * Readonly. The current registration or provisioning state which only appears in the response
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   /**
    * Readonly. The next stage of deployment from the deployment sequence e.g stage2
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   nextStage?: string;
 
   /**
@@ -595,13 +595,13 @@ model ExtensionSlotProperties {
   /**
    * Readonly. The current registration or provisioning state which only appears in the response
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   /**
    * Readonly. The slot that will be deployed to.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   nextStage?: string;
 }
 
@@ -662,7 +662,7 @@ model PortalTenantCompileFileProperties {
   /**
    * The current registration or provisioning state which only appears in the response.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

@@ -11,8 +11,8 @@ using Azure.ResourceManager;
 using TypeSpec.Versioning;
 
 @armProviderNamespace
-@versioned(Microsoft.Science.Versions)
-namespace Microsoft.Science;
+@versioned(Microsoft.AiForScience.Versions)
+namespace Microsoft.AiForScience;
 
 @doc("Catalog tracked resource")
 model Catalog is TrackedResource<CatalogProperties> {
@@ -29,9 +29,11 @@ model CatalogProperties {
   @visibility("read")
   catalogUiUri?: string;
 
-  @doc("The managed resource group for the Catalog managed resources.")
+  @doc("The URI/URL for the Catalog data plane API.")
   @visibility("read")
-  managedResourceGroup: string;
+  catalogApiUri?: string;
+
+  ...ManagedOnBehalfOfConfiguration; // TODO: Do we need to limit ARM resource type(s)?
 }
 
 @armResourceOperations

@@ -7,6 +7,7 @@ using TypeSpec.Rest;
 using TypeSpec.Http;
 using Azure.ResourceManager;
 using TypeSpec.OpenAPI;
+using TypeSpec.Versioning;
 
 namespace Private.EdgeInternal;
 
@@ -80,39 +81,83 @@ union RegistrationStatus {
   string,
 }
 
+/**
+ * Auto renew status
+ */
+@added(Versions.v2025_08_01)
+union AutoRenew {
+  /**
+   * Auto renew is enabled.
+   */
+  Enabled: "Enabled",
+
+  string,
+
+  /**
+   * Auto renew is disabled.
+   */
+  Disabled: "Disabled",
+
+  string,
+}
+
+/**
+ * Pricing model
+ */
+@added(Versions.v2025_08_01)
+union PricingModel {
+  /**
+   * Trial pricing model.
+   */
+  Trial: "Trial",
+
+  string,
+
+  /**
+   * Annual pricing model.
+   */
+  Annual: "Annual",
+
+  string,
+}
+
 @doc("The disconnected operation properties")
 model DisconnectedOperationProperties {
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The resource provisioning state")
   provisioningState?: ResourceProvisioningState;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The unique Id of the stamp")
   stampId: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The billing model")
   billingModel: BillingModel;
 
   @doc("The connection intent")
   connectionIntent: ConnectionIntent;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The connection status")
   connectionStatus?: ConnectionStatus;
 
   @doc("The registration intent")
-  @visibility("update", "read")
+  @visibility(Lifecycle.Update, Lifecycle.Read)
   registrationStatus?: RegistrationStatus;
 
   @doc("The device version")
-  @visibility("update", "read")
+  @visibility(Lifecycle.Update, Lifecycle.Read)
   deviceVersion?: string;
+
+  @doc("Auto renew setting")
+  @added(Versions.v2025_08_01)
+  autoRenew?: AutoRenew;
 }
 
 @doc("The disconnected operation manifest")
 model DisconnectedOperationDeploymentManifest {
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The resource Id of the disconnected operations resource")
   resourceId: Azure.Core.armResourceIdentifier<[
     {
@@ -120,25 +165,30 @@ model DisconnectedOperationDeploymentManifest {
     }
   ]>;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The resource name")
   resourceName: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The unique Id of the stamp")
   stampId: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The resource location")
   location: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The billing model")
   billingModel: BillingModel;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The connection intent")
   connectionIntent: ConnectionIntent;
+
+  @visibility(Lifecycle.Read)
+  @doc("The cloud in which the resource is registered")
+  @added(Versions.v2025_05_01)
+  cloud?: string;
 }
 
 /**
@@ -162,48 +212,159 @@ union ReleaseType {
 
 @doc("The image properties")
 model ImageProperties {
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The resource provisioning state")
   provisioningState?: ResourceProvisioningState;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The version of the package in the format 1.1.1")
   releaseVersion: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The release name")
   releaseDisplayName: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The release notes")
   releaseNotes: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The release date")
   releaseDate: plainDate;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The release type")
   releaseType: ReleaseType;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The versions that are compatible for this update package.")
   compatibleVersions?: Array<string>;
+}
+
+@doc("The image download properties")
+model ImageDownloadResponse {
+  ...ImageProperties;
+
+  @visibility(Lifecycle.Read)
+  @doc("The unique Id of the download")
+  transactionId: string;
+
+  @visibility(Lifecycle.Read)
+  @doc("The download uri")
+  downloadLink: url;
+
+  @visibility(Lifecycle.Read)
+  @doc("The download link expiry time")
+  linkExpiry: utcDateTime;
 }
 
 @doc("The image download properties")
 model ImageDownloadResult {
   ...ImageProperties;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The unique Id of the download")
   transactionId: string;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The download uri")
   downloadLink: url;
 
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @doc("The download link expiry time")
   linkExpiry: utcDateTime;
+}
+
+@doc("The artifact properties")
+@added(Versions.v2025_05_01)
+model ArtifactProperties {
+  @visibility(Lifecycle.Read)
+  @doc("The resource provisioning state")
+  provisioningState?: ResourceProvisioningState;
+
+  @visibility(Lifecycle.Read)
+  @doc("The artifact display order")
+  artifactOrder: int32;
+
+  @visibility(Lifecycle.Read)
+  @doc("The artifact title")
+  title: string;
+
+  @visibility(Lifecycle.Read)
+  @doc("The artifact description")
+  description: string;
+
+  @visibility(Lifecycle.Read)
+  @doc("The artifact size in MB")
+  size?: int64;
+}
+
+@doc("The artifact download properties")
+@added(Versions.v2025_05_01)
+model ArtifactDownloadResult {
+  ...ArtifactProperties;
+
+  @visibility(Lifecycle.Read)
+  @doc("The download uri")
+  downloadLink: url;
+
+  @visibility(Lifecycle.Read)
+  @doc("The download link expiry time")
+  linkExpiry: utcDateTime;
+}
+
+@doc("The hardware setting properties")
+@added(Versions.v2025_08_01)
+model HardwareSettingProperties {
+  @visibility(Lifecycle.Read)
+  @doc("The resource provisioning state")
+  provisioningState?: ResourceProvisioningState;
+
+  @visibility(Lifecycle.Update, Lifecycle.Read)
+  @doc("Total number of cores")
+  totalCores: int32;
+
+  @visibility(Lifecycle.Update, Lifecycle.Read)
+  @doc("Disk space in MB")
+  diskSpace: int64;
+
+  @visibility(Lifecycle.Update, Lifecycle.Read)
+  @doc("Memory in MB")
+  memory: int64;
+}
+
+@doc("Billing information")
+@added(Versions.v2025_08_01)
+model BillingInfo {
+  @visibility(Lifecycle.Update, Lifecycle.Read)
+  @doc("Number of cores")
+  cores: int32;
+
+  @visibility(Lifecycle.Update, Lifecycle.Read)
+  @doc("Pricing model")
+  pricingModel: PricingModel;
+
+  @visibility(Lifecycle.Update, Lifecycle.Read)
+  @doc("Billing start date")
+  billingStartDate: plainDate;
+
+  @visibility(Lifecycle.Update, Lifecycle.Read)
+  @doc("Billing end date")
+  billingEndDate: plainDate;
+}
+
+@doc("The billing configuration properties")
+@added(Versions.v2025_08_01)
+model BillingConfigurationProperties {
+  @visibility(Lifecycle.Read)
+  @doc("The resource provisioning state")
+  provisioningState?: ResourceProvisioningState;
+
+  @doc("Current billing configuration")
+  @visibility(Lifecycle.Update, Lifecycle.Read)
+  currentBilling: BillingInfo;
+
+  @doc("Next billing configuration")
+  @visibility(Lifecycle.Update, Lifecycle.Read)
+  nextBilling: BillingInfo;
 }

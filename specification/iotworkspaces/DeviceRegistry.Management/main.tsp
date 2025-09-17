@@ -10,9 +10,12 @@ import "./discoveredAssets.tsp";
 import "./discoveredAssetEndpointProfiles.tsp";
 import "./schemaRegistries.tsp";
 import "./namespaces.tsp";
+import "./credential.tsp";
+import "./policy.tsp";
 import "./ns_devices.tsp";
 import "./ns_assets.tsp";
 import "./ns_discoveredAssets.tsp";
+import "./ns_discoveredDevices.tsp";
 import "./ns_assetEndpointProfiles.tsp";
 import "./ns_discoveredAssetEndpointProfiles.tsp";
 
@@ -20,13 +23,10 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using Azure.ResourceManager.CommonTypes.Private;
 using Azure.ResourceManager.Foundations;
 
 @armProviderNamespace
-@service({
-  title: "Private.DeviceRegistry management service",
-})
+@service(#{ title: "Private.DeviceRegistry management service" })
 @doc("Private.DeviceRegistry Resource Provider management API.")
 @versioned(Versions)
 namespace Private.DeviceRegistry;
@@ -63,6 +63,32 @@ enum Versions {
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2024_11_01: "2024-11-01",
+
+  @doc("Private.DeviceRegistry Resource Provider management API version 2025-07-01-preview.")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_07_01_preview: "2025-07-01-preview",
+
+  @doc("Private.DeviceRegistry Resource Provider management API version 2025-10-01")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_10_01: "2025-10-01",
+
+  @doc("Private.DeviceRegistry Resource Provider management API version 2025-08-01-preview.")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_08_01_preview: "2025-08-01-preview",
+
+  // Dev API Versions
+  // Please add new versions before this line
+  @doc("Private.DeviceRegistry Resource Provider management API version 2021-10-10-preview.")
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
+  v2021_10_10_preview: "2021-10-10-preview",
+  // DO NOT ADD NEW API VERSIONS HERE
+  // ADD NEW VERSIONS BEFORE DEV API VERSIONS
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}

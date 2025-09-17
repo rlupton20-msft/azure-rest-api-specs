@@ -44,6 +44,12 @@
     },
     {
       "name": "EncryptedTransportAccountOperations"
+    },
+    {
+      "name": "DeviceOperations"
+    },
+    {
+      "name": "DeviceProfileOperations"
     }
   ],
   "paths": {
@@ -56,20 +62,20 @@
         "description": "List the operations for the provider",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
           "200": {
             "description": "Azure operation completed successfully.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/OperationListResult"
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/OperationListResult"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -95,10 +101,10 @@
         "description": "List EncryptedTransportAccount resources by subscription ID",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
           }
         ],
         "responses": {
@@ -111,7 +117,91 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.EncryptedTransport/encryptedTransportAccounts/{encryptedTransportAccountName}/deviceProfiles": {
+      "get": {
+        "operationId": "DeviceProfileOperations_ListBySubscription",
+        "tags": [
+          "DeviceProfileOperations"
+        ],
+        "description": "List DeviceProfile resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "encryptedTransportAccountName",
+            "in": "path",
+            "description": "The encrypted transport account name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DeviceProfileListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.EncryptedTransport/encryptedTransportAccounts/{encryptedTransportAccountName}/devices": {
+      "get": {
+        "operationId": "DeviceOperations_ListBySubscription",
+        "tags": [
+          "DeviceOperations"
+        ],
+        "description": "List Device resources by subscription ID",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "encryptedTransportAccountName",
+            "in": "path",
+            "description": "The encrypted transport account name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DeviceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -129,13 +219,13 @@
         "description": "List EncryptedTransportAccount resources by resource group",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
           }
         ],
         "responses": {
@@ -148,7 +238,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -166,13 +256,13 @@
         "description": "Get a EncryptedTransportAccount",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "encryptedTransportAccountName",
@@ -193,7 +283,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
           }
         }
@@ -206,13 +296,13 @@
         "description": "Create a EncryptedTransportAccount",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "encryptedTransportAccountName",
@@ -259,7 +349,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -276,13 +366,13 @@
         "description": "Update a EncryptedTransportAccount",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "encryptedTransportAccountName",
@@ -312,7 +402,7 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
           }
         }
@@ -325,13 +415,13 @@
         "description": "Delete a EncryptedTransportAccount",
         "parameters": [
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
           },
           {
-            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
           },
           {
             "name": "encryptedTransportAccountName",
@@ -363,7 +453,593 @@
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EncryptedTransport/encryptedTransportAccounts/{encryptedTransportAccountName}/deviceProfiles": {
+      "get": {
+        "operationId": "DeviceProfileOperations_ListByEncryptedTransportAccount",
+        "tags": [
+          "DeviceProfileOperations"
+        ],
+        "description": "List DeviceProfile resources by EncryptedTransportAccount",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "encryptedTransportAccountName",
+            "in": "path",
+            "description": "The encrypted transport account name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DeviceProfileListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EncryptedTransport/encryptedTransportAccounts/{encryptedTransportAccountName}/deviceProfiles/{deviceProfileName}": {
+      "get": {
+        "operationId": "DeviceProfileOperations_Get",
+        "tags": [
+          "DeviceProfileOperations"
+        ],
+        "description": "Get a DeviceProfile",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "encryptedTransportAccountName",
+            "in": "path",
+            "description": "The encrypted transport account name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          },
+          {
+            "name": "deviceProfileName",
+            "in": "path",
+            "description": "The device profile name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DeviceProfile"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "DeviceProfileOperations_CreateOrUpdate",
+        "tags": [
+          "DeviceProfileOperations"
+        ],
+        "description": "Create a DeviceProfile",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "encryptedTransportAccountName",
+            "in": "path",
+            "description": "The encrypted transport account name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          },
+          {
+            "name": "deviceProfileName",
+            "in": "path",
+            "description": "The device profile name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeviceProfile"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'DeviceProfile' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/DeviceProfile"
+            }
+          },
+          "201": {
+            "description": "Resource 'DeviceProfile' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/DeviceProfile"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "DeviceProfileOperations_Update",
+        "tags": [
+          "DeviceProfileOperations"
+        ],
+        "description": "Update a DeviceProfile",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "encryptedTransportAccountName",
+            "in": "path",
+            "description": "The encrypted transport account name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          },
+          {
+            "name": "deviceProfileName",
+            "in": "path",
+            "description": "The device profile name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeviceProfileUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DeviceProfile"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeviceProfileOperations_Delete",
+        "tags": [
+          "DeviceProfileOperations"
+        ],
+        "description": "Delete a DeviceProfile",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "encryptedTransportAccountName",
+            "in": "path",
+            "description": "The encrypted transport account name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          },
+          {
+            "name": "deviceProfileName",
+            "in": "path",
+            "description": "The device profile name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EncryptedTransport/encryptedTransportAccounts/{encryptedTransportAccountName}/devices": {
+      "get": {
+        "operationId": "DeviceOperations_ListByEncryptedTransportAccount",
+        "tags": [
+          "DeviceOperations"
+        ],
+        "description": "List Device resources by EncryptedTransportAccount",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "encryptedTransportAccountName",
+            "in": "path",
+            "description": "The encrypted transport account name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/DeviceListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EncryptedTransport/encryptedTransportAccounts/{encryptedTransportAccountName}/devices/{deviceName}": {
+      "get": {
+        "operationId": "DeviceOperations_Get",
+        "tags": [
+          "DeviceOperations"
+        ],
+        "description": "Get a Device",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "encryptedTransportAccountName",
+            "in": "path",
+            "description": "The encrypted transport account name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          },
+          {
+            "name": "deviceName",
+            "in": "path",
+            "description": "The device name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "DeviceOperations_CreateOrUpdate",
+        "tags": [
+          "DeviceOperations"
+        ],
+        "description": "Create a Device",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "encryptedTransportAccountName",
+            "in": "path",
+            "description": "The encrypted transport account name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          },
+          {
+            "name": "deviceName",
+            "in": "path",
+            "description": "The device name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          },
+          {
+            "name": "resource",
+            "in": "body",
+            "description": "Resource create parameters.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource 'Device' update operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          },
+          "201": {
+            "description": "Resource 'Device' create operation succeeded",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
+      },
+      "patch": {
+        "operationId": "DeviceOperations_Update",
+        "tags": [
+          "DeviceOperations"
+        ],
+        "description": "Update a Device",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "encryptedTransportAccountName",
+            "in": "path",
+            "description": "The encrypted transport account name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          },
+          {
+            "name": "deviceName",
+            "in": "path",
+            "description": "The device name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          },
+          {
+            "name": "properties",
+            "in": "body",
+            "description": "The resource properties to be updated.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeviceUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeviceOperations_Delete",
+        "tags": [
+          "DeviceOperations"
+        ],
+        "description": "Delete a Device",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "encryptedTransportAccountName",
+            "in": "path",
+            "description": "The encrypted transport account name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          },
+          {
+            "name": "deviceName",
+            "in": "path",
+            "description": "The device name",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]{3,24}$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
             }
           }
         },
@@ -381,6 +1057,7 @@
     },
     "Azure.ResourceManager.CommonTypes.TrackedResourceUpdate": {
       "type": "object",
+      "title": "Tracked Resource",
       "description": "The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'",
       "properties": {
         "tags": {
@@ -393,7 +1070,7 @@
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/Resource"
+          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/Resource"
         }
       ]
     },
@@ -408,6 +1085,227 @@
         }
       }
     },
+    "Device": {
+      "type": "object",
+      "description": "Device Resource Type",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DeviceProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "DeviceListResult": {
+      "type": "object",
+      "description": "The response of a Device list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The Device items on this page",
+          "items": {
+            "$ref": "#/definitions/Device"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "DeviceProfile": {
+      "type": "object",
+      "description": "Device Profile Resource Type",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DeviceProfileProperties",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/TrackedResource"
+        }
+      ]
+    },
+    "DeviceProfileId": {
+      "type": "string",
+      "format": "arm-id",
+      "description": "The device profile resource identifier of the selected device profile",
+      "x-ms-arm-id-details": {
+        "allowedResources": [
+          {
+            "type": "Microsoft.EncryptedTransport/encryptedTransportAccounts/deviceProfiles"
+          }
+        ]
+      }
+    },
+    "DeviceProfileListResult": {
+      "type": "object",
+      "description": "The response of a DeviceProfile list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The DeviceProfile items on this page",
+          "items": {
+            "$ref": "#/definitions/DeviceProfile"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "DeviceProfileProperties": {
+      "type": "object",
+      "description": "Device Profile Properties",
+      "properties": {
+        "imageId": {
+          "type": "string",
+          "description": "File name such as eud-rhel94-image-0_1_0.vhd corresponding to the device profile image.",
+          "pattern": "^[A-Za-z0-9-]+\\.[A-Za-z]+$",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "profileName": {
+          "type": "string",
+          "description": "User-friendly name describing the device profile, for example 'Dell Image with Audio and Camera'.",
+          "pattern": "^[a-zA-Z0-9 ]{3,60}$",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "imageId",
+        "profileName"
+      ]
+    },
+    "DeviceProfilePropertiesUpdate": {
+      "type": "object",
+      "description": "Device Profile Properties"
+    },
+    "DeviceProfileUpdate": {
+      "type": "object",
+      "description": "Device Profile Resource Type",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DeviceProfilePropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
+    },
+    "DeviceProperties": {
+      "type": "object",
+      "description": "Device Properties",
+      "properties": {
+        "serialNumber": {
+          "type": "string",
+          "description": "The serial number that identifies the end-user device. This must be unique at the account scope.",
+          "pattern": "^[a-zA-Z0-9]{3,24}$",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "deviceProfileId": {
+          "$ref": "#/definitions/DeviceProfileId",
+          "description": "Reference to an existing device profile.",
+          "x-ms-mutability": [
+            "read",
+            "create"
+          ]
+        },
+        "macAddress": {
+          "type": "string",
+          "description": "The MAC address for the end user device.",
+          "pattern": "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The status of the last operation.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "serialNumber",
+        "deviceProfileId",
+        "macAddress"
+      ]
+    },
+    "DevicePropertiesUpdate": {
+      "type": "object",
+      "description": "Device Properties",
+      "properties": {
+        "serialNumber": {
+          "type": "string",
+          "description": "The serial number that identifies the end-user device. This must be unique at the account scope.",
+          "pattern": "^[a-zA-Z0-9]{3,24}$",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        },
+        "macAddress": {
+          "type": "string",
+          "description": "The MAC address for the end user device.",
+          "pattern": "^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$",
+          "x-ms-mutability": [
+            "read",
+            "update",
+            "create"
+          ]
+        }
+      }
+    },
+    "DeviceUpdate": {
+      "type": "object",
+      "description": "Device Resource Type",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/DevicePropertiesUpdate",
+          "description": "The resource-specific properties for this resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/Azure.ResourceManager.CommonTypes.TrackedResourceUpdate"
+        }
+      ]
+    },
     "EncryptedTransportAccount": {
       "type": "object",
       "description": "Encrypted Transport Account Resource Type",
@@ -419,7 +1317,7 @@
       },
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/TrackedResource"
+          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/TrackedResource"
         }
       ]
     },
@@ -492,16 +1390,17 @@
       "properties": {
         "wifiPsk": {
           "type": "string",
+          "format": "password",
           "description": "Wi-Fi Pre-Shared Key as printable ASCII string",
           "pattern": "^[ -~ ]{8,64}$",
           "x-ms-mutability": [
-            "read",
             "create"
-          ]
+          ],
+          "x-ms-secret": true
         },
-        "vnet": {
-          "$ref": "#/definitions/VirtualNetworkId",
-          "description": "Reference to an existing azure virtual network",
+        "subnetId": {
+          "$ref": "#/definitions/SubnetId",
+          "description": "Reference to an existing subnet in the customer's Azure virtual network",
           "x-ms-mutability": [
             "read",
             "create"
@@ -532,7 +1431,7 @@
       },
       "required": [
         "wifiPsk",
-        "vnet",
+        "subnetId",
         "bandwidth",
         "privateIpAddress"
       ]
@@ -636,14 +1535,14 @@
         }
       }
     },
-    "VirtualNetworkId": {
+    "SubnetId": {
       "type": "string",
       "format": "arm-id",
-      "description": "Virtual Network Resource Identifier of customer vnet",
+      "description": "Subnet Resource Identifier of the subnet in the customer vnet",
       "x-ms-arm-id-details": {
         "allowedResources": [
           {
-            "type": "Microsoft.Network/virtualNetworks"
+            "type": "Microsoft.Network/virtualNetworks/subnets"
           }
         ]
       }

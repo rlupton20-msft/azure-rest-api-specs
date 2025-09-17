@@ -11,12 +11,13 @@ using Azure.ResourceManager;
 using TypeSpec.Versioning;
 
 @armProviderNamespace
-@versioned(Microsoft.Science.Versions)
-namespace Microsoft.Science;
+@versioned(Microsoft.AiForScience.Versions)
+namespace Microsoft.AiForScience;
 
 @doc("Supercomputer tracked resource")
 model Supercomputer is TrackedResource<SupercomputerProperties> {
   ...ResourceNameParameter<Supercomputer>;
+  ...ManagedServiceIdentityProperty;
 }
 
 @doc("Supercomputer properties")
@@ -26,14 +27,15 @@ model SupercomputerProperties {
   provisioningState?: ProvisioningState;
 
   // read
-  @doc("The mobo settings.")
-  @visibility("read")
-  managedResourceGroup: string; // TODO: MObo config
-
-  // read
   @doc("The ID of the workspace.")
   @visibility("read")
-  workspaceId: string; // ARM ID
+  workspaceId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/workspace";
+    }
+  ]>;
+
+  ...ManagedOnBehalfOfConfiguration; // TODO: Do we need to limit ARM resource type(s)?
 }
 
 @armResourceOperations

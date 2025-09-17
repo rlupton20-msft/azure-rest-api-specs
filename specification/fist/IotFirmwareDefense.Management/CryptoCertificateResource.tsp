@@ -8,7 +8,6 @@ import "./Firmware.tsp";
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 using TypeSpec.Http;
-using TypeSpec.OpenAPI;
 
 namespace Microsoft.IoTFirmwareDefense;
 
@@ -28,7 +27,7 @@ model CryptoCertificateResource is ProxyResource<CryptoCertificate> {
   @path
   @key("cryptoCertificateId")
   @segment("cryptoCertificates")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
   name: string;
 }

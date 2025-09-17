@@ -12,11 +12,10 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
-@doc("Discovered Asset Endpoint Profile definition.")
+@doc("Namespace Discovered Asset Endpoint Profile definition.")
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 @parentResource(Namespace)
@@ -34,7 +33,7 @@ model NamespaceDiscoveredAssetEndpointProfile
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("The extended location.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   extendedLocation: ExtendedLocation;
 }
 
@@ -53,5 +52,4 @@ interface NamespaceDiscoveredAssetEndpointProfiles {
   >;
   delete is ArmResourceDeleteWithoutOkAsync<NamespaceDiscoveredAssetEndpointProfile>;
   listByResourceGroup is ArmResourceListByParent<NamespaceDiscoveredAssetEndpointProfile>;
-  listBySubscription is ArmListBySubscription<NamespaceDiscoveredAssetEndpointProfile>;
 }

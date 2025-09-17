@@ -17,9 +17,7 @@ using TypeSpec.Versioning;
  * Azure Programmable Connectivity Provider management API.
  */
 @armProviderNamespace
-@service({
-  title: "ProgrammableConnectivity",
-})
+@service(#{ title: "ProgrammableConnectivity" })
 @versioned(Versions)
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.ProgrammableConnectivity;
@@ -36,9 +34,9 @@ enum Versions {
   v2024_01_15_preview: "2024-01-15-preview",
 
   /**
-   * The 2024-11-01-preview API version.
+   * The 2025-03-30-preview API version.
    */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
-  v2024_11_01_preview: "2024-11-01-preview",
+  v2025_03_30_preview: "2025-03-30-preview",
 }

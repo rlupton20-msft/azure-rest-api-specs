@@ -22,16 +22,20 @@ union SourceType {
   @doc("Source type - Bucket")
   Bucket: "Bucket",
 
+  @doc("Source type - DataShare")
+  @added(Versions.v2025_07_01_preview)
+  DataShare: "DataShare",
+
   string,
 }
 
 @doc("The state of the connector")
 union State {
-  @doc("Whether the connector is enabled")
-  Enabled: "Enabled",
+  @doc("Whether the connector is active")
+  Active: "Active",
 
-  @doc("Whether the connector is disabled")
-  Disabled: "Disabled",
+  @doc("Whether the connector is inactive")
+  Inactive: "Inactive",
 
   string,
 }
@@ -41,6 +45,10 @@ union AuthType {
   @doc("Access Key auth type")
   AccessKey: "AccessKey",
 
+  @doc("Managed Identity auth type")
+  @added(Versions.v2025_07_01_preview)
+  ManagedIdentity: "ManagedIdentity",
+
   string,
 }
 
@@ -48,6 +56,14 @@ union AuthType {
 union ConnectionType {
   @doc("Endpoint connection type")
   Endpoint: "Endpoint",
+
+  @doc("PrivateLink connection type")
+  @added(Versions.v2025_05_01_preview)
+  PrivateLink: "PrivateLink",
+
+  @doc("DataShare connection type")
+  @added(Versions.v2025_07_01_preview)
+  DataShare: "DataShare",
 
   string,
 }
@@ -79,6 +95,10 @@ union DataSourceType {
 
   @doc("S3 Compatible data source type.")
   S3_Compatible: "S3_Compatible",
+
+  @doc("Azure DataShare data source type.")
+  @added(Versions.v2025_07_01_preview)
+  Azure_DataShare: "Azure_DataShare",
 
   string,
 }

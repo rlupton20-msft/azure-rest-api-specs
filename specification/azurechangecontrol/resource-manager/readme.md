@@ -27,7 +27,7 @@ These are the global settings for the ChangeSafety.
 
 ```yaml
 openapi-type: arm
-tag: package-2024-10-01-preview
+tag: package-2025-07-01-preview
 openapi-subtype: providerHub
 ```
 
@@ -40,25 +40,73 @@ input-file:
   - Private.AzureChangeControl/ChangeControl/preview/2024-10-01-preview/ChangeControl.json
 ```
 
+### Tag: package-2025-03-01-preview
+
+These settings apply only when `--tag=package-2025-03-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-03-01-preview'
+input-file:
+  - Private.AzureChangeControl/ChangeControl/preview/2025-03-01-preview/ChangeControl.json
+```
+
+### Tag: package-2025-07-01-preview
+
+These settings apply only when `--tag=package-2025-07-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-07-01-preview'
+input-file:
+  - Private.AzureChangeControl/ChangeControl/preview/2025-07-01-preview/ChangeControl.json
+```
 ---
 
 ## Suppression
 
-``` yaml
+```yaml
 directive:
   - suppress: AvoidAdditionalProperties
-    reason: Need to use Record for key-value pair properties, got sign-off during design meeting.
+    reason: Flexible object schemas are required for extensible parameter storage and dynamic metadata. These enable support for diverse deployment scenarios while maintaining ARM compliance. Approved for flexible object parameters in Azure Change Control service design.
     from: ChangeControl.json
     where:
-      - $.definitions.ChangeStateProperties.properties.stageParameters
+      # ChangeState properties - flexible parameter and metadata storage
+      - $.definitions.ChangeStateProperties.properties.parameters
+      - $.definitions.ChangeStateProperties.properties.additionalData
+      - $.definitions.ChangeStatePropertiesUpdate.properties.parameters
+      
+      # Parameter types - flexible metadata and value storage
       - $.definitions.Parameter.properties.metadata
       - $.definitions.ParameterUpdate.properties.metadata
-      - $.definitions.Stage.properties.parameterValues
-      - $.definitions.StageProgressionProperties.properties.parameterValues
-      - $.definitions.StageProgressionPropertiesUpdate.properties.parameterValues
-      - $.definitions.RetrieveNextStagesResponseItem.properties.parameterValues
+      - $.definitions.StringParameter.properties.metadata
+      - $.definitions.NumberParameter.properties.metadata
+      - $.definitions.ArrayParameter.properties.metadata
+      - $.definitions.ArrayParameter.properties.defaultValue
+      - $.definitions.ArrayParameter.properties.allowedValues
+      - $.definitions.ObjectParameter.properties.metadata
+      - $.definitions.ObjectParameter.properties.defaultValue
+      - $.definitions.ObjectParameter.properties.allowedValues
+      
+      # Stage and StageMap properties - flexible variable and parameter storage
+      - $.definitions.Stage.properties.stageVariables
       - $.definitions.StageMapProperties.properties.parameters
-      - $.definitions.StageMapPropertiesUpdate.properties.parameters    
+      - $.definitions.StageMapPropertiesUpdate.properties.parameters
+      
+      # StageProgression properties - flexible variable and metadata storage
+      - $.definitions.StageProgressionProperties.properties.stageVariables
+      - $.definitions.StageProgressionProperties.properties.additionalData
+      - $.definitions.StageProgressionPropertiesUpdate.properties.stageVariables
+      - $.definitions.StageProgressionPropertiesUpdate.properties.additionalData
+      
+      # RetrieveNextStages response properties - flexible variable and metadata storage
+      - $.definitions.RetrieveNextStagesResponseItem.properties.stageVariables
+      - $.definitions.RetrieveNextStagesResponseItem.properties.additionalData
+      
+      # ChangeDefinition properties - flexible deployment details storage
+      - $.definitions.ChangeDefinition.properties.details
+      
+      # Operation content properties - flexible ARM resource properties
+      - $.definitions.OperationContent.properties.properties
+      
+      # Verify change validity request context - flexible validation context
+      - $.definitions.VerifyChangeValidityRequest.properties.context
 ```
 
 ---

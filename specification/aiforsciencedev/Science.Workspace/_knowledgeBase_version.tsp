@@ -10,8 +10,8 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
 
-@versioned(Microsoft.Science.Workspace.Versions)
-namespace Microsoft.Science.Workspace;
+@versioned(Microsoft.AiForScience.Workspace.Versions)
+namespace Microsoft.AiForScience.Workspace;
 
 @doc("A version.")
 @resource("versions")
@@ -29,12 +29,6 @@ model KnowledgeBaseVersion {
 model WithNodePool {
   @doc("Node pool ID")
   nodePoolId: string;
-}
-
-@doc("Supercomputer run ID")
-model WithRunId {
-  @doc("Run ID")
-  runId: string;
 }
 
 interface KnowledgeBaseVersions {

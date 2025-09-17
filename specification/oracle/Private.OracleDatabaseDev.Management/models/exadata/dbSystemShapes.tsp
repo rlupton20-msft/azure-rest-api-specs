@@ -100,11 +100,23 @@ model DbSystemShapeProperties {
   @minLength(1)
   @maxLength(255)
   displayName?: string;
+
+  @doc("The shapeAttributes of the DB system shape..")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  @added(Versions.v20250801_preview)
+  @minItems(0)
+  @maxItems(20)
+  shapeAttributes?: string[];
 }
 
 @added(Versions.v20241201_preview)
 @doc("Provides GiMinorVersion query parameter for list operations.")
 model DbSystemShapeFilter {
+  @query
+  @doc("Filters the result for the given Shape Attribute")
+  @added(Versions.v20250801_preview)
+  shapeAttribute?: string;
+
   @query
   @doc("Filters the result for the given Azure Availability Zone")
   zone?: string;

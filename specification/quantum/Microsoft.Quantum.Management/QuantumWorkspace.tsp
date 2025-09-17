@@ -7,7 +7,7 @@ import "./models.tsp";
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 using TypeSpec.Http;
-using TypeSpec.OpenAPI;
+using TypeSpec.Versioning;
 
 namespace Microsoft.Quantum;
 /**
@@ -44,8 +44,7 @@ interface Workspaces {
   /**
    * Updates an existing Workspace's tags.
    */
-  @parameterVisibility
-  updateTags is ArmCustomPatchSync<QuantumWorkspace, PatchModel = TagsObject>;
+  updateTags is ArmTagsPatchSync<QuantumWorkspace>;
 
   /**
    * Deletes a Workspace resource.
@@ -80,6 +79,15 @@ interface Workspaces {
     ApiKeys,
     NoContentResponse
   >;
+}
+
+@armResourceOperations
+@added(Versions.v2025_08_11_preview)
+interface SuiteOffers {
+  /**
+   * Returns the SuiteOffer resource associated with the given name.
+   */
+  listBySubscription is ArmListBySubscription<QuantumSuiteOffer>;
 }
 
 @@doc(QuantumWorkspace.name, "The name of the quantum workspace resource.");

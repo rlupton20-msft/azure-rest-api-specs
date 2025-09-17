@@ -22,7 +22,7 @@ model Gateway is Azure.ResourceManager.TrackedResource<GatewayProperties> {
   @path
   @key("gatewayName")
   @segment("gateways")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   name: string;
 }
 
@@ -33,7 +33,7 @@ model GatewayProperties {
   /**
    * List of Operator API Connections selected by the user.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   operatorApiConnections?: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.ProgrammableConnectivity/operatorApiConnections";
@@ -43,34 +43,34 @@ model GatewayProperties {
   /**
    * Base URL of the Gateway resource. This is the URL that the users would use to make Network API requests to the Operators via Azure.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   gatewayBaseUrl?: string;
 
   /**
    * The status of the last operation on the Gateway resource.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   /**
    * Details about the Application that would use the Operator's Network APIs.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
-  @visibility("read", "create", "update")
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   configuredApplication: ApplicationProperties;
 
   /**
    * Details about the Organization owning the Application that would use the Operator's Network APIs.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
-  @visibility("read", "create", "update")
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   configuredApplicationOwner: ApplicationOwnerProperties;
 }
 
 /**
  * Details about the Application Owner (i.e. organization) that would use the Operator's Network APIs.
  */
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 model ApplicationOwnerProperties {
   /**
    * Common name of the organization owning the application.
@@ -133,6 +133,11 @@ model ApplicationOwnerProperties {
   privacyManager: Person;
 
   /**
+   * Data Protection Officer of the organization.
+   */
+  dataProtectionOfficer: Person;
+
+  /**
    * Registered Geographic address.
    */
   registeredGeographicAddress: GeographicAddress;
@@ -145,7 +150,7 @@ model ApplicationOwnerProperties {
   /**
    * List of local representatives.
    */
-  @OpenAPI.extension("x-ms-identifiers", ["countryCode"])
+  @OpenAPI.extension("x-ms-identifiers", #["countryCode"])
   localRepresentatives: LocalRepresentative[];
 }
 
@@ -156,74 +161,74 @@ model ApplicationProperties {
   /**
    * Name of the application.
    */
-  @TypeSpec.Versioning.madeRequired(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.madeRequired(Versions.v2025_03_30_preview)
   name: string;
 
   /**
    * Description of the application.
    */
-  @TypeSpec.Versioning.madeRequired(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.madeRequired(Versions.v2025_03_30_preview)
   applicationDescription: string;
 
   /**
    * The category that describes the application.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
   applicationType?: string;
 
   /**
    * The category of the application.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   category: Category;
 
   /**
    * Commercial name of the application.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   commercialName: string;
 
   /**
    * Privacy rights request email address.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   privacyRightsRequestEmailAddress: string;
 
   /**
    * URL for the organization's privacy policy.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   privacyPolicyUrl: url;
 
   /**
    * Legal name of the organization owning the application.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
   legalName?: string;
 
   /**
    * A description of the organization owning the application.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
   organizationDescription?: string;
 
   /**
    * Unique Tax Number for the user's organization in the country/region the APC Gateway is being purchased.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
   taxNumber?: string;
 
   /**
    * Email address of the Privacy contact or Data Protection officer of the organization.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
   privacyContactEmailAddress?: string;
 }
 
 /**
  * Model defining a contactable person.
  */
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 model Person {
   /**
    * Family name of the contactable person.
@@ -244,7 +249,7 @@ model Person {
 /**
  * Model defining a geographic address.
  */
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 model GeographicAddress {
   /**
    * Street Number of the address.
@@ -267,6 +272,11 @@ model GeographicAddress {
   city?: string;
 
   /**
+   * State or province of the address.
+   */
+  stateOrProvince?: string;
+
+  /**
    * Postal code of the address.
    */
   postalCode?: string;
@@ -281,7 +291,7 @@ model GeographicAddress {
 /**
  * Model defining a local representative for a country/region.
  */
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 model LocalRepresentative {
   /**
    * Country code for the country/region the local representative is representing.
@@ -290,16 +300,23 @@ model LocalRepresentative {
   countryCode: string;
 
   /**
+   * Incorrect name; retaining so don't break dev environment
+   */
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
+  localRepresentativePerson: Person;
+
+  /**
    * Local representative for this country/region.
    */
-  localRepresentativePerson: Person;
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
+  representative: Person;
 }
 
 /**
  * Valid values for category based on https://www.tmforum.org/oda/open-apis/directory/open-gateway-onboarding-and-ordering-component-suite-TMF931
  */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 union Category {
   agriculture: "Agriculture",
   artAndDesign: "Art and design",
@@ -352,16 +369,16 @@ union Category {
  * Valid values for the Organization Type based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/.
  */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 union OrganizationType {
-  dpvAcademicScientificOrganisation: "Academic scientific organization",
-  dpvForProfitOrganisation: "For profit organization",
-  dpvGovernmentalOrganisation: "Governmental organization",
-  dpvIndustryConsortium: "Industry consortium",
-  dpvInternationalOrganisation: "International organization",
-  dpvNonGovernmentalOrganisation: "Non-governmental organization",
-  dpvNonProfitOrganisation: "Non-profit organization",
-  dpvOrganisationalUnit: "Organizational unit",
+  academicScientificOrganization: "Academic scientific organization",
+  forProfitOrganization: "For profit organization",
+  governmentalOrganization: "Governmental organization",
+  industryConsortium: "Industry consortium",
+  internationalOrganization: "International organization",
+  nonGovernmentalOrganization: "Non-governmental organization",
+  nonProfitOrganization: "Non-profit organization",
+  OrganizationalUnit: "Organizational unit",
   string,
 }
 

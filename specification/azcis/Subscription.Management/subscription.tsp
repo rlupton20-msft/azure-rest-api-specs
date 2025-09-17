@@ -1,15 +1,14 @@
-import "@typespec/rest";
-import "@typespec/versioning";
-import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/openapi";
+import "@typespec/http";
+import "@typespec/rest";
 
+using Azure.Core;
+using Azure.ResourceManager;
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using Azure.Core;
-using Azure.ResourceManager;
-using Autorest;
 
 namespace Microsoft.AzureCis;
 
@@ -88,33 +87,33 @@ model SubscriptionResourceProperties {
   ev2ServiceGroup?: string;
 
   @doc("DSMS Root Folders of SubscriptionManagement.")
-  @extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   dsmsFolderWhitelists?: Array<DsmsFolderWhitelist>;
 
   @doc("The Azure location.")
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: SubscriptionProvisioningState;
 
   @doc("List of Subscription IDs; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   subscriptionId?: Array<string>;
 
   @doc("List of RBAC Roles; a part of provisioning ResultData output.")
-  @extension("x-ms-identifiers", [])
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @Azure.ResourceManager.identifiers(#[])
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   rbacRoles?: Array<RbacRole>;
 
   @doc("List of ARM Features; a part of provisioning ResultData output.")
-  @extension("x-ms-identifiers", [])
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @Azure.ResourceManager.identifiers(#[])
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   armFeatures?: Array<ArmFeatureRegistration>;
 
   @doc("List of DSMS Root Folders Whitelists; a part of provisioning ResultData output.")
-  @extension("x-ms-identifiers", [])
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @Azure.ResourceManager.identifiers(#[])
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   dsmsRootFolderWhitelists?: Array<DsmsFolderWhitelist>;
 }
 
@@ -125,7 +124,7 @@ model SubscriptionResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("subscriptions") // Start with lower case. Should be plural.
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }

@@ -12,6 +12,17 @@ model ServerHardwareProcessor {
   @doc("The number of threads")
   threads?: int32;
 
-  @doc("Whether processor has dedicated IGPU")
-  integratedGraphics?: boolean;
+  @doc("Processor's dedicated IGPU capabilities")
+  integratedGraphics?: IntegratedGraphicsType;
+}
+
+@doc("Integrated Graphics capability of the processor")
+union IntegratedGraphicsType {
+  @doc("Processor has integrated graphics")
+  IntegratedGraphics: "IntegratedGraphics",
+
+  @doc("Processor does not have integrated graphics")
+  None: "None",
+
+  string,
 }

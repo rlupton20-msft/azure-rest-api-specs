@@ -12,8 +12,8 @@ using Azure.ResourceManager;
 using TypeSpec.Versioning;
 
 @armProviderNamespace
-@versioned(Microsoft.Science.Versions)
-namespace Microsoft.Science;
+@versioned(Microsoft.AiForScience.Versions)
+namespace Microsoft.AiForScience;
 
 @doc("NodePool tracked resource")
 @parentResource(Supercomputer)

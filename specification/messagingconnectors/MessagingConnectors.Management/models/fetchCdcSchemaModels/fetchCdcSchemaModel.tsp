@@ -4,47 +4,7 @@ import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
-using TypeSpec.Versioning;
-using Azure.Core;
-using Azure.ResourceManager;
-using TypeSpec.OpenAPI;
-
-@versioned(Versions)
-namespace Private.MessagingConnectors;
-
-@doc("Connector Schema Config")
-@discriminator("connectorType")
-model ConnectorSchemaConfig {
-  @doc("connector Type.")
-  connectorType: ConnectorType;
-}
-
-@doc("SqlServerSource Schema Config")
-model SqlServerSourceConnectorSchemaConfig extends ConnectorSchemaConfig {
-  @doc("SqlServerSource Connector")
-  connectorType: ConnectorType.SqlServerSource;
-
-  @doc("Servername string")
-  serverName: string;
-
-  @doc("Port of Server")
-  port: int32;
-
-  @doc("databaseName of Server")
-  databaseName: string;
-
-  @doc("username of Server")
-  userName: string;
-
-  @doc("password of Server")
-  @secret
-  password: string;
-
-  @doc("tables of Server")
-  tables: string;
-}
+namespace Private.MessagingConnectors.Models.FetchSchema;
 
 @doc("Schema format Types")
 union SchemaFormatType {
@@ -72,8 +32,8 @@ model SchemaFormat {
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-provisioning-state"
 @doc("properties of fetch Schema")
 model SchemaRequestProperties {
-  @doc("schema config for connector")
-  connectorSchemaConfig: ConnectorSchemaConfig;
+  @doc("Config for DataSource")
+  dataSourceProperties: Models.DataSource.DataSourceProperties;
 
   @doc("Schema Format")
   format: SchemaFormat;
@@ -143,6 +103,6 @@ model Schema {
 @doc("Properties of Schema results")
 model SchemaResult {
   @doc("Content of DataPreview results")
-  @OpenAPI.extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   schemas: Schema[];
 }

@@ -12,8 +12,8 @@ using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
 
-@versioned(Microsoft.Science.Catalog.Versions)
-namespace Microsoft.Science.Catalog;
+@versioned(Microsoft.AiForScience.Catalog.Versions)
+namespace Microsoft.AiForScience.Catalog;
 
 @doc("ToolDefinition attributes from definitionContents")
 model ToolDefinitionAttributes {
@@ -21,14 +21,8 @@ model ToolDefinitionAttributes {
   ...WithCategory;
   ...WithLicense;
   ...WithVersion;
-
-  @doc("A tool docs URI.")
-  @visibility("read")
-  toolDocs: string;
-
-  @doc("A tool repo URI.")
-  @visibility("read")
-  toolRepo: string;
+  ...WithDocs;
+  ...WithRepo;
 }
 
 @doc("A base tool.")

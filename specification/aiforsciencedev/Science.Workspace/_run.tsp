@@ -9,19 +9,19 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
 
-@versioned(Microsoft.Science.Workspace.Versions)
-namespace Microsoft.Science.Workspace;
+@versioned(Microsoft.AiForScience.Workspace.Versions)
+namespace Microsoft.AiForScience.Workspace;
 
 @doc("Status type.")
 union RunStatus {
   /** Run Not started */
   NotStarted: "NotStarted",
 
-  /** Run Paused */
-  Paused: "Paused",
-
   /** Run Committed */
   Running: "Running",
+
+  /** Run Cancelled */
+  Cancelled: "Cancelled",
 
   /** Run Success */
   Success: "Success",
@@ -33,10 +33,14 @@ union RunStatus {
 }
 
 @doc("For URI of run result.")
-model WithResultUri {
-  @doc("URI where the result can be found.")
+model WithResultAsset {
+  @doc("Data asset to which run results output will be written")
   @visibility("read")
-  resultBlobUri: string;
+  outputDataAssetId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/dataAsset";
+    }
+  ]>;
 }
 
 @doc("A run.")
@@ -57,11 +61,7 @@ model Run {
   ...WithInvestigationInputs;
   ...WithYaml;
   ...WithStatus<RunStatus>;
-  ...WithResultUri;
-
-  //  @doc("The ID of the associated Investigation Version")
-  //  @visibility("read")
-  //  investigationVersionId: string;
+  ...WithResultAsset;
 }
 
 interface Runs {
@@ -79,7 +79,7 @@ interface Runs {
   listRuns is ResourceList<Run, QueryParametersTrait<WithQueryCreatedSince>>;
 
   @doc("Pause a run.")
-  start is Operations.ResourceAction<Run, {}, Run>;
+  start is Operations.ResourceAction<Run, WithRunMode, Run>;
 
   @doc("Resume a paused run.")
   resume is Operations.ResourceAction<Run, {}, Run>;

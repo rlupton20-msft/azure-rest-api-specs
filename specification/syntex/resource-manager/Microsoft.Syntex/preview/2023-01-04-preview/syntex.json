@@ -450,8 +450,11 @@
           }
         },
         "x-ms-examples": {
-          "Accounts_CreateOrUpdate": {
-            "$ref": "./examples/Accounts_Create.json"
+          "Accounts_CreateOrUpdate_BasicRequired": {
+            "$ref": "./examples/Accounts_Create_BasicRequired.json"
+          },
+          "Accounts_CreateOrUpdate_WithArrays": {
+            "$ref": "./examples/Accounts_Create_WithArrays.json"
           }
         }
       },
@@ -496,8 +499,11 @@
           }
         },
         "x-ms-examples": {
-          "Accounts_Update": {
-            "$ref": "./examples/Accounts_Update.json"
+          "Accounts_Update_Basic": {
+            "$ref": "./examples/Accounts_Update_Basic.json"
+          },
+          "Accounts_Update_WithArrays": {
+            "$ref": "./examples/Accounts_Update_WithArrays.json"
           }
         }
       },
@@ -684,6 +690,10 @@
           "$ref": "#/definitions/AccountProperties",
           "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": false
+        },
+        "identity": {
+          "$ref": "#/definitions/ManagedServiceIdentity",
+          "description": "Managed identity of the Syntex Account."
         }
       },
       "description": "An Account is a SyntexProviderHub resource",
@@ -722,7 +732,7 @@
         },
         "friendlyName": {
           "type": "string",
-          "description": "Friendly name for the accounts resource"
+          "description": "Friendly name for the accounts resource."
         },
         "service": {
           "type": "string",
@@ -734,15 +744,42 @@
         },
         "identityId": {
           "type": "string",
-          "description": "The id (GUID) of the identity that is logically linked to the accounts resource"
+          "description": "The id (GUID) of the identity that is logically linked to the accounts resource."
         },
         "feature": {
           "type": "string",
-          "description": "The feature associated with the accounts resource"
+          "description": "The feature associated with the accounts resource."
+        },
+        "featureSet": {
+          "type": "array",
+          "description": "The list of features associated with the accounts resource. Defaults to an empty array if not provided.",
+          "items": {
+            "type": "string",
+            "description": "The feature associated with the accounts resource."
+          },
+          "default": []
         },
         "scope": {
           "type": "string",
-          "description": "This signifies if the scope if tenant only or global"
+          "description": "This signifies if the scope if tenant only or global."
+        },
+        "scopeMetaData": {
+          "type": "array",
+          "description": "The list of security or M365 groups associated with the accounts resource. Defaults to an empty array if not provided.",
+          "items": {
+            "type": "string",
+            "description": "The id (GUID) of the security or M365 group associated with the accounts resource."
+          },
+          "default": []
+        },
+        "budgets": {
+          "type": "array",
+          "description": "The list of budgets set on this billing policy.",
+          "items": {
+            "$ref": "#/definitions/Budget",
+            "description": "A budget associated with this billing policy."
+          },
+          "default": []
         }
       },
       "description": "Details of the Syntex Account.",
@@ -765,6 +802,9 @@
           },
           "description": "Resource tags."
         },
+        "identity": {
+          "$ref": "#/definitions/ManagedServiceIdentity"
+        },
         "properties": {
           "type": "object",
           "x-ms-client-flatten": true,
@@ -772,16 +812,175 @@
           "properties": {
             "friendlyName": {
               "type": "string",
-              "description": "Friendly name for the accounts resource"
+              "description": "Friendly name for the accounts resource."
+            },
+            "featuresToAdd": {
+              "type": "array",
+              "description": "The list of features to be added to the accounts resource. Defaults to an empty array if not provided.",
+              "items": {
+                "type": "string",
+                "description": "The feature associated with the accounts resource."
+              },
+              "default": []
+            },
+            "featuresToRemove": {
+              "type": "array",
+              "description": "The list of features to be removed from the accounts resource. Defaults to an empty array if not provided.",
+              "items": {
+                "type": "string",
+                "description": "The feature associated with the accounts resource."
+              },
+              "default": []
+            },
+            "featuresToMigrate": {
+              "type": "array",
+              "description": "The list of features to be migrated to the accounts resource. Defaults to an empty array if not provided.",
+              "items": {
+                "type": "string",
+                "description": "The migrated features associated with the accounts resource."
+              },
+              "default": []
+            },
+            "subFeaturesToAdd": {
+              "type": "object",
+              "description": "A dictionary mapping feature names to lists of sub-features to be added.",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "A string representing a sub-feature to be added."
+                }
+              }
+            },
+            "subFeaturesToRemove": {
+              "type": "object",
+              "description": "A dictionary mapping feature names to lists of sub-features to be removed.",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "A string representing a sub-feature to be removed."
+                }
+              }
+            },
+            "scopeMetaData": {
+              "type": "array",
+              "description": "The list of security or M365 groups associated with the accounts resource. Defaults to an empty array if not provided.",
+              "items": {
+                "type": "string",
+                "description": "The id (GUID) of the security or M365 group associated with the accounts resource."
+              },
+              "default": []
             },
             "identityId": {
               "type": "string",
-              "description": "The id (GUID) of the identity that is logically linked to the accounts resource"
+              "description": "The id (GUID) of the identity that is logically linked to the accounts resource."
+            },
+            "budgets": {
+              "type": "array",
+              "description": "The list of budgets set on this billing policy.",
+              "items": {
+                "$ref": "#/definitions/Budget",
+                "description": "A budget associated with this billing policy."
+              },
+              "default": null
             }
           }
         }
       },
       "description": "The type used for update operations of the Account."
+    },
+    "Budget": {
+      "type": "object",
+      "description": "The type used to describe limits for the spending on this Account.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "A unique identifier (GUID) of the budget."
+        },
+        "amount": {
+          "type": "number",
+          "description": "Configured budget amount in the specified currency."
+        },
+        "currency": {
+          "type": "string",
+          "description": "ISO currency code for the budget (e.g., USD)."
+        },
+        "thresholds": {
+          "type": "array",
+          "description": "List of billing thresholds that trigger actions.",
+          "items": {
+            "type": "integer",
+            "description": "The percentage of amount at which an action takes place.",
+            "format": "int32"
+          }
+        },
+        "reset": {
+          "enum": [
+            "Monthly",
+            "Annually",
+            "Quarterly"
+          ],
+          "description": "Frequency at which the budget resets.",
+          "type": "string",
+          "x-ms-enum": {
+            "name": "ResetFrequency",
+            "modelAsString": true
+          }
+        },
+        "mails": {
+          "type": "array",
+          "description": "List of mail-enabled group IDs to notify.",
+          "items": {
+            "type": "string",
+            "description": "The ID (GUID) of a mail-enabled group to notify."
+          }
+        },
+        "active": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether the budget is active: when false, the notifications are disabled"
+        },
+        "bid": {
+          "type": "string",
+          "description": "Unique identifier (GUID) of the associated Azure Budget resource."
+        },
+        "agId": {
+          "type": "string",
+          "description": "Unique identifier (GUID) of the associated Azure Action Group resource."
+        }
+      }
+    },
+    "ManagedServiceIdentity": {
+      "type": "object",
+      "description": "Managed identity for the resource.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The identity type.",
+          "enum": [
+            "SystemAssigned",
+            "None"
+          ],
+          "x-ms-enum": {
+            "name": "ManagedServiceIdentityType",
+            "modelAsString": true
+          }
+        },
+        "principalId": {
+          "type": "string",
+          "readOnly": true,
+          "description": "AAD principal ID of the system-assigned identity."
+        },
+        "tenantId": {
+          "type": "string",
+          "readOnly": true,
+          "description": "AAD tenant ID of the system-assigned identity."
+        }
+      },
+      "required": [
+        "type"
+      ]
     }
   },
   "parameters": {

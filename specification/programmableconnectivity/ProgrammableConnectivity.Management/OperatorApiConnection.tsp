@@ -23,7 +23,7 @@ model OperatorApiConnection
   @path
   @key("operatorApiConnectionName")
   @segment("operatorApiConnections")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   name: string;
 }
 
@@ -34,7 +34,7 @@ model OperatorApiConnectionProperties {
   /**
    * Reference to the Operator API Plan Resource ID.
    */
-  @visibility("read", "create", "update")
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   operatorApiPlanId: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.ProgrammableConnectivity/operatorApiPlans";
@@ -44,35 +44,28 @@ model OperatorApiConnectionProperties {
   /**
    * Details about the SaaS offer purchased from the marketplace.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
-  @visibility("read", "create", "update")
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   saasProperties?: SaasProperties;
-
-  /**
-   * Details about the SaaS offer purchased from the Azure Marketplace.
-   */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
-  @visibility("read")
-  marketplaceSaasProperties?: SaasProperties;
 
   /**
    * Details about the Application that would use the Operator's Network APIs.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
-  @visibility("read", "create", "update")
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   configuredApplication?: ApplicationProperties;
 
   /**
    * Application ID of the App Developer that is registered with the Operator in a specific country/region.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
-  @visibility("read", "create", "update")
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   appId?: string;
 
   /**
    * Reference to the APC Gateway resource ID.
    */
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   gatewayId: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.ProgrammableConnectivity/gateways";
@@ -82,67 +75,84 @@ model OperatorApiConnectionProperties {
   /**
    * Type of the account the user has with the Operator's Network API infrastructure. AzureManaged | UserManaged.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
-  @visibility("read", "create")
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   accountType: AccountType;
 
   /**
    * Application secret linked to the 'appId'. This should be stored securely and is not returned back when the resource information is read.
    */
-  @TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
-  @visibility("create", "update")
+  @TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
+  @visibility(Lifecycle.Create, Lifecycle.Update)
   @secret
   appSecret?: string;
 
   /**
    * Name of the Operator in the linked Operator API Plan belongs to.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   operatorName?: string;
 
   /**
    * The Network API for the current operator in the country/region provided in the linked Operator API Plan.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   camaraApiName?: string;
 
   /**
    * The status of the last operation.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   /**
    * The status of the OperatorApiConnection resource.
    */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: Status;
+
+  /**
+   * Whether the caller has accepted the Terms and Conditions of the associated Operator API Plan.
+   * After creation, the planTermsAndConditionsLink property is set to the Terms and Conditions that
+   * have been accepted.
+   *
+   * Must be set to True, as the Terms and Conditions must be accepted.
+   */
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
+  planTermsAndConditionsAccepted: boolean;
+
+  /**
+   * Links to the Terms and Conditions of the Operator API Plan that were accepted on creation.
+   */
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
+  @visibility(Lifecycle.Read)
+  planTermsAndConditionsLinks?: string[];
 
   /**
    * The purpose for which the Application will use the API. Max Items 1 currently as Operators do not support multiple.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   @maxItems(1)
   purposes: Purpose[];
 
   /**
    * Explanation of the reason that justifies the purpose: specifically why is the API used for the application's use case.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
   purposeReason: string;
 
   /**
    * List of ways the data returned on this API is processed.
    */
-  @TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
-  @OpenAPI.extension("x-ms-identifiers", ["processingOperation"])
+  @TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
+  @OpenAPI.extension("x-ms-identifiers", #["processingOperation"])
   dataProcessingList: DataProcessing[];
 }
 
 /**
  * The Account Type of the Operator API Connections.
  */
-@TypeSpec.Versioning.removed(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.removed(Versions.v2025_03_30_preview)
 union AccountType {
   /**
    * Managed by Azure on-behalf-of the user.
@@ -160,7 +170,7 @@ union AccountType {
 /**
  * Model defining how received data is processed.
  */
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 model DataProcessing {
   /**
    *  The operation that is performed on the data received.
@@ -185,20 +195,20 @@ model DataProcessing {
   /**
    * The countries/regions the data transits through.
    */
-  @OpenAPI.extension("x-ms-identifiers", ["countryCode"])
+  @OpenAPI.extension("x-ms-identifiers", #["countryCode"])
   transitRegions: DataRegions[];
 
   /**
    * The countries/regions the data is stored in.
    */
-  @OpenAPI.extension("x-ms-identifiers", ["countryCode"])
+  @OpenAPI.extension("x-ms-identifiers", #["countryCode"])
   storageRegions: DataRegions[];
 }
 
 /**
  * Model defining the information required about the countries/regions the data transits through or is stored in.
  */
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 model DataRegions {
   /**
    * The country code of the country/region the data transits through or is stored in.
@@ -226,12 +236,12 @@ model DataRegions {
  * Valid values for the frequency based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/.
  */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 union Frequency {
-  dpvContinuousFrequency: "Continuous",
-  dpvOftenFrequency: "Often",
-  dpvSingularFrequency: "Singular",
-  dpvSporadicFrequency: "Sporadic",
+  continuousFrequency: "Continuous",
+  oftenFrequency: "Often",
+  singularFrequency: "Singular",
+  sporadicFrequency: "Sporadic",
   string,
 }
 
@@ -239,14 +249,14 @@ union Frequency {
  * Valid values for the duration based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/.
  */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 union Duration {
-  dpvEndlessDuration: "Endless",
-  dpvFixedOccurrencesDuration: "Fixed occurrences",
-  dpvIndeterminateDuration: "Indeterminate",
-  dpvTemporalDuration: "Temporal",
-  dpvUntilEventDuration: "Until event",
-  dpvUntilTimeDuration: "Until time",
+  endlessDuration: "Endless",
+  fixedOccurrencesDuration: "Fixed occurrences",
+  indeterminateDuration: "Indeterminate",
+  temporalDuration: "Temporal",
+  untilEventDuration: "Until event",
+  untilTimeDuration: "Until time",
   string,
 }
 
@@ -254,117 +264,117 @@ union Duration {
  * Valid values for the context based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/.
  */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 union Context {
-  dpvAlgorithmicLogic: "Algorithmic logic",
-  dpvAssistiveAutomation: "Assistive automation",
-  dpvAutomatedDecisionMaking: "Automated decision making",
-  dpvAutomatedScoringOfIndividuals: "Automated scoring of individuals",
-  dpvAutomationLevel: "Automation level",
-  dpvAutonomous: "Autonomous",
-  dpvCannotChallengeProcess: "Cannot challenge process",
-  dpvCannotChallengeProcessInput: "Cannot challenge process input",
-  dpvCannotChallengeProcessOutput: "Cannot challenge process output",
-  dpvCannotCorrectProcess: "Cannot correct process",
-  dpvCannotCorrectProcessInput: "Cannot correct process input",
-  dpvCannotCorrectProcessOutput: "Cannot correct process output",
-  dpvCannotObjectToProcess: "Cannot object to process",
-  dpvCannotOptInToProcess: "Cannot opt in to process",
-  dpvCannotOptOutFromProcess: "Cannot opt out from process",
-  dpvCannotReverseProcessEffects: "Cannot reverse process effects",
-  dpvCannotReverseProcessInput: "Cannot reverse process input",
-  dpvCannotReverseProcessOutput: "Cannot reverse process output",
-  dpvCannotWithdrawFromProcess: "Cannot withdraw from process",
-  dpvChallengingProcess: "Challenging process",
-  dpvChallengingProcessInput: "Challenging process input",
-  dpvChallengingProcessOutput: "Challenging process output",
-  dpvConditionalAutomation: "Conditional automation",
-  dpvConsentControl: "Consent control",
-  dpvCorrectingProcess: "Correcting process",
-  dpvCorrectingProcessInput: "Correcting process input",
-  dpvCorrectingProcessOutput: "Correcting process output",
-  dpvCompletelyManualProcessing: "Completely manual processing",
-  dpvDataControllerDataSource: "Data controller data source",
-  dpvDataPublishedByDataSubject: "Data published by data subject",
-  dpvDataSource: "Data source",
-  dpvDataSubject: "Data subject",
-  dpvDataSubjectDataSource: "Data subject data source",
-  dpvDataSubjectScale: "Data subject scale",
-  dpvDataVolume: "Data volume",
-  dpvDecisionMaking: "Decision making",
-  dpvEntityActiveInvolvement: "Entity active involvement",
-  dpvEntityInvolvement: "Entity involvement",
-  dpvEntityNonInvolvement: "Entity non involvement",
-  dpvEntityNonPermissiveInvolvement: "Entity non permissive involvement",
-  dpvEntityPassiveInvolvement: "Entity passive involvement",
-  dpvEntityPermissiveInvolvement: "Entity permissive involvement",
-  dpvEvaluationOfIndividuals: "Evaluation of individuals",
-  dpvEvaluationScoring: "Evaluation scoring",
-  dpvFullAutomation: "Full automation",
-  dpvGeographicCoverage: "Geographic coverage",
-  dpvGlobalScale: "Global scale",
-  dpvHighAutomation: "High automation",
-  dpvHugeDataVolume: "Huge data volume",
-  dpvHugeScaleOfDataSubjects: "Huge scale of data subjects",
-  dpvHumanInvolved: "Human involved",
-  dpvHumanInvolvement: "Human involvement",
-  dpvHumanInvolvementForControl: "Human involvement for control",
-  dpvHumanInvolvementForDecision: "Human involvement for decision",
-  dpvHumanInvolvementForInput: "Human involvement for input",
-  dpvHumanInvolvementForIntervention: "Human involvement for intervention",
-  dpvHumanInvolvementForOversight: "Human involvement for oversight",
-  dpvHumanInvolvementForVerification: "Human involvement for verification",
-  dpvHumanNotInvolved: "Human not involved",
-  dpvInnovativeUseOfExistingTechnology: "Innovative use of existing technology",
-  dpvInnovativeUseOfNewTechnologies: "Innovative use of new technologies",
-  dpvInnovativeUseOfTechnology: "Innovative use of technology",
-  dpvLargeDataVolume: "Large data volume",
-  dpvLargeScaleOfDataSubjects: "Large scale of data subjects",
-  dpvLargeScaleProcessing: "Large scale processing",
-  dpvLocalEnvironmentScale: "Local environment scale",
-  dpvLocalityScale: "Locality scale",
-  dpvMediumDataVolume: "Medium data volume",
-  dpvMediumScaleOfDataSubjects: "Medium scale of data subjects",
-  dpvMediumScaleProcessing: "Medium scale processing",
-  dpvMultiNationalScale: "Multi national scale",
-  dpvNationalScale: "National scale",
-  dpvNearlyGlobalScale: "Nearly global scale",
-  dpvNonPublicDataSource: "Non public data source",
-  dpvNotAutomated: "Not automated",
-  dpvObjectingToProcess: "Objecting to process",
-  dpvObtainConsent: "Obtain consent",
-  dpvOptingInToProcess: "Opting in to process",
-  dpvOptingOutFromProcess: "Opting out from process",
-  dpvPartialAutomation: "Partial automation",
-  dpvProcessingCondition: "Processing condition",
-  dpvProcessingDuration: "Processing duration",
-  dpvProcessingLocation: "Processing location",
-  dpvProcessingScale: "Processing scale",
-  dpvProvideConsent: "Provide consent",
-  dpvPublicDataSource: "Public data source",
-  dpvReaffirmConsent: "Reaffirm consent",
-  dpvRegionalScale: "Regional scale",
-  dpvReversingProcessEffects: "Reversing process effects",
-  dpvReversingProcessInput: "Reversing process input",
-  dpvReversingProcessOutput: "Reversing process output",
-  dpvScale: "Scale",
-  dpvScoringOfIndividuals: "Scoring of individuals",
-  dpvSingularDataVolume: "Singular data volume",
-  dpvSingularScaleOfDataSubjects: "Singular scale of data subjects",
-  dpvSmallDataVolume: "Small data volume",
-  dpvSmallScaleOfDataSubjects: "Small scale of data subjects",
-  dpvSmallScaleProcessing: "Small scale processing",
-  dpvSporadicDataVolume: "Sporadic data volume",
-  dpvSporadicScaleOfDataSubjects: "Sporadic scale of data subjects",
-  dpvStorageCondition: "Storage condition",
-  dpvStorageDeletion: "Storage deletion",
-  dpvStorageDuration: "Storage duration",
-  dpvStorageLocation: "Storage location",
-  dpvStorageRestoration: "Storage restoration",
-  dpvSystematicMonitoring: "Systematic monitoring",
-  dpvThirdPartyDataSource: "Third party data source",
-  dpvWithdrawConsent: "Withdraw consent",
-  dpvWithdrawingFromProcess: "Withdrawing from process",
+  algorithmicLogic: "Algorithmic logic",
+  assistiveAutomation: "Assistive automation",
+  automatedDecisionMaking: "Automated decision making",
+  automatedScoringOfIndividuals: "Automated scoring of individuals",
+  automationLevel: "Automation level",
+  autonomous: "Autonomous",
+  cannotChallengeProcess: "Cannot challenge process",
+  cannotChallengeProcessInput: "Cannot challenge process input",
+  cannotChallengeProcessOutput: "Cannot challenge process output",
+  cannotCorrectProcess: "Cannot correct process",
+  cannotCorrectProcessInput: "Cannot correct process input",
+  cannotCorrectProcessOutput: "Cannot correct process output",
+  cannotObjectToProcess: "Cannot object to process",
+  cannotOptInToProcess: "Cannot opt in to process",
+  cannotOptOutFromProcess: "Cannot opt out from process",
+  cannotReverseProcessEffects: "Cannot reverse process effects",
+  cannotReverseProcessInput: "Cannot reverse process input",
+  cannotReverseProcessOutput: "Cannot reverse process output",
+  cannotWithdrawFromProcess: "Cannot withdraw from process",
+  challengingProcess: "Challenging process",
+  challengingProcessInput: "Challenging process input",
+  challengingProcessOutput: "Challenging process output",
+  conditionalAutomation: "Conditional automation",
+  consentControl: "Consent control",
+  correctingProcess: "Correcting process",
+  correctingProcessInput: "Correcting process input",
+  correctingProcessOutput: "Correcting process output",
+  completelyManualProcessing: "Completely manual processing",
+  dataControllerDataSource: "Data controller data source",
+  dataPublishedByDataSubject: "Data published by data subject",
+  dataSource: "Data source",
+  dataSubject: "Data subject",
+  dataSubjectDataSource: "Data subject data source",
+  dataSubjectScale: "Data subject scale",
+  dataVolume: "Data volume",
+  decisionMaking: "Decision making",
+  entityActiveInvolvement: "Entity active involvement",
+  entityInvolvement: "Entity involvement",
+  entityNonInvolvement: "Entity non involvement",
+  entityNonPermissiveInvolvement: "Entity non permissive involvement",
+  entityPassiveInvolvement: "Entity passive involvement",
+  entityPermissiveInvolvement: "Entity permissive involvement",
+  evaluationOfIndividuals: "Evaluation of individuals",
+  evaluationScoring: "Evaluation scoring",
+  fullAutomation: "Full automation",
+  geographicCoverage: "Geographic coverage",
+  globalScale: "Global scale",
+  highAutomation: "High automation",
+  hugeDataVolume: "Huge data volume",
+  hugeScaleOfDataSubjects: "Huge scale of data subjects",
+  humanInvolved: "Human involved",
+  humanInvolvement: "Human involvement",
+  humanInvolvementForControl: "Human involvement for control",
+  humanInvolvementForDecision: "Human involvement for decision",
+  humanInvolvementForInput: "Human involvement for input",
+  humanInvolvementForIntervention: "Human involvement for intervention",
+  humanInvolvementForOversight: "Human involvement for oversight",
+  humanInvolvementForVerification: "Human involvement for verification",
+  humanNotInvolved: "Human not involved",
+  innovativeUseOfExistingTechnology: "Innovative use of existing technology",
+  innovativeUseOfNewTechnologies: "Innovative use of new technologies",
+  innovativeUseOfTechnology: "Innovative use of technology",
+  largeDataVolume: "Large data volume",
+  largeScaleOfDataSubjects: "Large scale of data subjects",
+  largeScaleProcessing: "Large scale processing",
+  localEnvironmentScale: "Local environment scale",
+  localityScale: "Locality scale",
+  mediumDataVolume: "Medium data volume",
+  mediumScaleOfDataSubjects: "Medium scale of data subjects",
+  mediumScaleProcessing: "Medium scale processing",
+  multiNationalScale: "Multi national scale",
+  nationalScale: "National scale",
+  nearlyGlobalScale: "Nearly global scale",
+  nonPublicDataSource: "Non public data source",
+  notAutomated: "Not automated",
+  objectingToProcess: "Objecting to process",
+  obtainConsent: "Obtain consent",
+  optingInToProcess: "Opting in to process",
+  optingOutFromProcess: "Opting out from process",
+  partialAutomation: "Partial automation",
+  processingCondition: "Processing condition",
+  processingDuration: "Processing duration",
+  processingLocation: "Processing location",
+  processingScale: "Processing scale",
+  provideConsent: "Provide consent",
+  publicDataSource: "Public data source",
+  reaffirmConsent: "Reaffirm consent",
+  regionalScale: "Regional scale",
+  reversingProcessEffects: "Reversing process effects",
+  reversingProcessInput: "Reversing process input",
+  reversingProcessOutput: "Reversing process output",
+  scale: "Scale",
+  scoringOfIndividuals: "Scoring of individuals",
+  singularDataVolume: "Singular data volume",
+  singularScaleOfDataSubjects: "Singular scale of data subjects",
+  smallDataVolume: "Small data volume",
+  smallScaleOfDataSubjects: "Small scale of data subjects",
+  smallScaleProcessing: "Small scale processing",
+  sporadicDataVolume: "Sporadic data volume",
+  sporadicScaleOfDataSubjects: "Sporadic scale of data subjects",
+  storageCondition: "Storage condition",
+  storageDeletion: "Storage deletion",
+  storageDuration: "Storage duration",
+  storageLocation: "Storage location",
+  storageRestoration: "Storage restoration",
+  systematicMonitoring: "Systematic monitoring",
+  thirdPartyDataSource: "Third party data source",
+  withdrawConsent: "Withdraw consent",
+  withdrawingFromProcess: "Withdrawing from process",
   string,
 }
 
@@ -372,60 +382,60 @@ union Context {
  * Valid values for the processing operation based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/.
  */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 union ProcessingOperation {
-  dpvAccess: "Access",
-  dpvAcquire: "Acquire",
-  dpvAdapt: "Adapt",
-  dpvAggregate: "Aggregate",
-  dpvAlign: "Align",
-  dpvAlter: "Alter",
-  dpvAnalyse: "Analyze",
-  dpvAnonymise: "Anonymize",
-  dpvAssess: "Assess",
-  dpvCollect: "Collect",
-  dpvCombine: "Combine",
-  dpvConsult: "Consult",
-  dpvCopy: "Copy",
-  dpvCrossBorderTransfer: "Cross border transfer",
-  dpvDelete: "Delete",
-  dpvDerive: "Derive",
-  dpvDestruct: "Destruct",
-  dpvDisclose: "Disclose",
-  dpvDiscloseByTransmission: "Disclose by transmission",
-  dpvDisplay: "Display",
-  dpvDisseminate: "Disseminate",
-  dpvDownload: "Download",
-  dpvErase: "Erase",
-  dpvExport: "Export",
-  dpvFilter: "Filter",
-  dpvFormat: "Format",
-  dpvGenerate: "Generate",
-  dpvInfer: "Infer",
-  dpvMakeAvailable: "Make available",
-  dpvMatch: "Match",
-  dpvModify: "Modify",
-  dpvMonitor: "Monitor",
-  dpvMove: "Move",
-  dpvObserve: "Observe",
-  dpvObtain: "Obtain",
-  dpvOrganise: "Organize",
-  dpvProfiling: "Profiling",
-  dpvPseudonymise: "Pseudonymize",
-  dpvQuery: "Query",
-  dpvRecord: "Record",
-  dpvReformat: "Reformat",
-  dpvRemove: "Remove",
-  dpvRestrict: "Restrict",
-  dpvRetrieve: "Retrieve",
-  dpvScreen: "Screen",
-  dpvShare: "Share",
-  dpvStore: "Store",
-  dpvStructure: "Structure",
-  dpvTransfer: "Transfer",
-  dpvTransform: "Transform",
-  dpvTransmit: "Transmit",
-  dpvUse: "Use",
+  access: "Access",
+  acquire: "Acquire",
+  adapt: "Adapt",
+  aggregate: "Aggregate",
+  align: "Align",
+  alter: "Alter",
+  analyze: "Analyze",
+  anonymize: "Anonymize",
+  assess: "Assess",
+  collect: "Collect",
+  combine: "Combine",
+  consult: "Consult",
+  copy: "Copy",
+  crossBorderTransfer: "Cross border transfer",
+  delete: "Delete",
+  derive: "Derive",
+  destruct: "Destruct",
+  disclose: "Disclose",
+  discloseByTransmission: "Disclose by transmission",
+  display: "Display",
+  disseminate: "Disseminate",
+  download: "Download",
+  erase: "Erase",
+  export: "Export",
+  filter: "Filter",
+  format: "Format",
+  generate: "Generate",
+  infer: "Infer",
+  makeAvailable: "Make available",
+  match: "Match",
+  modify: "Modify",
+  monitor: "Monitor",
+  move: "Move",
+  observe: "Observe",
+  obtain: "Obtain",
+  organize: "Organize",
+  profiling: "Profiling",
+  pseudonymize: "Pseudonymize",
+  query: "Query",
+  record: "Record",
+  reformat: "Reformat",
+  remove: "Remove",
+  restrict: "Restrict",
+  retrieve: "Retrieve",
+  screen: "Screen",
+  share: "Share",
+  store: "Store",
+  structure: "Structure",
+  transfer: "Transfer",
+  transform: "Transform",
+  transmit: "Transmit",
+  use: "Use",
   string,
 }
 
@@ -433,103 +443,103 @@ union ProcessingOperation {
  * Valid values for the purpose based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/.
  */
 #suppress "@azure-tools/typespec-azure-core/documentation-required" ""
-@TypeSpec.Versioning.added(Versions.v2024_11_01_preview)
+@TypeSpec.Versioning.added(Versions.v2025_03_30_preview)
 union Purpose {
-  dpvAcademicResearch: "Academic Research",
-  dpvAccountManagement: "Account Management",
-  dpvAdvertising: "Advertising",
-  dpvAgeVerification: "Age Verification",
-  dpvCombatClimateChange: "Combat Climate Change",
-  dpvCommercialPurpose: "Commercial Purpose",
-  dpvCommercialResearch: "Commercial Research",
-  dpvCommunicationForCustomerCare: "Communication For Customer Care",
-  dpvCommunicationManagement: "Communication Management",
-  dpvCounterMoneyLaundering: "Counter Money Laundering",
-  dpvCounterterrorism: "Counter-terrorism",
-  dpvCreditChecking: "Credit Checking",
-  dpvCustomerCare: "Customer Care",
-  dpvCustomerClaimsManagement: "Customer Claims Management",
-  dpvCustomerManagement: "Customer Management",
-  dpvCustomerOrderManagement: "Customer Order Management",
-  dpvCustomerRelationshipManagement: "Customer Relationship Management",
-  dpvCustomerSolvencyMonitoring: "Customer Solvency Monitoring",
-  dpvDataAltruism: "Data Altruism",
-  dpvDeliveryOfGoods: "Delivery Of Goods",
-  dpvDirectMarketing: "Direct Marketing",
-  dpvDisputeManagement: "Dispute Management",
-  dpvEnforceAccessControl: "Enforce Access Control",
-  dpvEnforceSecurity: "Enforce Security",
-  dpvEstablishContractualAgreement: "Establish Contractual Agreement",
-  dpvFraudPreventionAndDetection: "Fraud Prevention And Detection",
-  dpvFulfilmentOfContractualObligation: "Fulfillment Of Contractual Obligation",
-  dpvFulfilmentOfObligation: "Fulfillment Of Obligation",
-  dpvHumanResourceManagement: "Human Resource Management",
-  dpvIdentityAuthentication: "Identity Authentication",
-  dpvIdentityVerification: "Identity Verification",
-  dpvImproveExistingProductsAndServices: "Improve Existing Products And Services",
-  dpvImproveHealthcare: "Improve Healthcare",
-  dpvImproveInternalCRMProcesses: "Improve Internal CRM Processes",
-  dpvImprovePublicServices: "Improve Public Services",
-  dpvImproveTransportMobility: "Improve Transport Mobility",
-  dpvIncreaseServiceRobustness: "Increase Service Robustness",
-  dpvInternalResourceOptimisation: "Internal Resource Optimization",
-  dpvLegalCompliance: "Legal Compliance",
-  dpvMaintainCreditCheckingDatabase: "Maintain Credit Checking Database",
-  dpvMaintainCreditRatingDatabase: "Maintain Credit Rating Database",
-  dpvMaintainFraudDatabase: "Maintain Fraud Database",
-  dpvMarketing: "Marketing",
-  dpvMemberPartnerManagement: "Member Partner Management",
-  dpvMisusePreventionAndDetection: "Misuse Prevention And Detection",
-  dpvNonCommercialPurpose: "Non Commercial Purpose",
-  dpvNonCommercialResearch: "Non Commercial Research",
-  dpvOptimisationForConsumer: "Optimization For Consumer",
-  dpvOptimisationForController: "Optimization For Controller",
-  dpvOptimiseUserInterface: "Optimize User Interface",
-  dpvOrganisationComplianceManagement: "Organisation Compliance Management",
-  dpvOrganisationGovernance: "Organisation Governance",
-  dpvOrganisationRiskManagement: "Organisation Risk Management",
-  dpvPaymentManagement: "Payment Management",
-  dpvPersonalisation: "Personalization",
-  dpvPersonalisedAdvertising: "Personalized Advertising",
-  dpvPersonalisedBenefits: "Personalized Benefits",
-  dpvPersonnelHiring: "Personnel Hiring",
-  dpvPersonnelManagement: "Personnel Management",
-  dpvPersonnelPayment: "Personnel Payment",
-  dpvProtectionOfIPR: "Protection Of IPR",
-  dpvProtectionOfNationalSecurity: "Protection Of National Security",
-  dpvProtectionOfPublicSecurity: "Protection Of Public Security",
-  dpvProvideEventRecommendations: "Provide Event Recommendations",
-  dpvProvideOfficialStatistics: "Provide Official Statistics",
-  dpvProvidePersonalisedRecommendations: "Provide Personalised Recommendations",
-  dpvProvideProductRecommendations: "Provide Product Recommendations",
-  dpvPublicBenefit: "Public Benefit",
-  dpvPublicPolicyMaking: "Public Policy Making",
-  dpvPublicRelations: "Public Relations",
-  dpvRecordManagement: "Record Management",
-  dpvRepairImpairments: "Repair Impairments",
-  dpvRequestedServiceProvision: "Requested Service Provision",
-  dpvResearchAndDevelopment: "Research And Development",
-  dpvRightsFulfillment: "Rights Fulfillment",
-  dpvScientificResearch: "Scientific Research",
-  dpvSearchFunctionalities: "Search Functionalities",
-  dpvSellDataToThirdParties: "Sell Data To Third Parties",
-  dpvSellInsightsFromData: "Sell Insights From Data",
-  dpvSellProducts: "Sell Products",
-  dpvSellProductsToDataSubject: "Sell Products To Data Subject",
-  dpvServiceOptimisation: "Service Optimization",
-  dpvServicePersonalisation: "Service Personalisation",
-  dpvServiceProvision: "Service Provision",
-  dpvServiceRegistration: "Service Registration",
-  dpvServiceUsageAnalytics: "Service Usage Analytics",
-  dpvSocialMediaMarketing: "Social Media Marketing",
-  dpvTargetedAdvertising: "Targeted Advertising",
-  dpvTechnicalServiceProvision: "Technical Service Provision",
-  dpvUserInterfacePersonalisation: "User Interface Personalisation",
-  dpvVendorManagement: "Vendor Management",
-  dpvVendorPayment: "Vendor Payment",
-  dpvVendorRecordsManagement: "Vendor Records Management",
-  dpvVendorSelectionAssessment: "Vendor Selection Assessment",
-  dpvVerification: "Verification",
+  academicResearch: "Academic Research",
+  accountManagement: "Account Management",
+  advertising: "Advertising",
+  ageVerification: "Age Verification",
+  combatClimateChange: "Combat Climate Change",
+  commercialPurpose: "Commercial Purpose",
+  commercialResearch: "Commercial Research",
+  communicationForCustomerCare: "Communication For Customer Care",
+  communicationManagement: "Communication Management",
+  counterMoneyLaundering: "Counter Money Laundering",
+  counterterrorism: "Counter-terrorism",
+  creditChecking: "Credit Checking",
+  customerCare: "Customer Care",
+  customerClaimsManagement: "Customer Claims Management",
+  customerManagement: "Customer Management",
+  customerOrderManagement: "Customer Order Management",
+  customerRelationshipManagement: "Customer Relationship Management",
+  customerSolvencyMonitoring: "Customer Solvency Monitoring",
+  dataAltruism: "Data Altruism",
+  deliveryOfGoods: "Delivery Of Goods",
+  directMarketing: "Direct Marketing",
+  disputeManagement: "Dispute Management",
+  enforceAccessControl: "Enforce Access Control",
+  enforceSecurity: "Enforce Security",
+  establishContractualAgreement: "Establish Contractual Agreement",
+  fraudPreventionAndDetection: "Fraud Prevention And Detection",
+  fulfillmentOfContractualObligation: "Fulfillment Of Contractual Obligation",
+  fulfillmentOfObligation: "Fulfillment Of Obligation",
+  humanResourceManagement: "Human Resource Management",
+  identityAuthentication: "Identity Authentication",
+  identityVerification: "Identity Verification",
+  improveExistingProductsAndServices: "Improve Existing Products And Services",
+  improveHealthcare: "Improve Healthcare",
+  improveInternalCRMProcesses: "Improve Internal CRM Processes",
+  improvePublicServices: "Improve Public Services",
+  improveTransportMobility: "Improve Transport Mobility",
+  increaseServiceRobustness: "Increase Service Robustness",
+  internalResourceOptimization: "Internal Resource Optimization",
+  legalCompliance: "Legal Compliance",
+  maintainCreditCheckingDatabase: "Maintain Credit Checking Database",
+  maintainCreditRatingDatabase: "Maintain Credit Rating Database",
+  maintainFraudDatabase: "Maintain Fraud Database",
+  marketing: "Marketing",
+  memberPartnerManagement: "Member Partner Management",
+  misusePreventionAndDetection: "Misuse Prevention And Detection",
+  nonCommercialPurpose: "Non Commercial Purpose",
+  nonCommercialResearch: "Non Commercial Research",
+  optimizationForConsumer: "Optimization For Consumer",
+  optimizationForController: "Optimization For Controller",
+  optimizeUserInterface: "Optimize User Interface",
+  organizationComplianceManagement: "Organization Compliance Management",
+  organizationGovernance: "Organization Governance",
+  organizationRiskManagement: "Organization Risk Management",
+  paymentManagement: "Payment Management",
+  personalization: "Personalization",
+  personalizedAdvertising: "Personalized Advertising",
+  personalizedBenefits: "Personalized Benefits",
+  personnelHiring: "Personnel Hiring",
+  personnelManagement: "Personnel Management",
+  personnelPayment: "Personnel Payment",
+  protectionOfIPR: "Protection Of IPR",
+  protectionOfNationalSecurity: "Protection Of National Security",
+  protectionOfPublicSecurity: "Protection Of Public Security",
+  provideEventRecommendations: "Provide Event Recommendations",
+  provideOfficialStatistics: "Provide Official Statistics",
+  providePersonalizedRecommendations: "Provide Personalized Recommendations",
+  provideProductRecommendations: "Provide Product Recommendations",
+  publicBenefit: "Public Benefit",
+  publicPolicyMaking: "Public Policy Making",
+  publicRelations: "Public Relations",
+  recordManagement: "Record Management",
+  repairImpairments: "Repair Impairments",
+  requestedServiceProvision: "Requested Service Provision",
+  researchAndDevelopment: "Research And Development",
+  rightsFulfillment: "Rights Fulfillment",
+  scientificResearch: "Scientific Research",
+  searchFunctionalities: "Search Functionalities",
+  sellDataToThirdParties: "Sell Data To Third Parties",
+  sellInsightsFromData: "Sell Insights From Data",
+  sellProducts: "Sell Products",
+  sellProductsToDataSubject: "Sell Products To Data Subject",
+  serviceoptimization: "Service Optimization",
+  servicePersonalization: "Service Personalization",
+  serviceProvision: "Service Provision",
+  serviceRegistration: "Service Registration",
+  serviceUsageAnalytics: "Service Usage Analytics",
+  socialMediaMarketing: "Social Media Marketing",
+  targetedAdvertising: "Targeted Advertising",
+  technicalServiceProvision: "Technical Service Provision",
+  userInterfacePersonalization: "User Interface Personalization",
+  vendorManagement: "Vendor Management",
+  vendorPayment: "Vendor Payment",
+  vendorRecordsManagement: "Vendor Records Management",
+  vendorSelectionAssessment: "Vendor Selection Assessment",
+  verification: "Verification",
   string,
 }
 

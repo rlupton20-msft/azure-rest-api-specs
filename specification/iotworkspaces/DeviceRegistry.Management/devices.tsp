@@ -10,7 +10,6 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
@@ -29,7 +28,7 @@ model Device is TrackedResource<DeviceProperties> {
   // etag not included in TrackedResource
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Resource Tag.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   etag?: string;
 }
 

@@ -18,8 +18,9 @@ model SharedConfigValuesResourceProperties {
   @doc("The unique name in CloudSprout whose value needs to be published or consumed.")
   moniker: string;
 
+  #suppress "@azure-tools/typespec-azure-core/no-unknown" "Azure services must not have properties of type `unknown`."
   @doc("Moniker value to be published.")
-  value?: string;
+  value?: unknown;
 
   @doc("Scope of Moniker value. Optional.")
   scope?: Scope;
@@ -28,7 +29,7 @@ model SharedConfigValuesResourceProperties {
   cloudSproutEnv?: string;
 
   @doc("Resource Provisioning state")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: SharedConfigValuesProvisioningState;
 }
 
@@ -39,7 +40,7 @@ model SharedConfigValuesResource
   @pattern("^[a-zA-Z0-9-]{3,24}$")
   @key("resourceName")
   @segment("sharedConfigValues") // start with lower case
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }
@@ -52,7 +53,7 @@ model Scope {
   @doc("The GeoValue for the specified GeoType. If GeoType is Cloud, GeoValue is the applicable cloud name for the Moniker value.")
   geoValue: string;
 
-  @doc("EnvType. The valid value are Prod, PPE, Test, Dev.")
+  @doc("EnvType. The valid value are Prod, PPE, Test, Dev, NCOE, Aircapi, CBV.")
   envType?: string;
 }
 

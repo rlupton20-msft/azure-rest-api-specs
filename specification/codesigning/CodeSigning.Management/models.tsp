@@ -1,10 +1,10 @@
 import "@typespec/rest";
 import "@typespec/http";
-import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@typespec/openapi";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@azure-tools/typespec-client-generator-core";
+import "@typespec/versioning";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
@@ -128,14 +128,14 @@ union NameUnavailabilityReason {
 @doc("Properties of the trusted signing account.")
 model CodeSigningAccountProperties {
   @doc("The URI of the trusted signing account which is used during signing files.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   accountUri?: string;
 
   @doc("SKU of the trusted signing account.")
   sku?: AccountSku;
 
   @doc("Status of the current operation on trusted signing account.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -178,22 +178,22 @@ model CertificateProfileProperties {
 
   @removed(Versions.v2024_09_30_preview)
   @doc("Used as CN in the certificate subject name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   commonName?: string;
 
   @removed(Versions.v2024_09_30_preview)
   @doc("Used as O in the certificate subject name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   organization?: string;
 
   @removed(Versions.v2024_09_30_preview)
   @doc("Used as OU in the private trust certificate subject name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   organizationUnit?: string;
 
   @removed(Versions.v2024_09_30_preview)
   @doc("Used as STREET in the certificate subject name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   streetAddress?: string;
 
   @doc("Whether to include STREET in the certificate subject name.")
@@ -201,7 +201,7 @@ model CertificateProfileProperties {
 
   @removed(Versions.v2024_09_30_preview)
   @doc("Used as L in the certificate subject name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   city?: string;
 
   @doc("Whether to include L in the certificate subject name. Applicable only for private trust, private trust ci profile types")
@@ -209,7 +209,7 @@ model CertificateProfileProperties {
 
   @removed(Versions.v2024_09_30_preview)
   @doc("Used as S in the certificate subject name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   state?: string;
 
   @doc("Whether to include S in the certificate subject name. Applicable only for private trust, private trust ci profile types")
@@ -217,7 +217,7 @@ model CertificateProfileProperties {
 
   @removed(Versions.v2024_09_30_preview)
   @doc("Used as C in the certificate subject name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   country?: string;
 
   @doc("Whether to include C in the certificate subject name. Applicable only for private trust, private trust ci profile types")
@@ -225,15 +225,15 @@ model CertificateProfileProperties {
 
   @removed(Versions.v2024_09_30_preview)
   @doc("Used as PC in the certificate subject name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   postalCode?: string;
 
   @doc("Whether to include PC in the certificate subject name.")
   includePostalCode?: boolean = false;
 
-  @doc("Enhanced key usage of the certificate.")
   @removed(Versions.v2024_09_30_preview)
-  @visibility("read")
+  @doc("Enhanced key usage of the certificate.")
+  @visibility(Lifecycle.Read)
   enhancedKeyUsage?: string;
 
   @doc("Identity validation id used for the certificate subject name.")
@@ -241,17 +241,17 @@ model CertificateProfileProperties {
   identityValidationId: string;
 
   @doc("Status of the current operation on certificate profile.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("Status of the certificate profile.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: CertificateProfileStatus;
 
   #suppress "deprecated" "Legacy flatten"
   @doc("List of renewed certificates.")
-  @visibility("read")
-  @extension("x-ms-identifiers", [])
+  @visibility(Lifecycle.Read)
+  @identifiers(#[])
   @Azure.ClientGenerator.Core.flattenProperty
   certificates?: Certificate[];
 }
@@ -307,6 +307,14 @@ model Revocation {
   failureReason?: string;
 }
 
+@doc("Defines the list of certificates for revocation in certificate profile.")
+@added(Versions.v2025_07_30_preview)
+model RevokeCertificateList {
+  @doc("List of certificates to be revoked in a certificate profile.")
+  @extension("x-ms-identifiers", #[])
+  revokeCertificates: RevokeCertificate[];
+}
+
 @doc("Defines the certificate revocation properties.")
 model RevokeCertificate {
   @doc("Serial number of the certificate.")
@@ -335,14 +343,14 @@ model CheckNameAvailability {
 @doc("The CheckNameAvailability operation response.")
 model CheckNameAvailabilityResult {
   @doc("A boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already been taken or is invalid and cannot be used.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   nameAvailable?: boolean;
 
   @doc("The reason that a trusted signing account name could not be used. The Reason element is only returned if nameAvailable is false.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   reason?: NameUnavailabilityReason;
 
   @doc("An error message explaining the Reason value in more detail.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   message?: string;
 }

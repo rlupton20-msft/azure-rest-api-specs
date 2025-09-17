@@ -12,13 +12,12 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
 @doc("Discovered Asset definition.")
-@removed(Versions.v2024_10_01_preview)
 @added(Versions.v2024_07_01_preview)
+@removed(Versions.v2024_10_01_preview)
 model DiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
   @doc("Discovered Asset name parameter.")
   @key("discoveredAssetName")
@@ -32,7 +31,7 @@ model DiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("The extended location.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   extendedLocation: ExtendedLocation;
 }
 

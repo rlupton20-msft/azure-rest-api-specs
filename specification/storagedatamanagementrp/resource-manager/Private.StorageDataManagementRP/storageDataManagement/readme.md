@@ -36,16 +36,65 @@ These settings apply only when `--tag=package-2025-01-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2025-01-01-preview'
 input-file:
-  - preview/2025-01-01-preview/connectors.json
+  - preview/2025-01-01-preview/StorageDataRP.json
 suppressions:
   - code: PatchBodyParametersSchema
     from:
-      - connectors.json
+      - StorageDataRP.json
     reason: We have used kind property as discriminator to support polymorphic resource and during patch also need to pass discriminator to allow patch on certain polymorphic resource type property.
     where:
       - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDataManagementRP/storageAccounts/{storageAccountName}/connectors/{connectorName}"].patch.parameters[5].schema.properties.properties
 ```
 
+### Tag: package-2025-05-01-preview
+
+These settings apply only when `--tag=package-2025-05-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-05-01-preview'
+input-file:
+  - preview/2025-05-01-preview/StorageDataRP.json
+suppressions:
+  - code: PatchBodyParametersSchema
+    from:
+      - StorageDataRP.json
+    reason: We have used kind property as discriminator to support polymorphic resource and during patch also need to pass discriminator to allow patch on certain polymorphic resource type property.
+    where:
+      - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDataManagementRP/storageAccounts/{storageAccountName}/connectors/{connectorName}"].patch.parameters[5].schema.properties.properties
+```
+
+### Tag: package-2025-06-01-preview
+
+These settings apply only when `--tag=package-2025-06-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-06-01-preview'
+input-file:
+  - preview/2025-06-01-preview/StorageDataRP.json
+suppressions:
+  - code: PatchBodyParametersSchema
+    from:
+      - StorageDataRP.json
+    reason: We have used kind property as discriminator to support polymorphic resource and during patch also need to pass discriminator to allow patch on certain polymorphic resource type property.
+    where:
+      - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDataManagementRP/storageAccounts/{storageAccountName}/connectors/{connectorName}"].patch.parameters[5].schema.properties.properties
+```
+
+### Tag: package-2025-07-01-preview
+
+These settings apply only when `--tag=package-2025-07-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-07-01-preview'
+input-file:
+  - preview/2025-07-01-preview/StorageDataRP.json
+suppressions:
+  - code: PatchBodyParametersSchema
+    from:
+      - StorageDataRP.json
+    reason: We have used kind property as discriminator to support polymorphic resource and during patch also need to pass discriminator to allow patch on certain polymorphic resource type property.
+    where:
+      - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDataManagementRP/storageAccounts/{storageAccountName}/connectors/{connectorName}"].patch.parameters[5].schema.properties.properties
+      - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.StorageDataManagementRP/storageAccounts/{storageAccountName}/dataShares/{dataShareName}"].patch.parameters[5].schema.properties.properties
+```
+---
 ---
 
 # Code Generation

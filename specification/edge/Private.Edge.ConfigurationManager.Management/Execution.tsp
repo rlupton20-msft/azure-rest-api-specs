@@ -19,7 +19,7 @@ namespace Private.Edge;
 @doc("Result of Stage execution")
 model StageStatus {
   @doc("Deployment status")
-  status?: string;
+  status?: int32;
 
   @doc("Status message")
   statusMessage?: string;
@@ -33,8 +33,8 @@ model StageStatus {
   @doc("Error message")
   errorMessage?: string;
 
-  @doc("whether this stage is active or not")
-  isActive?: boolean;
+  @doc("whether this stage is active or inactive")
+  isActive?: ActiveState;
 
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "field is loosely defined and dependent on customer scenarios"
@@ -49,24 +49,23 @@ model StageStatus {
 
 @doc("Execution Status")
 model ExecutionStatus {
-  @doc("The lastModified of the Status")
+  @doc("The lastModified timestamp of the Status")
   updateTime?: utcDateTime;
 
   @doc("Deployment status")
-  status?: string;
+  status?: int32;
 
   @doc("status details")
   statusMessage?: string;
 
   @doc("target resource statuses")
-  @extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   stageHistory?: StageStatus[];
 }
 
 @doc("Execution Properties")
 model ExecutionProperties {
   @doc("Workflow version of execution")
-  @visibility("read")
   workflowVersionId: string;
 
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
@@ -75,12 +74,11 @@ model ExecutionProperties {
   specification?: Record<unknown>;
 
   @doc("Status of Execution")
-  @visibility("read")
-  @extension("x-ms-identifiers", [])
+  @visibility(Lifecycle.Read)
   status?: ExecutionStatus;
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

@@ -9,8 +9,8 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
 
-@versioned(Microsoft.Science.Workspace.Versions)
-namespace Microsoft.Science.Workspace;
+@versioned(Microsoft.AiForScience.Workspace.Versions)
+namespace Microsoft.AiForScience.Workspace;
 
 /** Enum for IndexingStatus */
 union IndexingStatus {
@@ -33,28 +33,26 @@ union IndexingStatus {
   string,
 }
 
-@doc("Input Catalogs referenced by KnowledgeBase")
-model InputCatalogs {
-  ...ResourceReference;
-
-  /** Data assets */
-  dataAssetIds: string[];
-}
-
 @doc("A knowledgeBase.")
 model BaseKnowledgeBase {
   ...WithId;
   ...WithTags;
+  ...WithDescription;
   ...WithCreatedAt;
   ...WithUpdatedAt;
   ...WithStatus<IndexingStatus>;
 
-  @doc("Input catalogs to index.")
+  @doc("Catalog data assets to index.")
   @visibility("read", "create")
-  dataAssets: ResourceReference[];
+  dataAssets: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/dataAsset";
+    }
+  ]>[];
 
   @doc("URL to access the knowledge base.")
   @visibility("read")
+  // TODO: is thus the data plane API?
   knowledgeBaseUrl?: string;
 
   @doc("Version.")

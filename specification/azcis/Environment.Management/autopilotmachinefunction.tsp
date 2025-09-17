@@ -1,24 +1,21 @@
-import "@typespec/rest";
-import "@typespec/versioning";
-import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/openapi";
+import "@typespec/http";
+import "@typespec/rest";
 
+using Azure.Core;
+using Azure.ResourceManager;
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
-using Azure.Core;
-using Azure.ResourceManager;
-using Autorest;
 
 namespace Microsoft.AzureCis;
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("AutopilotMachineFunction properties")
 model AutopilotMachineFunctionResourceProperties {
   @doc("Goal state of MachinesFunctions.")
-  @extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   machineFunctions?: Array<MachineFunction>; // Camel case for the parameter names.
 
   @doc("Target Environment Name to allocate MachineFunction.")
@@ -43,11 +40,10 @@ model AutopilotMachineFunctionResourceProperties {
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: EnvironmentProvisioningState;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("MachineFuncion.")
 model MachineFunction {
   @doc("Name of Machine Function allocated machines need to assign to.")
@@ -66,7 +62,6 @@ model MachineFunction {
   additionalFields?: Array<string>;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("AutopilotMachineFunction Resource")
 model AutopilotMachineFunctionResource
   is ProxyResource<AutopilotMachineFunctionResourceProperties> { // This can be TrackedResource based on resourcetype.
@@ -74,13 +69,12 @@ model AutopilotMachineFunctionResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("autopilotMachineFunctions") // Start with lower case. Should be plural.
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @armResourceOperations
 interface AutopilotMachineFunction {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<AutopilotMachineFunctionResource>;

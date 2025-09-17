@@ -6,18 +6,15 @@ import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 namespace Microsoft.Monitor;
 
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-path-segment-invalid-chars" "Existing Template"
-#suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-key-invalid-chars" "Existing template"
-@doc("A SliTestProviderHub resource")
-model Sli is ExtensionResource<SliResource> {
-  @doc("The name of the SLI")
-  @pattern("^[a-zA-Z0-9-]{3,128}$")
-  @key("name")
+@doc("Represents an SLI resource within the ProviderHub.")
+model Sli is ProxyResource<SliResource> {
+  @doc("Name of the SLI that is given by the user.")
+  @pattern("^[a-zA-Z0-9-_()~]{3,64}$")
+  @key("sliName")
   @segment("slis")
   @path
   name: string;
@@ -25,189 +22,138 @@ model Sli is ExtensionResource<SliResource> {
   ...ManagedServiceIdentityProperty;
 }
 
-@doc("Resource properties model")
+@doc("Defines the root level properties of an SLI resource.")
 model SliResource {
-  @visibility("read")
-  @doc("The status of the last operation.")
+  @visibility(Lifecycle.Read)
+  @doc("Indicates the provisioning status of the last operation.")
   provisioningState?: ProvisioningState;
 
-  @doc("SLO description")
+  @doc("A user-provided description of the SLI, with a maximum length of 1000 characters.")
+  @pattern("^.{3,1000}$")
   description: string;
 
-  @doc("SLO type")
-  sloType: string;
+  @doc("Specifies the category of the SLI, used to classify signals such as Availability and Latency.")
+  category: Category;
 
-  @doc("SLO evaluation type")
-  evaluationType: string;
+  @doc("Determines how the SLI is evaluated—either based on request counts or time windows.")
+  evaluationType: EvaluationType;
 
-  @doc("SLO properties")
-  sloProperties: SloProperties;
+  @visibility(Lifecycle.Read)
+  @doc("Indicates the current execution status of the SLI resource in ARM responses.")
+  executionState: ExecutionState;
 
-  @doc("SLI properties")
+  @doc("Destination AMW accounts.")
+  @OpenAPI.extension("x-ms-identifiers", #["resourceId"])
+  destinationAmwAccounts: AmwAccount[];
+
+  @visibility(Lifecycle.Read)
+  @doc("The destination Azure Monitor Workspace (AMW) accounts where the SLI emits metrics.")
+  @OpenAPI.extension("x-ms-identifiers", #["metricNamespace", "metricName"])
+  destinationMetrics: Metric[];
+
+  @doc("Defines the SLO baseline associated with the SLI.")
+  baselineProperties: BaselineProperties;
+
+  @visibility(Lifecycle.Read)
+  @doc("The streaming rule Id associated with the Sli resource.")
+  streamingRuleId: string;
+
+  @visibility(Lifecycle.Read)
+  @doc("The streaming rule last updated timestamp associated with the Sli resource.")
+  streamingRuleLastUpdatedTimestamp: string;
+
+  @doc("A flag to determine whether alert is enabled.")
+  enableAlert: boolean;
+
+  @doc("Defines the SLI properties associated with the SLI.")
   sliProperties: SliProperties;
 }
 
-@doc("SLO properties model")
-model SloProperties {
-  @doc("SLO target")
-  target: SloTarget;
+@doc("Represents the current execution state of an SLI.")
+model ExecutionState {
+  @doc("The execution state value.")
+  state: string;
 
-  @doc("Destination AMW accounts")
-  @OpenAPI.extension("x-ms-identifiers", ["resourceId"])
-  destinationAmwAccounts: AmwAccount[];
-
-  @doc("Destination metrics")
-  @OpenAPI.extension("x-ms-identifiers", ["metricNamespace", "metricName"])
-  destinationMetrics: Metric[];
+  @doc("A descriptive message related to the execution state.")
+  message?: string;
 }
 
-@doc("SLI properties model")
-model SliProperties {
-  @doc("Source AMW accounts")
-  @OpenAPI.extension("x-ms-identifiers", ["resourceId"])
-  sourceAmwAccounts: AmwAccount[];
-
-  @doc("Request based good signals")
-  goodSignals?: Signal;
-
-  @doc("Request based total signals")
-  totalSignals?: Signal;
-
-  @doc("Window based signals")
-  signals?: Signal;
-
-  @doc("Window uptime criteria")
-  windowUptimeCriteria?: WindowUptimeCriteria;
-}
-
-@doc("signal model")
-model Signal {
-  @doc("Signal sources")
-  @OpenAPI.extension("x-ms-identifiers", ["signalSourceId"])
-  signalSources: SignalSource[];
-
-  @doc("Signal formula")
-  signalFormula: string;
-}
-
-@doc("Signal source model")
-model SignalSource {
-  @doc("The signal source id")
-  signalSourceId: string;
-
-  @doc("Metric namespace")
-  metricNamespace: string;
-
-  @doc("Metric name")
-  metricName: string;
-
-  @doc("Filter")
-  @OpenAPI.extension("x-ms-identifiers", ["logic", "queries"])
-  filters: Filter[];
-
-  @doc("Aggregation")
-  spatialAggregation: SpatialAggregation;
-}
-
-@doc("Filter model")
-model Filter {
-  @doc("Filter logic")
-  logic: string;
-
-  @doc("Filter queries")
-  @OpenAPI.extension("x-ms-identifiers", ["dimensionName", "value", "operator"])
-  queries: Query[];
-}
-
-@doc("Query model")
-model Query {
-  @doc("Dimension name")
-  dimensionName: string;
-
-  @doc("Query operator")
-  operator: string;
-
-  @doc("Dimension value")
-  value: string;
-}
-
-@doc("Spatial aggregation model")
-model SpatialAggregation {
-  @doc("Spatial aggregation type")
-  type: string;
-
-  @doc("Spatial aggregation dimension")
-  dimensions: string[];
-}
-
-@doc("Window uptime criteria model")
-model WindowUptimeCriteria {
-  @doc("Window uptime target")
-  target: float32;
-
-  @doc("Window uptime comparator")
-  comparator: string;
-
-  @doc("Temporal aggregation")
-  temporalAggregation: TemporalAggregation;
-}
-
-@doc("Temporal aggregation model")
-model TemporalAggregation {
-  @doc("Temporal aggregation type")
-  type: string;
-
-  @doc("Temporal aggregation window size in minutes")
-  windowSizeMinutes: string;
-}
-
-@doc("SLO target model")
-model SloTarget {
-  @doc("Target name")
-  name: string;
-
-  @doc("Target value")
-  target: float32;
-
-  @doc("Compliance period days")
-  compliancePeriodDays: string;
-
-  @doc("Compliance calculation")
-  complianceCalculation: string;
-
-  @doc("Target comparator")
-  comparator: string;
-}
-
-@doc("AMW account model")
+@doc("Represents an Azure Monitor Workspace (AMW) account used for emitting metrics.")
 model AmwAccount {
-  @doc("ARM resource id for the account where metrics related to this SLO are emitted by the service.")
+  @doc("The ARM resource ID of the account where metrics are emitted.")
   resourceId: string;
 
-  @doc("ARM resource id for the managed identity with access to the source account.")
+  @doc("The ARM resource ID of the managed identity with access to the source account.")
   identity: string;
 }
 
-@doc("Metric model")
+@doc("Defines a metric in the destination AMW account.")
 model Metric {
-  @doc("Metric namespace")
+  @doc("The namespace of the metric.")
   metricNamespace: string;
 
-  @doc("Metric name")
+  @doc("The name of the metric.")
   metricName: string;
 }
 
+@doc("Defines the category of an SLI")
+union Category {
+  @doc("Indicates availability-related metrics.")
+  "Availability",
+
+  @doc("Indicates latency-related metrics.")
+  "Latency",
+
+  string,
+}
+
+@doc("Specifies how the SLI is evaluated.")
+union EvaluationType {
+  @doc("Evaluates SLI based on time windows.")
+  "WindowBased",
+
+  @doc("Evaluates SLI based on request counts.")
+  "RequestBased",
+
+  string,
+}
+
+@doc("Represents the provisioning state of the SLI resource.")
+@Azure.Core.lroStatus
+union ProvisioningState {
+  ResourceProvisioningState,
+}
+alias ServiceGroupRoute = "/providers/Microsoft.Management/serviceGroups";
+
+@doc("ServiceGroup as parameter")
+model ServiceGroupBaseParameters {
+  @path
+  @pattern("^[a-zA-Z0-9-]{3,24}$")
+  @doc("The name of the service group.")
+  serviceGroupName: string;
+}
+
+@doc("ServiceGroup as parameter")
+model ServiceGroupParameters is ServiceGroupBaseParameters {
+  ...Azure.ResourceManager.CommonTypes.ApiVersionParameter;
+}
+
+@doc("Defines operations for managing SLI resources.")
 @armResourceOperations(Sli)
 interface Slis {
-  @doc("Gets a Sli")
-  get is ArmResourceRead<Sli>;
+  @doc("Gets an SLI resource.")
+  @route(ServiceGroupRoute)
+  get is ArmResourceRead<Sli, ServiceGroupParameters>;
 
-  @doc("Creates or updates a Sli")
-  createOrUpdate is ArmResourceCreateOrReplaceSync<Sli>;
+  @doc("Creates or updates an SLI resource.")
+  @route(ServiceGroupRoute)
+  createOrUpdate is ArmResourceCreateOrReplaceSync<Sli, ServiceGroupParameters>;
 
-  @doc("Deletes a Sli")
-  delete is ArmResourceDeleteSync<Sli>;
+  @doc("Deletes an SLI resource.")
+  @route(ServiceGroupRoute)
+  delete is ArmResourceDeleteSync<Sli, ServiceGroupParameters>;
 
-  @doc("Lists all Slis")
-  listByParent is ArmResourceListByParent<Sli>;
+  @doc("Lists all SLI resources under a parent resource.")
+  @route(ServiceGroupRoute)
+  listByParent is ArmResourceListByParent<Sli, ServiceGroupParameters>;
 }

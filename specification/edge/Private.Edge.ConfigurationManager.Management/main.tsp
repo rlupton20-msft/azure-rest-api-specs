@@ -17,15 +17,25 @@ import "./SolutionTemplateVersion.tsp";
 import "./Instance.tsp";
 import "./InstanceHistory.tsp";
 import "./ConfigTemplate.tsp";
+import "./ConfigurationTemplate.tsp";
 import "./ConfigTemplateVersion.tsp";
+import "./ConfigurationTemplateVersion.tsp";
 import "./Workflow.tsp";
 import "./WorkflowVersion.tsp";
 import "./WorkflowTemplate.tsp";
+import "./WorkflowV2.tsp";
+import "./WorkflowVersionV2.tsp";
+import "./ExecutionV2.tsp";
 import "./WorkflowTemplateVersion.tsp";
 import "./Execution.tsp";
+import "./Job.tsp";
 import "./Diagnostics.tsp";
 import "./Context.tsp";
 import "./SiteReference.tsp";
+import "./EventGridFilters.tsp";
+import "./SolutionSchema.tsp";
+import "./ConfigTemplateSchema.tsp";
+import "./ConfigTemplateMetadata.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -36,17 +46,29 @@ using Azure.ResourceManager;
 /** Private.Edge Resource Provider management API. */
 #suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Operations API is published as part of same RP in edge folder."
 @armProviderNamespace
-@service({
-  title: "Private.Edge",
-})
+@service(#{ title: "Private.Edge" })
 @versioned(Versions)
 namespace Private.Edge;
 
 /** The available API versions. */
 enum Versions {
-  /** 2024-08-01-preview version */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2025_01_01_preview: "2025-01-01-preview",
+
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_06_01: "2025-06-01",
+
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_08_01: "2025-08-01",
+
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_08_15_preview: "2025-08-15-preview",
 }

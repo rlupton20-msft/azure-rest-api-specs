@@ -1,5 +1,11 @@
 import "../Science.Shared/all.tsp";
 import "@typespec/http";
+import "@typespec/versioning";
+
+using TypeSpec.Versioning;
+
+@versioned(Microsoft.AiForScience.Workspace.Versions)
+namespace Microsoft.AiForScience.Workspace;
 
 @doc("Enumeration for message sender.")
 union Sender {
@@ -76,7 +82,7 @@ model Step {
   //  ...WithUpdatedAt;
   //  ...WithStatus<RunStatus>;
   //  ...WithStatusReason;
-  //  ...WithResultUri;
+  //  ...WithResultAsset;
 
   @doc("The step order.")
   @visibility("read")
@@ -150,4 +156,37 @@ model WithQueryConversationId {
   @doc("The ID of the associated Conversation")
   @TypeSpec.Http.query
   conversationId?: string;
+}
+
+@doc("Linked DataSets.")
+model LinkedDataSets {
+  @doc("Fully qualified resource ID for the DataSet resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Science/DataAssets/{assetName}/DataSets/{setName}")
+  @visibility("read", "create", "update")
+  id: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.Science/DataAssets/DataSets";
+    }
+  ]>;
+}
+
+@doc("Linked Storage.")
+model LinkedStorage {
+  @doc("Fully qualified resource ID for the Science Storage account. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Science/storages/{accountName}")
+  @visibility("read", "create", "update")
+  id: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.Science/storages"; // TODO: Change to Science shared storage?
+    }
+  ]>;
+}
+
+@doc("Linked NodePools.")
+model LinkedNodePools {
+  @doc("Fully qualified resource ID for the NodePool resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Science/supercomputers/{scName}/nodepools/{name}")
+  @visibility("read", "create", "update")
+  id: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.Science/supercomputers/nodepools";
+    }
+  ]>;
 }

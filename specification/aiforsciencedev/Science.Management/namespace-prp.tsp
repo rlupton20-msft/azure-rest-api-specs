@@ -3,5 +3,5 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 using Azure.ResourceManager;
 namespace Private {
-  @@armProviderNamespace(Microsoft.Science, "Private.Science");
+  @@armProviderNamespace(Microsoft.AiForScience, "Private.Science");
 }

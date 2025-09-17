@@ -2,7 +2,7 @@
   "title": "ListByResourceGroup StorageAccountDsms",
   "operationId": "StorageAccountDsms_ListByResourceGroup",
   "parameters": {
-    "subscriptionId": "mySubscriptionId",
+    "subscriptionId": "3a3595d0-5fcd-5bee-ba2f-5f389d7d91fa",
     "resourceGroupName": "myResourceGroup",
     "api-version": "2023-08-22-preview"
   },
@@ -11,25 +11,19 @@
       "body": {
         "value": [
           {
-            "id": "/subscriptions/mySubscriptionId/resourceGroups/myResourceGroup/providers/Microsoft.AzureCis/storageAccountDsms/prodUSEastAzcis",
+            "id": "/subscriptions/3a3595d0-5fcd-5bee-ba2f-5f389d7d91fa/resourceGroups/myResourceGroup/providers/Microsoft.AzureCis/storageAccountDsms/prodUSEastAzcis",
             "name": "prodUSEastAzcis",
             "type": "Microsoft.AzureCis/storageAccountDsms",
             "properties": {
-              "provisioningState": "Accepted",
-              "storageAccountDsmsName": "Storage Account Dsms provision test 1",
-              "storageAccountDsmsResourceProviderName": "Xstore",
-              "storageAccountXstoreCreationTime": "2024-09-07T02:00:53.6351717+00:00",
-              "provisionStartTime": "2024-09-07T01:56:57.2853260+00:00",
-              "accountName": "Storage Account Dsms provision test 1",
+              "accountName": "storage-account-dsms-provisioning-test",
               "rootPath": "azcistest",
               "dsmsDns": "global-dsms.dsms.test.com",
               "accountReplicationType": "Standard_LRS",
               "description": "Test provision of Storage Account Dsms resource.",
               "location": "uscentraleuap",
-              "label": "Storage Account Dsms provision test 1",
+              "label": "Storage Account Dsms provision test",
               "xstoreBootstrapping": false,
               "eventEmittedUponProvisioning": "AzureBuildout.Cluster.TestCluster.Resources.ImageRepositoryBackup.Provisioned",
-              "useCreateInsteadOfGenerate": true,
               "whitelists": {
                 "whitelist": [
                   {
@@ -50,8 +44,8 @@
               "keyRenewalPeriodInDays": 3,
               "releaseKeyToAgent": true,
               "forceSyncGlobalDsmsSecret": true,
-              "resourceProvider": "Xstore",
-              "pilotXstoreResourceProvider": true,
+              "resourceProvider": "Classic",
+              "pilotXstoreResourceProvider": false,
               "accountSasInfos": [
                 {
                   "rootPath": "azcistest/accountsas/adhoc/saskeyfor/test1",
@@ -70,19 +64,71 @@
                   "signedResourceTypes": "Test Resource Type 2"
                 }
               ],
-              "refreshInDsms": false,
-              "originalResourceProvider": "Classic",
               "residencyBoundary": "Worldwide",
               "resiliencyMinimum": "Standard_LRS",
               "resiliencyMaximum": "Standard_ZRS",
               "resilienciesProgressionId": "Default",
               "additionalLocations": "primary",
+              "dualStackEndpointPreference": {
+                "defaultDualStackEndpoints": true,
+                "publishIpv4Endpoint": true,
+                "publishIpv6Endpoint": true
+              },
+              "lifecycleManagementPolicy": [
+                {
+                  "name": "Test-Lifecycle-Management-Policy",
+                  "enabled": true,
+                  "baseBlobPolicy": [
+                    {
+                      "action": "tierToCold",
+                      "daysAfterModificationsLessThan": 30,
+                      "daysAfterModificationsGreaterThan": 0,
+                      "daysAfterLastAccessTimeGreaterThan": 3,
+                      "daysAfterLastTierChangeGreaterThan": 0,
+                      "daysAfterCreationGreaterThan": 3
+                    }
+                  ],
+                  "snapshotPolicy": [
+                    {
+                      "action": "tierToArchive",
+                      "daysAfterCreationGreaterThan": 1
+                    }
+                  ],
+                  "versionPolicy": [
+                    {
+                      "action": "tierToHot",
+                      "daysAfterLastAccessTimeGreaterThan": 0
+                    }
+                  ],
+                  "blobTypesFilter": "blockBlob;appendBlob",
+                  "prefixMatchFilter": [
+                    "test-networkservicemanager-backup",
+                    "test-tenantmanager-backup",
+                    "test-datacentermanager-backup"
+                  ],
+                  "blobIndexMatchFilter": [
+                    {
+                      "name": "Test-Blob-Index-Match-Filter",
+                      "operator": "Equals",
+                      "value": "test"
+                    }
+                  ]
+                }
+              ],
+              "requireInfrastructureEncryption": false,
               "properties": {
                 "purpose": "dSMSTest",
                 "sampleProperty1": "sampleValue1",
                 "sampleProperty2": "sampleValue2"
               },
-              "azureLocation": "useast"
+              "azureLocation": "useast",
+              "provisioningState": "Succeeded",
+              "storageAccountDsmsName": "storage-account-dsms-provisioning-test",
+              "storageAccountDsmsResourceProviderName": "Classic",
+              "storageAccountRdfeCreationTime": "2024-09-07T02:00:53.6351717+00:00",
+              "provisionStartTime_dsmsAccountTemplate": "2024-09-07T01:56:57.2853260+00:00",
+              "provisionStartTime_storageAccountTemplate": "2024-09-07T02:01:50.2853260+00:00",
+              "provisionStartTime_storageAccountSyncTemplate": "2024-09-07T02:06:09.2853260+00:00"
             }
           }
         ]

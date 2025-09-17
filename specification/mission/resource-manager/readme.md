@@ -20,24 +20,40 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ## Configuration
 
-### Basic Information
-
 These are the global settings for the mission.
 
 ```yaml
 title: missionClient
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-private-2024-10-01-preview
+tag: package-private-2025-09-01-preview
 ```
 
-### Tag: package-private-2024-10-01-preview
+### Tag: package-private-2025-09-01-preview
 
-These settings apply only when `--tag=package-private-2024-10-01-preview` is specified on the command line.
+These settings apply only when `--tag=package-private-2025-09-01-preview` is specified on the command line.
 
-```yaml $(tag) == 'package-private-2024-10-01-preview'
+```yaml $(tag) == 'package-private-2025-09-01-preview'
 input-file:
-  - Private.Mission/preview/2024-10-01-preview/openapi.json
+  - Private.Mission/preview/2025-09-01-preview/openapi.json
+```
+
+### Tag: package-private-2025-05-01-preview
+
+These settings apply only when `--tag=package-private-2025-05-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-private-2025-05-01-preview'
+input-file:
+  - Private.Mission/preview/2025-05-01-preview/openapi.json
+```
+
+### Tag: package-private-2024-12-01-preview
+
+These settings apply only when `--tag=package-private-2024-12-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-private-2024-12-01-preview'
+input-file:
+  - Private.Mission/preview/2024-12-01-preview/openapi.json
 ```
 
 ### Tag: package-private-2024-06-01-preview
@@ -49,71 +65,6 @@ input-file:
   - Private.Mission/preview/2024-06-01-preview/openapi.json
 ```
 
-### Tag: package-private-2024-01-01-preview
-
-These settings apply only when `--tag=package-private-2024-01-01-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-private-2024-01-01-preview'
-input-file:
-  - Private.Mission/preview/2024-01-01-preview/openapi.json
-```
-
-### Tag: package-private-2023-11-01-preview
-
-These settings apply only when `--tag=package-private-2023-11-01-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-private-2023-11-01-preview'
-input-file:
-  - Private.Mission/preview/2023-11-01-preview/openapi.json
-```
-
-### Tag: package-private-2023-08-01-preview
-
-These settings apply only when `--tag=package-private-2023-08-01-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-private-2023-08-01-preview'
-input-file:
-  - Private.Mission/preview/2023-08-01-preview/openapi.json
-```
-
-### Tag: package-2023-02-01-preview
-
-These settings apply only when `--tag=package-2023-02-01-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2023-02-01-preview'
-input-file:
-  - Microsoft.Mission/preview/2023-02-01-preview/openapi.json
-```
----
-
-### Tag: package-2022-12-07-preview
-
-These settings apply only when `--tag=package-2022-12-07-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2022-12-07-preview'
-input-file:
-  - Microsoft.Mission/preview/2022-12-07-preview/openapi.json
-```
----
-
-### Tag: package-2022-10-31-preview
-
-These settings apply only when `--tag=package-2022-10-31-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2022-10-31-preview'
-input-file:
-  - Microsoft.Mission/preview/2022-10-31-preview/openapi.json
-```
----
-
-### Tag: package-2022-08-02-preview
-
-These settings apply only when `--tag=package-2022-08-02-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2022-08-02-preview'
-input-file:
-  - Microsoft.Mission/preview/2022-08-02-preview/openapi.json
-```
 ---
 
 # Code Generation
@@ -132,6 +83,7 @@ swagger-to-sdk:
   - repo: azure-resource-manager-schemas
   - repo: azure-cli-extensions
 ```
+
 ## Az
 
 See configuration in [readme.az.md](./readme.az.md)

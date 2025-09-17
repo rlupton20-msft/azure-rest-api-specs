@@ -21,20 +21,25 @@ namespace Private.Edge;
 @doc("Solution Properties")
 model SolutionProperties {
   @doc("Solution template Id")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   solutionTemplateId?: string;
 
+  @added(Versions.v2025_08_01)
+  @doc("Display name of the solution")
+  @visibility(Lifecycle.Read)
+  displayName?: string;
+
   @doc("List of latest revisions for available solution template versions")
-  @extension("x-ms-identifiers", [])
-  @visibility("read")
+  @visibility(Lifecycle.Read)
+  @Azure.ResourceManager.identifiers(#[])
   availableSolutionTemplateVersions?: AvailableSolutionTemplateVersion[];
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
-@doc("Solution Resource")
+@doc("Solution Resource attached to a Target")
 @parentResource(Target)
 model Solution is Azure.ResourceManager.ProxyResource<SolutionProperties> {
   @doc("Name of the solution")
@@ -58,7 +63,7 @@ interface Solutions {
   @doc("Create or update a Solution Resource")
   createOrUpdate is ArmResourceCreateOrReplaceAsync<Solution>;
 
-  @doc("update a Solution Resource")
+  @doc("Update a Solution Resource")
   update is ArmResourcePatchAsync<Solution, SolutionProperties>;
 
   @doc("Delete a Solution Resource")

@@ -22,7 +22,7 @@ namespace Microsoft.AccessPoint;
 @doc("Properties for a base resource.")
 model BaseResourceProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -41,31 +41,7 @@ union ProvisioningState {
   @doc("The change request has been accepted")
   Accepted: "Accepted",
 
-  @doc("The change request has been canceled")
-  Canceled: "Canceled",
-
-  @doc("The change request has succeeded")
-  Succeeded: "Succeeded",
-
-  @doc("The change request has failed")
-  Failed: "Failed",
-
-  string,
-}
-
-@doc("The classification of the Access Point Account")
-union Classification {
-  /**
-   * SAP Classification
-   */
-  SAP: "sap",
-
-  /**
-   * SCI_SAP Classification
-   */
-  SCI_SAP: "sci_sar",
-
-  string,
+  ResourceProvisioningState,
 }
 
 @armResourceOperations

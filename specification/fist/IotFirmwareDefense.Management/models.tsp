@@ -3,12 +3,10 @@ import "@typespec/http";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-using TypeSpec.Rest;
-using TypeSpec.Http;
-using Azure.ResourceManager;
-using Azure.ResourceManager.Foundations;
 using OpenAPI;
+using Versioning;
 
+@versioned(Versions)
 namespace Microsoft.IoTFirmwareDefense;
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -27,7 +25,7 @@ union Status {
   @doc("Analysis job results are ready")
   Ready: "Ready",
 
-  @doc("An error occured while running firmware analysis")
+  @doc("An error occurred while running firmware analysis")
   Error: "Error",
 
   string,
@@ -61,7 +59,7 @@ union SummaryType {
   @doc("The summary contains information about the submitted firmware")
   Firmware: "Firmware",
 
-  @doc("The summary contains information about the Common Vulnerabilites and Exposures analysis results")
+  @doc("The summary contains information about the Common Vulnerabilities and Exposures analysis results")
   CommonVulnerabilitiesAndExposures: "CommonVulnerabilitiesAndExposures",
 
   @doc("The summary contains information about the binary hardening analysis results")
@@ -111,7 +109,7 @@ model BinaryHardeningResult {
   rpath?: string;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -133,7 +131,7 @@ model BinaryHardeningFeatures {
   stripped?: boolean;
 }
 
-@doc("Activities the cryptographic certificate can be used.")
+@doc("Activities for which the cryptographic certificate can be used.")
 union CertificateUsage {
   @doc("This certificate can be used to add a signature to a message")
   DigitalSignature: "digitalSignature",
@@ -156,7 +154,7 @@ union CertificateUsage {
   @doc("This certificate can be used to verify a other public keys")
   KeyCertSign: "keyCertSign",
 
-  @doc("This certificate can be used to verift a certificate revocation list")
+  @doc("This certificate can be used to verify a certificate revocation list")
   CRLSign: "crlSign",
 
   @doc("This certificate can be only be used to encrypt data")
@@ -231,7 +229,7 @@ model CryptoCertificate {
   certificateUsage?: CertificateUsage[];
 
   @doc("List of files where this certificate was found.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   filePaths?: string[];
 
   @doc("A matching paired private key.")
@@ -250,7 +248,7 @@ model CryptoCertificate {
   isShortKeySize?: boolean;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -310,7 +308,7 @@ model CryptoKey {
   usage?: string[];
 
   @doc("List of files where this key was found.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   filePaths?: string[];
 
   @doc("A matching paired key or certificate.")
@@ -320,7 +318,7 @@ model CryptoKey {
   isShortKeySize?: boolean;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -331,6 +329,19 @@ model CvssScore {
 
   @doc("The score of the CVE according to the CVSS specified.")
   score?: float32;
+}
+
+@doc("Legacy component of a CVE result.")
+@added(Versions.v2025_08_02)
+model CveComponent {
+  @doc("ID of the SBOM component.")
+  componentId?: string;
+
+  @doc("Name of the SBOM component.")
+  name?: string;
+
+  @doc("Version of the SBOM component.")
+  version?: string;
 }
 
 @doc("Details of a CVE detected in firmware.")
@@ -353,6 +364,26 @@ model CveResult {
   @doc("Name of the CVE.")
   cveName?: string;
 
+  @added(Versions.v2025_08_02)
+  @doc("Legacy property for what is now componentName")
+  component?: CveComponent;
+
+  @added(Versions.v2025_08_02)
+  @doc("Legacy property for the effective CVE score.")
+  cvssScore?: string;
+
+  @added(Versions.v2025_08_02)
+  @doc("Legacy property for the CVE CVSS version 2 score, if one existed.")
+  cvssV2Score?: string;
+
+  @added(Versions.v2025_08_02)
+  @doc("Legacy property for the CVE CVSS version 3 score, if one existed.")
+  cvssV3Score?: string;
+
+  @added(Versions.v2025_08_02)
+  @doc("Legacy property for the what CVSS version score was stored in the cvssScore property")
+  cvssVersion?: string;
+
   @doc("The most recent CVSS score of the CVE.")
   effectiveCvssScore?: float32;
 
@@ -360,19 +391,19 @@ model CveResult {
   effectiveCvssVersion?: int32;
 
   @doc("All known CVSS scores for the CVE.")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   cvssScores?: CvssScore[];
 
   @doc("The list of reference links for the CVE.")
-  @visibility("read")
-  @extension("x-ms-identifiers", ["href"])
+  @visibility(Lifecycle.Read)
+  @extension("x-ms-identifiers", #["href"])
   links?: CveLink[];
 
   @doc("The CVE description.")
   description?: string;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -391,16 +422,34 @@ model FirmwareProperties {
   fileName?: string;
 
   @doc("Firmware vendor.")
-  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ]*$")
+  @added(Versions.v2025_08_02)
   vendor?: string;
 
+  @doc("Firmware vendor.")
+  @removed(Versions.v2025_08_02)
+  @renamedFrom(Versions.v2025_08_02, "vendor")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ,'\"~=(){}:]*$")
+  legacyVendor?: string;
+
   @doc("Firmware model.")
-  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ]*$")
+  @added(Versions.v2025_08_02)
   `model`?: string;
 
+  @doc("Firmware model.")
+  @removed(Versions.v2025_08_02)
+  @renamedFrom(Versions.v2025_08_02, "model")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ,'\"~=(){}:]*$")
+  legacyModel?: string;
+
   @doc("Firmware version.")
-  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ]*$")
+  @added(Versions.v2025_08_02)
   version?: string;
+
+  @doc("Firmware version.")
+  @removed(Versions.v2025_08_02)
+  @renamedFrom(Versions.v2025_08_02, "version")
+  @pattern("^[a-zA-Z0-9][a-zA-Z0-9-_. ,'\"~=(){}:]*$")
+  legacyVersion?: string;
 
   @doc("User-specified description of the firmware.")
   description?: string;
@@ -412,11 +461,11 @@ model FirmwareProperties {
   status?: Status;
 
   @doc("A list of errors or other messages generated during firmware analysis")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   statusMessages?: StatusMessage[];
 
   @doc("Provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -438,7 +487,7 @@ model FirmwareUpdateDefinition {
 @doc("Url data for creating or accessing a blob file.")
 model UrlToken {
   @doc("SAS URL for creating or accessing a blob file.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   url?: url;
 }
 
@@ -466,7 +515,7 @@ model PasswordHash {
   algorithm?: string;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -488,7 +537,7 @@ model SbomComponent {
   filePaths?: string[];
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -499,7 +548,7 @@ model SummaryResourceProperties {
   summaryType: SummaryType;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -518,7 +567,7 @@ model SbomFileProperties {
 @doc("Workspace properties.")
 model WorkspaceProperties {
   @doc("Provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -646,4 +695,19 @@ model CryptoKeySummaryResource extends SummaryResourceProperties {
 
   @doc("Describes the type of summary.")
   summaryType: "CryptoKey";
+}
+
+@doc("Properties of a workspaces usage metrics.")
+model UsageMetricProperties {
+  @doc("The number of firmware analysis jobs that have been submitted in the current month.")
+  @visibility(Lifecycle.Read)
+  monthlyFirmwareUploadCount: int64;
+
+  @doc("The total number of firmwares that are in the workspace.")
+  @visibility(Lifecycle.Read)
+  totalFirmwareCount: int64;
+
+  @doc("The status of the last operation.")
+  @visibility(Lifecycle.Read)
+  provisioningState?: ProvisioningState;
 }

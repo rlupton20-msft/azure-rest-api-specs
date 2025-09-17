@@ -781,6 +781,64 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}/migrate": {
+      "post": {
+        "operationId": "AssetEndpointProfiles_Migrate",
+        "tags": [
+          "AssetEndpointProfiles"
+        ],
+        "description": "A synchronous resource action.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "assetEndpointProfileName",
+            "in": "path",
+            "description": "Asset Endpoint Profile name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MigrateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/MigrateResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Migrate_AssetEndpointProfile_Resource": {
+            "$ref": "./examples/Migrate_AssetEndpointProfile_Resource.json"
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/assets": {
       "get": {
         "operationId": "Assets_ListByResourceGroup",
@@ -1172,6 +1230,64 @@
           "final-state-via": "location"
         },
         "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/assets/{assetName}/migrate": {
+      "post": {
+        "operationId": "Assets_Migrate",
+        "tags": [
+          "Assets"
+        ],
+        "description": "A synchronous resource action.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "assetName",
+            "in": "path",
+            "description": "Asset name parameter.",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 63,
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MigrateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/MigrateResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Migrate_Asset_Resource": {
+            "$ref": "./examples/Migrate_Asset_Resource.json"
+          }
+        }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/devices": {
@@ -3446,10 +3562,6 @@
           "type": "string",
           "description": "Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here."
         },
-        "defaultTopic": {
-          "$ref": "#/definitions/TopicUpdate",
-          "description": "Object that describes the default topic information for the asset."
-        },
         "datasets": {
           "type": "array",
           "description": "Array of datasets that are part of the asset. Each dataset describes the data points that make up the set.",
@@ -3465,6 +3577,20 @@
             "$ref": "#/definitions/Event"
           },
           "x-ms-identifiers": []
+        },
+        "defaultTopic": {
+          "type": "object",
+          "description": "Object that describes the default topic information for the asset.",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "The topic path for messages published to an MQTT broker."
+            },
+            "retain": {
+              "$ref": "#/definitions/TopicRetainType",
+              "description": "When set to 'Keep', messages published to an MQTT broker will have the retain flag set. Default: 'Never'."
+            }
+          }
         }
       }
     },
@@ -4469,8 +4595,7 @@
           "description": "Array of data points that are part of the dataset. Each data point can have per-data point configuration.",
           "items": {
             "$ref": "#/definitions/DiscoveredDataPoint"
-          },
-          "x-ms-identifiers": []
+          }
         }
       },
       "required": [
@@ -4674,6 +4799,34 @@
         "schemaRegistryNamespace",
         "schemaName",
         "schemaVersion"
+      ]
+    },
+    "MigrateRequest": {
+      "type": "object",
+      "description": "Asset Migrate request properties.",
+      "properties": {
+        "namespaceId": {
+          "type": "string",
+          "description": "The resource id of the namespace to migrate Asset into.",
+          "pattern": "^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Private\\.DeviceRegistry/namespaces/[^/]+$"
+        }
+      },
+      "required": [
+        "namespaceId"
+      ]
+    },
+    "MigrateResponse": {
+      "type": "object",
+      "description": "Asset Migrate response properties.",
+      "properties": {
+        "resourceId": {
+          "type": "string",
+          "description": "The resource id of the migrated Asset.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "resourceId"
       ]
     },
     "ProvisioningState": {

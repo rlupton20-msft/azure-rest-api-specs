@@ -1,23 +1,21 @@
-import "@typespec/rest";
-import "@typespec/versioning";
-import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/openapi";
+import "@typespec/http";
+import "@typespec/rest";
 
+using Azure.Core;
+using Azure.ResourceManager;
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
-using Azure.Core;
-using Azure.ResourceManager;
-using Autorest;
 
 namespace Microsoft.AzureCis;
 
 @doc("Defines the array of allowlists for a secret")
 model Allowlists {
   @doc("Allowlist elements")
-  @extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   elements: Allowlist[];
 }
 
@@ -131,19 +129,19 @@ model DsmsCertificateProperties {
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: CertificateProvisioningState;
 
   @doc("Self-signed Certificate DSMS name; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   selfSignedCertificateDsmsName?: string;
 
   @doc("Chained Certificate DSMS name; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   chainedCertificateDsmsName?: string;
 
   @doc("Automatically injected if the environment is a child trusted island; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   edgeSiteChildTrustIsland?: string;
 }
 
@@ -154,7 +152,7 @@ model DsmsCertificateResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("dsmsCertificates") // Start with lower case. Should be plural
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }

@@ -1,15 +1,12 @@
-import "@typespec/rest";
-import "@typespec/versioning";
-import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/http";
+import "@typespec/rest";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
-using Autorest;
+using TypeSpec.Http;
+using TypeSpec.Rest;
 
 namespace Microsoft.AzureCis;
 
@@ -22,11 +19,11 @@ model ApSlbVipResourceProperties {
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ApSlbVipProvisioningState;
 
   @doc("IP address of an Ap Dns; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   assignedVip?: string;
 }
 
@@ -36,7 +33,7 @@ model ApSlbVipResource is ProxyResource<ApSlbVipResourceProperties> {
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("autoPilotSoftwareLoadBalanceVirtualIps") // start with lower case
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }

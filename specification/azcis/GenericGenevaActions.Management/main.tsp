@@ -1,13 +1,11 @@
-import "./versions.tsp";
+import "../versions.tsp";
 import "./genericgenevaactions.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 @armProviderNamespace
-@service({
-  title: "Azure CIS FRP",
-})
+@service(#{ title: "Azure CIS FRP" })
 @doc("GenericGenevaActions Provider")
 @versioned(Microsoft.AzureCis.Versions)
 namespace Microsoft.AzureCis;

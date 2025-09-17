@@ -1,15 +1,14 @@
-import "@typespec/rest";
-import "@typespec/versioning";
-import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/openapi";
+import "@typespec/http";
+import "@typespec/rest";
 
+using Azure.Core;
+using Azure.ResourceManager;
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using Azure.Core;
-using Azure.ResourceManager;
-using Autorest;
 
 namespace Microsoft.AzureCis;
 
@@ -35,15 +34,15 @@ model DstsServiceAccountResourceProperties {
   groupName?: string;
 
   @doc("list of authentication requirements.")
-  @extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   authenticationRequirements?: Array<DstsAuthenticationRequirement>;
 
   @doc("list of realms.")
-  @extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   realms?: Array<DstsRealm>;
 
   @doc("list of claim mappings.")
-  @extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   claimMappings?: Array<DstsClaimMapping>;
 
   @doc("Tags to add to the account.")
@@ -53,15 +52,15 @@ model DstsServiceAccountResourceProperties {
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: DscmProvisioningState;
 
   @doc("Request ID; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   requestId?: string;
 
   @doc("Service Account ID; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   serviceAccountId?: string;
 }
 
@@ -72,7 +71,7 @@ model DstsServiceAccountResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("dstsServiceAccounts") // Start with lower case. Should be plural
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }

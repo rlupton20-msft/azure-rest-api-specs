@@ -23,6 +23,8 @@ import "./operations/exascale/exascaleDbStorageVaultOperations.tsp";
 import "./operations/exascale/exascaleDbNodesOperations.tsp";
 import "./operations/anchors/networkAnchorOperations.tsp";
 import "./operations/anchors/resourceAnchorOperations.tsp";
+import "./operations/basedb/dbSystemOperations.tsp";
+import "./operations/basedb/dbVersionOperations.tsp";
 import "./versions.tsp";
 
 using TypeSpec.Http;
@@ -33,9 +35,7 @@ using OpenAPI;
 using Autorest;
 
 @armProviderNamespace
-@service({
-  title: "Oracle Database Resource Manager",
-})
+@service(#{ title: "Oracle Database Resource Manager" })
 @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 @versioned(OracleDatabaseDev.Versions)
 namespace Private.OracleDatabaseDev;

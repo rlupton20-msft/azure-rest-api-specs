@@ -1,13 +1,11 @@
 import "./azcopy.tsp";
-import "./versions.tsp";
+import "../versions.tsp";
 
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 @armProviderNamespace
-@service({
-  title: "Azure CIS FRP",
-})
+@service(#{ title: "Azure CIS FRP" })
 @doc("AzCopy Provider")
 @versioned(Microsoft.AzureCis.Versions)
 namespace Microsoft.AzureCis;

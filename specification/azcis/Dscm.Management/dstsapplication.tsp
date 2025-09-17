@@ -1,20 +1,17 @@
-import "@typespec/rest";
-import "@typespec/versioning";
-import "@azure-tools/typespec-autorest";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/openapi";
+import "@typespec/http";
+import "@typespec/rest";
 
+using Azure.Core;
+using Azure.ResourceManager;
 using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
-using Azure.Core;
-using Azure.ResourceManager;
-using Autorest;
 
 namespace Microsoft.AzureCis;
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("dstsApplication properties")
 model DstsApplicationResourceProperties {
   @doc("Application.")
@@ -23,21 +20,23 @@ model DstsApplicationResourceProperties {
   @doc("The application group. Optional.")
   applicationGroup?: ApplicationGroup;
 
+  @doc("The mode used to deploy the resource. Default value is Incremental. Acceptable values: Incremental, Complete.")
+  deploymentMode?: "Incremental" | "Complete" | string = "Incremental";
+
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: DscmProvisioningState;
 
   @doc("Request ID; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   requestId?: string;
 
   @doc("Application Group ID; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   applicationGroupId?: string;
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-name-invalid-chars" "Arm resource name must contain only alphanumeric characters"
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("dstsApplication Resource")
 model DstsApplicationResource
   is ProxyResource<DstsApplicationResourceProperties> {
@@ -45,12 +44,11 @@ model DstsApplicationResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("dstsApplications") // Start with lower case. Should be plural
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Application. Optional.")
 model ApplicationAccount {
   @doc("The dSTS instance where the Application resides. Required.")
@@ -87,7 +85,7 @@ model ApplicationAccount {
   isProduction?: boolean = true;
 
   @doc("The claim rule which apply to this Application. Optional.")
-  @extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   claimRules?: Array<ApplicationClaimRule>;
 
   @doc("Client identity when using the application as a client. Optional.")
@@ -97,7 +95,6 @@ model ApplicationAccount {
   azureLocation?: azureLocation;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("The application group. Optional.")
 model ApplicationGroup {
   @doc("Group id. Optional.")
@@ -128,7 +125,7 @@ model ApplicationGroup {
   sawDeviceEnforcement?: string;
 
   @doc("Change.Remove client token ip range. Optional.")
-  @extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   clientTokenIpRangeRestrictions?: Array<IpRange>;
 
   @doc("The cloud identifier for the application group. Possible options are PROD, blackforest, fairfax, mooncake, ex, rx. Required.")
@@ -141,7 +138,7 @@ model ApplicationGroup {
   regions?: Array<string>;
 
   @doc("The claim rules that apply to this Application Group. Optional.")
-  @extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   claimRules?: Array<ApplicationClaimRule>;
 
   @doc("Client identity when using the application as a client. Optional.")
@@ -151,10 +148,9 @@ model ApplicationGroup {
   azureLocation?: azureLocation;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("The claim rule which apply to Application.")
 model ApplicationClaimRule {
-  @doc("A claim used to identifiy client. e.g., group claim, application name claim, object id claim.")
+  @doc("A claim used to identify client. e.g., group claim, application name claim, object id claim.")
   clientIdentifier: Claim;
 
   @doc("The claim")
@@ -167,8 +163,7 @@ model ApplicationClaimRule {
   isRegionalEnforced?: boolean = true;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
-@doc("A claim used to identifiy client. e.g., group claim, application name claim, object id claim.")
+@doc("A claim used to identify client. e.g., group claim, application name claim, object id claim.")
 model Claim {
   @doc("Type of the claim")
   type: string;
@@ -177,7 +172,6 @@ model Claim {
   value: string;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Represents application client identity.")
 model ApplicationClientIdentity {
   @doc("Dmsi client.")
@@ -193,11 +187,10 @@ model ApplicationClientIdentity {
   type: string;
 
   @doc("Provide a list IP address ranges to restrict where this application's client token can be requested. Optional.")
-  @extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   clientTokenIpRangeRestrictions?: Array<IpRange>;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("DMSI information")
 model DmsiInfo {
   @doc("DMSI path")
@@ -210,15 +203,13 @@ model DmsiInfo {
   subscriptions: Array<string>;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Represents certificate based authentication.")
 model CertificateBasedIdentity {
   @doc("Certificate")
-  @extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   certificates: Array<CertificateInfo>;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Certification based application client identity.")
 model CertificateInfo {
   @doc("Certificate thumbprint information")
@@ -228,14 +219,12 @@ model CertificateInfo {
   expiryDate: string;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Represents application subject name base identity.")
 model SubjectNameBasedIdentity {
   @doc("List of subject names for sni based auth")
   subjectNames: Array<string>;
 }
 
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @doc("Class for a contiguous range of IP Addresses.")
 model IpRange {
   @doc("From IP address.")
@@ -246,7 +235,6 @@ model IpRange {
 }
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
-@removed(Microsoft.AzureCis.Versions.v2023_08_22)
 @armResourceOperations
 interface DstsApplication {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<DstsApplicationResource>;

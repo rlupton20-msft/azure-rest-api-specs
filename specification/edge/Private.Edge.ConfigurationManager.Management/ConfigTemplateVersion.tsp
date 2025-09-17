@@ -17,14 +17,11 @@ namespace Private.Edge;
 
 @doc("Config Template Version Properties")
 model ConfigTemplateVersionProperties {
-  @doc("Schema of configuration")
-  schema: string;
-
   @doc("Configuration values")
   configurations: string;
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

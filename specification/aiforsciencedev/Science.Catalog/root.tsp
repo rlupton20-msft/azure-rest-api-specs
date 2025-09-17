@@ -4,7 +4,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-client-generator-core";
 import "./_agent.tsp";
 import "./_tool.tsp";
-import "./_dataAsset.tsp";
+//import "./_dataAsset.tsp";
 import "./_kb.tsp";
 
 using TypeSpec.Http;
@@ -14,8 +14,8 @@ using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ClientGenerator.Core;
 
-@versioned(Microsoft.Science.Catalog.Versions)
-namespace Microsoft.Science.Catalog;
+@versioned(Microsoft.AiForScience.Catalog.Versions)
+namespace Microsoft.AiForScience.Catalog;
 
 @doc("A catalog agent definition.")
 @resource("agentDefinitions")
@@ -50,21 +50,21 @@ model ToolDefinitionAnyCatalog {
   name: string;
 }
 
-@doc("A catalog data asset.")
-@resource("dataAssetDefinitions")
-model DataAssetsDefinitionAnyCatalog {
-  ...BaseDataAssetDefinition;
-
-  @doc("The data asset name.")
-  @visibility("read")
-  @key("dataAssetName")
-  name: string;
-}
+//@doc("A catalog data asset.")
+//@resource("dataAssetDefinitions")
+//model DataAssetsDefinitionAnyCatalog {
+//  ...BaseDataAssetDefinition;
+//
+//  @doc("The data asset name.")
+//  @visibility("read")
+//  @key("dataAssetName")
+//  name: string;
+//}
 
 @doc("A catalog knowledge base.")
-@resource("knowledgeBaseDefinitions")
-model KnowledgeBaseDefinitionAnyCatalog {
-  ...BaseKnowledgeBaseDefinition;
+@resource("knowledgeBases")
+model KnowledgeBaseAnyCatalog {
+  ...BaseKnowledgeBase;
 
   @doc("The asset name.")
   @visibility("read")
@@ -92,15 +92,15 @@ interface Root {
     ToolDefinitionAnyCatalog
   >;
 
-  @doc("Retrieve a list of data assets for all catalogs.")
-  listDataAssetDefinitions is Operations.ResourceList<
-    DataAssetsDefinitionAnyCatalog,
-    DataAssetsDefinitionAnyCatalog
-  >;
+  //  @doc("Retrieve a list of data assets for all catalogs.")
+  //  listDataAssetDefinitions is Operations.ResourceList<
+  //    DataAssetsDefinitionAnyCatalog,
+  //    DataAssetsDefinitionAnyCatalog
+  //  >;
 
   @doc("Retrieve a list of knowledge bases for all catalogs.")
-  listKnowledgeBaseDefinitions is Operations.ResourceList<
-    KnowledgeBaseDefinitionAnyCatalog,
-    KnowledgeBaseDefinitionAnyCatalog
+  listKnowledgeBases is Operations.ResourceList<
+    KnowledgeBaseAnyCatalog,
+    KnowledgeBaseAnyCatalog
   >;
 }

@@ -27,14 +27,14 @@ model TargetTemplateProperties {
   targetSpec: Record<unknown>;
 
   @doc("Orchestrator Type")
-  orchestratorType: OrchestratorType;
+  orchestratorType?: OrchestratorType;
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
-@doc("Target Template Resource")
+@doc("Target Template Resource, which is a template for creation of Targets")
 model TargetTemplate is TrackedResource<TargetTemplateProperties> {
   ...ResourceNameParameter<TargetTemplate>;
   ...EntityTagProperty;

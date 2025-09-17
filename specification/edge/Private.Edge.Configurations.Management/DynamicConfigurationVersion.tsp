@@ -5,7 +5,8 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./DynamicConfiguration.tsp";
-import "../Private.Edge.ConfigurationManager.Management/ProvisioningState.tsp";
+import "./ProvisioningState.tsp";
+import "./State.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -22,11 +23,30 @@ model DynamicConfigurationVersionProperties {
   values: string;
 
   @doc("Schema Id for configuration")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   schemaId?: string;
 
+  @added(Versions.v2025_08_01)
+  @doc("Dynamic schema version Id for configuration")
+  @visibility(Lifecycle.Read)
+  dynamicSchemaVersionId?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.Edge/Schemas/DynamicSchemas/Versions";
+    }
+  ]>;
+
+  @added(Versions.v2025_08_01)
+  @doc("Display state")
+  @visibility(Lifecycle.Read)
+  displayState?: string;
+
+  @added(Versions.v2025_08_01)
+  @doc("Configuration state")
+  @visibility(Lifecycle.Read)
+  state?: ConfigurationState;
+
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -35,7 +55,10 @@ model DynamicConfigurationVersionProperties {
 @resource("versions")
 model DynamicConfigurationVersion
   is ProxyResource<DynamicConfigurationVersionProperties> {
-  ...ResourceNameParameter<DynamicConfigurationVersion>;
+  ...ResourceNameParameter<
+    DynamicConfigurationVersion,
+    NamePattern = "^[a-zA-Z0-9.-]{3,24}$"
+  >;
 }
 
 @armResourceOperations

@@ -28,12 +28,3 @@ union ProvisioningState {
   @doc("Change accepted for processing")
   Accepted: "Accepted",
 }
-
-@doc("Reference to a confidential ledger record.")
-model LedgerRecord {
-  @doc("The collection id of the record.")
-  collectionId: string;
-
-  @doc("The transaction id of the record.")
-  transactionId: string;
-}

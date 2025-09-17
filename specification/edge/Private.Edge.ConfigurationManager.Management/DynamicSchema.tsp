@@ -20,23 +20,34 @@ namespace Private.Edge;
 
 @doc("DynamicSchema Properties")
 model DynamicSchemaProperties {
+  @added(Versions.v2025_08_01)
+  @doc("Display name of the dynamic schema")
+  @visibility(Lifecycle.Read)
+  displayName?: string;
+
   @doc("Type of configuration")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   configurationType?: ConfigurationType;
 
   @doc("Type of configuration model")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   configurationModel?: ConfigurationModel;
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
 @doc("DynamicSchema Resource")
 @parentResource(Schema)
 model DynamicSchema is ProxyResource<DynamicSchemaProperties> {
-  ...ResourceNameParameter<DynamicSchema>;
+  @doc("The name of the DynamicSchema")
+  @pattern("^(?!.*\\.\\.)[a-zA-Z0-9-][a-zA-Z0-9._-]{1,68}[a-zA-Z0-9-]$")
+  @path
+  @key("dynamicSchemaName")
+  @segment("dynamicSchemas")
+  name: string;
+
   ...EntityTagProperty;
 }
 

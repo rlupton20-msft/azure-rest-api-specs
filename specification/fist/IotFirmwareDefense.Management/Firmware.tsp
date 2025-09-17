@@ -8,7 +8,6 @@ import "./Workspace.tsp";
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 using TypeSpec.Http;
-using TypeSpec.OpenAPI;
 
 namespace Microsoft.IoTFirmwareDefense;
 /**
@@ -22,7 +21,7 @@ model Firmware is ProxyResource<FirmwareProperties> {
   @path
   @key("firmwareId")
   @segment("firmwares")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @pattern("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
   name: string;
 }
@@ -42,7 +41,7 @@ interface Firmwares {
   /**
    * The operation to update firmware.
    */
-  @parameterVisibility
+  @patch(#{ implicitOptionality: false })
   update is ArmCustomPatchSync<Firmware, FirmwareUpdateDefinition>;
 
   /**
@@ -54,20 +53,6 @@ interface Firmwares {
    * Lists all of firmwares inside a workspace.
    */
   listByWorkspace is ArmResourceListByParent<Firmware>;
-
-  /**
-   * The operation to a url for file download.
-   */
-  generateDownloadUrl is ArmResourceActionSync<Firmware, void, UrlToken>;
-
-  /**
-   * The operation to a url for tar file download.
-   */
-  generateFilesystemDownloadUrl is ArmResourceActionSync<
-    Firmware,
-    void,
-    UrlToken
-  >;
 }
 
 @@doc(Firmwares.create::parameters.resource,

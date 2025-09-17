@@ -47,29 +47,16 @@ input-file:
   - Microsoft.AzureCis/preview/2023-08-22-preview/certificate.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/dns.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/dscm.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/dsmsmanagedkeysecret.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/environment.json
+  - Microsoft.AzureCis/preview/2023-08-22-preview/eventgrid.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/ficp.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/genevaActions.json
-  - Microsoft.AzureCis/preview/2023-08-22-preview/genevaActionsExtension.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/genevaLogs.json
-  - Microsoft.AzureCis/preview/2023-08-22-preview/pav2.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/plannedQuota.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/safedns.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/storageAccountDsms.json
   - Microsoft.AzureCis/preview/2023-08-22-preview/subscription.json
-```
-
-### Tag: package-2023-08-22
-
-These settings apply only when `--tag=package-2023-08-22` is specified on the command line.
-
-```yaml $(tag) == 'package-2023-08-22'
-input-file:
-  - Microsoft.AzureCis/stable/2023-08-22/aad.json
-  - Microsoft.AzureCis/stable/2023-08-22/dscm.json
-  - Microsoft.AzureCis/stable/2023-08-22/environment.json
-  - Microsoft.AzureCis/stable/2023-08-22/genevaActions.json
-  - Microsoft.AzureCis/stable/2023-08-22/plannedQuota.json
 ```
 
 ### Tag: package-2024-11-04-preview

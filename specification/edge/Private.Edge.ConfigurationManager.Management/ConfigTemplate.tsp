@@ -8,6 +8,7 @@ import "./ProvisioningState.tsp";
 import "./UpdateType.tsp";
 import "./ConfigTemplateVersion.tsp";
 import "./VersionParameter.tsp";
+import "./RemoveVersionResponse.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -24,16 +25,16 @@ model ConfigTemplateProperties {
   @doc("Description of config template")
   description: string;
 
-  @doc("Latest version available for ConfigTemplateVersion")
-  @visibility("read")
+  @doc("Latest config template version")
+  @visibility(Lifecycle.Read)
   latestVersion?: string;
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
-@doc("Config Template Resource")
+@doc("Config Template Resource. Contains configuration expressions using the predefined expression language.")
 model ConfigTemplate
   is Azure.ResourceManager.TrackedResource<ConfigTemplateProperties> {
   ...ResourceNameParameter<ConfigTemplate>;
@@ -43,7 +44,11 @@ model ConfigTemplate
 @doc("Config Template Version With Update Type")
 model ConfigTemplateVersionWithUpdateType {
   @doc("Update type")
-  updateType: UpdateType;
+  updateType?: UpdateType;
+
+  @doc("Version to create")
+  @pattern("^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$")
+  version?: string;
 
   @doc("Config Template Version")
   configTemplateVersion: ConfigTemplateVersion;
@@ -67,10 +72,11 @@ interface ConfigTemplates {
     ConfigTemplateVersion
   >;
 
-  @doc("Delete Config Template Version Resource")
-  deleteVersion is ArmResourceActionNoResponseContentAsync<
+  @doc("Remove Config Template Version Resource")
+  removeVersion is ArmResourceActionSync<
     ConfigTemplate,
-    VersionParameter
+    VersionParameter,
+    RemoveVersionResponse
   >;
 
   @doc("Delete a Config Template Resource")

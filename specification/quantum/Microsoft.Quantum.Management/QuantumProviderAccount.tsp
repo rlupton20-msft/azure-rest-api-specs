@@ -20,7 +20,7 @@ model QuantumProviderAccount
   is Azure.ResourceManager.TrackedResource<ProviderAccountProperties> {
   ...ResourceNameParameter<
     Resource = QuantumProviderAccount,
-    KeyName = "ProviderAccountName",
+    KeyName = "providerAccountName",
     SegmentName = "providerAccounts",
     NamePattern = "^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$"
   >;
@@ -33,7 +33,7 @@ model QuantumProviderAccount
 @added(Versions.v2025_02_15_preview)
 model ProviderAccountProperties {
   /** The status of the last operation. */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: AccountProvisioningState;
 
   /** The ProviderId which will be referenced by and that can be added to Azure Quantum Workspaces. */
@@ -57,25 +57,15 @@ model ProviderAccountProperties {
   companyName: string;
 
   /** List of Azure Subscriptions that are allowed to view/access resources from this ProviderAccount. */
-  allowedSubscriptions?: SubscriptionId[];
+  subscriptions?: ProviderAccountSubscription[];
 
-  /** List of Targets available in this ProviderAccount. */
-  targets?: ProviderAccountTarget[];
+  /** List of Queues available in this ProviderAccount. */
+  @visibility(Lifecycle.Read)
+  queues?: ProviderAccountQueue[];
 
   /** Managed On Behalf Of configuration. */
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   managedOnBehalfOfConfiguration?: ManagedOnBehalfOfConfiguration;
-
-  // /** Azure ARC configuration. */
-  // machineEntity: ...;
-
-  // /** Quota Dimension definitions for this ProviderAccount. */
-  // @visibility("read", "create", "update")
-  // quotaDimensions?: QuotaDimension[];
-
-  // /** List of subscriptions-level Quotas for this ProviderAccount. */
-  // @visibility("read", "create", "update")
-  // subscriptionQuotaLimits?: SubscriptionQuotaLimit[];
 }
 
 /** The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
@@ -83,6 +73,42 @@ model ProviderAccountProperties {
 @maxLength(36)
 @pattern("^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
 scalar SubscriptionId extends string;
+
+/**
+ * Quota allocations with each field representing different quota type.
+ */
+@added(Versions.v2025_02_15_preview)
+model SubscriptionQuotaAllocations {
+  /**
+   * Limit for standard priority jobs execution in minutes for a lifetime of the subscription.
+   */
+  @minValue(0)
+  standardMinutesLifetime: int32;
+
+  /**
+   * Limit for high priority jobs execution in minutes for a lifetime of the subscription.
+   */
+  @minValue(0)
+  highMinutesLifetime?: int32;
+}
+
+/** A subscription that is allowed to access resources from a ProviderAccount. */
+model ProviderAccountSubscription {
+  /** The Azure subscription ID. */
+  id: SubscriptionId;
+
+  /** The display name of the Azure subscription. */
+  @maxLength(50)
+  name?: string = "";
+
+  /** Indicates whether this subscription is enabled for access to the ProviderAccount resources. */
+  @added(Versions.v2025_02_15_preview)
+  enabled: boolean = true;
+
+  /** Quota allocations for this subscription. */
+  @added(Versions.v2025_02_15_preview)
+  quotas?: SubscriptionQuotaAllocations;
+}
 
 /** A Target of a ProviderAccount, in which Workspace Jobs can be targeted at for execution. */
 @added(Versions.v2025_02_15_preview)
@@ -110,6 +136,24 @@ model ProviderAccountTarget {
   /** Description of the Target. */
   @maxLength(240)
   description?: string = "";
+}
+
+/** A Queue associated with a ProviderAccount, in which jobs are queued in for execution. */
+@added(Versions.v2025_02_15_preview)
+model ProviderAccountQueue {
+  /** The unique ID of the Queue. */
+  @minLength(2)
+  @maxLength(50)
+  @pattern("^([a-z0-9]+(-[a-z0-9]+)*)$")
+  id: string;
+
+  /** The display name of the Queue. */
+  @minLength(2)
+  @maxLength(50)
+  name: string;
+
+  /** The targets associated with the Queue. */
+  targets: ProviderAccountTarget[];
 }
 
 /** The provisioning state of a resource. */
@@ -147,7 +191,7 @@ interface ProviderAccounts {
   createOrUpdate is ArmResourceCreateOrReplaceAsync<QuantumProviderAccount>;
 
   /**
-   * Updates an existing ProviderAccount's tags.
+   * Updates an existing ProviderAccount's properties.
    */
   @added(Versions.v2025_02_15_preview)
   update is ArmResourcePatchSync<

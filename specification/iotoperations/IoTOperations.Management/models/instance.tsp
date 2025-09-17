@@ -7,7 +7,6 @@ import "@azure-tools/typespec-azure-resource-manager";
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Azure.Core;
 using Azure.ResourceManager;
 
 namespace Private.IoTOperations;
@@ -26,7 +25,7 @@ model InstanceResource is TrackedResource<InstanceProperties> {
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("Edge location of the resource.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   extendedLocation: ExtendedLocation;
 
   ...ManagedServiceIdentityProperty;
@@ -38,74 +37,78 @@ model InstancePatchModel {
   ...ManagedServiceIdentityProperty;
 }
 
-@doc("Represents the activation state of Skynet.")
-union SkynetActivationState {
-  string,
-
-  @doc("Skynet is enabled.")
-  Enabled: "Enabled",
-
-  @doc("Skynet is disabled.")
-  Disabled: "Disabled",
-}
-
-@doc("The properties for the Skynet Resource. ")
-model RemoteSupportProperties {
-  @doc("Enabled or disabled.")
-  enabled?: SkynetActivationState;
-
-  @doc("Access level for Skynet.")
-  accessLevel?: SkynetAccessLevels;
-
-  @doc("Expiration timestamp for Skynet.")
-  expirationTimeStamp?: string;
-}
-
-@doc("SkynetAccessLevels allowed")
-union SkynetAccessLevels {
-  string,
-
-  @doc("Diagnose access level")
-  Diagnose: "Diagnose",
-
-  @doc("Diagnose And Repair Access Level")
-  DiagnoseAndRepair: "DiagnoseAndRepair",
-}
-
-@doc("Wraps the Skynet properties under 'remoteSupport'.")
-model RemoteSupportItem {
-  /**
-   * Represents the remote support configuration for the instance.
-   *
-   * This property holds Skynet-specific settings required for enabling
-   * remote support.
-   */
-  remoteSupport: RemoteSupportProperties;
-}
-
 @doc("The properties of the Instance resource.")
 model InstanceProperties {
   @doc("Detailed description of the Instance.")
   description?: string;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 
   @doc("The Azure IoT Operations version.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   version?: string;
 
   @doc("The reference to the Schema Registry for this AIO Instance.")
   schemaRegistryRef: SchemaRegistryRef;
 
-  @doc("The Skynet Resource for this AIO Instance.")
-  @OpenAPI.extension("x-ms-identifiers", [])
-  skynets?: RemoteSupportItem[];
+  @doc("The reference to the AIO Secret provider class.")
+  @added(Versions.`2025-07-01-preview`)
+  defaultSecretProviderClassRef?: SecretProviderClassRef;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
+  @doc("The features of the AIO Instance.")
+  @added(Versions.`2025-04-01`)
+  features?: Record<InstanceFeature>;
+
+  @doc("The Azure Device Registry Namespace used by Assets, Discovered Assets and devices")
+  @added(Versions.`2025-07-01-preview`)
+  adrNamespaceRef?: AzureDeviceRegistryNamespaceRef;
+}
+
+@doc("The reference to the AIO Secret provider class.")
+@added(Versions.`2025-07-01-preview`)
+model SecretProviderClassRef {
+  @doc("The resource ID of the AIO Secret provider class.")
+  resourceId: SecretProviderClassID;
+}
+
+@doc("The features of the AIO Instance.")
+@added(Versions.`2025-04-01`)
+model InstanceFeature {
+  @doc("The state of the feature.")
+  mode?: InstanceFeatureMode;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
+  @doc("The settings of the feature.")
+  settings?: Record<OperationalMode>;
+}
+
+@doc("The enum defining mode of a feature.")
+@added(Versions.`2025-04-01`)
+union InstanceFeatureMode {
+  string,
+
+  @doc("Opt in to enable a stable feature")
+  "Stable",
+
+  @doc("Opt in to enable a preview feature")
+  "Preview",
+
+  @doc("Opt out of a feature")
+  "Disabled",
 }
 
 @doc("The reference to the Schema Registry for this AIO Instance.")
 model SchemaRegistryRef {
   @doc("The resource ID of the Schema Registry.")
   resourceId: SchemaRegistryID;
+}
+
+@doc("Azure Device Registry Namespace reference.")
+@added(Versions.`2025-07-01-preview`)
+model AzureDeviceRegistryNamespaceRef {
+  @doc("The resource ID of the Azure Device Registry Namespace.")
+  resourceId: AzureDeviceRegistryNamespaceID;
 }

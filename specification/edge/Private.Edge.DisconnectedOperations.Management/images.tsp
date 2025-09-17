@@ -4,14 +4,14 @@ import "@typespec/openapi";
 import "@typespec/rest";
 import "./models.tsp";
 import "./disconnectedOperations.tsp";
-import "../Private.Edge.Shared/common.tsp";
+import "../Microsoft.Edge.Shared/common.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
-namespace Private.Edge;
+namespace Microsoft.Edge;
 @doc("Disconnected operations image resource.")
 @parentResource(DisconnectedOperation)
 model Image is ProxyResource<ImageProperties> {
@@ -33,11 +33,4 @@ interface Images {
 
   @doc("Get the resource")
   get is ArmResourceRead<Image>;
-
-  @doc("get deployment manifest.")
-  listDownloadUri is ArmResourceActionSync<
-    Image,
-    void,
-    ArmResponse<ImageDownloadResponse> | ErrorResponse
-  >;
 }

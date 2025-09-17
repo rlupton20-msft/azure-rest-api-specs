@@ -6,6 +6,7 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 import "./ProvisioningState.tsp";
 import "./SolutionVersion.tsp";
+import "./State.tsp";
 
 using TypeSpec.OpenAPI;
 using TypeSpec.Http;
@@ -14,7 +15,6 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
-
 using Azure.ResourceManager.CommonTypes;
 
 namespace Private.Edge;
@@ -27,18 +27,59 @@ model ResolvedConfiguration {
 
 @doc("Solution Template Parameter")
 model SolutionTemplateParameter {
+  @removed(Versions.v2025_06_01)
   @doc("Solution Template Name")
   solutionTemplate: string;
 
+  @removed(Versions.v2025_06_01)
   @doc("Solution Template Version Name")
   solutionTemplateVersion: string;
 
-  @doc("solutionInstanceName")
+  @added(Versions.v2025_06_01)
+  @doc("Solution Template Version ARM Id")
+  solutionTemplateVersionId: string;
+
+  @doc("Solution Instance Name")
+  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   solutionInstanceName?: string;
 
   @doc("Solution Dependencies")
-  @extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   solutionDependencies?: SolutionDependencyParameter[];
+}
+
+@doc("Solution Version Parameter")
+model SolutionVersionParameter {
+  @removed(Versions.v2025_06_01)
+  @doc("Solution Name")
+  solution: string;
+
+  @removed(Versions.v2025_06_01)
+  @doc("Solution Version Name")
+  solutionVersion: string;
+
+  @removed(Versions.v2025_06_01)
+  @doc("Review ID")
+  reviewId: string;
+
+  @added(Versions.v2025_06_01)
+  @doc("Solution Version ARM Id")
+  solutionVersionId: string;
+}
+
+@doc("Update External Validation Status Parameter")
+model UpdateExternalValidationStatusParameter {
+  @doc("Solution Version Id")
+  solutionVersionId: string;
+
+  @doc("Error Details if any failure is there")
+  errorDetails?: Azure.ResourceManager.Foundations.ErrorDetail;
+
+  @doc("External validation id")
+  externalValidationId: string;
+
+  @doc("Validation Status of external validation")
+  validationStatus: ValidationStatus;
 }
 
 @doc("Solution Dependency Context")
@@ -49,36 +90,63 @@ model SolutionDependencyParameter {
   @doc("Solution Template Id")
   solutionTemplateId?: string;
 
-  @doc("Solution Template Id")
+  @doc("Solution Template Version")
   solutionTemplateVersion?: string;
 
   @doc("Solution Instance Name")
+  @maxLength(24)
+  @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
   solutionInstanceName?: string;
 
   @doc("Target Id")
   targetId?: string;
 
   @doc("Solution dependencies")
-  @extension("x-ms-identifiers", [])
+  @Azure.ResourceManager.identifiers(#[])
   dependencies?: SolutionDependencyParameter[];
 }
 
-@doc("Solution Version Parameter")
-model SolutionVersionParameter {
+@doc("Install Solution Parameter")
+model InstallSolutionParameter {
+  @removed(Versions.v2025_06_01)
   @doc("Solution Name")
   solution: string;
 
+  @removed(Versions.v2025_06_01)
   @doc("Solution Version Name")
   solutionVersion: string;
 
-  @doc("Review ID")
-  reviewId: string;
+  @added(Versions.v2025_06_01)
+  @doc("Solution Version ARM Id")
+  solutionVersionId: string;
 }
 
-@doc("Solution Parameter")
-model SolutionParameter {
+@doc("Uninstall Solution Parameter")
+model UninstallSolutionParameter {
+  @removed(Versions.v2025_06_01)
   @doc("Solution Name")
   solutionName: string;
+
+  @added(Versions.v2025_06_01)
+  @doc("Solution Template ARM Id")
+  solutionTemplateId: string;
+
+  @doc("Solution Instance Name")
+  solutionInstanceName?: string;
+}
+
+@doc("Install Solution Parameter")
+model RemoveRevisionParameter {
+  @removed(Versions.v2025_06_01)
+  @doc("Solution Name")
+  solution: string;
+
+  @added(Versions.v2025_06_01)
+  @doc("Solution Template ARM Id")
+  solutionTemplateId: string;
+
+  @doc("Solution Version Name")
+  solutionVersion: string;
 }
 
 @doc("Target Properties")
@@ -88,6 +156,14 @@ model TargetProperties {
 
   @doc("Display name of target")
   displayName: string;
+
+  @added(Versions.v2025_06_01)
+  @doc("ArmId of Context")
+  contextId: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.Edge/contexts";
+    }
+  ]>;
 
   #suppress "@azure-tools/typespec-azure-core/no-unknown" "Suppress no-unknown to handle the datatype object used in dependent service"
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the datatype object used in dependent service"
@@ -101,17 +177,18 @@ model TargetProperties {
   hierarchyLevel: string;
 
   @doc("Status of target")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: DeploymentStatus;
 
   @doc("Scope of the target resource")
+  @pattern("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
   solutionScope?: string;
 
   @doc("State of resource")
   state?: ResourceState;
 
   @doc("Provisioning state of resource")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -122,7 +199,7 @@ model ForceDeleteParameter {
   forceDelete?: boolean = false;
 }
 
-@doc("Target Resource")
+@doc("Target Resource. Represents a resource to be deployed on the edge.")
 model Target is Azure.ResourceManager.TrackedResource<TargetProperties> {
   @doc("Name of the target")
   @maxLength(61)
@@ -164,39 +241,54 @@ interface Targets {
   listBySubscription is ArmListBySubscription<Target>;
 
   @doc("Post request to deploy")
-  install is ArmResourceActionNoResponseContentAsync<
+  installSolution is ArmResourceActionNoResponseContentAsync<
     Target,
-    SolutionVersionParameter
+    InstallSolutionParameter
   >;
 
   @doc("Post request to uninstall")
-  uninstall is ArmResourceActionNoResponseContentAsync<
+  uninstallSolution is ArmResourceActionNoResponseContentAsync<
     Target,
-    SolutionParameter
+    UninstallSolutionParameter
   >;
 
-  @doc("Post request to delete solution version revision")
-  deleteRevision is ArmResourceActionNoResponseContentAsync<
+  @doc("Post request to remove solution version revision")
+  removeRevision is ArmResourceActionNoResponseContentAsync<
     Target,
-    SolutionTemplateParameter
+    RemoveRevisionParameter
   >;
 
   @doc("Post request to resolve configuration")
-  resolve is ArmResourceActionAsync<
+  resolveConfiguration is ArmResourceActionAsync<
     Target,
     SolutionTemplateParameter,
     ResolvedConfiguration
   >;
 
   @doc("Post request to review configuration")
-  review is ArmResourceActionAsync<
+  reviewSolutionVersion is ArmResourceActionAsync<
     Target,
     SolutionTemplateParameter,
     SolutionVersion
   >;
 
   @doc("Post request to publish")
-  publish is ArmResourceActionAsync<
+  publishSolutionVersion is ArmResourceActionAsync<
+    Target,
+    SolutionVersionParameter,
+    SolutionVersion
+  >;
+
+  @doc("Post request to update external validation status")
+  updateExternalValidationStatus is ArmResourceActionAsync<
+    Target,
+    UpdateExternalValidationStatusParameter,
+    SolutionVersion
+  >;
+
+  @added(Versions.v2025_08_01)
+  @doc("Post request to unstage solution version")
+  unstageSolutionVersion is ArmResourceActionAsync<
     Target,
     SolutionVersionParameter,
     SolutionVersion

@@ -12,7 +12,6 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
-using OpenAPI;
 
 namespace Private.DeviceRegistry;
 @removed(Versions.v2024_10_01_preview)
@@ -31,8 +30,39 @@ model Asset is TrackedResource<AssetProperties> {
   // Extended location is not included in TrackedResource yet
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property"
   @doc("The extended location.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   extendedLocation: ExtendedLocation;
+}
+
+alias AssetPropertiesUpdate = {
+  ...OptionalProperties<UpdateableProperties<OmitProperties<
+    AssetProperties,
+    "defaultTopic"
+  >>>;
+
+  @added(Versions.v2024_07_01_preview)
+  @removed(Versions.v2024_10_01_preview)
+  @added(Versions.v2024_11_01)
+  @doc("Object that describes the default topic information for the asset.")
+  defaultTopic?: OptionalProperties<OmitDefaults<Topic>>;
+};
+
+@added(Versions.v2024_09_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@doc("Asset Migrate request properties.")
+model MigrateRequest {
+  @doc("The resource id of the namespace to migrate Asset into.")
+  @pattern("^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Private\\.DeviceRegistry/namespaces/[^/]+$")
+  namespaceId: string;
+}
+
+@added(Versions.v2024_09_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@doc("Asset Migrate response properties.")
+model MigrateResponse {
+  @doc("The resource id of the migrated Asset.")
+  @visibility(Lifecycle.Read)
+  resourceId: string;
 }
 
 @removed(Versions.v2024_10_01_preview)
@@ -45,7 +75,7 @@ interface Assets {
     Asset,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       Asset,
-      AssetProperties
+      AssetPropertiesUpdate
     >
   >;
   delete is ArmResourceDeleteWithoutOkAsync<Asset>;
@@ -58,4 +88,8 @@ interface Assets {
     Record<string>,
     Record<string>
   >;
+
+  @added(Versions.v2024_09_01_preview)
+  @removed(Versions.v2024_10_01_preview)
+  migrate is ArmResourceActionSync<Asset, MigrateRequest, MigrateResponse>;
 }

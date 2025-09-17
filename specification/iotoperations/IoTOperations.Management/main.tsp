@@ -5,7 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 import "./models/base.tsp";
-import "./models/auth.tsp";
+import "./models/common/aliases.tsp";
 import "./models/instance.tsp";
 import "./models/broker/brokers.tsp";
 import "./models/broker/authentications.tsp";
@@ -14,30 +14,61 @@ import "./models/broker/listeners.tsp";
 import "./models/dataflows/dataflowEndpoints.tsp";
 import "./models/dataflows/dataflowProfiles.tsp";
 import "./models/dataflows/dataflows.tsp";
-import "./models/skynet/skynet.tsp";
+import "./models/dataflows/dataflowGraphs.tsp";
+import "./models/registryEndpoints/registryEndpoint.tsp";
+import "./models/akri/connectorTemplate.tsp";
+import "./models/akri/connector.tsp";
+import "./models/akri/discoveryHandler.tsp";
+import "./models/diagnostics/diagnostic.tsp";
 
 using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using TypeSpec.OpenAPI;
-using Azure.Core;
 using Azure.ResourceManager;
 
 #suppress "@azure-tools/typespec-azure-core/casing-style"
 @armProviderNamespace
-@service({
-  title: "Private.IoTOperations management service.",
-})
+@service(#{ title: "Private.IoTOperations management service." })
 @doc("Private.IoTOperations Resource Provider management API.")
 @versioned(Versions)
 namespace Private.IoTOperations;
 
 /** Api versions */
 enum Versions {
+  /** 2024-07-01-preview version */
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  `2024-07-01-preview`,
+
+  /** 2024-08-15-preview version */
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  `2024-08-15-preview`,
+
   /** 2024-09-15-preview version */
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   `2024-09-15-preview`,
+
+  /** 2024-11-01 version */
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  `2024-11-01`,
+
+  /** 2025-04-01 version */
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  `2025-04-01`,
+
+  /** 2025-07-01-preview */
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  `2025-07-01-preview`,
+  
+  /** 2025-07-15-preview */
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  `2025-07-15-preview`,
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}
@@ -47,7 +78,7 @@ interface Operations extends Azure.ResourceManager.Operations {}
 interface Instance {
   get is ArmResourceRead<InstanceResource>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<InstanceResource>;
-  @parameterVisibility
+  @patch(#{ implicitOptionality: false })
   update is ArmCustomPatchSync<InstanceResource, InstancePatchModel>;
   delete is ArmResourceDeleteWithoutOkAsync<InstanceResource>;
   listByResourceGroup is ArmResourceListByParent<InstanceResource>;
@@ -118,11 +149,63 @@ interface DataflowEndpoint {
   listByResourceGroup is ArmResourceListByParent<DataflowEndpointResource>;
 }
 
-// /instance/skynet resource Operations
+// /instance/dataflowProfiles/dataflowGraphs resource Operations
+
 @armResourceOperations
-interface Skynet {
-  get is ArmResourceRead<SkynetResource>;
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<SkynetResource>;
-  delete is ArmResourceDeleteWithoutOkAsync<SkynetResource>;
-  listByResourceGroup is ArmResourceListByParent<SkynetResource>;
+@added(Versions.`2025-07-01-preview`)
+interface DataflowGraph {
+  get is ArmResourceRead<DataflowGraphResource>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<DataflowGraphResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<DataflowGraphResource>;
+  listByDataflowProfile is ArmResourceListByParent<DataflowGraphResource>;
+}
+
+// /instance/registryEndpoints resource Operations
+@armResourceOperations
+@added(Versions.`2025-07-01-preview`)
+interface RegistryEndpoint {
+  get is ArmResourceRead<RegistryEndpointResource>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<RegistryEndpointResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<RegistryEndpointResource>;
+  listByInstanceResource is ArmResourceListByParent<RegistryEndpointResource>;
+}
+
+// /instance/akriConnectorTemplates resource Operations
+@armResourceOperations
+@added(Versions.`2025-07-01-preview`)
+interface AkriConnectorTemplate {
+  get is ArmResourceRead<AkriConnectorTemplateResource>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<AkriConnectorTemplateResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<AkriConnectorTemplateResource>;
+  listByInstanceResource is ArmResourceListByParent<AkriConnectorTemplateResource>;
+}
+
+// /instance/akriConnectorTemplates/connectors resource Operations
+@armResourceOperations
+@added(Versions.`2025-07-01-preview`)
+interface AkriConnector {
+  get is ArmResourceRead<AkriConnectorResource>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<AkriConnectorResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<AkriConnectorResource>;
+  listByTemplate is ArmResourceListByParent<AkriConnectorResource>;
+}
+
+// /instance/akriDiscoveryHandlers resource Operations
+@armResourceOperations
+@added(Versions.`2025-07-01-preview`)
+interface AkriDiscoveryHandler {
+  get is ArmResourceRead<AkriDiscoveryHandlerResource>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<AkriDiscoveryHandlerResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<AkriDiscoveryHandlerResource>;
+  listByInstanceResource is ArmResourceListByParent<AkriDiscoveryHandlerResource>;
+}
+
+// /instance/diagnostics resource Operations
+@armResourceOperations
+@added(Versions.`2025-07-15-preview`)
+interface Diagnostic {
+  get is ArmResourceRead<DiagnosticResource>;
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<DiagnosticResource>;
+  delete is ArmResourceDeleteWithoutOkAsync<DiagnosticResource>;
+  listByInstanceResource is ArmResourceListByParent<DiagnosticResource>;
 }

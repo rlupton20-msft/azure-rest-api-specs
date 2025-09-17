@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-// <copyright file="accessPointRessource.tsp" company="Microsoft Corporation">
+// <copyright file="AccessPointAccount.tsp" company="Microsoft Corporation">
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -31,18 +31,14 @@ model AccessPointAccount is TrackedResource<AccessPointAccountProperties> {
 
 @doc("Access Point Account Properties.")
 model AccessPointAccountProperties {
-  @doc("The image mod for the access point account")
+  @doc("The image modification for the access point account")
   imageMod: string;
 
   @doc("The classification of the access point account")
-  classification: Classification;
-
-  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "accountTags requires a Record<string>"
-  @doc("Tags present on the access point account")
-  accountTags: Record<string>;
+  classification: string;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 

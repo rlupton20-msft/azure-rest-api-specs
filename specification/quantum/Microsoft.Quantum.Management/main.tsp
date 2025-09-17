@@ -27,11 +27,8 @@ using Azure.ResourceManager.Foundations;
  * Microsoft.Quantum Resource Provider Management API
  */
 @armProviderNamespace
-@service({
-  title: "Azure Quantum Management API",
-})
+@service(#{ title: "Azure Quantum Management API" })
 @versioned(Versions)
-@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
 namespace Microsoft.Quantum;
 
 /**
@@ -43,14 +40,32 @@ enum Versions {
    */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2023_11_13_preview: "2023-11-13-preview",
+
+  /**
+   * The 2025-01-01-preview API version.
+   */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_01_01_preview: "2025-01-01-preview",
 
   /**
    * The 2025-02-15-preview API version.
    */
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @useDependency(Azure.Core.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2025_02_15_preview: "2025-02-15-preview",
+
+  /**
+   * The 2025-08-11-preview API version.
+   */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_08_11_preview: "2025-08-11-preview",
 }
 
 interface Operations extends Azure.ResourceManager.Operations {}

@@ -56,7 +56,7 @@ model ExascaleDbNodeProperties {
   lifecycleState?: DbNodeProvisioningState;
 
   @doc("The type of database node maintenance.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   maintenanceType?: string;
 
   @doc("The allocated memory in GBs on the Db node.")

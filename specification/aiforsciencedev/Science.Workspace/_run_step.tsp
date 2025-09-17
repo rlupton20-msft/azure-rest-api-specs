@@ -9,8 +9,8 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
 
-@versioned(Microsoft.Science.Workspace.Versions)
-namespace Microsoft.Science.Workspace;
+@versioned(Microsoft.AiForScience.Workspace.Versions)
+namespace Microsoft.AiForScience.Workspace;
 
 @doc("Step to be executed within a run")
 @resource("steps")
@@ -27,7 +27,15 @@ model RunStep {
   ...WithUpdatedAt;
   ...WithStatus<RunStatus>;
   ...WithStatusReason;
-  ...WithResultUri;
+  ...WithResultAsset;
+
+  /** Node pool used for step */
+  @visibility("read", "create", "update")
+  nodePoolIds?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.AiForScience/nodePool";
+    }
+  ]>[];
 }
 
 interface RunSteps {
@@ -40,12 +48,12 @@ interface RunSteps {
     QueryParametersTrait<WithQueryCreatedSince>
   >;
 
+  @doc("Creates or replaces Investigation.")
+  createOrUpdateStep is StandardResourceOperations.ResourceCreateOrUpdate<RunStep>;
+
   @doc("Resume a paused run.")
   cancel is Operations.ResourceAction<RunStep, {}, RunStep>;
 
   @doc("Pause a run.")
   start is Operations.ResourceAction<RunStep, {}, RunStep>;
-
-  @doc("Resume a paused run.")
-  resume is Operations.ResourceAction<RunStep, {}, RunStep>;
 }

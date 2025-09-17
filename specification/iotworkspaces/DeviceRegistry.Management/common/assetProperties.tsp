@@ -7,18 +7,17 @@ import "./extendedLocation.tsp";
 import "./provisioningState.tsp";
 import "./topic.tsp";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Azure.ResourceManager;
 using OpenAPI;
 
 namespace Private.DeviceRegistry;
 
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the asset properties.")
 model AssetProperties {
   @doc("Globally unique, immutable, non-reusable id.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   uuid?: string;
 
   @doc("Resource path to asset type (model) definition.")
@@ -29,7 +28,7 @@ model AssetProperties {
   enabled?: boolean;
 
   @doc("Asset id provided by the customer.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   externalAssetId?: string;
 
   @doc("Human-readable display name.")
@@ -39,17 +38,17 @@ model AssetProperties {
   description?: string;
 
   @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must have the format <ModuleCR.metadata.namespace>/<ModuleCR.metadata.name>.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   @removed(Versions.v2024_07_01_preview)
   assetEndpointProfileUri: string;
 
   @doc("A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must provide asset endpoint profile name.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   @added(Versions.v2024_07_01_preview)
   assetEndpointProfileRef: string;
 
   @doc("An integer that is incremented each time the resource is modified.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @typeChangedFrom(Versions.v2024_07_01_preview, int32)
   version?: int64;
 
@@ -82,7 +81,7 @@ model AssetProperties {
   attributes?: Record<unknown>;
 
   @doc("Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow. Discovered asset names must be provided.")
-  @visibility("read", "create")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   @added(Versions.v2024_07_01_preview)
   discoveredAssetRefs?: string[];
 
@@ -103,29 +102,31 @@ model AssetProperties {
 
   @doc("Array of data points that are part of the asset. Each data point can reference an asset type capability and have per-data point configuration.")
   @removed(Versions.v2024_07_01_preview)
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   dataPoints?: DataPoint[];
 
   @doc("Array of datasets that are part of the asset. Each dataset describes the data points that make up the set.")
   @added(Versions.v2024_07_01_preview)
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   datasets?: Dataset[];
 
   @doc("Array of events that are part of the asset. Each event can have per-event configuration.")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   events?: Event[];
 
   @doc("Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   status?: AssetStatus;
 
   @doc("Provisioning state of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
-@doc("Defines the dataset properties.")
 @added(Versions.v2024_07_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
+@doc("Defines the dataset properties.")
 model Dataset {
   @doc("Name of the dataset.")
   name: string;
@@ -137,10 +138,12 @@ model Dataset {
   topic?: Topic;
 
   @doc("Array of data points that are part of the dataset. Each data point can have per-data point configuration.")
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   dataPoints?: DataPoint[];
 }
 
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the data point properties.")
 model DataPointBase {
   @doc("The name of the data point.")
@@ -164,6 +167,8 @@ model DataPointBase {
 
 // workaround done to define a default after breaking change on enum values
 #suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the data point properties.")
 model DataPoint extends DataPointBase {
   @doc("An indication of how the data point should be mapped to OpenTelemetry.")
@@ -213,6 +218,8 @@ union DataPointObservabilityMode {
   string,
 }
 
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the event properties.")
 model EventBase {
   @doc("The name of the event.")
@@ -240,6 +247,8 @@ model EventBase {
 
 // workaround done to define a default after breaking change on enum values
 #suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the event properties.")
 model Event extends EventBase {
   @doc("An indication of how the event should be mapped to OpenTelemetry.")
@@ -261,8 +270,8 @@ union EventsObservabilityMode {
   string,
 }
 
-@doc("Defines the event observability mode.")
 @added(Versions.v2024_07_01_preview)
+@doc("Defines the event observability mode.")
 union EventObservabilityMode {
   @doc("No mapping to OpenTelemetry.")
   @added(Versions.v2024_07_01_preview)
@@ -275,78 +284,88 @@ union EventObservabilityMode {
   string,
 }
 
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the asset status properties.")
 model AssetStatus {
   @doc("Array object to transfer and persist errors that originate from the Edge.")
-  @visibility("read")
-  @extension("x-ms-identifiers", [])
+  @visibility(Lifecycle.Read)
+  @extension("x-ms-identifiers", #[])
   errors?: AssetStatusError[];
 
   @doc("A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the Asset. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version.")
   @typeChangedFrom(Versions.v2024_07_01_preview, int32)
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   version?: int64;
 
   @doc("Array of dataset statuses that describe the status of each dataset.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @added(Versions.v2024_07_01_preview)
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   datasets?: AssetStatusDataset[];
 
   @doc("Array of event statuses that describe the status of each event.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @added(Versions.v2024_07_01_preview)
-  @extension("x-ms-identifiers", [])
+  @extension("x-ms-identifiers", #[])
   events?: AssetStatusEvent[];
 }
 
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
 @doc("Defines the asset status error properties.")
 model AssetStatusError {
   @doc("Error code for classification of errors (ex: 400, 404, 500, etc.).")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   code?: int32;
 
   @doc("Human readable helpful error message to provide additional context for error (ex: “capability Id 'foo' does not exist”).")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   message?: string;
 }
 
-@doc("Defines the asset status dataset properties.")
 @added(Versions.v2024_07_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
+@doc("Defines the asset status dataset properties.")
 model AssetStatusDataset {
   @doc("The name of the dataset. Must be unique within the status.datasets array. This name is used to correlate between the spec and status dataset information.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   name: string;
 
   @doc("The message schema reference object.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   messageSchemaReference?: MessageSchemaReference;
 }
 
-@doc("Defines the asset status event properties.")
 @added(Versions.v2024_07_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
+@doc("Defines the asset status event properties.")
 model AssetStatusEvent {
   @doc("The name of the event. Must be unique within the status.events array. This name is used to correlate between the spec and status event information.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   name: string;
 
   @doc("The message schema reference object.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   messageSchemaReference?: MessageSchemaReference;
 }
 
-@doc("Defines the message schema reference properties.")
 @added(Versions.v2024_07_01_preview)
+@removed(Versions.v2024_10_01_preview)
+@added(Versions.v2024_11_01)
+@doc("Defines the message schema reference properties.")
 model MessageSchemaReference {
   @doc("The message schema registry namespace.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   schemaRegistryNamespace: string;
 
   @doc("The message schema name.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   schemaName: string;
 
   @doc("The message schema version.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   schemaVersion: string;
 }

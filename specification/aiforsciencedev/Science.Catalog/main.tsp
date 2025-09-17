@@ -10,7 +10,7 @@ import "./_model.tsp";
 //import "./_model_version.tsp";
 import "./_agent.tsp";
 //import "./_agent_version.tsp";
-import "./_dataAsset.tsp";
+//import "./_dataAsset.tsp";
 //import "./_dataAsset_version.tsp";
 import "./_kb.tsp";
 //import "./_kb_version.tsp";
@@ -33,9 +33,9 @@ using Azure.Core;
   ]>
 )
 @service({
-  title: "Microsoft.Science.Catalog service",
+  title: "Microsoft.AiForScience.Catalog service",
 })
-@versioned(Microsoft.Science.Catalog.Versions)
+@versioned(Microsoft.AiForScience.Catalog.Versions)
 @server(
   // TODO: Work with backend team to determine server endpoint.
   "{endpoint}/catalogs/{catalogName}",
@@ -55,11 +55,11 @@ using Azure.Core;
     apiVersion: Versions,
   }
 )
-namespace Microsoft.Science.Catalog;
+namespace Microsoft.AiForScience.Catalog;
 
-@doc("The Microsoft.Science.Catalog service versions.")
+@doc("The Microsoft.AiForScience.Catalog service versions.")
 enum Versions {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  @doc("The 2024-11-01-preview version of the Microsoft.Science.Catalog service.")
+  @doc("The 2024-11-01-preview version of the Microsoft.AiForScience.Catalog service.")
   `2024-11-01-preview`,
 }
