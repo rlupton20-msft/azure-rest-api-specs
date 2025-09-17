@@ -309,33 +309,8 @@ model GenevaLogsAccountsResource
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
 interface GenevaLogsAccounts {
-  @OpenAPI.extension(
-    "x-ms-examples",
-    #{
-      CreateOrUpdate: "./examples/2023-08-22-preview/GenevaLogsAccounts_CreateOrUpdate.json",
-    }
-  )
   createOrUpdate is ArmResourceCreateOrUpdateAsync<GenevaLogsAccountsResource>;
-
-  @OpenAPI.extension(
-    "x-ms-examples",
-    #{
-      ListBySubscription: "./examples/2023-08-22-preview/GenevaLogsAccounts_ListBySubscription.json",
-    }
-  )
   listBySubscription is ArmListBySubscription<GenevaLogsAccountsResource>;
-
-  @OpenAPI.extension(
-    "x-ms-examples",
-    #{
-      ListByResourceGroup: "./examples/2023-08-22-preview/GenevaLogsAccounts_ListByResourceGroup.json",
-    }
-  )
   listByResourceGroup is ArmResourceListByParent<GenevaLogsAccountsResource>;
-
-  @OpenAPI.extension(
-    "x-ms-examples",
-    #{ Get: "./examples/2023-08-22-preview/GenevaLogsAccounts_Get.json" }
-  )
   get is ArmResourceRead<GenevaLogsAccountsResource>;
 }
