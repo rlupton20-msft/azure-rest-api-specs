@@ -29,14 +29,12 @@ model GenevaLogsAccountsResourceProperties {
   contactEmail: string;
 
   @doc("The array of aliases for administrators")
-  @extension("x-ms-identifiers", [])
   administratorAliases: Array<string>;
 
   @doc("The security group for account administrator")
   administratorSecurityGroup: string;
 
   @doc("An Azure subscription to use for GSM provisioning. Each subscription in the list must have granted Geneva access via RBAC.")
-  @extension("x-ms-identifiers", [])
   subscriptionIds: Array<string>;
 
   @doc("The default storage replication type")
@@ -49,7 +47,6 @@ model GenevaLogsAccountsResourceProperties {
   keyVaultCertificate?: KeyVaultCertificate;
 
   @doc("Namespaces to register with MDS.")
-  @extension("x-ms-identifiers", [])
   namespaceNames: Array<string>;
 
   @doc("Flag, indicating whether to create default storage groups.")
@@ -68,26 +65,23 @@ model GenevaLogsAccountsResourceProperties {
   namespaceConfigImportZip?: string;
 
   @doc("Explicitly specify SAS for each import file, if provided not in zip format.")
-  @extension("x-ms-identifiers", [])
   namespaceConfigImportFiles?: Array<string>;
 
   @doc("Define custom storage groups instead of using the default storage groups, and setup Kusto streaming.")
-  @extension("x-ms-identifiers", [])
   storageGroups?: Array<StorageGroup>;
 
   @doc("Define custom user roles in addition to the user roles created by default (MaCommunication and MdsAccountAdmin roles).")
-  @extension("x-ms-identifiers", [])
   userRoles?: Array<UserRole>;
 
   @doc("The Azure location.")
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: GenevaLogsProvisioningState;
 
   @doc("Resource event argument result; a part of provisioning ResultData output.")
-  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
   configDetails?: ConfigDetails;
 }
 
@@ -103,18 +97,15 @@ model StorageGroup {
   defaultRegion: string;
 
   @doc("The storage replication types")
-  @extension("x-ms-identifiers", [])
   storageReplicationTypes: Array<string>;
 
   @doc("The consumer groups")
-  @extension("x-ms-identifiers", [])
   consumerGroups: Array<string>;
 
   @doc("The region based Kusto settings mode")
   regionBasedKustoSettingsMode: KustoSettingsMode;
 
   @doc("The region based Kusto settings")
-  @extension("x-ms-identifiers", [])
   regionBasedKustoSettings: Array<RegionBasedKustoSetting>;
 }
 
@@ -136,35 +127,27 @@ model UserRole {
   name: string;
 
   @doc("The security groups")
-  @extension("x-ms-identifiers", [])
   securityGroups: Array<string>;
 
   @doc("The users")
-  @extension("x-ms-identifiers", [])
   users: Array<string>;
 
   @doc("The dSMS certificates")
-  @extension("x-ms-identifiers", [])
   dsmsCertificates: Array<DsmsCertificate>;
 
   @doc("The KeyVault certificates")
-  @extension("x-ms-identifiers", [])
   keyVaultCertificates: Array<KeyVaultCertificate>;
 
   @doc("The MSI configurations")
-  @extension("x-ms-identifiers", [])
   msiConfigs: Array<MsiConfig>;
 
   @doc("The list of AutoPilot Public Key Infrastructure Access Control Lists")
-  @extension("x-ms-identifiers", [])
   appkiAcl: Array<string>;
 
   @doc("The agent claims")
-  @extension("x-ms-identifiers", [])
   agentClaims: Array<AgentClaim>;
 
   @doc("The config claims")
-  @extension("x-ms-identifiers", [])
   configClaims: Array<ConfigClaim>;
 }
 
@@ -311,7 +294,7 @@ model GenevaLogsAccountsResource
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
   @segment("genevaLogsAccounts") // start with lower case
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @path
   name: string;
 }

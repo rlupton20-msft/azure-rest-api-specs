@@ -5,9 +5,7 @@ using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 @armProviderNamespace
-@service({
-  title: "Azure CIS FRP",
-})
+@service(#{ title: "Azure CIS FRP" })
 @doc("Geneva Logs Provider")
 @versioned(Microsoft.AzureCis.Versions)
 namespace Microsoft.AzureCis;
