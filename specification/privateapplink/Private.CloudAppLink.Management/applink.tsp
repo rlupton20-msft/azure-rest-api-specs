@@ -11,6 +11,7 @@ namespace Private.CloudAppLink;
 @doc("AppLink resource")
 model AppLink is TrackedResource<AppLinkProperties> {
   ...ResourceNameParameter<AppLink>;
+  ...ManagedServiceIdentityProperty;
 }
 
 @doc("AppLink properties")
