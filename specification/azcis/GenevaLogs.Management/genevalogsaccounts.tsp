@@ -50,7 +50,7 @@ model GenevaLogsAccountsResourceProperties {
   namespaceNames: Array<string>;
 
   @doc("Flag, indicating whether to create default storage groups.")
-  createDefaultStorageGroups: boolean;
+  createDefaultStorageGroups?: boolean;
 
   @doc("Region where the initial monikers would be created for default storage groups.")
   defaultAzureRegion?: string;
@@ -179,13 +179,13 @@ model AgentClaim {
 @doc("MSI configuration")
 model MsiConfig {
   @doc("The object identifier")
-  objectId: string;
+  objectId?: string;
 
   @doc("The tenant identifier")
-  tenantId: string;
+  tenantId?: string;
 
   @doc("The resource identifier")
-  resourceId: string;
+  resourceId?: string;
 
   @doc("The description")
   description: string;
