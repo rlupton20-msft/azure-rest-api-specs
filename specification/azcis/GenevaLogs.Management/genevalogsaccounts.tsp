@@ -68,6 +68,7 @@ model GenevaLogsAccountsResourceProperties {
   namespaceConfigImportFiles?: Array<string>;
 
   @doc("Define custom storage groups instead of using the default storage groups, and setup Kusto streaming.")
+  @OpenAPI.extension("x-ms-identifiers", #["storageGroupName"])
   storageGroups?: Array<StorageGroup>;
 
   @doc("Define custom user roles in addition to the user roles created by default (MaCommunication and MdsAccountAdmin roles).")
@@ -106,6 +107,7 @@ model StorageGroup {
   regionBasedKustoSettingsMode: KustoSettingsMode;
 
   @doc("The region based Kusto settings")
+  @OpenAPI.extension("x-ms-identifiers", #["region"])
   regionBasedKustoSettings: Array<RegionBasedKustoSetting>;
 }
 
@@ -133,21 +135,26 @@ model UserRole {
   users: Array<string>;
 
   @doc("The dSMS certificates")
+  @OpenAPI.extension("x-ms-identifiers", #["identity"])
   dsmsCertificates: Array<DsmsCertificate>;
 
   @doc("The KeyVault certificates")
+  @OpenAPI.extension("x-ms-identifiers", #["rootCertificateThumbprint"])
   keyVaultCertificates: Array<KeyVaultCertificate>;
 
   @doc("The MSI configurations")
+  @OpenAPI.extension("x-ms-identifiers", #["objectId"])
   msiConfigs: Array<MsiConfig>;
 
   @doc("The list of AutoPilot Public Key Infrastructure Access Control Lists")
   appkiAcl: Array<string>;
 
   @doc("The agent claims")
+  @OpenAPI.extension("x-ms-identifiers", #["namespaceRegex"])
   agentClaims: Array<AgentClaim>;
 
   @doc("The config claims")
+  @OpenAPI.extension("x-ms-identifiers", #["resource"])
   configClaims: Array<ConfigClaim>;
 }
 
@@ -301,9 +308,34 @@ model GenevaLogsAccountsResource
 
 #suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
 @armResourceOperations
-interface GenevaLogsAccountConfiguration {
+interface GenevaLogsAccounts {
+  @OpenAPI.extension(
+    "x-ms-examples",
+    #{
+      CreateOrUpdate: "./examples/2023-08-22-preview/GenevaLogsAccounts_CreateOrUpdate.json",
+    }
+  )
   createOrUpdate is ArmResourceCreateOrUpdateAsync<GenevaLogsAccountsResource>;
+
+  @OpenAPI.extension(
+    "x-ms-examples",
+    #{
+      ListBySubscription: "./examples/2023-08-22-preview/GenevaLogsAccounts_ListBySubscription.json",
+    }
+  )
   listBySubscription is ArmListBySubscription<GenevaLogsAccountsResource>;
+
+  @OpenAPI.extension(
+    "x-ms-examples",
+    #{
+      ListByResourceGroup: "./examples/2023-08-22-preview/GenevaLogsAccounts_ListByResourceGroup.json",
+    }
+  )
   listByResourceGroup is ArmResourceListByParent<GenevaLogsAccountsResource>;
+
+  @OpenAPI.extension(
+    "x-ms-examples",
+    #{ Get: "./examples/2023-08-22-preview/GenevaLogsAccounts_Get.json" }
+  )
   get is ArmResourceRead<GenevaLogsAccountsResource>;
 }

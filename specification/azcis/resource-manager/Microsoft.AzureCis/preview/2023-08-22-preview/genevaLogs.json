@@ -43,7 +43,7 @@
       "name": "Operations"
     },
     {
-      "name": "GenevaLogsAccountConfiguration"
+      "name": "GenevaLogsAccounts"
     }
   ],
   "paths": {
@@ -85,9 +85,9 @@
     },
     "/subscriptions/{subscriptionId}/providers/Microsoft.AzureCis/genevaLogsAccounts": {
       "get": {
-        "operationId": "GenevaLogsAccountConfiguration_ListBySubscription",
+        "operationId": "GenevaLogsAccounts_ListBySubscription",
         "tags": [
-          "GenevaLogsAccountConfiguration"
+          "GenevaLogsAccounts"
         ],
         "description": "List GenevaLogsAccountsResource resources by subscription ID",
         "parameters": [
@@ -112,6 +112,9 @@
             }
           }
         },
+        "x-ms-examples": {
+          "ListBySubscription": "./examples/2023-08-22-preview/GenevaLogsAccounts_ListBySubscription.json"
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -119,9 +122,9 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCis/genevaLogsAccounts": {
       "get": {
-        "operationId": "GenevaLogsAccountConfiguration_ListByResourceGroup",
+        "operationId": "GenevaLogsAccounts_ListByResourceGroup",
         "tags": [
-          "GenevaLogsAccountConfiguration"
+          "GenevaLogsAccounts"
         ],
         "description": "List GenevaLogsAccountsResource resources by resource group",
         "parameters": [
@@ -149,6 +152,9 @@
             }
           }
         },
+        "x-ms-examples": {
+          "ListByResourceGroup": "./examples/2023-08-22-preview/GenevaLogsAccounts_ListByResourceGroup.json"
+        },
         "x-ms-pageable": {
           "nextLinkName": "nextLink"
         }
@@ -156,9 +162,9 @@
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureCis/genevaLogsAccounts/{resourceName}": {
       "get": {
-        "operationId": "GenevaLogsAccountConfiguration_Get",
+        "operationId": "GenevaLogsAccounts_Get",
         "tags": [
-          "GenevaLogsAccountConfiguration"
+          "GenevaLogsAccounts"
         ],
         "description": "Get a GenevaLogsAccountsResource",
         "parameters": [
@@ -193,12 +199,15 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "Get": "./examples/2023-08-22-preview/GenevaLogsAccounts_Get.json"
         }
       },
       "put": {
-        "operationId": "GenevaLogsAccountConfiguration_CreateOrUpdate",
+        "operationId": "GenevaLogsAccounts_CreateOrUpdate",
         "tags": [
-          "GenevaLogsAccountConfiguration"
+          "GenevaLogsAccounts"
         ],
         "description": "Create a GenevaLogsAccountsResource",
         "parameters": [
@@ -259,6 +268,9 @@
               "$ref": "../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-examples": {
+          "CreateOrUpdate": "./examples/2023-08-22-preview/GenevaLogsAccounts_CreateOrUpdate.json"
         },
         "x-ms-long-running-operation-options": {
           "final-state-via": "azure-async-operation"
@@ -465,7 +477,10 @@
           "description": "Define custom storage groups instead of using the default storage groups, and setup Kusto streaming.",
           "items": {
             "$ref": "#/definitions/StorageGroup"
-          }
+          },
+          "x-ms-identifiers": [
+            "storageGroupName"
+          ]
         },
         "userRoles": {
           "type": "array",
@@ -808,7 +823,10 @@
           "description": "The region based Kusto settings",
           "items": {
             "$ref": "#/definitions/RegionBasedKustoSetting"
-          }
+          },
+          "x-ms-identifiers": [
+            "region"
+          ]
         }
       },
       "required": [
@@ -848,21 +866,30 @@
           "description": "The dSMS certificates",
           "items": {
             "$ref": "#/definitions/DsmsCertificate"
-          }
+          },
+          "x-ms-identifiers": [
+            "identity"
+          ]
         },
         "keyVaultCertificates": {
           "type": "array",
           "description": "The KeyVault certificates",
           "items": {
             "$ref": "#/definitions/KeyVaultCertificate"
-          }
+          },
+          "x-ms-identifiers": [
+            "rootCertificateThumbprint"
+          ]
         },
         "msiConfigs": {
           "type": "array",
           "description": "The MSI configurations",
           "items": {
             "$ref": "#/definitions/MsiConfig"
-          }
+          },
+          "x-ms-identifiers": [
+            "objectId"
+          ]
         },
         "appkiAcl": {
           "type": "array",
@@ -876,14 +903,20 @@
           "description": "The agent claims",
           "items": {
             "$ref": "#/definitions/AgentClaim"
-          }
+          },
+          "x-ms-identifiers": [
+            "namespaceRegex"
+          ]
         },
         "configClaims": {
           "type": "array",
           "description": "The config claims",
           "items": {
             "$ref": "#/definitions/ConfigClaim"
-          }
+          },
+          "x-ms-identifiers": [
+            "resource"
+          ]
         }
       },
       "required": [
