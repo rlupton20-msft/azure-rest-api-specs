@@ -136,26 +136,26 @@ model UserRole {
 
   @doc("The dSMS certificates")
   @OpenAPI.extension("x-ms-identifiers", #["identity"])
-  dsmsCertificates: Array<DsmsCertificate>;
+  dsmsCertificates?: Array<DsmsCertificate>;
 
   @doc("The KeyVault certificates")
   @OpenAPI.extension("x-ms-identifiers", #["rootCertificateThumbprint"])
-  keyVaultCertificates: Array<KeyVaultCertificate>;
+  keyVaultCertificates?: Array<KeyVaultCertificate>;
 
   @doc("The MSI configurations")
   @OpenAPI.extension("x-ms-identifiers", #["objectId"])
-  msiConfigs: Array<MsiConfig>;
+  msiConfigs?: Array<MsiConfig>;
 
   @doc("The list of AutoPilot Public Key Infrastructure Access Control Lists")
-  appkiAcl: Array<string>;
+  appkiAcl?: Array<string>;
 
   @doc("The agent claims")
   @OpenAPI.extension("x-ms-identifiers", #["namespaceRegex"])
-  agentClaims: Array<AgentClaim>;
+  agentClaims?: Array<AgentClaim>;
 
   @doc("The config claims")
   @OpenAPI.extension("x-ms-identifiers", #["resource"])
-  configClaims: Array<ConfigClaim>;
+  configClaims?: Array<ConfigClaim>;
 }
 
 @doc("Config claim")
@@ -214,10 +214,10 @@ model DsmsCertificate {
 
 @doc("Kusto settings mode")
 union KustoSettingsMode {
-  @doc("Append")
+  @doc("Append mode")
   Append: "Append",
 
-  @doc("Reset")
+  @doc("Reset mode")
   Reset: "Reset",
 
   string,
