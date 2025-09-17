@@ -83,11 +83,11 @@ model GenevaLogsAccountsResourceProperties {
   azureLocation?: azureLocation;
 
   @doc("Provisioning status of the resource.")
-  @visibility(Lifecycle.Read)
+  @visibility("read")
   provisioningState?: GenevaLogsProvisioningState;
 
   @doc("Resource event argument result; a part of provisioning ResultData output.")
-  @visibility(Lifecycle.Read) // A part of provisioning ResultData output, gets PATCHed back from FRP.
+  @visibility("read") // A part of provisioning ResultData output, gets PATCHed back from FRP.
   configDetails?: ConfigDetails;
 }
 
@@ -310,7 +310,7 @@ model GenevaLogsAccountsResource
   @doc("The name of resource.")
   @pattern("^[a-zA-Z0-9-]{3,80}$")
   @key("resourceName")
-  @segment("genevaLogsAccountss") // start with lower case
+  @segment("genevaLogsAccounts") // start with lower case
   @visibility("read")
   @path
   name: string;
