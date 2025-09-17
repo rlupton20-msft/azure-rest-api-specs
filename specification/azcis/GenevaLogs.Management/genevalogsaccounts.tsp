@@ -225,7 +225,7 @@ union KustoSettingsMode {
 
 @doc("MDS environment")
 union MdsEnvironment {
-  @doc("Smoke emvironment")
+  @doc("Smoke environment")
   Smoke: "Smoke",
 
   @doc("Canary environment")
