@@ -759,6 +759,18 @@
           },
           "default": []
         },
+        "subFeatureMappings": {
+          "type": "array",
+          "description": "An array of feature objects, each containing a feature name and a list of sub-features.",
+          "items": {
+            "$ref": "#/definitions/SubFeaturesObject"
+          },
+          "readOnly": true,
+          "x-ms-mutability": [
+            "read"
+          ],
+          "default": []
+        },
         "scope": {
           "type": "string",
           "description": "This signifies if the scope if tenant only or global."
@@ -842,25 +854,17 @@
               "default": []
             },
             "subFeaturesToAdd": {
-              "type": "object",
-              "description": "A dictionary mapping feature names to lists of sub-features to be added.",
-              "additionalProperties": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "description": "A string representing a sub-feature to be added."
-                }
+              "type": "array",
+              "description": "An array of feature objects, each containing a feature name and a list of sub-features to be added.",
+              "items": {
+                "$ref": "#/definitions/SubFeaturesObject"
               }
             },
             "subFeaturesToRemove": {
-              "type": "object",
-              "description": "A dictionary mapping feature names to lists of sub-features to be removed.",
-              "additionalProperties": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "description": "A string representing a sub-feature to be removed."
-                }
+              "type": "array",
+              "description": "An array of feature objects, each containing a feature name and a list of sub-features to be removed.",
+              "items": {
+                "$ref": "#/definitions/SubFeaturesObject"
               }
             },
             "scopeMetaData": {
@@ -889,6 +893,23 @@
         }
       },
       "description": "The type used for update operations of the Account."
+    },
+    "SubFeaturesObject": {
+      "type": "object",
+      "properties": {
+        "featureName": {
+          "type": "string",
+          "description": "A string representing a feature."
+        },
+        "subfeatures": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "A string representing a sub-feature."
+          },
+          "description": "A list of subfeatures."
+        }
+      }
     },
     "Budget": {
       "type": "object",
