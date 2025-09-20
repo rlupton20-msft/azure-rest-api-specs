@@ -965,6 +965,12 @@ model ScheduleAction {
   linkedResource?: ScheduleActionLinkedResource;
 
   /**
+   * Type of the offer for which the schedule action is applied
+   */
+  @visibility(Lifecycle.Read)
+  offerType?: string;
+
+  /**
    * Resource tokens for various authorization and context purposes.
    */
   @OpenAPI.extension("x-ms-identifiers", #["type"])
