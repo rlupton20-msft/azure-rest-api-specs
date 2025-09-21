@@ -340,7 +340,7 @@ interface SegmentationManagers {
   >;
   @sharedRoute
   @added(Versions.v2025_10_01_preview)
-  setLabels is ArmResourceActionNoContentAsync<
+  setLabels is ArmResourceActionNoResponseContentAsync<
     SegmentationManager,
     SetLabelsRequest
   >;
