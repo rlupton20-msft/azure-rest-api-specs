@@ -31,6 +31,11 @@ enum Versions {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2025_08_01_preview: "2025-08-01-preview",
+
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  v2025_10_01_preview: "2025-10-01-preview",
 }
 
 @doc("A zero trust segmentation resource. this resource defines the SegmentationManager.")
@@ -108,8 +113,23 @@ model SegmentationManagerProperties {
   @visibility(Lifecycle.Read)
   managedOnBehalfOfConfiguration?: CommonTypes.ManagedOnBehalfOfConfiguration;
 
-  ...DefaultProvisioningStateProperty;
+  @visibility(Lifecycle.Read)
+  @doc("The provisioning state of the resource.")
+  provisioningState?: SegmentationManagerProvisioningState;
+
   ...ManagedByProperty;
+}
+
+@doc("The provisioning state of a resource type.")
+@Azure.Core.lroStatus
+union SegmentationManagerProvisioningState {
+  ResourceProvisioningState,
+
+  @doc("The resource is provisioning")
+  Provisioning: "Provisioning",
+
+  @doc("The resource is deleting")
+  Deleting: "Deleting",
 }
 
 @doc("Specifies the mode of segmentation to be applied.")
@@ -278,16 +298,49 @@ interface Operations extends Azure.ResourceManager.Operations {}
 @armResourceOperations
 interface SegmentationManagers {
   get is ArmResourceRead<SegmentationManager>;
-  createOrReplace is ArmResourceCreateOrReplaceSync<SegmentationManager>;
-  update is ArmResourcePatchSync<
-    SegmentationManager,
-    SegmentationManagerProperties
-  >;
-  delete is ArmResourceDeleteSync<SegmentationManager>;
   listByResourceGroup is ArmResourceListByParent<SegmentationManager>;
   listBySubscription is ArmListBySubscription<SegmentationManager>;
 
-  setLabels is ArmResourceActionNoContentSync<
+  @sharedRoute
+  @removed(Versions.v2025_10_01_preview)
+  @renamedFrom(Versions.v2025_10_01_preview, "createOrReplace")
+  createOrReplaceSync is ArmResourceCreateOrReplaceSync<SegmentationManager>;
+  @sharedRoute
+  @added(Versions.v2025_10_01_preview)
+  createOrReplace is ArmResourceCreateOrReplaceAsync<SegmentationManager>;
+
+  @sharedRoute
+  @removed(Versions.v2025_10_01_preview)
+  @renamedFrom(Versions.v2025_10_01_preview, "update")
+  updateSync is ArmResourcePatchSync<
+    SegmentationManager,
+    SegmentationManagerProperties
+  >;
+  @sharedRoute
+  @added(Versions.v2025_10_01_preview)
+  update is ArmResourcePatchAsync<
+    SegmentationManager,
+    SegmentationManagerProperties
+  >;
+
+  @sharedRoute
+  @removed(Versions.v2025_10_01_preview)
+  @renamedFrom(Versions.v2025_10_01_preview, "delete")
+  deleteSync is ArmResourceDeleteSync<SegmentationManager>;
+  @sharedRoute
+  @added(Versions.v2025_10_01_preview)
+  delete is ArmResourceDeleteWithoutOkAsync<SegmentationManager>;
+
+  @sharedRoute
+  @removed(Versions.v2025_10_01_preview)
+  @renamedFrom(Versions.v2025_10_01_preview, "setLabels")
+  setLabelsSync is ArmResourceActionNoContentSync<
+    SegmentationManager,
+    SetLabelsRequest
+  >;
+  @sharedRoute
+  @added(Versions.v2025_10_01_preview)
+  setLabels is ArmResourceActionNoContentAsync<
     SegmentationManager,
     SetLabelsRequest
   >;
