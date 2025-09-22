@@ -27,7 +27,7 @@ These are the global settings for the ChangeSafety.
 
 ```yaml
 openapi-type: arm
-tag: package-2025-07-01-preview
+tag: package-2025-09-01-preview
 openapi-subtype: providerHub
 ```
 
@@ -57,56 +57,53 @@ These settings apply only when `--tag=package-2025-07-01-preview` is specified o
 input-file:
   - Private.AzureChangeControl/ChangeControl/preview/2025-07-01-preview/ChangeControl.json
 ```
+
+### Tag: package-2025-09-01-preview
+
+These settings apply only when `--tag=package-2025-09-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-09-01-preview'
+input-file:
+  - Private.AzureChangeControl/ChangeControl/preview/2025-09-01-preview/ChangeControl.json
+```
 ---
 
 ## Suppression
 
-```yaml
+``` yaml
 directive:
   - suppress: AvoidAdditionalProperties
     reason: Flexible object schemas are required for extensible parameter storage and dynamic metadata. These enable support for diverse deployment scenarios while maintaining ARM compliance. Approved for flexible object parameters in Azure Change Control service design.
     from: ChangeControl.json
     where:
-      # ChangeState properties - flexible parameter and metadata storage
-      - $.definitions.ChangeStateProperties.properties.parameters
-      - $.definitions.ChangeStateProperties.properties.additionalData
-      - $.definitions.ChangeStatePropertiesUpdate.properties.parameters
-      
-      # Parameter types - flexible metadata and value storage
+      - $.definitions.ChangeStateProperties.properties.stageParameters
       - $.definitions.Parameter.properties.metadata
       - $.definitions.ParameterUpdate.properties.metadata
-      - $.definitions.StringParameter.properties.metadata
-      - $.definitions.NumberParameter.properties.metadata
-      - $.definitions.ArrayParameter.properties.metadata
-      - $.definitions.ArrayParameter.properties.defaultValue
-      - $.definitions.ArrayParameter.properties.allowedValues
-      - $.definitions.ObjectParameter.properties.metadata
-      - $.definitions.ObjectParameter.properties.defaultValue
-      - $.definitions.ObjectParameter.properties.allowedValues
-      
-      # Stage and StageMap properties - flexible variable and parameter storage
-      - $.definitions.Stage.properties.stageVariables
+      - $.definitions.Stage.properties.parameterValues
+      - $.definitions.StageProgressionProperties.properties.parameterValues
+      - $.definitions.StageProgressionPropertiesUpdate.properties.parameterValues
+      - $.definitions.RetrieveNextStagesResponseItem.properties.parameterValues
       - $.definitions.StageMapProperties.properties.parameters
       - $.definitions.StageMapPropertiesUpdate.properties.parameters
-      
-      # StageProgression properties - flexible variable and metadata storage
-      - $.definitions.StageProgressionProperties.properties.stageVariables
-      - $.definitions.StageProgressionProperties.properties.additionalData
-      - $.definitions.StageProgressionPropertiesUpdate.properties.stageVariables
-      - $.definitions.StageProgressionPropertiesUpdate.properties.additionalData
-      
-      # RetrieveNextStages response properties - flexible variable and metadata storage
-      - $.definitions.RetrieveNextStagesResponseItem.properties.stageVariables
-      - $.definitions.RetrieveNextStagesResponseItem.properties.additionalData
-      
-      # ChangeDefinition properties - flexible deployment details storage
-      - $.definitions.ChangeDefinition.properties.details
-      
-      # Operation content properties - flexible ARM resource properties
       - $.definitions.OperationContent.properties.properties
-      
-      # Verify change validity request context - flexible validation context
-      - $.definitions.VerifyChangeValidityRequest.properties.context
+      - $.definitions.ChangeStateProperties.properties.parameters
+      - $.definitions.ChangeStatePropertiesUpdate.properties.parameters
+      - $.definitions.StageProgressionProperties.properties.stageVariables
+      - $.definitions.StageProgressionPropertiesUpdate.properties.stageVariables
+      - $.definitions.RetrieveNextStagesResponseItem.properties.stageVariables
+      - $.definitions.ChangeStateProperties.properties.additionalData
+      - $.definitions.ChangeStatePropertiesUpdate.properties.additionalData
+      - $.definitions.StageProgressionProperties.properties.additionalData
+      - $.definitions.StageProgressionPropertiesUpdate.properties.additionalData
+      - $.definitions.RetrieveNextStagesResponseItem.properties.additionalData
+      - $.definitions.StageVariables
+      - $.definitions.ChangeDefinition.properties.details
+      - $.definitions.Stage.properties.stageVariables
+      - $.definitions.Stage.properties.nestedStageMap.parameters
+      - $.definitions.RetrieveNextStagesResponseItem.properties.parameters
+      - $.definitions.StageProgressionProperties.properties.parameters
+      - $.definitions.StageProgressionPropertiesUpdate.properties.parameters
+      - $.definitions.NestedStageMap.properties.parameters
 ```
 
 ---
@@ -151,4 +148,3 @@ See configuration in [readme.csharp.md](./readme.csharp.md)
 ## Java
 
 See configuration in [readme.java.md](./readme.java.md)
-
