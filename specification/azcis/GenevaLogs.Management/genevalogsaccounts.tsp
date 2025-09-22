@@ -55,6 +55,9 @@ model GenevaLogsAccountsResourceProperties {
   @doc("Region where the initial monikers would be created for default storage groups.")
   defaultAzureRegion?: string;
 
+  @doc("Mode for configuration files uploading. Could be 'ARM' or 'DCMT'.")
+  mode?: ConfigUploadMode;
+
   @doc("SAS for config package zip file containing a configuration to upload.")
   namespaceConfig?: string;
 
@@ -219,6 +222,17 @@ union KustoSettingsMode {
 
   @doc("Reset mode")
   Reset: "Reset",
+
+  string,
+}
+
+@doc("Configuration uploading mode")
+union ConfigUploadMode {
+  @doc("ARM mode")
+  ARM: "ARM",
+
+  @doc("DCMT mode")
+  DCMT: "DCMT",
 
   string,
 }
