@@ -55,7 +55,6 @@ interface ManagedOps {
 
   @doc("Makes a POST operation on the ManagedOps instance.")
   remediate is ArmResourceActionNoResponseContentAsync<ManagedOp, void>;
-
 }
 
 @doc("Properties of the ManagedOps resource.")
