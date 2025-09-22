@@ -1,22 +1,21 @@
 import "@typespec/rest";
-import "@typespec/versioning";
-import "@azure-tools/typespec-autorest";
+import "@typespec/http";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
-using OpenAPI;
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.Core;
 using Azure.ResourceManager;
-using Autorest;
 
 namespace Microsoft.AzureCis;
 
 @doc("GenevaLogsAccounts properties")
 model GenevaLogsAccountsResourceProperties {
   @doc("The name of the warm path account. This must be unique. Logs Account name must start with a letter and can contain numbers/letters.")
-  @pattern("^[a-zA-Z0-9-]{6,32}$")
+  @pattern("^[a-zA-Z0-9-]*$")
+  @minLength(6)
+  @maxLength(32)
   accountName: string;
 
   @doc("The MDS environment")
@@ -71,7 +70,7 @@ model GenevaLogsAccountsResourceProperties {
   namespaceConfigImportFiles?: Array<string>;
 
   @doc("Define custom storage groups instead of using the default storage groups, and setup Kusto streaming.")
-  @OpenAPI.extension("x-ms-identifiers", #["storageGroupName"])
+  @Azure.ResourceManager.identifiers(#["storageGroupName"])
   storageGroups?: Array<StorageGroup>;
 
   @doc("Define custom user roles in addition to the user roles created by default (MaCommunication and MdsAccountAdmin roles).")
@@ -110,7 +109,7 @@ model StorageGroup {
   regionBasedKustoSettingsMode: KustoSettingsMode;
 
   @doc("The region based Kusto settings")
-  @OpenAPI.extension("x-ms-identifiers", #["region"])
+  @Azure.ResourceManager.identifiers(#["region"])
   regionBasedKustoSettings: Array<RegionBasedKustoSetting>;
 }
 
@@ -138,26 +137,26 @@ model UserRole {
   users: Array<string>;
 
   @doc("The dSMS certificates")
-  @OpenAPI.extension("x-ms-identifiers", #["identity"])
+  @Azure.ResourceManager.identifiers(#["identity"])
   dsmsCertificates?: Array<DsmsCertificate>;
 
   @doc("The KeyVault certificates")
-  @OpenAPI.extension("x-ms-identifiers", #["rootCertificateThumbprint"])
+  @Azure.ResourceManager.identifiers(#["rootCertificateThumbprint"])
   keyVaultCertificates?: Array<KeyVaultCertificate>;
 
   @doc("The MSI configurations")
-  @OpenAPI.extension("x-ms-identifiers", #["objectId"])
+  @Azure.ResourceManager.identifiers(#["objectId"])
   msiConfigs?: Array<MsiConfig>;
 
   @doc("The list of AutoPilot Public Key Infrastructure Access Control Lists")
   appkiAcl?: Array<string>;
 
   @doc("The agent claims")
-  @OpenAPI.extension("x-ms-identifiers", #["namespaceRegex"])
+  @Azure.ResourceManager.identifiers(#["namespaceRegex"])
   agentClaims?: Array<AgentClaim>;
 
   @doc("The config claims")
-  @OpenAPI.extension("x-ms-identifiers", #["resource"])
+  @Azure.ResourceManager.identifiers(#["resource"])
   configClaims?: Array<ConfigClaim>;
 }
 
@@ -312,7 +311,9 @@ model ConfigDetails {
 model GenevaLogsAccountsResource
   is ProxyResource<GenevaLogsAccountsResourceProperties> { // this can be TrackedResource based on resourcetype
   @doc("The name of resource.")
-  @pattern("^[a-zA-Z0-9-]{3,80}$")
+  @pattern("^[a-zA-Z0-9-]*$")
+  @minLength(3)
+  @maxLength(80)
   @key("resourceName")
   @segment("genevaLogsAccounts") // start with lower case
   @visibility(Lifecycle.Read)
@@ -320,7 +321,7 @@ model GenevaLogsAccountsResource
   name: string;
 }
 
-#suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "The resource must have a delete operation.TypeSpec"
+#suppress "@azure-tools/typespec-azure-resource-manager/no-resource-delete-operation" "Delete operation is currently not supported by FRP."
 @armResourceOperations
 interface GenevaLogsAccounts {
   createOrUpdate is ArmResourceCreateOrUpdateAsync<GenevaLogsAccountsResource>;
