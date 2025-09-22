@@ -63,7 +63,7 @@ model HierarchySelector {
       type: "Private.Edge/Targets";
     },
     {
-      type: "Private.Edge/Sites";
+      type: "Microsoft.Edge/Sites";
     }
   ]>[];
 
