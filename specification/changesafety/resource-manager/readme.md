@@ -99,6 +99,12 @@ directive:
       - $.definitions.VerifyChangeValidityRequest.properties.context
       - $.definitions.StageVariables
       - $.definitions.Stage.properties.stageVariables
+      - $.definitions.Stage.properties.nestedStageMap.parameters
+      - $.definitions.RetrieveNextStagesResponseItem.properties.parameters
+      - $.definitions.StageProgressionProperties.properties.parameters
+      - $.definitions.StageProgressionPropertiesUpdate.properties.parameters
+      - $.definitions.NestedStageMap.properties.parameters
+      - $.definitions.ChangeStateProperties.properties.links
 ```
 
 ---

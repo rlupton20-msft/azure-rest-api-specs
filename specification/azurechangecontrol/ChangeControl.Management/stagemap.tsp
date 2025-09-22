@@ -7,9 +7,8 @@ import "./commonmodels.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
-using TypeSpec.Versioning;
-using Azure.Core;
 using Azure.ResourceManager;
+using TypeSpec.Versioning;
 
 namespace Private.AzureChangeControl;
 
