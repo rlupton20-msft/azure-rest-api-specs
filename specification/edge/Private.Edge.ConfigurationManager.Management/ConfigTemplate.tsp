@@ -56,9 +56,16 @@ model ConfigTemplateVersionWithUpdateType {
 
 @added(Versions.v2025_08_01)
 @doc("Hierarchy Ids With Level for applying config Template which will further generate ARG objects")
-model HierarchyIdsWithLevel {
+model HierarchySelector {
   @doc("Hierarchy Ids")
-  hierarchyIds?: string[];
+  hierarchyIds?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.Edge/Targets";
+    },
+    {
+      type: "Private.Edge/Sites";
+    }
+  ]>[];
 
   @doc("Level")
   level?: string;
@@ -84,9 +91,9 @@ interface ConfigTemplates {
 
   @added(Versions.v2025_08_01)
   @doc("Apply a Config Template to a particular hierarchy node")
-  apply is ArmResourceActionNoResponseContentAsync<
+  linkToHierarchies is ArmResourceActionNoResponseContentAsync<
     ConfigTemplate,
-    HierarchyIdsWithLevel
+    HierarchySelector
   >;
 
   @doc("Remove Config Template Version Resource")

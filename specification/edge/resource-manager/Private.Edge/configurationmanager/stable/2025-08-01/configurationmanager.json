@@ -1316,74 +1316,6 @@
         "x-ms-long-running-operation": true
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configTemplates/{configTemplateName}/apply": {
-      "post": {
-        "operationId": "ConfigTemplates_Apply",
-        "tags": [
-          "ConfigTemplates"
-        ],
-        "description": "Apply a Config Template to a particular hierarchy node",
-        "parameters": [
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "configTemplateName",
-            "in": "path",
-            "description": "The name of the ConfigTemplate",
-            "required": true,
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]{3,24}$"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "The content of the action request",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/HierarchyIdsWithLevel"
-            }
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Resource operation accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true,
-        "x-ms-examples": {
-          "ConfigTemplates_Apply_MaximumSet_Gen": {
-            "$ref": "./examples/ConfigTemplates_Apply_MaximumSet_Gen.json"
-          }
-        }
-      }
-    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configTemplates/{configTemplateName}/createVersion": {
       "post": {
         "operationId": "ConfigTemplates_CreateVersion",
@@ -1459,6 +1391,74 @@
           "final-state-via": "location"
         },
         "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configTemplates/{configTemplateName}/linkToHierarchies": {
+      "post": {
+        "operationId": "ConfigTemplates_LinkToHierarchies",
+        "tags": [
+          "ConfigTemplates"
+        ],
+        "description": "Apply a Config Template to a particular hierarchy node",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "configTemplateName",
+            "in": "path",
+            "description": "The name of the ConfigTemplate",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HierarchySelector"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-examples": {
+          "ConfigTemplates_LinkToHierarchies_MaximumSet_Gen": {
+            "$ref": "./examples/ConfigTemplates_LinkToHierarchies_MaximumSet_Gen.json"
+          }
+        }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configTemplates/{configTemplateName}/removeVersion": {
@@ -11238,7 +11238,7 @@
         "hierarchyIds"
       ]
     },
-    "HierarchyIdsWithLevel": {
+    "HierarchySelector": {
       "type": "object",
       "description": "Hierarchy Ids With Level for applying config Template which will further generate ARG objects",
       "properties": {
@@ -11246,7 +11246,19 @@
           "type": "array",
           "description": "Hierarchy Ids",
           "items": {
-            "type": "string"
+            "type": "string",
+            "format": "arm-id",
+            "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+            "x-ms-arm-id-details": {
+              "allowedResources": [
+                {
+                  "type": "Private.Edge/Targets"
+                },
+                {
+                  "type": "Private.Edge/Sites"
+                }
+              ]
+            }
           }
         },
         "level": {
