@@ -17,11 +17,19 @@ using Azure.ResourceManager;
 namespace Private.Edge;
 
 @added(Versions.v2025_08_15_preview)
+@added(Versions.v2025_08_01)
 @doc("ConfigTemplateMetadata Properties")
 model ConfigTemplateMetadataProperties {
   @doc("Hierarchy ARM Ids")
   @visibility(Lifecycle.Read)
-  hierarchyIds?: string[];
+  hierarchyIds?: armResourceIdentifier<[
+    {
+      type: "Private.Edge/targets";
+    },
+    {
+      type: "Microsoft.Edge/sites";
+    }
+  ]>[];
 
   @doc("Hierarchy Level")
   @visibility(Lifecycle.Read)
@@ -33,6 +41,7 @@ model ConfigTemplateMetadataProperties {
 }
 
 @added(Versions.v2025_08_15_preview)
+@added(Versions.v2025_08_01)
 @doc("ConfigTemplateMetadata Resource")
 @parentResource(ConfigTemplate)
 model ConfigTemplateMetadata
@@ -41,13 +50,14 @@ model ConfigTemplateMetadata
   @pattern("^(?!.*\\.\\.)[a-zA-Z0-9-][a-zA-Z0-9._-]{1,68}[a-zA-Z0-9-]$")
   @path
   @key("configTemplateMetadataName")
-  @segment("configTemplateMetadata")
+  @segment("configTemplateMetadatas")
   name: string;
 
   ...EntityTagProperty;
 }
 
 @added(Versions.v2025_08_15_preview)
+@added(Versions.v2025_08_01)
 @armResourceOperations
 interface ConfigTemplateMetadatas {
   @doc("Get a ConfigTemplateMetadata Resource")
