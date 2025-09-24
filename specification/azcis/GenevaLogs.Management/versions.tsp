@@ -12,6 +12,6 @@ enum Versions {
   @doc("API version 2023-08-22-preview")
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2023_08_22_preview: "2023-08-22-preview",
 }
