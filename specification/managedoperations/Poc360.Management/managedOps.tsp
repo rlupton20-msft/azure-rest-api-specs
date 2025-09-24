@@ -217,12 +217,15 @@ model ManagedOpsSku {
 @added(Versions.v2023_04_01_preview)
 model ManagedOpsDesiredConfiguration {
   @doc("Configuration for the Change Tracking and Inventory service.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   changeTrackingAndInventory: ManagedOpsChangeTrackingConfiguration;
 
   @doc("Configuration for the Azure Monitor service.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   azureMonitorInsights: ManagedOpsAzureMonitorConfiguration;
 
   @doc("User assigned Managed Identity used to perform operations on machines managed by Ops360.")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
   userAssignedManagedIdentityId: armResourceIdentifier<[
     {
       type: "Microsoft.ManagedIdentity/userAssignedIdentities";
