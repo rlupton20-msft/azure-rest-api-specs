@@ -2,7 +2,8 @@
 
 ```cmd
 npm ci
-npx tsv specification/portalservices/CopilotPlans.Management
+npx tsv specification/portalservices/Copilots.Management
+tsp compile specification/portalservices/Copilots.Management
 ```
 
 # References
