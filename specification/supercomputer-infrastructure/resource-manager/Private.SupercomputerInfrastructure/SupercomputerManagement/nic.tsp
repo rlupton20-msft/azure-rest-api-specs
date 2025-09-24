@@ -19,13 +19,25 @@ model Nic is ProxyResource<NicProperties> {
 
 /** The properties of a NIC. */
 model NicProperties {
-  /** The status of the last operation on this NIC. */
+  /** The SKU of the physical NIC hardware. */
   @visibility(Lifecycle.Read)
-  provisioningState?: TopologicalProvisioningState;
+  hardwareSku?: string;
+
+  /** The MAC address of the NIC. */
+  @visibility(Lifecycle.Read)
+  macAddress?: string;
 
   /** The Azure resource ID of the device that the NIC resides within. */
   @visibility(Lifecycle.Read)
-  parentDeviceId: NodeResourceId;
+  parentDeviceId?: NodeResourceId;
+
+  /** The PCIe slot that the NIC is installed in on the parent device. */
+  @visibility(Lifecycle.Read)
+  pcieSlot?: string;
+
+  /** The status of the last operation on this NIC. */
+  @visibility(Lifecycle.Read)
+  provisioningState?: TopologicalProvisioningState;
 }
 
 @armResourceOperations

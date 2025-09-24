@@ -28,7 +28,7 @@ scalar DeviceResourceId
       type: "Private.SupercomputerInfrastructure/supercomputers/switches",
     },
     {
-      type: "Private.SupercomputerInfrastructure/supercomputers/nics",
+      type: "Private.SupercomputerInfrastructure/supercomputers/racks/nics",
     }
   ]>;
 
@@ -42,7 +42,7 @@ scalar LinkResourceId
 scalar NodeResourceId
   extends Azure.Core.armResourceIdentifier<[
     {
-      type: "Private.SupercomputerInfrastructure/supercomputers/nodes",
+      type: "Private.SupercomputerInfrastructure/supercomputers/racks/nodes",
     }
   ]>;
 
@@ -50,5 +50,44 @@ scalar DeviceLogicalPortResourceId
   extends Azure.Core.armResourceIdentifier<[
     {
       type: "Private.SupercomputerInfrastructure/supercomputers/deviceLogicalPorts",
+    }
+  ]>;
+
+scalar MaintenanceRequestResourceId
+  extends Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.SupercomputerInfrastructure/supercomputers/maintenanceRequests",
+    }
+  ]>;
+
+scalar ReportableWithinMaintenanceRequestResourceId
+  extends Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.SupercomputerInfrastructure/supercomputers/clusters",
+    },
+    {
+      type: "Private.SupercomputerInfrastructure/supercomputers/switches",
+    },
+    {
+      type: "Private.SupercomputerInfrastructure/supercomputers/racks/nics",
+    },
+    {
+      type: "Private.SupercomputerInfrastructure/supercomputers/links",
+    },
+    {
+      type: "Private.SupercomputerInfrastructure/supercomputers/racks/nodes",
+    },
+    {
+      type: "Private.SupercomputerInfrastructure/supercomputers/deviceLogicalPorts",
+    },
+    {
+      type: "Private.Compute/virtualMachines",
+    }
+  ]>;
+
+scalar WorkloadImpactResourceId
+  extends Azure.Core.armResourceIdentifier<[
+    {
+      type: "Private.Impact/workloadImpacts",
     }
   ]>;
