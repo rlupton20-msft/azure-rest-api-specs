@@ -52,6 +52,9 @@ interface ManagedOps {
 
   @doc("Deletes the ManagedOps instance.")
   delete is ArmResourceDeleteWithoutOkAsync<ManagedOp>;
+
+  @doc("Makes a POST operation on the ManagedOps instance.")
+  remediate is ArmResourceActionNoResponseContentAsync<ManagedOp, void>;
 }
 
 @doc("Properties of the ManagedOps resource.")
