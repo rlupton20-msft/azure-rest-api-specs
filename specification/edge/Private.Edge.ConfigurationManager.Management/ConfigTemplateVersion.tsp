@@ -20,6 +20,9 @@ model ConfigTemplateVersionProperties {
   @doc("Configuration values")
   configurations: string;
 
+  @doc("Internal State of resource")
+  internalState?: InternalState;
+
   @doc("Provisioning state of resource")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
