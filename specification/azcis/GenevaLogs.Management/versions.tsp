@@ -1,3 +1,6 @@
+import "@typespec/rest";
+import "@azure-tools/typespec-autorest";
+import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/versioning";
 
