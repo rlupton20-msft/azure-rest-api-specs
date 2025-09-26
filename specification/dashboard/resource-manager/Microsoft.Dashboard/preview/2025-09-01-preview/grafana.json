@@ -1787,7 +1787,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/dashboards/{dashboardName}/dashboardDefinitions/{dashboardDefinitionName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/dashboards/{dashboardName}/dashboardDefinitions/{definitionName}": {
       "get": {
         "tags": [
           "DashboardDefinitionResource"
@@ -1808,7 +1808,7 @@
             "$ref": "#/parameters/DashboardNameParameter"
           },
           {
-            "$ref": "#/parameters/DashboardDefinitionNameParameter"
+            "$ref": "#/parameters/DefinitionNameParameter"
           },
           {
             "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
@@ -1857,7 +1857,7 @@
             "$ref": "#/parameters/DashboardNameParameter"
           },
           {
-            "$ref": "#/parameters/DashboardDefinitionNameParameter"
+            "$ref": "#/parameters/DefinitionNameParameter"
           },
           {
             "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
@@ -1879,13 +1879,7 @@
             }
           },
           "201": {
-            "description": "Creation started. The operation was successfully started and will complete asynchronously.",
-            "headers": {
-              "Azure-AsyncOperation": {
-                "description": "Operation URI for long running operation.",
-                "type": "string"
-              }
-            },
+            "description": "Created. Successfully created a new dashboard definition.",
             "schema": {
               "$ref": "#/definitions/DashboardDefinition"
             }
@@ -1896,10 +1890,6 @@
               "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
           }
-        },
-        "x-ms-long-running-operation": true,
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
         },
         "x-ms-examples": {
           "DashboardDefinition_Create": {
@@ -1927,13 +1917,16 @@
             "$ref": "#/parameters/DashboardNameParameter"
           },
           {
-            "$ref": "#/parameters/DashboardDefinitionNameParameter"
+            "$ref": "#/parameters/DefinitionNameParameter"
           },
           {
             "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK. The resource is deleted."
+          },
           "204": {
             "description": "No Content. The resource is not present or was already deleted."
           },
@@ -2232,16 +2225,16 @@
     "DashboardDefinition": {
       "type": "object",
       "description": "The dashboard definition resource type.",
-      "x-ms-azure-resource": true,
       "allOf": [
         {
-          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/Resource"
         }
       ],
       "properties": {
         "properties": {
           "description": "Properties specific to the dashboard definition resource.",
-          "$ref": "#/definitions/DashboardDefinitionProperties"
+          "$ref": "#/definitions/DashboardDefinitionProperties",
+          "x-ms-client-flatten": true
         }
       }
     },
@@ -3112,9 +3105,9 @@
       "pattern": "^[a-zA-Z][a-z0-9A-Z-]{0,18}[a-z0-9A-Z]$",
       "x-ms-parameter-location": "method"
     },
-    "DashboardDefinitionNameParameter": {
+    "DefinitionNameParameter": {
       "in": "path",
-      "name": "dashboardDefinitionName",
+      "name": "definitionName",
       "description": "The name of the Dashboard Definition.",
       "required": true,
       "type": "string",

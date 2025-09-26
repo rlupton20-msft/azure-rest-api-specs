@@ -11420,6 +11420,10 @@
           "type": "string",
           "description": "Configuration values"
         },
+        "internalState": {
+          "$ref": "#/definitions/InternalState",
+          "description": "Internal State of resource"
+        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning state of resource",
@@ -12542,6 +12546,30 @@
         }
       ]
     },
+    "InternalState": {
+      "type": "string",
+      "description": "Internal state of resource",
+      "enum": [
+        "PendingValidation",
+        "Validated"
+      ],
+      "x-ms-enum": {
+        "name": "InternalState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "PendingValidation",
+            "value": "PendingValidation",
+            "description": "Resource is pending validation"
+          },
+          {
+            "name": "Validated",
+            "value": "Validated",
+            "description": "Resource is validated"
+          }
+        ]
+      }
+    },
     "Job": {
       "type": "object",
       "description": "Job extension resource for tracking job execution and substatuses.",
@@ -12828,6 +12856,7 @@
       "enum": [
         "deploy",
         "publish",
+        "uninstall",
         "staging",
         "externalValidation"
       ],
@@ -12844,6 +12873,11 @@
             "name": "Publish",
             "value": "publish",
             "description": "A publish job."
+          },
+          {
+            "name": "Uninstall",
+            "value": "uninstall",
+            "description": "A Uninstall job."
           },
           {
             "name": "Staging",
@@ -13326,6 +13360,10 @@
           "type": "string",
           "description": "Value of schema version"
         },
+        "internalState": {
+          "$ref": "#/definitions/InternalState",
+          "description": "Internal State of resource"
+        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning state of resource",
@@ -13343,6 +13381,10 @@
         "value": {
           "type": "string",
           "description": "Value of schema version"
+        },
+        "internalState": {
+          "$ref": "#/definitions/InternalState",
+          "description": "Internal State of resource"
         }
       }
     },
@@ -13883,6 +13925,10 @@
         "orchestratorType": {
           "$ref": "#/definitions/OrchestratorType",
           "description": "Orchestrator type"
+        },
+        "internalState": {
+          "$ref": "#/definitions/InternalState",
+          "description": "Internal State of resource"
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -14810,6 +14856,63 @@
         "specification"
       ]
     },
+    "UninstallJobParameter": {
+      "type": "object",
+      "description": "Parameters for a Uninstall job.",
+      "properties": {
+        "parameter": {
+          "$ref": "#/definitions/UninstallSolutionParameter"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/JobParameterBase"
+        }
+      ],
+      "x-ms-discriminator-value": "uninstall"
+    },
+    "UninstallJobParameterUpdate": {
+      "type": "object",
+      "description": "Parameters for a Uninstall job.",
+      "properties": {
+        "parameter": {
+          "$ref": "#/definitions/UninstallSolutionParameterUpdate"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/JobParameterBaseUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "uninstall"
+    },
+    "UninstallJobStepStatistics": {
+      "type": "object",
+      "description": "Uninstall statistics for a job step, including total, success, and failed counts.",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total count of items processed in this step"
+        },
+        "successCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Count of successful items in this step"
+        },
+        "failedCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Count of failed items in this step"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/JobStepStatisticsBase"
+        }
+      ],
+      "x-ms-discriminator-value": "uninstall"
+    },
     "UninstallSolutionParameter": {
       "type": "object",
       "description": "Uninstall Solution Parameter",
@@ -14826,6 +14929,20 @@
       "required": [
         "solutionTemplateId"
       ]
+    },
+    "UninstallSolutionParameterUpdate": {
+      "type": "object",
+      "description": "Uninstall Solution Parameter",
+      "properties": {
+        "solutionTemplateId": {
+          "type": "string",
+          "description": "Solution Template ARM Id"
+        },
+        "solutionInstanceName": {
+          "type": "string",
+          "description": "Solution Instance Name"
+        }
+      }
     },
     "UpdateExternalValidationStatusParameter": {
       "type": "object",
