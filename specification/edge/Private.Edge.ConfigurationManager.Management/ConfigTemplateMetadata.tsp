@@ -42,10 +42,6 @@ model ConfigTemplateMetadataProperties {
   @OpenAPI.extension("x-ms-identifiers", #[])
   linkedHierarchies: HierarchyMetadata[];
 
-  @doc("Hierarchy Level")
-  @visibility(Lifecycle.Read)
-  level?: string;
-
   @doc("Provisioning state of resource")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
