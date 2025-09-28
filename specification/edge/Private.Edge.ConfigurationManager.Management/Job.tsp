@@ -26,6 +26,10 @@ union JobType {
   @added(Versions.v2025_08_01)
   Publish: "publish",
 
+   @doc("A Uninstall job.")
+  @added(Versions.v2025_08_01)
+  Uninstall: "uninstall",
+
   @doc("A staging job.")
   Staging: "staging",
 
@@ -89,6 +93,22 @@ model PublishJobStepStatistics extends JobStepStatisticsBase {
   failedCount?: int32;
 }
 
+@doc("Uninstall statistics for a job step, including total, success, and failed counts.")
+@added(Versions.v2025_08_01)
+model UninstallJobStepStatistics extends JobStepStatisticsBase {
+  @doc("Statistics type discriminator value")
+  statisticsType: JobType.Uninstall;
+
+  @doc("Total count of items processed in this step")
+  totalCount?: int32;
+
+  @doc("Count of successful items in this step")
+  successCount?: int32;
+
+  @doc("Count of failed items in this step")
+  failedCount?: int32;
+}
+
 // Union for polymorphic statistics
 @doc("Polymorphic statistics for a job step.")
 union JobStepStatistics {
@@ -119,6 +139,15 @@ model PublishJobParameter extends JobParameterBase {
   jobType: JobType.Publish;
 
   parameter?: SolutionVersionParameter;
+}
+
+@doc("Parameters for a Uninstall job.")
+@added(Versions.v2025_08_01)
+model UninstallJobParameter extends JobParameterBase {
+  @doc("Job type discriminator value")
+  jobType: JobType.Uninstall;
+
+  parameter?: UninstallSolutionParameter;
 }
 
 @doc("Job Step")
