@@ -23,6 +23,7 @@ model StageMap is ProxyResource<StageMapProperties> {
   @doc("The name of the StageMap")
   name: string;
 }
+
 @doc("Detailed properties of the StageMap resource.")
 model StageMapProperties {
   @visibility(Lifecycle.Read)

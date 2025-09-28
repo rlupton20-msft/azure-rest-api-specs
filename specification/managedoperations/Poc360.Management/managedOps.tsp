@@ -18,8 +18,6 @@ namespace global.Private.Poc360;
 
 @doc("The Managed Operations resource.")
 @subscriptionResource
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
 model ManagedOp is ProxyResource<ManagedOpsProperties> {
   /** Fix the name of the resource to ensure it is a singleton */
   @doc("Name of the resource.")
@@ -30,49 +28,23 @@ model ManagedOp is ProxyResource<ManagedOpsProperties> {
   name: string;
 }
 
-/** The operations that can be performed on our resource */
-@armResourceOperations(ManagedOp)
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
-interface ManagedOps {
-  @doc("Gets the information of the ManagedOps instance.")
-  get is ArmResourceRead<ManagedOp>;
-
-  @doc("Creates or updates the ManagedOps instance.")
-  createOrUpdate is ArmResourceCreateOrUpdateAsync<ManagedOp>;
-
-  @doc("Updates the ManagedOps instance with the supplied fields.")
-  update is ArmCustomPatchAsync<
-    ManagedOp,
-    Azure.ResourceManager.Foundations.ResourceUpdateModel<
-      ManagedOp,
-      ManagedOpsProperties
-    >
-  >;
-
-  @doc("Deletes the ManagedOps instance.")
-  delete is ArmResourceDeleteWithoutOkAsync<ManagedOp>;
-}
-
 @doc("Properties of the ManagedOps resource.")
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
 model ManagedOpsProperties {
   @doc("Product plan details of this resource.")
   @visibility(Lifecycle.Read)
-  sku?: ManagedOpsSku;
+  sku?: Sku;
 
   @doc("Provisioning state of the resource.")
   @visibility(Lifecycle.Read)
-  provisioningState?: ManagedOpsProvisioningState;
+  provisioningState?: ProvisioningState;
 
-  @doc("Desired configuration used when provisioning the resource.")
+  @doc("Desired configuration input by the user.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  desiredConfiguration: ManagedOpsDesiredConfiguration;
+  desiredConfiguration: DesiredConfiguration;
 
   @doc("Services provisioned by this resource.")
   @visibility(Lifecycle.Read)
-  services?: ManagedOpsServiceInformation;
+  services?: ServiceInformation;
 
   @doc("Policy assignments created for managing services.")
   @visibility(Lifecycle.Read)
@@ -80,24 +52,23 @@ model ManagedOpsProperties {
 }
 
 @doc("Services provisioned by this resource.")
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
-model ManagedOpsServiceInformation {
+model ServiceInformation {
   @doc("Change Tracking and Inventory service information.")
   @visibility(Lifecycle.Read)
-  changeTrackingAndInventory?: ManagedOpsChangeTrackingInformation;
+  changeTrackingAndInventory?: ChangeTrackingInformation;
 
   @doc("Azure Monitor Insights service information.")
+  @added(Versions.v2025_07_28_preview)
   @visibility(Lifecycle.Read)
-  azureMonitorInsights?: ManagedOpsAzureMonitorInformation;
+  azureMonitorInsights?: AzureMonitorInformation;
 
   @doc("Azure Update Manager service information.")
   @visibility(Lifecycle.Read)
-  azureUpdateManager?: ManagedOpsUpdateManagerInformation;
+  azureUpdateManager?: UpdateManagerInformation;
 
   @doc("Azure Policy and Machine Configuration service information.")
   @visibility(Lifecycle.Read)
-  azurePolicyAndMachineConfiguration?: ManagedOpsGuestConfigurationInformation;
+  azurePolicyAndMachineConfiguration?: GuestConfigurationInformation;
 
   @doc("Defender for Servers service information.")
   @visibility(Lifecycle.Read)
@@ -109,8 +80,6 @@ model ManagedOpsServiceInformation {
 }
 
 @doc("Policy assignments created for managing services.")
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
 model PolicyAssignmentProperties {
   @doc("Policy initiative assignment ID.")
   policyInitiativeAssignmentId: armResourceIdentifier<[
@@ -128,11 +97,9 @@ alias enablementState =
   | string;
 
 @doc("Change Tracking and Inventory service information.")
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
-model ManagedOpsChangeTrackingInformation {
+model ChangeTrackingInformation {
   @doc("ID of Data Collection Rule (DCR) associated with this service.")
-  dcrId?: armResourceIdentifier<[
+  dcrId: armResourceIdentifier<[
     {
       type: "Microsoft.Insights/dataCollectionRules";
     }
@@ -142,10 +109,11 @@ model ManagedOpsChangeTrackingInformation {
   enablementStatus: enablementState;
 }
 
-@doc("Azure Monitor service information.")
-model ManagedOpsAzureMonitorInformation {
+@doc("Azure Monitor Insights service information.")
+@added(Versions.v2025_07_28_preview)
+model AzureMonitorInformation {
   @doc("ID of Data Collection Rule (DCR) associated with this service.")
-  dcrId?: armResourceIdentifier<[
+  dcrId: armResourceIdentifier<[
     {
       type: "Microsoft.Insights/dataCollectionRules";
     }
@@ -156,55 +124,31 @@ model ManagedOpsAzureMonitorInformation {
 }
 
 @doc("Azure Update Manager service information.")
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
-model ManagedOpsUpdateManagerInformation {
-  @doc("ID of Data Collection Rule (DCR) associated with this service.")
-  dcrId?: armResourceIdentifier<[
-    {
-      type: "Microsoft.Insights/dataCollectionRules";
-    }
-  ]>;
-
-  @doc("ID of Data Collection Endpoint (DCE) associated with this service.")
-  dceId?: armResourceIdentifier<[
-    {
-      type: "Microsoft.Insights/dataCollectionEndpoints";
-    }
-  ]>;
-
+model UpdateManagerInformation {
   @doc("Indicates whether the service is enabled.")
   enablementStatus: enablementState;
 }
 
 @doc("Azure Policy and Machine Configuration service information.")
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
-model ManagedOpsGuestConfigurationInformation {
+model GuestConfigurationInformation {
   @doc("Indicates whether the service is enabled.")
   enablementStatus: enablementState;
 }
 
 @doc("Defender for Servers service information.")
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
 model DefenderForServersInformation {
   @doc("Indicates whether the service is enabled.")
   enablementStatus: enablementState;
 }
 
 @doc("Defender Cloud Security Posture Management (CSPM) service information.")
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
 model DefenderCspmInformation {
   @doc("Indicates whether the service is enabled.")
   enablementStatus: enablementState;
 }
 
 @doc("Specifies the service plan for this resource.")
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
-model ManagedOpsSku {
+model Sku {
   @doc("Name of the SKU.")
   name: string;
 
@@ -212,17 +156,19 @@ model ManagedOpsSku {
   tier: string;
 }
 
-@doc("Desired configuration parameters.")
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
-model ManagedOpsDesiredConfiguration {
+@doc("Desired configuration input by the user.")
+model DesiredConfiguration {
   @doc("Configuration for the Change Tracking and Inventory service.")
-  changeTrackingAndInventory: ManagedOpsChangeTrackingConfiguration;
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  changeTrackingAndInventory: ChangeTrackingConfiguration;
 
-  @doc("Configuration for the Azure Monitor service.")
-  azureMonitorInsights: ManagedOpsAzureMonitorConfiguration;
+  @doc("Configuration for the Azure Monitor Insights service.")
+  @added(Versions.v2025_07_28_preview)
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  azureMonitorInsights: AzureMonitorConfiguration;
 
   @doc("User assigned Managed Identity used to perform operations on machines managed by Ops360.")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   userAssignedManagedIdentityId: armResourceIdentifier<[
     {
       type: "Microsoft.ManagedIdentity/userAssignedIdentities";
@@ -241,9 +187,7 @@ model ManagedOpsDesiredConfiguration {
 alias desiredEnablementState = "Enable" | "Disable" | string;
 
 @doc("Configuration for the Change Tracking and Inventory service.")
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
-model ManagedOpsChangeTrackingConfiguration {
+model ChangeTrackingConfiguration {
   @doc("Log analytics workspace resource ID used by the service.")
   logAnalyticsWorkspaceId: armResourceIdentifier<[
     {
@@ -252,11 +196,10 @@ model ManagedOpsChangeTrackingConfiguration {
   ]>;
 }
 
-@doc("Configuration for the Change Tracking and Inventory service.")
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
-model ManagedOpsAzureMonitorConfiguration {
-  @doc("Azure Monitor workspace resource ID used by the service.")
+@doc("Configuration for the Azure Monitor Insights service.")
+@added(Versions.v2025_07_28_preview)
+model AzureMonitorConfiguration {
+  @doc("Azure monitor workspace resource ID used by the service.")
   azureMonitorWorkspaceId: armResourceIdentifier<[
     {
       type: "Microsoft.Monitor/accounts";
@@ -266,9 +209,7 @@ model ManagedOpsAzureMonitorConfiguration {
 
 @doc("The provisioning state of a resource.")
 @lroStatus
-@added(Versions.v2024_08_01_preview)
-@added(Versions.v2023_04_01_preview)
-union ManagedOpsProvisioningState {
+union ProvisioningState {
   string,
   ResourceProvisioningState,
 
@@ -277,4 +218,31 @@ union ManagedOpsProvisioningState {
 
   @doc("The resource is being deleted.")
   Deleting: "Deleting",
+}
+
+/** The operations that can be performed on our resource */
+@armResourceOperations(ManagedOp)
+interface ManagedOps {
+  @doc("Gets the information of the ManagedOps instance.")
+  get is ArmResourceRead<ManagedOp>;
+
+  @doc("Creates or updates the ManagedOps instance.")
+  createOrUpdate is ArmResourceCreateOrUpdateAsync<ManagedOp>;
+
+  @doc("List all ManagedOps instances in the subscription.")
+  @added(Versions.v2025_07_28_preview)
+  list is ArmListBySubscription<ManagedOp>;
+
+  @doc("Updates the ManagedOps instance with the supplied fields.")
+  @patch(#{ implicitOptionality: true })
+  update is ArmCustomPatchAsync<
+    ManagedOp,
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<
+      ManagedOp,
+      ManagedOpsProperties
+    >
+  >;
+
+  @doc("Deletes the ManagedOps instance.")
+  delete is ArmResourceDeleteWithoutOkAsync<ManagedOp>;
 }

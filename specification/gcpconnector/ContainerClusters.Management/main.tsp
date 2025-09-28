@@ -1537,7 +1537,7 @@ model LegacyAbac {
   /**
    * The provider of the legacy ABAC authorization mode
    */
-  provider: string;
+  provider?: string;
 }
 
 /**
@@ -2182,7 +2182,7 @@ model ServiceExternalIpsConfig {
   /**
    * Whether Services with ExternalIPs field are allowed or not.
    */
-  enabled: boolean;
+  enabled?: boolean;
 }
 
 /**

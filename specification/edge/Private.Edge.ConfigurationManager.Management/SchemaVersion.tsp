@@ -21,6 +21,9 @@ model SchemaVersionProperties {
   @doc("Value of schema version")
   value: string;
 
+  @doc("Internal State of resource")
+  internalState?: InternalState;
+
   @doc("Provisioning state of resource")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
