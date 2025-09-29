@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "ZeroTrustSegmentationClient",
-    "version": "2025-07-01-preview",
+    "version": "2025-10-01-preview",
     "description": "ZeroTrustSegmentation resource provider API.",
     "x-typespec-generated": [
       {
@@ -255,6 +255,17 @@
             "description": "Resource 'SegmentationManager' create operation succeeded",
             "schema": {
               "$ref": "#/definitions/SegmentationManager"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string",
+                "description": "A link to the status monitor"
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
             }
           },
           "default": {
@@ -268,7 +279,11 @@
           "Create or update a SegmentationManager": {
             "$ref": "./examples/SegmentationManagerPut.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "x-ms-long-running-operation": true
       },
       "patch": {
         "operationId": "SegmentationManagers_Update",
@@ -311,6 +326,20 @@
               "$ref": "#/definitions/SegmentationManager"
             }
           },
+          "202": {
+            "description": "Resource update request accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
@@ -322,7 +351,11 @@
           "Update a SegmentationManager": {
             "$ref": "./examples/SegmentationManagerPatch.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       },
       "delete": {
         "operationId": "SegmentationManagers_Delete",
@@ -350,8 +383,19 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Resource deleted successfully."
+          "202": {
+            "description": "Resource deletion accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
           },
           "204": {
             "description": "Resource does not exist."
@@ -367,7 +411,11 @@
           "Delete a SegmentationManager": {
             "$ref": "./examples/SegmentationManagerDelete.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.ZeroTrustSegmentation/segmentationManagers/{segmentationManagerName}/getGraph": {
@@ -432,7 +480,7 @@
         "tags": [
           "SegmentationManagers"
         ],
-        "description": "A synchronous resource action that returns no content.",
+        "description": "A long-running resource action.",
         "parameters": [
           {
             "$ref": "../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -462,8 +510,19 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Action completed successfully."
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
           },
           "default": {
             "description": "An unexpected error response.",
@@ -476,7 +535,11 @@
           "Set labels for workloads": {
             "$ref": "./examples/SegmentationManagers_SetLabels.json"
           }
-        }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     }
   },
@@ -779,6 +842,23 @@
           "type": "string",
           "description": "The description of the segmentation manager"
         },
+        "logAnalyticsWorkspaceId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "ARM Resource ID of the Log Analytics Workspace where graph data will be stored",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.OperationalInsights/workspaces"
+              }
+            ]
+          }
+        },
+        "managedOnBehalfOfConfiguration": {
+          "$ref": "../../../../../common-types/resource-management/v5/mobo.json#/definitions/ManagedOnBehalfOfConfiguration",
+          "description": "Managed-On-Behalf-Of configuration.",
+          "readOnly": true
+        },
         "provisioningState": {
           "$ref": "#/definitions/SegmentationManagerProvisioningState",
           "description": "The provisioning state of the resource.",
@@ -792,7 +872,8 @@
       "required": [
         "logSources",
         "analysisRunType",
-        "segmentationMode"
+        "segmentationMode",
+        "logAnalyticsWorkspaceId"
       ]
     },
     "SegmentationManagerPropertiesUpdate": {
@@ -836,6 +917,18 @@
         "description": {
           "type": "string",
           "description": "The description of the segmentation manager"
+        },
+        "logAnalyticsWorkspaceId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "ARM Resource ID of the Log Analytics Workspace where graph data will be stored",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.OperationalInsights/workspaces"
+              }
+            ]
+          }
         },
         "managedBy": {
           "type": "string",
