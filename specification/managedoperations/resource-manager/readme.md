@@ -30,6 +30,24 @@ openapi-subtype: rpaas
 tag: package-2025-07-28-preview
 ```
 
+### Tag: package-2023-04-01-preview
+
+These settings apply only when `--tag=package-2023-04-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2023-04-01-preview'
+input-file:
+  - Private.Poc360/preview/2023-04-01-preview/managedops.json
+```
+
+### Tag: package-2024-08-01-preview
+
+These settings apply only when `--tag=package-2024-08-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-08-01-preview'
+input-file:
+  - Private.Poc360/preview/2024-08-01-preview/managedops.json
+```
+
 ### Tag: package-2025-05-19-preview
 
 These settings apply only when `--tag=package-2025-05-19-preview` is specified on the command line.
