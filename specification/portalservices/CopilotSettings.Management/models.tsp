@@ -25,6 +25,39 @@ union MfaEnforcement {
   "Enforce",
 }
 
+/** The state of the Agent Mode registration for the tenant. */
+union AgentModeRegisterState {
+  string,
+
+  /** This tenant is unregistered for Agent Mode. */
+  "Unregistered",
+
+  /** This tenant is registered for Agent Mode. */
+  "Registered",
+}
+
+/** The state of the Agent Mode feature for the tenant. */
+union AgentModeState {
+  string,
+
+  /** Agent Mode is disabled for this tenant. */
+  "Disabled",
+
+  /** Agent Mode is enabled for this tenant. */
+  "Enabled",
+}
+
+/** The agent mode configuration properties. */
+model AgentModeProperties {
+  /** The state of the Agent Mode registration for the tenant. */
+  @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
+  registration: AgentModeRegisterState;
+
+  /** The state of the Agent Mode feature for the tenant. */
+  @visibility(Lifecycle.Read)
+  state?: AgentModeState;
+}
+
 @doc("The Copilot Settings properties.")
 model CopilotSettingsProperties {
   @doc("Boolean indicating if role-based access control is enabled for copilot in this tenant.")
@@ -51,4 +84,8 @@ model CopilotSettingsProperties {
   @doc("The status of the last provisioning operation performed on the resource.")
   @visibility(Lifecycle.Read)
   provisioningState?: ResourceProvisioningState;
+
+  /** The agent mode configuration properties. */
+  @added(Versions.v2025_09_10_preview)
+  agentMode?: AgentModeProperties;
 }
