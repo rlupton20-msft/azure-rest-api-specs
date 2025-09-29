@@ -51,6 +51,7 @@ model WithKey {
   @visibility(Lifecycle.Read)
   key: string;
 }
+
 @doc("Copilot citation")
 model Citation {
   ...WithKey;
@@ -67,6 +68,14 @@ model Citation {
   /** Description */
   @visibility(Lifecycle.Read)
   description: string;
+
+  /** List of start indices (e.g. character offsets) related to this citation. */
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  startIndices?: int32[];
+
+  /** Citation type (category/discriminator). */
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  type?: string;
 }
 
 @doc("Command for the UI to invoke")
