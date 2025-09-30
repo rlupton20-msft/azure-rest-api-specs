@@ -1,8 +1,11 @@
-import "./versions.tsp";
-import "./genevalogsaccounts.tsp";
+import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/versioning";
 
-using TypeSpec.Versioning;
+import "./genevalogsaccounts.tsp";
+import "./versions.tsp";
+
 using Azure.ResourceManager;
+using TypeSpec.Versioning;
 
 @armProviderNamespace
 @service(#{ title: "Azure CIS FRP" })
