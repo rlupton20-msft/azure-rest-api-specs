@@ -771,6 +771,20 @@ model GrafanaAvailablePlugin {
    */
   @visibility(Lifecycle.Read)
   name?: string;
+
+  /**
+   * Grafana plugin type
+   */
+  @visibility(Lifecycle.Read)
+  @added(Versions.v2025_08_01)
+  type?: string;
+
+  /**
+   * Grafana plugin author/publisher name
+   */
+  @visibility(Lifecycle.Read)
+  @added(Versions.v2025_08_01)
+  author?: string;
 }
 
 /**
