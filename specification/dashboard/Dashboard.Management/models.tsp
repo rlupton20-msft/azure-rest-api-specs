@@ -1,10 +1,12 @@
 import "@typespec/rest";
 import "@typespec/http";
+import "@typespec/versioning";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
+using TypeSpec.Versioning;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 
@@ -74,10 +76,13 @@ union DeterministicOutboundIP {
 /**
  * The creator will have admin access for the Grafana instance.
  */
+@added(Versions.v2025_08_01)
 union CreatorCanAdmin {
   string,
+
   /** Creator admin access is disabled */
   Disabled: "Disabled",
+
   /** Creator admin access is enabled */
   Enabled: "Enabled",
 }
@@ -85,10 +90,13 @@ union CreatorCanAdmin {
 /**
  * Specifies the capacity tier of the Grafana instance.
  */
+@added(Versions.v2025_08_01)
 union Size {
   string,
+
   /** X1 capacity tier */
   X1: "X1",
+
   /** X2 capacity tier */
   X2: "X2",
 }
@@ -223,6 +231,7 @@ model ManagedGrafanaProperties {
   /**
    * The creator will have admin access for the Grafana instance.
    */
+  @added(Versions.v2025_08_01)
   creatorCanAdmin?: CreatorCanAdmin;
 
   /**
@@ -579,6 +588,7 @@ model ManagedGrafanaPropertiesUpdateParameters {
   /**
    * The creator will have admin access for the Grafana instance.
    */
+  @added(Versions.v2025_08_01)
   creatorCanAdmin?: CreatorCanAdmin;
 
   /**
@@ -938,5 +948,6 @@ model ResourceSku {
   /**
    * Specifies the capacity tier of the Grafana instance.
    */
+  @added(Versions.v2025_08_01)
   size?: Size;
 }
