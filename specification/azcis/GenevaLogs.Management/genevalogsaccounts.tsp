@@ -37,7 +37,7 @@ model GenevaLogsAccountsResourceProperties {
   subscriptionIds: Array<string>;
 
   @doc("The default storage replication type")
-  defaultStorageReplicationType: string;
+  defaultStorageReplicationType: AccountReplicationType;
 
   @doc("DSMS certificate for configuring the MACommunication User Role.")
   dsmsCertificate?: DsmsCertificate;
@@ -100,7 +100,7 @@ model StorageGroup {
   defaultRegion: string;
 
   @doc("The storage replication types")
-  storageReplicationTypes: Array<string>;
+  storageReplicationTypes: Array<AccountReplicationType>;
 
   @doc("The consumer groups")
   consumerGroups: Array<string>;
@@ -305,6 +305,26 @@ union MdsEnvironment {
 model ConfigDetails {
   @doc("Configuration version")
   configVersion: string;
+}
+
+@doc("Account replication type (SKU).")
+union AccountReplicationType {
+  @doc("Standard Locally Redundant Storage.")
+  Standard_LRS: "Standard_LRS",
+
+  @doc("Standard Geo Replicated Storage.")
+  Standard_GRS: "Standard_GRS",
+
+  @doc("Standard Zone Redundant Storage.")
+  Standard_ZRS: "Standard_ZRS",
+
+  @doc("Standard Read-Access Geo Replicated Storage.")
+  Standard_RAGRS: "Standard_RAGRS",
+
+  @doc("Provisioned IO Locally Redundant Storage.")
+  Premium_LRS: "Premium_LRS",
+
+  string,
 }
 
 @doc("genevaLogsAccounts Resource")

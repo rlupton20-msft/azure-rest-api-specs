@@ -292,6 +292,48 @@
     }
   },
   "definitions": {
+    "AccountReplicationType": {
+      "type": "string",
+      "description": "Account replication type (SKU).",
+      "enum": [
+        "Standard_LRS",
+        "Standard_GRS",
+        "Standard_ZRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ],
+      "x-ms-enum": {
+        "name": "AccountReplicationType",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Standard_LRS",
+            "value": "Standard_LRS",
+            "description": "Standard Locally Redundant Storage."
+          },
+          {
+            "name": "Standard_GRS",
+            "value": "Standard_GRS",
+            "description": "Standard Geo Replicated Storage."
+          },
+          {
+            "name": "Standard_ZRS",
+            "value": "Standard_ZRS",
+            "description": "Standard Zone Redundant Storage."
+          },
+          {
+            "name": "Standard_RAGRS",
+            "value": "Standard_RAGRS",
+            "description": "Standard Read-Access Geo Replicated Storage."
+          },
+          {
+            "name": "Premium_LRS",
+            "value": "Premium_LRS",
+            "description": "Provisioned IO Locally Redundant Storage."
+          }
+        ]
+      }
+    },
     "AgentClaim": {
       "type": "object",
       "description": "Agent claim",
@@ -465,7 +507,7 @@
           }
         },
         "defaultStorageReplicationType": {
-          "type": "string",
+          "$ref": "#/definitions/AccountReplicationType",
           "description": "The default storage replication type"
         },
         "dsmsCertificate": {
@@ -842,7 +884,7 @@
           "type": "array",
           "description": "The storage replication types",
           "items": {
-            "type": "string"
+            "$ref": "#/definitions/AccountReplicationType"
           }
         },
         "consumerGroups": {
