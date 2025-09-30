@@ -72,6 +72,28 @@ union DeterministicOutboundIP {
 }
 
 /**
+ * The creator will have admin access for the Grafana instance.
+ */
+union CreatorCanAdmin {
+  string,
+  /** Creator admin access is disabled */
+  Disabled: "Disabled",
+  /** Creator admin access is enabled */
+  Enabled: "Enabled",
+}
+
+/**
+ * Specifies the capacity tier of the Grafana instance.
+ */
+union Size {
+  string,
+  /** X1 capacity tier */
+  X1: "X1",
+  /** X2 capacity tier */
+  X2: "X2",
+}
+
+/**
  * The private endpoint connection status.
  */
 union PrivateEndpointServiceConnectionStatus {
@@ -197,6 +219,11 @@ model ManagedGrafanaProperties {
    * The api key setting of the Grafana instance.
    */
   apiKey?: ApiKey = ApiKey.Disabled;
+
+  /**
+   * The creator will have admin access for the Grafana instance.
+   */
+  creatorCanAdmin?: CreatorCanAdmin;
 
   /**
    * Whether a Grafana instance uses deterministic outbound IPs.
@@ -548,6 +575,11 @@ model ManagedGrafanaPropertiesUpdateParameters {
    * The api key setting of the Grafana instance.
    */
   apiKey?: ApiKey = ApiKey.Disabled;
+
+  /**
+   * The creator will have admin access for the Grafana instance.
+   */
+  creatorCanAdmin?: CreatorCanAdmin;
 
   /**
    * Whether a Grafana instance uses deterministic outbound IPs.
@@ -902,4 +934,9 @@ model ResourceSku {
    * The name of the SKU.
    */
   name: string;
+
+  /**
+   * Specifies the capacity tier of the Grafana instance.
+   */
+  size?: Size;
 }
