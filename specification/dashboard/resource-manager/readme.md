@@ -32,7 +32,7 @@ These settings apply only when `--tag=package-2025-09-01-preview` is specified o
 
 ``` yaml $(tag) == 'package-2025-09-01-preview'
 input-file:
-    - Microsoft.Dashboard/preview/2025-09-01-preview`/grafana.json
+    - Microsoft.Dashboard/preview/2025-09-01-preview/grafana.json
 ```
 
 ### Tag: package-2025-08-01
