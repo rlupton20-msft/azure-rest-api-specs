@@ -40,7 +40,7 @@ model DdmsConnectorProperties {
   category: string;
 
   @doc("Corresponds to the environmentId selected while opting for a diagnostic service via the Dragon Admin Center.")
-  dacEnvironmentId: string;
+  dacEnvironment: string;
 }
 
 @added(Versions.v2025_10_01_preview)
