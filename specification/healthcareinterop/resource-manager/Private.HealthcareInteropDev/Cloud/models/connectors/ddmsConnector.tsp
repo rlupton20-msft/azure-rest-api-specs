@@ -36,11 +36,11 @@ model DdmsConnectorProperties {
   @doc("The DDMS service endpoint URL.")
   baseUrl: url;
 
-  @doc("Customer's Dragon Admin Center tenant.")
-  customerTenantId: string;
+  @doc("Data category associated to the diagnostic service deployed via the Dragon Admin Center.")
+  category: string;
 
-  @doc("Customer's Dragon Admin Center environment.")
-  customerEnvironmentId: string;
+  @doc("Corresponds to the environmentId selected while opting for a diagnostic service via the Dragon Admin Center.")
+  dacEnvironment: string;
 }
 
 @added(Versions.v2025_10_01_preview)
