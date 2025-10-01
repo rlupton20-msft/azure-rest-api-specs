@@ -40,7 +40,30 @@ interface DashboardDefinitions {
    * Create a dashboard definition to update dashboard resource.
    */
   @added(Versions.v2025_09_01_preview)
-  create is ArmResourceCreateOrReplaceSync<DashboardDefinition>;
+  @doc("Create a dashboard definition to update dashboard resource.")
+  @put
+  @armResourceCreateOrUpdate(DashboardDefinition)
+  create(
+    ...ResourceInstanceParameters<DashboardDefinition>,
+
+    @doc("The dashboard definition resource to create or update.")
+    @bodyRoot
+    requestBodyParameters: DashboardDefinition,
+  ): {
+    @statusCode _: 200;
+
+    @doc("Resource 'DashboardDefinition' update operation succeeded")
+    @body
+    @added(Versions.v2025_09_01_preview)
+    requestBodyParameters: DashboardDefinition;
+  } | {
+    @statusCode _: 201;
+
+    @doc("Resource 'DashboardDefinition' create operation succeeded")
+    @body
+    @added(Versions.v2025_09_01_preview)
+    requestBodyParameters: DashboardDefinition;
+  } | ErrorResponse;
 
   /**
    * Delete a dashboard definition.
@@ -62,4 +85,3 @@ interface DashboardDefinitions {
 @@doc(DashboardDefinition.properties,
   "Properties specific to the dashboard definition resource."
 );
-@@doc(DashboardDefinitions.create::parameters.resource, "");
