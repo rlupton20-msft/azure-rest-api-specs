@@ -981,4 +981,10 @@ model DashboardDefinitionProperties {
    * The dashboard definition data in JSON format.
    */
   serializedData?: string;
+
+  /**
+   * Provisioning state of the resource.
+   */
+  @visibility(Lifecycle.Read)
+  provisioningState?: ProvisioningState;
 }
