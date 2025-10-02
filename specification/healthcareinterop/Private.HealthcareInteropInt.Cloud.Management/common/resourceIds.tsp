@@ -69,3 +69,9 @@ alias CustomLocationResourceId = Azure.Core.armResourceIdentifier<[
     type: "Microsoft.ExtendedLocation/customLocations";
   }
 ]>;
+
+alias DdmsConnectorResourceId = Azure.Core.armResourceIdentifier<[
+  {
+    type: "Private.HealthcareInteropInt/ddmsConnectors";
+  }
+]>;
