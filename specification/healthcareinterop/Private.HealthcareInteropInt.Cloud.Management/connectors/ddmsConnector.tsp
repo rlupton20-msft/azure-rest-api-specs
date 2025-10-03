@@ -33,14 +33,14 @@ model DdmsConnectorProperties {
   @doc("The resource ID of an existing hub resource to link/associate this ddmsConnector resource to.")
   hubResourceId: HubResourceId;
 
-  @doc("The DDMS service endpoint URL.")
+  @doc("The diagnostic service endpoint URL.")
   baseUrl: url;
 
   @doc("Data category associated to the diagnostic service deployed via the Dragon Admin Center.")
-  category: string;
+  dacCategoryName: string;
 
   @doc("Corresponds to the environmentId selected while opting for a diagnostic service via the Dragon Admin Center.")
-  dacEnvironment: string;
+  dacEnvironmentId: string;
 }
 
 @added(Versions.v2025_10_01_preview)
