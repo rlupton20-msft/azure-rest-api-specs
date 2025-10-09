@@ -35,7 +35,6 @@ model TaskAssignee {
   type: TaskAssigneeType;
 }
 
-
 @doc("Task execution result.")
 model TaskResult {
   @doc("The text content of the task result.")
@@ -204,7 +203,6 @@ model Task {
   @doc("List of data assets related to the task.")
   dataAssetIds?: string[];
 }
-
 
 @doc("Task creation request.")
 model TaskCreate {

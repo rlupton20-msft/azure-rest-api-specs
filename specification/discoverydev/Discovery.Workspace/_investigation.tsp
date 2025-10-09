@@ -73,6 +73,24 @@ model RunParams {
   cacheMode: RunCacheMode;
 }
 
+@doc("Collection of data assets linked to an investigation.")
+model InvestigationDataAssets {
+  @doc("List of linked data asset IDs.")
+  dataAssetIds: DataAssetId[];
+}
+
+@doc("Request body for linking a data asset to an investigation.")
+model LinkDataAssetRequest {
+  @doc("The data asset resource ID to link.")
+  dataAssetId: DataAssetId;
+}
+
+@doc("Request body for unlinking a data asset from an investigation.")
+model UnlinkDataAssetRequest {
+  @doc("The data asset resource ID to unlink.")
+  dataAssetId: DataAssetId;
+}
+
 interface Investigations {
   @doc("Fetch a Investigation by name.")
   getInvestigation is ResourceRead<Investigation>;
@@ -125,5 +143,70 @@ interface Investigations {
       investigationName: string;
     },
     Investigation
+  >;
+
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  @doc("Get data assets linked to an investigation.")
+  @route("/projects/{projectName}/investigations/{investigationName}/data")
+  @get
+  getInvestigationData is Azure.Core.Foundations.Operation<
+    {
+      @doc("The project name.")
+      @path
+      @pattern(resourceNamePattern)
+      projectName: string;
+
+      @doc("The investigation name.")
+      @path
+      @pattern(resourceNamePattern)
+      investigationName: string;
+    },
+    InvestigationDataAssets
+  >;
+
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  @doc("Link a data asset to an investigation.")
+  @route("/projects/{projectName}/investigations/{investigationName}/data:linkDataAsset")
+  @post
+  linkDataAsset is Azure.Core.Foundations.Operation<
+    {
+      @doc("The project name.")
+      @path
+      @pattern(resourceNamePattern)
+      projectName: string;
+
+      @doc("The investigation name.")
+      @path
+      @pattern(resourceNamePattern)
+      investigationName: string;
+
+      @doc("The data asset link request.")
+      @body
+      body: LinkDataAssetRequest;
+    },
+    void
+  >;
+
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  @doc("Unlink a data asset from an investigation.")
+  @route("/projects/{projectName}/investigations/{investigationName}/data:unlinkDataAsset")
+  @post
+  unlinkDataAsset is Azure.Core.Foundations.Operation<
+    {
+      @doc("The project name.")
+      @path
+      @pattern(resourceNamePattern)
+      projectName: string;
+
+      @doc("The investigation name.")
+      @path
+      @pattern(resourceNamePattern)
+      investigationName: string;
+
+      @doc("The data asset unlink request.")
+      @body
+      body: UnlinkDataAssetRequest;
+    },
+    void
   >;
 }
