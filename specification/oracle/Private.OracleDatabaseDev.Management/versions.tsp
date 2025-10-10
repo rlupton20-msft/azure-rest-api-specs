@@ -4,8 +4,6 @@ namespace Private.OracleDatabaseDev;
 
 @doc("Versions for API")
 enum Versions {
-  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
   @doc("2023-09-01-preview")
   v20230901_preview: "2023-09-01-preview",
 
