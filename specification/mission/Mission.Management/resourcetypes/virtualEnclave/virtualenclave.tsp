@@ -14,6 +14,27 @@ using TypeSpec.Versioning;
 @doc("Microsoft Mission Resource Provider management API.")
 namespace Microsoft.Mission;
 
+@doc("DNS Configuration Type")
+union DnsType {
+  string,
+
+  @doc("Default DNS configuration")
+  Default: "Default",
+
+  @doc("Custom DNS configuration")
+  Custom: "Custom",
+}
+
+@doc("DNS Settings Configuration")
+model DnsSettingsModel {
+  @doc("List of DNS server IP addresses")
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  dnsServers?: string[];
+
+  @doc("Type of DNS configuration")
+  dnsType: DnsType = DnsType.Default;
+}
+
 @doc("Specifies the destination of where to store diagnostic logs.")
 union DiagnosticDestination {
   string,
@@ -172,6 +193,10 @@ model VirtualEnclaveBaseModel {
   @doc("Enclave specific policies")
   @OpenAPI.extension("x-ms-identifiers", #[])
   governedServiceList?: GovernedServiceItem[];
+
+  @added(Microsoft.Mission.Versions.v2025_10_01_preview)
+  @doc("DNS settings configuration")
+  dnsSettings?: DnsSettingsModel;
 }
 
 @doc("Virtual Enclave Resource properties")
