@@ -35,6 +35,10 @@ model DnsSettingsModel {
   dnsType: DnsType = DnsType.Default;
 }
 
+@doc("DNS Settings Configuration Patch Model")
+model DnsSettingsPatchModel
+  is UpdateableProperties<OmitDefaults<DnsSettingsModel>>;
+
 @doc("Specifies the destination of where to store diagnostic logs.")
 union DiagnosticDestination {
   string,
@@ -193,10 +197,6 @@ model VirtualEnclaveBaseModel {
   @doc("Enclave specific policies")
   @OpenAPI.extension("x-ms-identifiers", #[])
   governedServiceList?: GovernedServiceItem[];
-
-  @added(Microsoft.Mission.Versions.v2025_10_01_preview)
-  @doc("DNS settings configuration")
-  dnsSettings?: DnsSettingsModel;
 }
 
 @doc("Virtual Enclave Resource properties")
@@ -206,6 +206,10 @@ model VirtualEnclaveProperties is VirtualEnclaveBaseModel {
 
   @doc("Maintenance Mode configuration.")
   maintenanceModeConfiguration?: MaintenanceModeConfigurationModel;
+
+  @added(Microsoft.Mission.Versions.v2025_10_01_preview)
+  @doc("DNS settings configuration")
+  dnsSettings?: DnsSettingsModel;
 }
 
 @doc("Virtual Enclave Patchable Properties")
@@ -216,6 +220,9 @@ model VirtualEnclavePatchProperties
 
   @doc("Maintenance Mode configuration.")
   maintenanceModeConfiguration?: MaintenanceModeConfigurationPatchModel;
+
+  @doc("DNS settings configuration")
+  dnsSettings?: DnsSettingsPatchModel;
 }
 
 @doc("Virtual Enclave Patch Model")
