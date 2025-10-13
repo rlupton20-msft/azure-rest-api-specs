@@ -32,7 +32,7 @@ model DnsSettingsModel {
   dnsServers?: string[];
 
   @doc("Type of DNS configuration")
-  dnsType: DnsType = DnsType.Default;
+  dnsType?: DnsType = DnsType.Default;
 }
 
 @doc("DNS Settings Configuration Patch Model")
