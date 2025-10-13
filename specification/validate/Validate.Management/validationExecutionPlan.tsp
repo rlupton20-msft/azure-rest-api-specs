@@ -7,12 +7,12 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-namespace Private.Validate;
+namespace Microsoft.Validate;
 
 @doc("Validation Test Execution Plan")
 @parentResource(CloudValidation)
 model ValidationExecutionPlan
-  is ExtensionResource<ValidationExecutionPlanProperties> {
+  is TrackedResource<ValidationExecutionPlanProperties> {
   ...ResourceNameParameter<ValidationExecutionPlan>;
 }
 

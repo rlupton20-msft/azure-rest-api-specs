@@ -7,7 +7,7 @@ using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ResourceManager;
 
-namespace Private.Validate;
+namespace Microsoft.Validate;
 
 @doc("Validation Test Run represents execution instance(s) of a Validation Test instance under execution plan.")
 @parentResource(ExecutionPlanRun)
@@ -44,6 +44,12 @@ model ValidationTestRunProperties {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
   @doc("Validation test run inputs.")
   inputs: Record<string>;
+
+  @doc("Detailed pass information when the test passes.")
+  @visibility(Lifecycle.Read)
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  @maxItems(100)
+  passDetails?: ValidationTestPassDetails[];
 
   @doc("Detailed failure information when the test fails.")
   @visibility(Lifecycle.Read)
@@ -82,6 +88,21 @@ union ValidationTestRunStatus {
   Error: "Error",
 
   string,
+}
+
+@doc("Detailed information about test pass.")
+model ValidationTestPassDetails {
+  @doc("Result code categorizing the type of pass.")
+  @visibility(Lifecycle.Read)
+  resultCode: string;
+
+  @doc("test name which passed.")
+  @visibility(Lifecycle.Read)
+  testName: string;
+
+  @doc("Detailed information about the passed test.")
+  @visibility(Lifecycle.Read)
+  resultDetails?: string;
 }
 
 @doc("Detailed information about test failure.")
