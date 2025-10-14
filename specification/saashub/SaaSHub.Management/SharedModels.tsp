@@ -216,10 +216,25 @@ model SystemOverrides {
   startDateOnCurrentProductCode?: utcDateTime;
 
   /**
-   * Number of days in the license reassignment period for the current term.
+   * Duration of license reassignment period for the current term. Value is an ISO 8601 duration string.
+   * Expected to be P0D (0 days) or greater.
    */
   @visibility(Lifecycle.Read)
-  licenseReassignmentDays?: int32 = 0;
+  licenseReassignmentDuration?: string;
+
+  /**
+   * ISO 8601 duration string representing the data retention period for the resource.
+   * Read-only property.
+   */
+  @visibility(Lifecycle.Read)
+  dataRetentionDuration?: string;
+
+  /**
+   * URL pointing to the product information in the Catalog endpoint.
+   * Read-only property.
+   */
+  @visibility(Lifecycle.Read)
+  productUrl?: string;
 }
 
 /**
@@ -261,11 +276,13 @@ model RenewalTermDetails {
   /**
    * Billing token for renewal term transaction.
    */
+  @secret
   billingToken?: string;
 
   /**
    * Availability token for renewal term transaction.
    */
+  @secret
   availabilityToken?: string;
 }
 
@@ -650,6 +667,48 @@ model RefundableQuantityResultRefundableQuantitiesInfo {
 }
 
 /**
+ * Response model for GetRefundableQuantity operation.
+ */
+model GetRefundableQuantityResponse {
+  /**
+   * List of refundable quantity information with event details.
+   */
+  @visibility(Lifecycle.Read)
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  refundableQuantities?: GetRefundableQuantityInfo[];
+
+  /**
+   * Total refundable quantity across all events.
+   */
+  @visibility(Lifecycle.Read)
+  totalRefundableQuantity?: int64;
+}
+
+/**
+ * Model to present detailed refundable quantity information with event details.
+ */
+model GetRefundableQuantityInfo {
+  /**
+   * The date and time when the event occurred that created this refundable quantity.
+   */
+  @visibility(Lifecycle.Read)
+  eventDateTime?: utcDateTime;
+
+  /**
+   * The change in quantity from this event.
+   */
+  @visibility(Lifecycle.Read)
+  deltaQuantity?: int64;
+
+  /**
+   * The end date and time in UTC when the refund window ends for this quantity.
+   * Optional - may be null if there is no specific window limit.
+   */
+  @visibility(Lifecycle.Read)
+  returnWindowEndDateTime?: utcDateTime;
+}
+
+/**
  * The status of a seat-based resource.
  */
 union SeatBasedResourceStatus {
@@ -740,7 +799,8 @@ model SeatBasedResourceProperties {
    * Type of the offer for which the resource is purchased
    */
   @visibility(Lifecycle.Read)
-  offerType?: OfferType;
+  @typeChangedFrom(SaaSHubVersions.v2025_07_01_preview, OfferType)
+  offerType?: string;
 
   /**
    * Product Universal Product Number of the product
@@ -849,7 +909,24 @@ model ResourceToken {
   /**
    * The value of the resource token.
    */
+  @doc("Encoded resource token.")
   value?: string;
+}
+
+/**
+ * Linked resource for scheduled actions
+ */
+model ScheduleActionLinkedResource {
+  /**
+   * The URI of the target resource for the scheduled action
+   */
+  resourceUri?: string;
+
+  /**
+   * The billing scope for the linked resource. Only applicable for SaaS resources.
+   * Format: /providers/Microsoft.Billing/billingAccounts/{baId}/billingProfiles/{bfId}/invoiceSections/{isId}
+   */
+  billingScope?: string;
 }
 
 /**
@@ -882,8 +959,204 @@ model ScheduleAction {
   endDate?: utcDateTime;
 
   /**
+   * Linked resource for the scheduled action.
+   * Optional property.
+   */
+  linkedResource?: ScheduleActionLinkedResource;
+
+  /**
+   * Type of the offer for which the schedule action is applied
+   */
+  @visibility(Lifecycle.Read)
+  offerType?: string;
+
+  /**
    * Resource tokens for various authorization and context purposes.
    */
   @OpenAPI.extension("x-ms-identifiers", #["type"])
   resourceTokens?: ResourceToken[];
+}
+
+/**
+ * End date information for coterm calculation.
+ */
+model CotermEndDateItem {
+  /**
+   * Unique identifier for the end date entry.
+   */
+  id: string;
+
+  /**
+   * End date in UTC time.
+   */
+  endDate: utcDateTime;
+
+  /**
+   * Term duration for this specific end date.
+   */
+  termDuration: string;
+}
+
+/**
+ * Request model for GetCotermEndDates operation.
+ */
+model CotermEndDatesRequest {
+  /**
+   * List of end dates to calculate coterm targets for.
+   */
+  endDates: CotermEndDateItem[];
+
+  /**
+   * Start date for the coterm calculation in UTC time.
+   */
+  startDate: utcDateTime;
+
+  /**
+   * Term duration for the coterm calculation.
+   * An ISO 8601 duration using exactly one of the year, month or day designators. E.g. P1Y, P1M.
+   */
+  termDuration: string;
+}
+
+/**
+ * Response model for GetCotermEndDates operation.
+ */
+model CotermResponseItem {
+  /**
+   * Target cloud resource or contract name to coterm to.
+   */
+  @visibility(Lifecycle.Read)
+  coTermTarget: string;
+
+  /**
+   * Whether the target is cloud resource or contract.
+   */
+  @visibility(Lifecycle.Read)
+  coTermTargetType: string;
+
+  /**
+   * Term end date in UTC time.
+   */
+  @visibility(Lifecycle.Read)
+  termEndDate?: utcDateTime;
+
+  /**
+   * Error code if coterm calculation failed.
+   */
+  @visibility(Lifecycle.Read)
+  errorCode: string;
+}
+
+/**
+ * Request model for Proposal operation.
+ */
+model ProposalRequest {
+  /**
+   * The unique identifier for the proposal.
+   */
+  proposalId: string;
+}
+
+/**
+ * Error information for proposal line items.
+ */
+model ProposalLineItemError {
+  /**
+   * Error code for the line item.
+   */
+  errorCode?: string;
+
+  /**
+   * Error message for the line item.
+   */
+  message?: string;
+}
+
+/**
+ * Additional information for proposal line items.
+ */
+model ProposalLineItemAdditionalInfo {
+  /**
+   * ETag for concurrency control.
+   */
+  etag?: string;
+
+  /**
+   * System identifier.
+   */
+  systemId?: string;
+
+  /**
+   * Tracking identifier.
+   */
+  trackingId?: string;
+}
+
+/**
+ * Line item information in a proposal response.
+ */
+model ProposalLineItem {
+  /**
+   * Unique identifier for the line item.
+   */
+  lineItemId?: string;
+
+  /**
+   * Product identifier.
+   */
+  productId?: string;
+
+  /**
+   * SKU identifier.
+   */
+  skuId?: string;
+
+  /**
+   * Availability identifier.
+   */
+  availabilityId?: string;
+
+  /**
+   * BigId identifier.
+   */
+  bigId?: string;
+
+  /**
+   * Product code for the line item.
+   */
+  productCode?: string;
+
+  /**
+   * Error information if any issues occurred with this line item.
+   */
+  error?: ProposalLineItemError;
+
+  /**
+   * Additional information for the line item.
+   */
+  additionalInfo?: ProposalLineItemAdditionalInfo;
+}
+
+/**
+ * Response model for Proposal operation.
+ */
+model ProposalResponse {
+  /**
+   * Unique identifier for the proposal response.
+   */
+  @visibility(Lifecycle.Read)
+  id?: string;
+
+  /**
+   * Status of the proposal.
+   */
+  @visibility(Lifecycle.Read)
+  status?: string;
+
+  /**
+   * List of line items in the proposal.
+   */
+  @visibility(Lifecycle.Read)
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  lineItems?: ProposalLineItem[];
 }

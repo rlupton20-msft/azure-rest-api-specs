@@ -58,7 +58,7 @@ const readJsonFromFile = async ({ resourceTypeName, propertyName }) => {
     __dirname,
     "json",
     resourceTypeName.toLowerCase(),
-    `${propertyName}.mjs`,
+    `${propertyName}.json`,
   );
   if (!fs.existsSync(filePath)) {
     throw new Error(
@@ -73,15 +73,17 @@ const readJsonFromFile = async ({ resourceTypeName, propertyName }) => {
   // }
   let parsedJson = null;
   try {
-    parsedJson = await import(filePath);
+    const rawText = fs.readFileSync(filePath, "utf8");
+    parsedJson = JSON.parse(rawText);
   } catch (err) {
     throw new Error(`Invalid JSON file: ${filePath}`);
   }
   console.log(
     `      - replacing ${resourceTypeName} > ${propertyName} with: ${filePath}.`,
   );
-  return parsedJson.default;
-};
+  return parsedJson;
+    } 
+
 const uuid = "00000011-1111-2222-2222-123456789111";
 const fixPropertiesBag = async ({ properties, resourceTypeName }) => {
   if (!properties) {

@@ -6,7 +6,7 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-namespace Private.Validate;
+namespace Microsoft.Validate;
 
 @doc("Validation Test")
 model ValidationTest is TrackedResource<ValidationTestProperties> {

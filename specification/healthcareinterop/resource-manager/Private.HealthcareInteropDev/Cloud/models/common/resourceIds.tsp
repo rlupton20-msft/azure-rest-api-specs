@@ -22,6 +22,12 @@ alias Hl7ConnectorResourceId = Azure.Core.armResourceIdentifier<[
   }
 ]>;
 
+alias DdmsConnectorResourceId = Azure.Core.armResourceIdentifier<[
+  {
+    type: "Private.HealthcareInteropDev/ddmsConnectors";
+  }
+]>;
+
 alias Hl7EdgeConnectorResourceId = Azure.Core.armResourceIdentifier<[
   {
     type: "Private.HealthcareInteropDev/hl7EdgeConnectors";

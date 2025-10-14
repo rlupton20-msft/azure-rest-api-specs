@@ -88,6 +88,7 @@ model DbSystemBaseProperties {
   @maxLength(11)
   clusterName?: string;
 
+  @removed(Versions.v20250815_preview)
   @doc("The number of CPU cores enabled on the DB system.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   @minValue(1)
@@ -201,6 +202,11 @@ model DbSystemBaseProperties {
   @doc("The number of compute servers for the DB system.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   computeCount?: int32;
+
+  @added(Versions.v20251101_preview)
+  @doc("Indicates user preferences for the various diagnostic collection options for the Base DB.")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  dataCollectionOptions?: DataCollectionOptions;
 }
 
 @added(Versions.v20250701_preview)

@@ -24,11 +24,13 @@ model GenerateAwsTemplateRequest {
 
   #suppress "@azure-tools/typespec-azure-resource-manager/missing-x-ms-identifiers"
   @doc("The list of solution types and their settings")
+  @identifiers(#[])
   solutionTypes?: Array<SolutionTypeSettings>;
 }
 
 //------------------- Generate Gcp Template -------------------
 
+@added(Versions.v2025_12_01_preview)
 @doc("ConnectorId and SolutionTypes and their properties to Generate GCP Access Control Template.")
 model GenerateGcpTemplateRequest {
   @doc("The name of public cloud connector")
@@ -36,7 +38,11 @@ model GenerateGcpTemplateRequest {
 
   #suppress "@azure-tools/typespec-azure-resource-manager/missing-x-ms-identifiers"
   @doc("The list of solution types and their settings")
+  @identifiers(#[])
   solutionTypes?: Array<SolutionTypeSettings>;
+
+  @doc("The GCP cloud profile.")
+  gcpCloudProfile?: GcpCloudProfile;
 }
 
 @doc("The properties of Solution Type")
@@ -105,13 +111,71 @@ model PublicCloudConnector is TrackedResource<PublicCloudConnectorProperties> {
   @path
   @segment("publicCloudConnectors")
   name: string;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" ""
+  @added(Versions.v2025_12_01_preview)
+  @doc("The kind of the public cloud connector.")
+  @visibility(Lifecycle.Read)
+  kind?: HostType;
+}
+
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
+@doc("Public Cloud Connector")
+model PublicCloudConnectorUpdate extends TrackedResourceUpdate {
+  #suppress "@azure-tools/typespec-azure-core/no-private-usage"
+  @doc("The resource-specific properties for this resource.")
+  @Azure.ResourceManager.Private.conditionalClientFlatten
+  properties?: PublicCloudConnectorPropertiesUpdate;
+}
+
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
+@doc("The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'")
+model TrackedResourceUpdate extends Azure.ResourceManager.CommonTypes.Resource {
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record"
+  @doc("Resource tags.")
+  tags?: Record<string>;
+}
+
+@doc("Properties of public cloud connectors.")
+model PublicCloudConnectorPropertiesUpdate {
+  @doc("Cloud profile for AWS.")
+  awsCloudProfile?: AwsCloudProfileUpdate;
+
+  @added(Versions.v2025_12_01_preview)
+  @doc("Cloud profile for GCP.")
+  gcpCloudProfile?: GcpCloudProfileUpdate;
+}
+
+@doc("cloud profile for AWS.")
+model AwsCloudProfileUpdate {
+  @doc("List of AWS accounts which need to be excluded.")
+  excludedAccounts?: string[];
+}
+
+@added(Versions.v2025_12_01_preview)
+@doc("cloud profile for GCP.")
+model GcpCloudProfileUpdate {
+  @doc("The organization properties of the GCP organization.")
+  organizationProperties?: GcpOrganizationPropertiesUpdate;
+}
+
+@added(Versions.v2025_12_01_preview)
+@doc("GCP organization properties for update.")
+model GcpOrganizationPropertiesUpdate {
+  @doc("List of GCP projects which need to be excluded.")
+  excludedProjectNumbers?: string[];
+
+  @doc("List of GCP folders which need to be excluded.")
+  excludedFolderIds?: string[];
 }
 
 @doc("Properties of public cloud connectors.")
 model PublicCloudConnectorProperties {
+  @madeOptional(Versions.v2025_12_01_preview)
   @doc("Cloud profile for AWS.")
   awsCloudProfile?: AwsCloudProfile;
 
+  @added(Versions.v2025_12_01_preview)
   @doc("Cloud profile for GCP.")
   gcpCloudProfile?: GcpCloudProfile;
 
@@ -135,6 +199,7 @@ union HostType {
   @doc("AWS state")
   AWS: "AWS",
 
+  @added(Versions.v2025_12_01_preview)
   @doc("GCP state")
   GCP: "GCP",
 }
@@ -153,6 +218,7 @@ model AwsCloudProfile {
   isOrganizationalAccount?: boolean = false;
 }
 
+@added(Versions.v2025_12_01_preview)
 @doc("cloud profile for GCP.")
 model GcpCloudProfile {
   @doc("The project properties of the GCP project.")
@@ -168,22 +234,40 @@ model GcpCloudProfile {
   isOrganization?: boolean = false;
 }
 
+@added(Versions.v2025_12_01_preview)
 @doc("GCP project properties.")
 model GcpProjectProperties {
   @doc("The project number of the GCP project.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   projectNumber: string;
+
+  @doc("The project id of the GCP project.")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  projectId: string;
 }
 
+@added(Versions.v2025_12_01_preview)
 @doc("GCP organization properties.")
 model GcpOrganizationProperties {
   @doc("The organization id of the GCP organization.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   organizationId: string;
 
+  @doc("The project number of the management project under the GCP organization.")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  managementProjectNumber: string;
+
+  @doc("The project Id of the management project under the GCP organization.")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  managementProjectId: string;
+
   @doc("List of GCP projects which need to be excluded.")
   @visibility(Lifecycle.Create, Lifecycle.Read)
   excludedProjectNumbers?: string[];
+
+  @doc("List of GCP folders which need to be excluded.")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
+  excludedFolderIds?: string[];
 }
 
 //------------------- Solution Configuration -------------------
@@ -223,6 +307,25 @@ model SolutionConfigurationProperties {
   @doc("The last time resources were inventoried")
   @visibility(Lifecycle.Read)
   lastSyncTime?: utcDateTime;
+}
+
+#suppress "@azure-tools/typespec-azure-core/composition-over-inheritance"
+@doc("Solution Configuration")
+model SolutionConfigurationUpdate
+  extends Azure.ResourceManager.CommonTypes.ProxyResource {
+  #suppress "@azure-tools/typespec-azure-core/no-private-usage"
+  @doc("The resource-specific properties for this resource.")
+  @Azure.ResourceManager.Private.conditionalClientFlatten
+  properties?: SolutionConfigurationPropertiesUpdate;
+}
+
+@doc("Solution configuration resource.")
+model SolutionConfigurationPropertiesUpdate {
+  @doc("The type of the solution")
+  solutionType?: string;
+
+  @doc("Solution settings")
+  solutionSettings?: SolutionSettings;
 }
 
 @doc("Solution Configuration Status.")
@@ -265,11 +368,13 @@ model SolutionTypeProperties {
   @doc("The locations this solution is supported in.")
   supportedAzureRegions?: string[];
 
-  @doc("The cloud providers this solution supported in.")
+  @added(Versions.v2025_12_01_preview)
+  @doc("The supported host types for the current solution type.")
   hostTypes?: HostType[];
 
   #suppress "@azure-tools/typespec-azure-resource-manager/missing-x-ms-identifiers"
   @doc("Array of solution settings and its description.")
+  @identifiers(#[])
   solutionSettings?: SolutionTypeSettingsProperties[];
 }
 
@@ -290,12 +395,13 @@ model SolutionTypeSettingsProperties {
   @doc("Array of allowed values for this solution settings property.")
   allowedValues: string[];
 
+  @added(Versions.v2025_12_01_preview)
+  @madeRequired(Versions.v2025_12_01_preview)
+  @doc("The supported host types for the current solution setting")
+  hostTypes: HostType[];
+
   @doc("Default value for this solution settings property.")
   defaultValue: string;
-
-  @doc("The cloud providers this solution settings supported in.")
-  @madeRequired(Versions.v2025_12_01_preview)
-  hostTypes: HostType[];
 }
 
 //------------------- Inventory -------------------
@@ -367,11 +473,18 @@ interface GenerateAwsTemplate {
     @doc("ConnectorId and SolutionTypes and their properties to Generate AWS CFT Template.")
     @body
     generateAwsTemplateRequest: GenerateAwsTemplateRequest,
-  ): Azure.ResourceManager.ArmResponse<{}> | ErrorResponse;
+  ): Azure.ResourceManager.ArmResponse<GenerateAwsTemplateResponse> | ErrorResponse;
 }
+
+/**
+ * The HybridConnectivity post operation response
+ */
+#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
+model GenerateAwsTemplateResponse {}
 
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "Need to remove autoroute"
 #suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model" "Existing use case"
+@added(Versions.v2025_12_01_preview)
 @route("/subscriptions/{subscriptionId}/providers/Microsoft.HybridConnectivity/")
 interface GenerateGcpTemplate {
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-operation" "Need to remove autoroute"
@@ -387,16 +500,24 @@ interface GenerateGcpTemplate {
     @doc("ConnectorId and SolutionTypes and their properties to Generate GCP Access Control Template.")
     @body
     generateGcpTemplateRequest: GenerateGcpTemplateRequest,
-  ): Azure.ResourceManager.ArmResponse<{}> | ErrorResponse;
+  ): Azure.ResourceManager.ArmResponse<GenerateGcpTemplateResponse> | ErrorResponse;
 }
+
+/**
+ * The HybridConnectivity post operation response
+ */
+#suppress "@azure-tools/typespec-azure-resource-manager/no-empty-model"
+@added(Versions.v2025_12_01_preview)
+model GenerateGcpTemplateResponse {}
 
 @armResourceOperations
 interface PublicCloudConnectors {
   get is ArmResourceRead<PublicCloudConnector>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<PublicCloudConnector>;
-  update is ArmResourcePatchSync<
+  @patch(#{ implicitOptionality: false })
+  update is ArmCustomPatchSync<
     PublicCloudConnector,
-    PublicCloudConnectorProperties
+    PublicCloudConnectorUpdate
   >;
   delete is ArmResourceDeleteSync<PublicCloudConnector>;
   listByResourceGroup is ArmResourceListByParent<PublicCloudConnector>;
@@ -413,9 +534,10 @@ interface PublicCloudConnectors {
 interface SolutionConfigurations {
   get is ArmResourceRead<SolutionConfiguration>;
   createOrUpdate is ArmResourceCreateOrReplaceSync<SolutionConfiguration>;
-  update is ArmResourcePatchSync<
+  @patch(#{ implicitOptionality: false })
+  update is ArmCustomPatchSync<
     SolutionConfiguration,
-    SolutionConfigurationProperties
+    SolutionConfigurationUpdate
   >;
   delete is ArmResourceDeleteSync<SolutionConfiguration>;
   listByWidget is ArmResourceListAtScope<SolutionConfiguration>;

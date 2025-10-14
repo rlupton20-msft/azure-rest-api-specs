@@ -23,10 +23,9 @@ namespace Private.AzureDataTransfer;
 #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-interface-requires-decorator" "This interface corresponds to our Provider level actions, no decorator exists for that."
 interface AzureDataTransfer {
   /**
-   * Retrieves the list of approved schemas available for Azure Data Transfer. This operation is deprecated as of version v2025_05_30_preview.
+   * Retrieves the list of approved schemas available for Azure Data Transfer. This operation has reached end of life support starting version 2025-05-30-preview. For schema support please create and use a FlowProfile resource.
    */
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
-  @removed(Versions.v2025_05_30_preview)
   @operationId("AzureDataTransfer_listApprovedSchemas")
   @autoRoute
   listApprovedSchemas is ArmProviderActionSync<
@@ -37,38 +36,44 @@ interface AzureDataTransfer {
   /**
    * Retrieves a list of FlowProfile resources associated with a specified pipeline.
    */
-  #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
   @added(Versions.v2025_05_30_preview)
-  @operationId("AzureDataTransfer_listFlowProfiles")
   @autoRoute
-  listFlowProfiles is ArmProviderActionSync<
-    Request = {
-      /**
-       * The name of the pipeline for which to retrieve associated FlowProfiles.
-       */
-      @bodyRoot
-      pipeline?: string;
-    },
-    Response = {
-      /**
-       * A list of FlowProfile metadata created under the specified pipeline.
-       */
-      @added(Versions.v2025_05_30_preview)
-      @bodyRoot
-      flowProfileList?: FlowProfileMetadata[];
-    }
+  @removed(Versions.v2025_10_10_preview)
+  @renamedFrom(Versions.v2025_10_10_preview, "listFlowProfiles")
+  listFlowProfilesOld is ArmProviderActionSync<
+    Request = ListFlowProfilesRequest,
+    Response = FlowProfilesListResult
   >;
 
   /**
-   * Validates the structure and content of a schema for use in Azure Data Transfer. This operation is deprecated as of version v2025_05_30_preview.
+   * Retrieves a list of FlowProfile resources associated with a specified pipeline.
+   */
+  @added(Versions.v2025_10_10_preview)
+  @autoRoute
+  listFlowProfiles is ArmProviderActionSync<
+    Request = ListFlowProfilesRequest,
+    Response = FlowProfilesListResult
+  >;
+
+  /**
+   * Validates the structure and content of a schema for use in Azure Data Transfer. This operation has reached end of life support starting version 2025-05-30-preview. For schema support please create and use a FlowProfile resource.
    */
   #suppress "@azure-tools/typespec-azure-core/no-openapi" "Operation Id generated does not match original OpenAPIv2 JSON specification."
-  @removed(Versions.v2025_05_30_preview)
   @operationId("AzureDataTransfer_validateSchema")
   @autoRoute
   validateSchema is ArmProviderActionSync<
     Request = Schema,
     Response = ValidateSchemaResult
+  >;
+
+  /**
+   * Retrieves a list of FlowProfile resources associated with a specified pipeline.
+   */
+  @added(Versions.v2025_05_30_preview)
+  @autoRoute
+  listPipelineMetadata is ArmProviderActionSync<
+    Request = ListPipelineMetadataRequest,
+    Response = ListPipelineMetadataResult
   >;
 }
 

@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------
-// <copyright file="encryptedTransportAccount.tsp" company="Microsoft Corporation">
+// <copyright file="device.tsp" company="Microsoft Corporation">
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -18,10 +18,11 @@ using Azure.Core;
 namespace Microsoft.EncryptedTransport;
 
 @doc("Device Resource Type")
+@parentResource(EncryptedTransportAccount)
 model Device is TrackedResource<DeviceProperties> {
   @doc("The device name")
   @key("deviceName")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   @segment("devices")
   @pattern("^[a-zA-Z0-9]{3,24}$")
   @path
@@ -30,27 +31,27 @@ model Device is TrackedResource<DeviceProperties> {
 
 @doc("Device Properties")
 model DeviceProperties {
-  @doc("The serial number of the device, which is the same as the resource name.")
+  @doc("The serial number that identifies the end-user device. This must be unique at the account scope.")
   @pattern("^[a-zA-Z0-9]{3,24}$")
-  @visibility("read")
+  @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
   serialNumber: string;
 
   @doc("Reference to an existing device profile.")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   deviceProfileId: DeviceProfileId;
 
   @doc("The MAC address for the end user device.")
   @pattern("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$")
-  @visibility("create", "read", "update")
+  @visibility(Lifecycle.Create, Lifecycle.Read, Lifecycle.Update)
   macAddress: string;
 
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
 /* https://azure.github.io/typespec-azure/docs/howtos/ARM/resource-type#using-resource-identifiers */
-@doc("Device Profile Resource Identifier of the Selected Device Profile")
+@doc("The device profile resource identifier of the selected device profile")
 scalar DeviceProfileId
   extends Azure.Core.armResourceIdentifier<[
     {

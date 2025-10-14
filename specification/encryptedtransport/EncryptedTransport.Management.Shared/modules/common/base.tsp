@@ -22,7 +22,7 @@ namespace Microsoft.EncryptedTransport;
 @doc("Properties for a base resource.")
 model BaseResourceProperties {
   @doc("The status of the last operation.")
-  @visibility("read")
+  @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
 
@@ -56,7 +56,7 @@ union ProvisioningState {
 @doc("The base SKU resource.")
 model ResourceSkuType {
   @doc("The SKU information of the resource")
-  @visibility("create", "read")
+  @visibility(Lifecycle.Create, Lifecycle.Read)
   name?: string;
 }
 

@@ -11,6 +11,17 @@ using TypeSpec.Versioning;
 namespace Private.AzureDataTransfer;
 
 /**
+ * Defines the required request body for retrieving FlowProfile information for a provided pipeline.
+ */
+@added(Versions.v2025_05_30_preview)
+model ListFlowProfilesRequest {
+  /**
+   * The name of the pipeline for which to retrieve associated FlowProfiles.
+   */
+  pipeline?: string;
+}
+
+/**
  * Defines the patchable properties for a FlowProfile resource.
  */
 @added(Versions.v2025_05_30_preview)
@@ -38,17 +49,17 @@ model FlowProfilePatchProperties {
   /**
    * A description of the FlowProfile that defines the replication scenario.
    */
-  description: string;
+  description?: string;
 
   /**
    * A set of configurable rulesets applied to this FlowProfile.
    */
-  rulesets: FlowProfileRulesets;
+  rulesets?: FlowProfileRulesets;
 
   /**
    * The operational status of the FlowProfile.
    */
-  status: FlowProfileStatus;
+  status?: FlowProfileStatus;
 }
 
 /**
@@ -191,7 +202,7 @@ union AntivirusSolutions {
 }
 
 /**
- * Rules for regulating supported archive files (BZip2, Cpio, Deb, GZip, Iso9660, Rpm, Tar, Zip) during data replication. All properties are optional and only the configured options will be applied against archives. As an example, suppose minimumSizeForExpansion is 10 MiB and maximumExpansionSizeLimit is 1 GiB. Then all archives smaller than 10 MiB will be treated as though the archive ruleset is disabled, although other rulesets will apply as usual. Furthermore, all archives at least 10 MiB in size but with a decompressed size greater than 1 GiB will fail the ruleset. All other archives will have their contents extracted and each extracted element will be applied to all rulesets.
+ * Rules for regulating supported archive files (BZip2, Cpio, Deb, GZip, Rpm, Tar, Zip) during data replication. All properties are optional and only the configured options will be applied against archives. As an example, suppose minimumSizeForExpansion is 10 MiB and maximumExpansionSizeLimit is 1 GiB. Then all archives smaller than 10 MiB will be treated as though the archive ruleset is disabled, although other rulesets will apply as usual. Furthermore, all archives at least 10 MiB in size but with a decompressed size greater than 1 GiB will fail the ruleset. All other archives will have their contents extracted and each extracted element will be applied to all rulesets.
  */
 @added(Versions.v2025_05_30_preview)
 model ArchiveRuleset {
@@ -246,12 +257,13 @@ model MimeFilterRuleset {
   /**
    * Specifies whether the filter is an allow list or deny list. For more detail, please refer to the FilterType model.
    */
-  type: FilterType;
+  type?: FilterType;
 
   /**
    * Defines the Media types (f.k.a MIME types) and associated file extensions to be filtered. For more detail, please refer to the MimeTypeFiler model.
    */
-  filters: MimeTypeFilter;
+  @identifiers(#["media", "extensions"])
+  filters?: MimeTypeFilter[];
 }
 
 /**
@@ -266,12 +278,12 @@ model MimeTypeFilter {
     "^[a-z]+/[a-zA-Z0-9+\\-\\+.]+$",
     "Value must be a valid IANA Media type."
   )
-  media: string;
+  media?: string;
 
   /**
    * A list of file extensions associated with the specified Media type (e.g., .json, .png). To specify files with no extension, use an empty string ""."
    */
-  extensions: string[];
+  extensions?: string[];
 }
 
 /**
@@ -300,17 +312,17 @@ model XmlFilterRuleset {
   /**
    * The default XML namespace used for schema validation.
    */
-  defaultNamespace: string;
+  defaultNamespace?: string;
 
   /**
    * Defines the method for referencing the xml schema.
    */
-  reference: XmlReferenceType = XmlReferenceType.Inline;
+  reference?: XmlReferenceType;
 
   /**
    * The inline XSD schema to be used for validation.
    */
-  schema: string;
+  schema?: string;
 }
 
 /**
@@ -334,11 +346,8 @@ model TextMatchingRuleset {
   /**
    * A list of text patterns to block, each with matching rules and case sensitivity options.
    */
-  @OpenAPI.extension(
-    "x-ms-identifiers",
-    #["text", "matchType", "caseSensitivity"]
-  )
-  deny: {
+  @identifiers(#["text", "matchType", "caseSensitivity"])
+  deny?: {
     ...TextMatch;
   }[];
 }
@@ -399,4 +408,15 @@ union Casing {
    * Requires exact casing for the pattern match. For example, "Hello World" would NOT not be found in "hello world".
    */
   Sensitive: "Sensitive",
+}
+
+/**
+ * The flow profiles list result
+ */
+@added(Versions.v2025_05_30_preview)
+model FlowProfilesListResult {
+  /**
+   * FlowProfileMetadata array.
+   */
+  value?: FlowProfileMetadata[];
 }

@@ -15,8 +15,9 @@ python-sdk-output-folder: "$(az-output-folder)/azext_azuredatatransfer/vendored_
 # refer to the faq.md for more details
 ```
 
-This is for command modules that already in azure cli main repo. 
 
+
+This is for command modules that already in azure cli main repo. 
 ``` yaml $(az) && $(target-mode) == 'core'
 az:
   extensions: azuredatatransfer
@@ -24,4 +25,4 @@ az:
   package-name: azure-mgmt-azuredatatransfer
 az-output-folder: $(azure-cli-folder)/src/azure-cli/azure/cli/command_modules/azuredatatransfer
 python-sdk-output-folder: "$(az-output-folder)/vendored_sdks/azuredatatransfer"
-```
+``` 

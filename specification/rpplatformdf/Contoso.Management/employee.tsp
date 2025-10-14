@@ -6,9 +6,7 @@ import "./main.tsp";
 import "./likesTea.tsp";
 import "./provisioningState.tsp";
 
-using TypeSpec.Rest;
-using TypeSpec.Http;
-using Azure.Core;
+using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
 namespace Microsoft.Contoso;
@@ -47,6 +45,10 @@ model EmployeeProperties {
 
   /** Boolean indicating whether the employee likes tea or not */
   likesTea: likesTea;
+
+  /** Favorite color of employee */
+  @added(Versions.v2025_10_01_preview)
+  favoriteColor?: string;
 
   /** The status of the last operation. */
   @visibility(Lifecycle.Read)

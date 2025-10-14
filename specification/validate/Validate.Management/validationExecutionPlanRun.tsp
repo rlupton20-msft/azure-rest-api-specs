@@ -8,7 +8,7 @@ using Azure.Core;
 using Azure.Core.Traits;
 using Azure.ResourceManager;
 
-namespace Private.Validate;
+namespace Microsoft.Validate;
 
 @doc("The properties of the execution plan run.")
 @parentResource(ValidationExecutionPlan)
@@ -101,6 +101,9 @@ interface ValidationExecutionPlanRuns {
     ExecutionPlanRun,
     Parameters = PaginationQueryParameters
   >;
+
+  @doc("Delete a validation test execution plan run resource")
+  delete is ArmResourceDeleteWithoutOkAsync<ExecutionPlanRun>;
 
   @doc("Start a Validation test execution plan run")
   @actionSeparator(":")

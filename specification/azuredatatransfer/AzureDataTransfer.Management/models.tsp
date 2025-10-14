@@ -362,9 +362,14 @@ union DataClassType {
   "Files",
 
   /**
-   * Represents data related to development, security, and operations workflows subject to two-person cryptographic integrity validations.
+   * Represents data related to development, security, and operations workflows such as build artifacts subject to an NCDSMO policy.
    */
-  "DevSecOps",
+  "SoftwareArtifacts",
+
+  /**
+   * Represents rich content types such as documents (e.g., Word, PDF) and images that require specialized replication handling.
+   */
+  "Complex",
 }
 
 /**
@@ -400,7 +405,7 @@ union DataClass {
   "Video",
 
   /**
-   * (Files/DevSecOps/Complex/Mission) Replicates generic blobs data using Azure Blob Storage.
+   * (Files/SoftwareArtifacts/Complex) Replicates generic blobs data using Azure Blob Storage.
    */
   "Blob",
 
@@ -546,9 +551,8 @@ union TargetType {
 }
 
 /**
- * The request used to list approved schemas within the resource provider. ListApprovedSchemaRequest will be deprecated after from version 2025_05_30_preview - please manage schemas with a FlowProfile resource instead.
+ * The request used to list approved schemas within the resource provider. ListApprovedSchemaRequest has reached end of life support starting version 2025-05-30-preview. Please manage schemas with a FlowProfile resource instead.
  */
-@removed(Versions.v2025_05_30_preview)
 model ListApprovedSchemasRequest {
   /**
    * The name of the pipeline to filter approved schemas.
@@ -562,9 +566,8 @@ model ListApprovedSchemasRequest {
 }
 
 /**
- * The schemas list result. SchemaListResults will be deprecated starting from version 2025_05_30_preview - please manage schemas with a FlowProfile resource instead.
+ * The schemas list result. SchemaListResults has reached end of life support starting version 2025-05-30-preview. Please manage schemas with a FlowProfile resource instead.
  */
-@removed(Versions.v2025_05_30_preview)
 model SchemasListResult {
   /**
    * Schemas array.
@@ -573,9 +576,8 @@ model SchemasListResult {
 }
 
 /**
- * The schema object. Schemas will be deprecated starting from version 2025_05_30_preview - please manage schemas with a FlowProfile resource instead.
+ * The schema object. Schemas has reached end of life support starting version 2025-05-30-preview. Please manage schemas with a FlowProfile resource instead.
  */
-@removed(Versions.v2025_05_30_preview)
 model Schema {
   /**
    * ID associated with this schema
@@ -619,9 +621,8 @@ model Schema {
 }
 
 /**
- * Result of the schema validation. ValidateSchemaResult will be deprecated starting from version 2025_05_30_preview - please manage schemas with a FlowProfile resource instead.
+ * Result of the schema validation. ValidateSchemaResult has reached end of life support starting version 2025-05-30-preview. Please manage schemas with a FlowProfile resource instead.
  */
-@removed(Versions.v2025_05_30_preview)
 model ValidateSchemaResult {
   /**
    * Validation status of the schema
@@ -684,9 +685,8 @@ model ConnectionProperties {
   linkedConnectionId?: string;
 
   /**
-   * The flow types being requested for this connection. This FlowType property is deprecated starting from version 2025_05_30_preview - please create a FlowProfile resource instead.
+   * The flow types being requested for this connection. This FlowType property has reached end of life support starting version 2025-05-30-preview. Please create a FlowProfile resource instead.
    */
-  @removed(Versions.v2025_05_30_preview)
   flowTypes?: FlowType[];
 
   /**
@@ -739,21 +739,18 @@ model ConnectionProperties {
   provisioningState?: ProvisioningState;
 
   /**
-   * The policies for this connection
+   * The policies for this connection. The policies property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead.
    */
-  @removed(Versions.v2025_05_30_preview)
   policies?: string[];
 
   /**
-   * The schemas for this connection
+   * The schemas for this connection. The schemas property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead.
    */
-  @removed(Versions.v2025_05_30_preview)
   schemas?: Schema[];
 
   /**
-   * The schema URIs for this connection
+   * The schema URIs for this connection. The schemaUris property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead.
    */
-  @removed(Versions.v2025_05_30_preview)
   schemaUris?: url[];
 
   /**
@@ -781,13 +778,13 @@ model PipelineProperties {
    * Connections associated with pipeline
    */
   @visibility(Lifecycle.Read)
-  @OpenAPI.extension("x-ms-identifiers", #["id"])
+  @identifiers(#["id"])
   connections?: ReadPipelineConnection[];
 
   /**
    * Subscribers of this resource
    */
-  @OpenAPI.extension("x-ms-identifiers", #[])
+  @identifiers(#[])
   subscribers?: Subscriber[];
 
   /**
@@ -797,15 +794,13 @@ model PipelineProperties {
   provisioningState?: ProvisioningState;
 
   /**
-   * The policies for this pipeline
+   * The policies for this pipeline. The policies property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead.
    */
-  @removed(Versions.v2025_05_30_preview)
   policies?: string[];
 
   /**
-   * The flow type for this flow
+   * The flow type for this flow. The flowTypes property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead.
    */
-  @removed(Versions.v2025_05_30_preview)
   flowTypes?: FlowType[];
 
   /**
@@ -1023,26 +1018,22 @@ model FlowProperties {
    * Type of FlowProfile to use for transfer via the flow.
    */
   @added(Versions.v2025_05_30_preview)
-  @visibility(Lifecycle.Read)
   flowProfile?: FlowProfileMetadata;
 
   /**
    * The Flow's data class.
    */
   @added(Versions.v2025_05_30_preview)
-  @visibility(Lifecycle.Read)
   flowDataType?: DataClass;
 
   /**
-   * The flow type for this flow
+   * The flow type for this flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead.
    */
-  @removed(Versions.v2025_05_30_preview)
   flowType?: FlowType;
 
   /**
-   * Type of data to transfer via the flow.
+   * Type of data to transfer via the flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead.
    */
-  @removed(Versions.v2025_05_30_preview)
   dataType?: DataType;
 
   /**
@@ -1052,15 +1043,13 @@ model FlowProperties {
   provisioningState?: ProvisioningState;
 
   /**
-   * The policies for this flow
+   * The policies for this flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead.
    */
-  @removed(Versions.v2025_05_30_preview)
   policies?: string[];
 
   /**
-   * The selected schema for this flow
+   * The selected schema for this flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use a FlowProfile resource instead.
    */
-  @removed(Versions.v2025_05_30_preview)
   schema?: Schema;
 
   /**
@@ -1175,9 +1164,8 @@ model MessagingOptions {
  */
 model ApiFlowOptions {
   /**
-   * Remote host to which communication needs to be made. Deprecated starting 2025-05-30-preview.
+   * Remote host to which communication needs to be made. The property has reached end of life support starting version 2025-05-30-preview. Please create and use the remoteEndpointSettings.endpoint property instead.
    */
-  @removed(Versions.v2025_05_30_preview)
   remoteEndpoint?: string;
 
   /**
@@ -1191,34 +1179,30 @@ model ApiFlowOptions {
   apiMode?: ApiMode;
 
   /**
-   * Determines which identity to use for extracting the user token for Azure Data Transfer API Flow. Deprecated starting 2025-05-30-preview.
+   * Determines which identity to use for extracting the user token for Azure Data Transfer API Flow. The property has reached end of life support starting version 2025-05-30-preview. Please create and use the authentication property instead.
    */
-  @removed(Versions.v2025_05_30_preview)
   identityTranslation?: IdentityTranslation;
 
   /**
-   * Sender's app user assigned Manage Identity client ID. Deprecated starting 2025-05-30-preview.
+   * Sender's app user assigned Manage Identity client ID. The property has reached end of life support starting version 2025-05-30-preview. Please create and use the authentication property instead.
    */
-  @removed(Versions.v2025_05_30_preview)
   senderClientId?: string;
 
   /**
-   * Remote stub app registration Client ID. Deprecated starting 2025-05-30-preview.
+   * Remote stub app registration Client ID. The property has reached end of life support starting version 2025-05-30-preview. Please create and use the authentication property instead.
    */
-  @removed(Versions.v2025_05_30_preview)
   remoteCallingModeClientId?: string;
 
   /**
-   * Optional field to override the audience of the remote endpoint. Deprecated starting 2025-05-30-preview.
+   * Optional field to override the audience of the remote endpoint. The property has reached end of life support starting version 2025-05-30-preview. Please create and use the authentication property instead.
    */
-  @removed(Versions.v2025_05_30_preview)
   audienceOverride?: string;
 
   /**
    * Optional and for advanced used only. A list of authentication methods to use when accessing the Azure Data Transfer API Flow. If not provided, the default S2S authentication using Entra (API Flow Managed Identity) and RBAC will be applied.
    */
   @added(Versions.v2025_05_30_preview)
-  @OpenAPI.extension("x-ms-identifiers", #[])
+  @identifiers(#[])
   authentication?: Authentication[];
 
   /**
@@ -1241,7 +1225,7 @@ model RemoteEndpointSettings {
   /**
    * Optional and for advanced used only. A list of authentication methods to use when accessing the remote endpoint. If not provided, the default S2S authentication using Entra (API Flow Managed Identity) and RBAC will be applied.
    */
-  @OpenAPI.extension("x-ms-identifiers", #[])
+  @identifiers(#[])
   authentication?: Authentication[];
 }
 
@@ -1466,7 +1450,6 @@ model PipelinesPatch {
   /**
    * Properties of pipelines patch body.
    */
-  @removed(Versions.v2025_05_30_preview)
   properties?: PipelinesPatchProperties;
 
   ...Azure.ResourceManager.Foundations.ArmTagsProperty;
@@ -1474,12 +1457,11 @@ model PipelinesPatch {
 }
 
 /**
- * Properties of pipelines patch body.
+ * Properties of pipelines patch body. The property has reached end of life support starting version 2025-05-30-preview. Please create and use the FlowProfile resource instead.
  */
-@removed(Versions.v2025_05_30_preview)
 model PipelinesPatchProperties {
   /**
-   * The flow types allowed for this pipeline
+   * The flow types allowed for this pipeline. FlowTypes has reached end of life support starting version 2025-05-30-preview. Please create and use the FlowProfile property instead.
    */
   flowTypes?: FlowType[];
 }
@@ -1543,7 +1525,7 @@ model ListFlowsByPipelineResult {
   /**
    * List flows by pipeline result by connection
    */
-  @OpenAPI.extension("x-ms-identifiers", #["id"])
+  @identifiers(#["id"])
   value?: ListFlowsByPipelineConnection[];
 }
 
@@ -1645,4 +1627,26 @@ model PipelineConnectionProperties {
    */
   @visibility(Lifecycle.Read)
   internalMetadata?: InternalMetadataProperties;
+}
+
+/**
+ * Defines the required request body for retrieving Pipeline metadata for a provided pipeline.
+ */
+@added(Versions.v2025_05_30_preview)
+model ListPipelineMetadataRequest {
+  /**
+   * The name of the pipeline for which to retrieve associated metadata.
+   */
+  pipeline: string;
+}
+
+/**
+ * Defines the response body for retrieving Pipeline metadata for a provided pipeline.
+ */
+@added(Versions.v2025_05_30_preview)
+model ListPipelineMetadataResult {
+  /**
+   * Returns the features associated with this pipeline.
+   */
+  features: string[];
 }

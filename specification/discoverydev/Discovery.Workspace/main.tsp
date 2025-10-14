@@ -8,6 +8,7 @@ import "./_conversation.tsp";
 import "./_conversation_message.tsp";
 import "./_conversation_message_logs.tsp";
 import "./_tool.tsp";
+import "./_task.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Versioning;
@@ -49,7 +50,6 @@ namespace Microsoft.Discovery.Workspace;
 
 @doc("The Microsoft.Discovery.Workspace service versions.")
 enum Versions {
-  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @useDependency(Microsoft.Discovery.Shared.Versions.`2025-07-01-preview`)
   @doc("The 2025-07-01-preview version of the Microsoft.Discovery.Workspace service data plane.")
   `2025-07-01-preview`,

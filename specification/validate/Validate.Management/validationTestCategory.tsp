@@ -6,7 +6,7 @@ using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
-namespace Private.Validate;
+namespace Microsoft.Validate;
 
 @doc("Validation Test Category")
 model ValidationTestCategory
@@ -32,7 +32,7 @@ model ValidationTestCategoryProperties {
 
   @doc("The validation tests belong to this category.")
   @OpenAPI.extension("x-ms-identifiers", #[])
-  @maxItems(500)
+  @maxItems(100)
   @visibility(Lifecycle.Read)
   tests?: ValidationTest[];
 

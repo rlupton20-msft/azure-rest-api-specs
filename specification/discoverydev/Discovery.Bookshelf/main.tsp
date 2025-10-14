@@ -47,7 +47,6 @@ namespace Microsoft.Discovery.Bookshelf;
 
 @doc("The Microsoft.Discovery.Bookshelf service versions.")
 enum Versions {
-  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @useDependency(Microsoft.Discovery.Shared.Versions.`2025-07-01-preview`)
   @doc("The 2025-07-01-preview version of the Microsoft.Discovery.Bookshelf service data plane.")
   `2025-07-01-preview`,

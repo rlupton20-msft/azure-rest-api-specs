@@ -1,8 +1,11 @@
-import "../versions.tsp";
+import "@azure-tools/typespec-azure-resource-manager";
+import "@typespec/versioning";
+
+import "./versions.tsp";
 import "./dsmsmanagedkeysecret.tsp";
 
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
+using TypeSpec.Versioning;
 
 @armProviderNamespace
 @service(#{ title: "Azure CIS FRP" })

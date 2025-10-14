@@ -11,10 +11,7 @@ import "./desk.tsp";
 import "./globalResourceType.tsp";
 import "./tea.tsp";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
-using Azure.Core;
 using Azure.ResourceManager;
 
 /** Microsoft.Contoso Resource Provider management API. */
@@ -30,6 +27,12 @@ enum Versions {
   @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2024_06_01_preview: "2024-06-01-preview",
+
+  /** 2025-10-01-preview version */
+  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
+  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
+  v2025_10_01_preview: "2025-10-01-preview",
 }
 
 /** The operations endpoint for the provider. */

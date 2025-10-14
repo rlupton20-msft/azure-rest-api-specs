@@ -5582,7 +5582,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{schemaVersionName}": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}": {
       "get": {
         "operationId": "DynamicSchemaVersions_Get",
         "tags": [
@@ -5616,12 +5616,12 @@
             "pattern": "^(?!.*\\.\\.)[a-zA-Z0-9-][a-zA-Z0-9._-]{1,68}[a-zA-Z0-9-]$"
           },
           {
-            "name": "schemaVersionName",
+            "name": "dynamicSchemaVersionName",
             "in": "path",
-            "description": "The name of the SchemaVersion",
+            "description": "The name of the DynamicSchemaVersion",
             "required": true,
             "type": "string",
-            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+            "pattern": "^(v2-)?[0-9]+\\.[0-9]+\\.[0-9]+$"
           }
         ],
         "responses": {
@@ -5677,12 +5677,12 @@
             "pattern": "^(?!.*\\.\\.)[a-zA-Z0-9-][a-zA-Z0-9._-]{1,68}[a-zA-Z0-9-]$"
           },
           {
-            "name": "schemaVersionName",
+            "name": "dynamicSchemaVersionName",
             "in": "path",
-            "description": "The name of the SchemaVersion",
+            "description": "The name of the DynamicSchemaVersion",
             "required": true,
             "type": "string",
-            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+            "pattern": "^(v2-)?[0-9]+\\.[0-9]+\\.[0-9]+$"
           },
           {
             "name": "resource",
@@ -5768,12 +5768,12 @@
             "pattern": "^(?!.*\\.\\.)[a-zA-Z0-9-][a-zA-Z0-9._-]{1,68}[a-zA-Z0-9-]$"
           },
           {
-            "name": "schemaVersionName",
+            "name": "dynamicSchemaVersionName",
             "in": "path",
-            "description": "The name of the SchemaVersion",
+            "description": "The name of the DynamicSchemaVersion",
             "required": true,
             "type": "string",
-            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+            "pattern": "^(v2-)?[0-9]+\\.[0-9]+\\.[0-9]+$"
           },
           {
             "name": "properties",
@@ -5838,12 +5838,12 @@
             "pattern": "^(?!.*\\.\\.)[a-zA-Z0-9-][a-zA-Z0-9._-]{1,68}[a-zA-Z0-9-]$"
           },
           {
-            "name": "schemaVersionName",
+            "name": "dynamicSchemaVersionName",
             "in": "path",
-            "description": "The name of the SchemaVersion",
+            "description": "The name of the DynamicSchemaVersion",
             "required": true,
             "type": "string",
-            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+            "pattern": "^(v2-)?[0-9]+\\.[0-9]+\\.[0-9]+$"
           }
         ],
         "responses": {
@@ -6797,92 +6797,13 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/applySolution": {
-      "post": {
-        "operationId": "SolutionTemplateVersions_ApplySolution",
-        "tags": [
-          "SolutionTemplateVersions"
-        ],
-        "description": "Post request to apply",
-        "parameters": [
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "solutionTemplateName",
-            "in": "path",
-            "description": "The name of the SolutionTemplate",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 61,
-            "pattern": "^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
-          },
-          {
-            "name": "solutionTemplateVersionName",
-            "in": "path",
-            "description": "The name of the SolutionTemplateVersion",
-            "required": true,
-            "type": "string",
-            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "The content of the action request",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/HierarchyDetails"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ApplyResponse"
-            }
-          },
-          "202": {
-            "description": "Resource operation accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      }
-    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/bulkDeploySolution": {
       "post": {
         "operationId": "SolutionTemplateVersions_BulkDeploySolution",
         "tags": [
           "SolutionTemplateVersions"
         ],
-        "description": "Post request to bulk deploy",
+        "description": "Post request for bulk deploy",
         "parameters": [
           {
             "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -6960,7 +6881,7 @@
         "tags": [
           "SolutionTemplateVersions"
         ],
-        "description": "Post request to bulk publish",
+        "description": "Post request for bulk publish",
         "parameters": [
           {
             "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -7027,13 +6948,13 @@
         "x-ms-long-running-operation": true
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/configureSolution": {
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/bulkReviewSolution": {
       "post": {
-        "operationId": "SolutionTemplateVersions_ConfigureSolution",
+        "operationId": "SolutionTemplateVersions_BulkReviewSolution",
         "tags": [
           "SolutionTemplateVersions"
         ],
-        "description": "Post request to configure",
+        "description": "Post request for bulk review",
         "parameters": [
           {
             "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -7068,7 +6989,7 @@
             "description": "The content of the action request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ConfigureHierarchyDetails"
+              "$ref": "#/definitions/BulkReviewSolutionParameter"
             }
           }
         ],
@@ -10158,23 +10079,6 @@
         ]
       }
     },
-    "ApplyResponse": {
-      "type": "object",
-      "description": "Apply Response Parameter",
-      "properties": {
-        "levelApplyResponse": {
-          "type": "array",
-          "description": "LevelApplyResponse",
-          "items": {
-            "$ref": "#/definitions/LevelApplyResponse"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "levelApplyResponse"
-      ]
-    },
     "AvailableSolutionTemplateVersion": {
       "type": "object",
       "description": "Available Solution template Version along with latest revision",
@@ -10265,7 +10169,7 @@
       "properties": {
         "targets": {
           "type": "array",
-          "description": "Targets",
+          "description": "Targets to which solution needs to be deployed",
           "items": {
             "$ref": "#/definitions/BulkDeployTargetDetails"
           },
@@ -10273,7 +10177,7 @@
         },
         "solutionInstanceName": {
           "type": "string",
-          "description": "Solution instance name",
+          "description": "Name of the solution instance",
           "pattern": "^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
         },
         "solutionDependencies": {
@@ -10307,7 +10211,7 @@
         },
         "solutionInstanceName": {
           "type": "string",
-          "description": "Solution instance name",
+          "description": "Name of the solution instance",
           "pattern": "^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
         }
       },
@@ -10321,7 +10225,7 @@
       "properties": {
         "targets": {
           "type": "array",
-          "description": "Targets",
+          "description": "Targets to which solution needs to be published",
           "items": {
             "$ref": "#/definitions/BulkPublishTargetDetails"
           },
@@ -10329,7 +10233,7 @@
         },
         "solutionInstanceName": {
           "type": "string",
-          "description": "Solution instance name",
+          "description": "Name of the solution instance",
           "pattern": "^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
         },
         "solutionDependencies": {
@@ -10339,6 +10243,10 @@
             "$ref": "#/definitions/SolutionDependencyParameter"
           },
           "x-ms-identifiers": []
+        },
+        "solutionConfiguration": {
+          "type": "string",
+          "description": "Solution configuration"
         }
       },
       "required": [
@@ -10361,10 +10269,90 @@
             ]
           }
         },
+        "solutionVersionId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "Reviewed target solution version id",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.Edge/Targets/Solutions/Versions"
+              }
+            ]
+          }
+        },
         "solutionInstanceName": {
           "type": "string",
-          "description": "Solution instance name",
+          "description": "Name of the solution instance",
           "pattern": "^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
+        },
+        "solutionConfiguration": {
+          "type": "string",
+          "description": "Solution configuration"
+        }
+      },
+      "required": [
+        "targetId"
+      ]
+    },
+    "BulkReviewSolutionParameter": {
+      "type": "object",
+      "description": "Bulk review solution parameter",
+      "properties": {
+        "targets": {
+          "type": "array",
+          "description": "Targets to which solution needs to be published",
+          "items": {
+            "$ref": "#/definitions/BulkReviewTargetDetails"
+          },
+          "x-ms-identifiers": []
+        },
+        "solutionInstanceName": {
+          "type": "string",
+          "description": "Name of the solution instance",
+          "pattern": "^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
+        },
+        "solutionDependencies": {
+          "type": "array",
+          "description": "Solution dependencies",
+          "items": {
+            "$ref": "#/definitions/SolutionDependencyParameter"
+          },
+          "x-ms-identifiers": []
+        },
+        "solutionConfiguration": {
+          "type": "string",
+          "description": "Solution configuration"
+        }
+      },
+      "required": [
+        "targets"
+      ]
+    },
+    "BulkReviewTargetDetails": {
+      "type": "object",
+      "description": "Bulk review target details",
+      "properties": {
+        "targetId": {
+          "type": "string",
+          "format": "arm-id",
+          "description": "ArmId of Target",
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Private.Edge/Targets"
+              }
+            ]
+          }
+        },
+        "solutionInstanceName": {
+          "type": "string",
+          "description": "Name of the solution instance",
+          "pattern": "^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
+        },
+        "solutionConfiguration": {
+          "type": "string",
+          "description": "Solution configuration"
         }
       },
       "required": [
@@ -10544,6 +10532,10 @@
         "configurations": {
           "type": "string",
           "description": "Configuration values"
+        },
+        "internalState": {
+          "$ref": "#/definitions/InternalState",
+          "description": "Internal State of resource"
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -10794,41 +10786,6 @@
           }
         ]
       }
-    },
-    "ConfigureHierarchy": {
-      "type": "object",
-      "description": "Configure Hierarchy parameter",
-      "properties": {
-        "hierarchyIds": {
-          "type": "string",
-          "description": "ArmId of Hierarchy"
-        },
-        "configuration": {
-          "type": "string",
-          "description": "Configuration value"
-        }
-      },
-      "required": [
-        "hierarchyIds",
-        "configuration"
-      ]
-    },
-    "ConfigureHierarchyDetails": {
-      "type": "object",
-      "description": "Configure Hierarchy Details",
-      "properties": {
-        "configs": {
-          "type": "array",
-          "description": "Configure Hierarchy Parameters",
-          "items": {
-            "$ref": "#/definitions/ConfigureHierarchy"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "configs"
-      ]
     },
     "Context": {
       "type": "object",
@@ -11488,48 +11445,6 @@
         "description"
       ]
     },
-    "HierarchyConfigSchemaDetails": {
-      "type": "object",
-      "description": "HierarchyConfigSchemaDetails",
-      "properties": {
-        "hierarchyIds": {
-          "type": "string",
-          "description": "ArmId of Hierarchy"
-        },
-        "configuration": {
-          "type": "string",
-          "description": "Configuration value"
-        },
-        "schema": {
-          "type": "string",
-          "description": "Schema value"
-        }
-      },
-      "required": [
-        "hierarchyIds",
-        "schema"
-      ]
-    },
-    "HierarchyDetails": {
-      "type": "object",
-      "description": "Apply Hierarchy parameter",
-      "properties": {
-        "hierarchyIds": {
-          "type": "array",
-          "description": "ArmId of Hierarchy",
-          "items": {
-            "type": "string"
-          }
-        },
-        "level": {
-          "type": "string",
-          "description": "Hierarchy Level"
-        }
-      },
-      "required": [
-        "hierarchyIds"
-      ]
-    },
     "InstallSolutionParameter": {
       "type": "object",
       "description": "Install Solution Parameter",
@@ -11790,6 +11705,30 @@
           "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
       ]
+    },
+    "InternalState": {
+      "type": "string",
+      "description": "Internal state of resource",
+      "enum": [
+        "PendingValidation",
+        "Validated"
+      ],
+      "x-ms-enum": {
+        "name": "InternalState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "PendingValidation",
+            "value": "PendingValidation",
+            "description": "Resource is pending validation"
+          },
+          {
+            "name": "Validated",
+            "value": "Validated",
+            "description": "Resource is validated"
+          }
+        ]
+      }
     },
     "Job": {
       "type": "object",
@@ -12108,27 +12047,6 @@
         }
       ]
     },
-    "LevelApplyResponse": {
-      "type": "object",
-      "description": "Level based apply response",
-      "properties": {
-        "level": {
-          "type": "string",
-          "description": "Hierrachy Level"
-        },
-        "configschemadetails": {
-          "type": "array",
-          "description": "Hierrachy config and schema details",
-          "items": {
-            "$ref": "#/definitions/HierarchyConfigSchemaDetails"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "configschemadetails"
-      ]
-    },
     "OrchestratorType": {
       "type": "string",
       "description": "Available Orchestrator types",
@@ -12142,7 +12060,7 @@
           {
             "name": "TO",
             "value": "TO",
-            "description": "Toolchain Orchestrator type"
+            "description": "Default type"
           }
         ]
       }
@@ -12525,6 +12443,10 @@
           "type": "string",
           "description": "Value of schema version"
         },
+        "internalState": {
+          "$ref": "#/definitions/InternalState",
+          "description": "Internal State of resource"
+        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning state of resource",
@@ -12542,6 +12464,10 @@
         "value": {
           "type": "string",
           "description": "Value of schema version"
+        },
+        "internalState": {
+          "$ref": "#/definitions/InternalState",
+          "description": "Internal State of resource"
         }
       }
     },
@@ -13016,6 +12942,10 @@
           "$ref": "#/definitions/OrchestratorType",
           "description": "Orchestrator type"
         },
+        "internalState": {
+          "$ref": "#/definitions/InternalState",
+          "description": "Internal State of resource"
+        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning state of resource",
@@ -13293,8 +13223,7 @@
         }
       },
       "required": [
-        "name",
-        "specification"
+        "name"
       ]
     },
     "StageSpecTemplate": {

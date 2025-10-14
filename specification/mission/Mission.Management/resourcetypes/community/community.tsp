@@ -126,6 +126,7 @@ model CommunityBaseModel {
   @visibility(Lifecycle.Read, Lifecycle.Create)
   addressSpace?: string;
 
+  @removed(Microsoft.Mission.Versions.v2025_10_01_preview)
   @doc("DNS Servers.")
   dnsServers?: string[];
 
