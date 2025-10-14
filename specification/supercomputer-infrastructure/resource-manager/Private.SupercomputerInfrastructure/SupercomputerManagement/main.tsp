@@ -8,6 +8,7 @@ import "./link.tsp";
 import "./nic.tsp";
 import "./node.tsp";
 import "./device-logical-port.tsp";
+import "./maintenance-request.tsp";
 import "./rack.tsp";
 import "./supercomputer.tsp";
 import "./switch.tsp";
@@ -18,14 +19,12 @@ using Azure.ResourceManager;
 /** Supercomputer Infrastructure Management Plane API */
 @armProviderNamespace
 @service(#{ title: "Private.SupercomputerInfrastructure" })
-@versioned(Private.SupercomputerInfrastructure.Versions)
+@versioned(global.Private.SupercomputerInfrastructure.Versions)
 namespace Private.SupercomputerInfrastructure;
 
 /** The available API versions. */
 enum Versions {
   /** The 2025-07-01-preview API version */
-  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
   v2025_07_01_preview: "2025-07-01-preview",
 }

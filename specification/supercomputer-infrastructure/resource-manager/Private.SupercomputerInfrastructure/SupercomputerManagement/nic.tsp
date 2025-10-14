@@ -31,9 +31,9 @@ model NicProperties {
   @visibility(Lifecycle.Read)
   parentDeviceId?: NodeResourceId;
 
-  /** The PCIe slot that the NIC is installed in on the parent device. */
+  /** The bus:device:function of the NIC. */
   @visibility(Lifecycle.Read)
-  pcieSlot?: string;
+  busDeviceFunction?: string;
 
   /** The status of the last operation on this NIC. */
   @visibility(Lifecycle.Read)

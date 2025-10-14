@@ -70,13 +70,13 @@ model MaintenanceRequestProperties {
 /** The type of maintenance request. */
 union MaintenanceRequestType {
   /**
-   * It is unknown exactly what the problem is, and Private should investigate
+   * It is unknown exactly what the problem is, and Microsoft should investigate
    * and return with action items.
    */
   Investigative: "Investigative",
 
   /**
-   * It is known what action items should be completed and Private should
+   * It is known what action items should be completed and Microsoft should
    * only perform that as directed.
    */
   Unhealthy: "Unhealthy",

@@ -34,6 +34,10 @@ model SwitchProperties {
   /** The Azure resource ID of the cluster that the switch is associated with, if any. */
   @visibility(Lifecycle.Read)
   clusterId?: ClusterResourceId;
+
+  /** The Azure resource ID of the rack that the switch is associated with, if any. */
+  @visibility(Lifecycle.Read)
+  rackId?: RackResourceId;
 }
 
 /** The type of the network the switch resides in. */
@@ -62,6 +66,7 @@ model SwitchPacketCaptureRequest {
   interfaces: string[];
 
   /** The match rules to apply to the packet capture. */
+  @OpenAPI.extension("x-ms-identifiers", #[])
   matchRules: SwitchPacketCaptureMatchRule[];
 
   /** The traffic direction to capture. */
@@ -71,25 +76,43 @@ model SwitchPacketCaptureRequest {
 /** A match rule to filter packets upon capture. */
 model SwitchPacketCaptureMatchRule {
   /** The allowed destination prefix of the packets to capture. */
-  destinationIpPrefix: string;
+  destinationIpPrefix?: string;
 
-  /** The ID of the match rule. */
-  id: string;
+  /** The allowed destination port of the packets to capture. */
+  destinationPort?: int32;
 
-  /** The protocol of the packets to capture. */
-  protocol: SwitchPacketCaptureMatchRuleProtocol;
+  /** The differentiated services code point (DSCP) of the packets to match. */
+  dscp?: int32;
+
+  /** The header protocol of the packets to capture. */
+  protocol?: SwitchPacketCaptureMatchRuleProtocol;
 
   /** The allowed source prefix of the packets to capture. */
-  sourceIpPrefix: string;
+  sourceIpPrefix?: string;
+
+  /** The allowed source port of the packets to capture. */
+  sourcePort?: int32;
+
+  /** The TCP flags of the packets to capture. */
+  tcpFlags?: int32;
 }
 
-/** The protocols of which to match IP prefix for in a match rule. */
+/** The available header protocols for packet captures. */
 union SwitchPacketCaptureMatchRuleProtocol {
-  /** Match over IPv4 prefixes. */
+  /** Match over IPv4 headers. */
   Ipv4: "Ipv4",
 
-  /** Match over IPv6 prefixes. */
+  /** Match over IPv6 headers. */
   Ipv6: "Ipv6",
+
+  /** Match over TCP headers. */
+  Tcp: "Tcp",
+
+  /** Match over UDP headers. */
+  Udp: "Udp",
+
+  /** Match over ICMP headers. */
+  Icmp: "Icmp",
 
   string,
 }
