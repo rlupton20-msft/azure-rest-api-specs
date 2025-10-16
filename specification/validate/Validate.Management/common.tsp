@@ -1,19 +1,9 @@
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using Azure.Core;
-using Azure.Core.Traits;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Foundations;
 
 namespace Microsoft.Validate;
-
-alias PaginationQueryParameters = ListQueryParametersTrait<{
-  ...OrderByQueryParameter;
-  ...TopQueryParameter;
-  ...FilterQueryParameter;
-  ...SkipQueryParameter;
-  ...MaxPageSizeQueryParameter;
-}>;
 
 @doc("""
   Condition is a abstraction to convey details of what lead the entity into the current state.
@@ -49,7 +39,7 @@ interface OperationStatus {
     @doc("The provider namespace (this parameter will not show up in operations).")
     provider: "Microsoft.Validate",
 
-    ...LocationParameter,
+    ...LocationResourceParameter,
     ...Azure.ResourceManager.Foundations.OperationIdParameter,
   ): ArmResponse<OperationStatusResult> | ErrorResponse;
 }

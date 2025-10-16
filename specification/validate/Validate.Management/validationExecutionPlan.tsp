@@ -1,9 +1,7 @@
 import "./common.tsp";
 import "./cloudValidation.tsp";
 
-using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.ResourceManager;
 
@@ -135,12 +133,14 @@ interface ValidationExecutionPlans {
   @doc("List validation test execution plans by resource group")
   listByResourceGroup is ArmResourceListByParent<
     ValidationExecutionPlan,
-    Parameters = PaginationQueryParameters
+    Parameters = StandardListQueryParameters &
+      OrderByQueryParameter &
+      FilterQueryParameter
   >;
 
   @doc("List validation test execution plans by subscription")
   listBySubscription is ArmListBySubscription<
     ValidationExecutionPlan,
-    PaginationQueryParameters
+    StandardListQueryParameters & OrderByQueryParameter & FilterQueryParameter
   >;
 }

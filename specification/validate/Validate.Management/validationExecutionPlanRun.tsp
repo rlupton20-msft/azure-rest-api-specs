@@ -2,10 +2,8 @@ import "./common.tsp";
 import "./validationExecutionPlan.tsp";
 import "./validationTestRun.tsp";
 
-using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.Core;
-using Azure.Core.Traits;
 using Azure.ResourceManager;
 
 namespace Microsoft.Validate;
@@ -96,24 +94,17 @@ interface ValidationExecutionPlanRuns {
   @doc("Get a Validation test execution plan run details")
   get is ArmResourceRead<ExecutionPlanRun>;
 
-  @doc("List Validation test execution plan runs for an execution plan")
-  listByExecutionPlan is ArmResourceListByParent<
-    ExecutionPlanRun,
-    Parameters = PaginationQueryParameters
-  >;
+  @doc("Create or update a validation test execution plan")
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<ExecutionPlanRun>;
 
   @doc("Delete a validation test execution plan run resource")
   delete is ArmResourceDeleteWithoutOkAsync<ExecutionPlanRun>;
 
-  @doc("Start a Validation test execution plan run")
-  @actionSeparator(":")
-  start is ArmResourceActionNoResponseContentAsync<ExecutionPlanRun, void>;
-
-  @doc("Stop a Validation test execution plan run")
-  @actionSeparator(":")
-  stop is ArmResourceActionNoResponseContentAsync<ExecutionPlanRun, void>;
-
-  @doc("Cancel a Validation test execution plan run")
-  @actionSeparator(":")
-  cancel is ArmResourceActionNoResponseContentAsync<ExecutionPlanRun, void>;
+  @doc("List Validation test execution plan runs for an execution plan")
+  listByExecutionPlan is ArmResourceListByParent<
+    ExecutionPlanRun,
+    Parameters = StandardListQueryParameters &
+      OrderByQueryParameter &
+      FilterQueryParameter
+  >;
 }

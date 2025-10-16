@@ -4,8 +4,6 @@ import "@typespec/openapi3";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-autorest";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using Azure.Core;
 using Azure.ResourceManager;
 
@@ -31,10 +29,6 @@ model CloudValidationProperties {
   @doc("The state conditions of the resource.")
   @visibility(Lifecycle.Read)
   stateCondition?: StateCondition;
-
-  @visibility(Lifecycle.Read)
-  @doc("Managed On Behalf Of Configuration.")
-  managedOnBehalfOfConfiguration?: CommonTypes.ManagedOnBehalfOfConfiguration;
 }
 
 @doc("The resource provisioning state.")
@@ -99,12 +93,14 @@ interface CloudValidations {
   @doc("List cloud validations by resource group")
   listByResourceGroup is ArmResourceListByParent<
     CloudValidation,
-    Parameters = PaginationQueryParameters
+    Parameters = StandardListQueryParameters &
+      OrderByQueryParameter &
+      FilterQueryParameter
   >;
 
   @doc("List cloud validations by subscription")
   listBySubscription is ArmListBySubscription<
     CloudValidation,
-    PaginationQueryParameters
+    StandardListQueryParameters & OrderByQueryParameter & FilterQueryParameter
   >;
 }
