@@ -3509,6 +3509,10 @@
           "description": "Provisioning state of resource",
           "readOnly": true
         },
+        "managedInfraConfigurations": {
+          "$ref": "#/definitions/ManagedInfraConfigurations",
+          "description": "Managed Infrastructure Configurations."
+        },
         "managedOnBehalfOfConfiguration": {
           "$ref": "../../../../../../common-types/resource-management/v5/mobo.json#/definitions/ManagedOnBehalfOfConfiguration",
           "description": "Managed On Behalf Of Configuration.",
@@ -4106,6 +4110,38 @@
         "ipAssignments": {
           "$ref": "#/definitions/IpAssignmentUpdate",
           "description": "IP Assignment"
+        }
+      }
+    },
+    "ManagedInfraConfigurations": {
+      "type": "object",
+      "description": "Managed Infrastructure Configurations.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "enabled",
+          "default": false
+        },
+        "managedResourceGroupNameOverride": {
+          "type": "string",
+          "description": "Name of the resource group to be used for managed resources. If not provided, a new resource group will be created with name format 'ManagedResources-<configurationName>-<randomString>'."
+        },
+        "managedResourceGroupIds": {
+          "type": "array",
+          "description": "List of managed resource group resource IDs provisioned. This will be empty if 'enabled' is false. There will be single entry in the list if 'enabled' is true for forseable future. Kept array for extensibility in future.",
+          "items": {
+            "type": "string",
+            "format": "arm-id",
+            "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+            "x-ms-arm-id-details": {
+              "allowedResources": [
+                {
+                  "type": "Microsoft.Resources/resourceGroups"
+                }
+              ]
+            }
+          },
+          "readOnly": true
         }
       }
     },
