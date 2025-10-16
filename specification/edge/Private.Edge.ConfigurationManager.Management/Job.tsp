@@ -26,7 +26,7 @@ union JobType {
   @added(Versions.v2025_08_01)
   Publish: "publish",
 
-   @doc("A Uninstall job.")
+  @doc("A Uninstall job.")
   @added(Versions.v2025_08_01)
   Uninstall: "uninstall",
 
