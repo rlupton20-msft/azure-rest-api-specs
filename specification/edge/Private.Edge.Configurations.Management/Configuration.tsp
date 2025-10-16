@@ -29,8 +29,9 @@ model ConfigurationProperties {
 }
 
 @doc("Managed Infrastructure Configurations.")
+@removed(Versions.v2025_08_01)
 model ManagedInfraConfigurations {
-  @doc("enabled")
+  @doc("Flag indicating whether managed infrastructure is enabled or not")
   enabled?: boolean = false;
 
   @doc("Name of the resource group to be used for managed resources. If not provided, a new resource group will be created with name format 'ManagedResources-<configurationName>-<randomString>'.")

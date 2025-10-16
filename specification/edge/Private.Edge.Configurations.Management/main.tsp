@@ -27,9 +27,9 @@ namespace Private.Edge;
 /** The available API versions. */
 enum Versions {
   /** 2024-06-01-preview version */
-  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
   v2024_06_01_preview: "2024-06-01-preview",
 
-  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
   v2025_08_01: "2025-08-01",
 }
