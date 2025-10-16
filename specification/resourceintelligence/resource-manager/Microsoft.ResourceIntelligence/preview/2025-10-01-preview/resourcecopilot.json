@@ -1,0 +1,2036 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Microsoft.ResourceIntelligence (ARM RP) - Control Plane",
+    "version": "2025-10-01-preview",
+    "description": "Azure Resource Manager (ARM) control-plane for the Microsoft.ResourceIntelligence provider.\nThreads live directly under AgentTeams\n- LROs follow Azure-AsyncOperation + Retry-After polling.\n- Lists are pageable with { value, nextLink }.\n- PATCH supports ETag with If-Match; PUT supports If-None-Match:*.",
+    "x-typespec-generated": [
+      {
+        "emitter": "@azure-tools/typespec-autorest"
+      }
+    ]
+  },
+  "schemes": [
+    "https"
+  ],
+  "host": "management.azure.com",
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "azure_auth": [
+        "user_impersonation"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "azure_auth": {
+      "type": "oauth2",
+      "description": "Azure Active Directory OAuth2 Flow.",
+      "flow": "implicit",
+      "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
+      "scopes": {
+        "user_impersonation": "impersonate your user account"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "AgentTeams"
+    },
+    {
+      "name": "Agents"
+    },
+    {
+      "name": "Threads"
+    },
+    {
+      "name": "Runs"
+    },
+    {
+      "name": "Operations"
+    },
+    {
+      "name": "QueryOperationGroup"
+    }
+  ],
+  "paths": {
+    "/providers/Microsoft.ResourceIntelligence/generateQuery": {
+      "post": {
+        "operationId": "QueryOperationGroup_Generate",
+        "tags": [
+          "QueryOperationGroup"
+        ],
+        "description": "Generates ARG query for a given user prompt.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The request body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QueryGenerationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/QueryGenerationResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceIntelligence/agentTeams": {
+      "get": {
+        "operationId": "AgentTeams_ListByResourceGroup",
+        "tags": [
+          "AgentTeams"
+        ],
+        "summary": "List AgentTeams by resource group",
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AgentTeamListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceIntelligence/agentTeams": {
+      "get": {
+        "operationId": "AgentTeams_ListBySubscription",
+        "tags": [
+          "AgentTeams"
+        ],
+        "summary": "List AgentTeams by subscription",
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AgentTeamListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceIntelligence/agentTeams/{agentTeamName}": {
+      "get": {
+        "operationId": "AgentTeams_Get",
+        "tags": [
+          "AgentTeams"
+        ],
+        "summary": "Get AgentTeam",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AgentTeam"
+            },
+            "headers": {
+              "ETag": {
+                "description": "Entity tag for the resource.",
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "AgentTeams_CreateOrUpdate",
+        "tags": [
+          "AgentTeams"
+        ],
+        "summary": "Create or update an AgentTeam",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "description": "Set to * for create-only semantics."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The AgentTeam resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AgentTeam"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "schema": {
+              "$ref": "#/definitions/AgentTeam"
+            },
+            "headers": {
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/AgentTeam"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string"
+              },
+              "Location": {
+                "type": "string"
+              },
+              "Retry-After": {
+                "type": "integer"
+              },
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string"
+              },
+              "Location": {
+                "type": "string"
+              },
+              "Retry-After": {
+                "type": "integer"
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "AgentTeams_Update",
+        "tags": [
+          "AgentTeams"
+        ],
+        "summary": "Partially update an AgentTeam",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "description": "ETag for optimistic concurrency."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The AgentTeam update request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AgentTeamUpdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AgentTeam"
+            },
+            "headers": {
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "AgentTeams_Delete",
+        "tags": [
+          "AgentTeams"
+        ],
+        "summary": "Delete AgentTeam",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string"
+              },
+              "Location": {
+                "type": "string"
+              },
+              "Retry-After": {
+                "type": "integer"
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceIntelligence/agentTeams/{agentTeamName}/agents": {
+      "get": {
+        "operationId": "Agents_ListByAgentTeam",
+        "tags": [
+          "Agents"
+        ],
+        "summary": "List Agents under an AgentTeam",
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AgentListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceIntelligence/agentTeams/{agentTeamName}/agents/{agentName}": {
+      "get": {
+        "operationId": "Agents_Get",
+        "tags": [
+          "Agents"
+        ],
+        "summary": "Get Agent",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "#/parameters/AgentName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Agent"
+            },
+            "headers": {
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "Agents_CreateOrUpdate",
+        "tags": [
+          "Agents"
+        ],
+        "summary": "Create or update an Agent",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "#/parameters/AgentName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "description": "Set to * for create-only semantics."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The Agent resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Agent"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "schema": {
+              "$ref": "#/definitions/Agent"
+            },
+            "headers": {
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Agent"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string"
+              },
+              "Location": {
+                "type": "string"
+              },
+              "Retry-After": {
+                "type": "integer"
+              },
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string"
+              },
+              "Location": {
+                "type": "string"
+              },
+              "Retry-After": {
+                "type": "integer"
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "Agents_Update",
+        "tags": [
+          "Agents"
+        ],
+        "summary": "Partially update an Agent",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "#/parameters/AgentName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The Agent update request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AgentUpdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Agent"
+            },
+            "headers": {
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "Agents_Delete",
+        "tags": [
+          "Agents"
+        ],
+        "summary": "Delete Agent",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "#/parameters/AgentName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string"
+              },
+              "Location": {
+                "type": "string"
+              },
+              "Retry-After": {
+                "type": "integer"
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceIntelligence/agentTeams/{agentTeamName}/threads": {
+      "get": {
+        "operationId": "Threads_ListByAgentTeam",
+        "tags": [
+          "Threads"
+        ],
+        "summary": "List Threads for an AgentTeam",
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ThreadListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceIntelligence/agentTeams/{agentTeamName}/threads/{threadName}": {
+      "get": {
+        "operationId": "Threads_Get",
+        "tags": [
+          "Threads"
+        ],
+        "summary": "Get Thread",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "#/parameters/ThreadName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Thread"
+            },
+            "headers": {
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "Threads_CreateOrUpdate",
+        "tags": [
+          "Threads"
+        ],
+        "summary": "Create or update a Thread",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "#/parameters/ThreadName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The Thread resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Thread"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "schema": {
+              "$ref": "#/definitions/Thread"
+            },
+            "headers": {
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Thread"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string"
+              },
+              "Location": {
+                "type": "string"
+              },
+              "Retry-After": {
+                "type": "integer"
+              },
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string"
+              },
+              "Location": {
+                "type": "string"
+              },
+              "Retry-After": {
+                "type": "integer"
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "Threads_Update",
+        "tags": [
+          "Threads"
+        ],
+        "summary": "Partially update a Thread",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "#/parameters/ThreadName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The Thread update request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ThreadUpdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Thread"
+            },
+            "headers": {
+              "ETag": {
+                "type": "string"
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "Threads_Delete",
+        "tags": [
+          "Threads"
+        ],
+        "summary": "Delete Thread",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "#/parameters/ThreadName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string"
+              },
+              "Location": {
+                "type": "string"
+              },
+              "Retry-After": {
+                "type": "integer"
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceIntelligence/agentTeams/{agentTeamName}/threads/{threadName}/run": {
+      "post": {
+        "operationId": "Runs_Begin",
+        "tags": [
+          "Runs"
+        ],
+        "summary": "Begin running the thread (team-level orchestration over agents)",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "#/parameters/ThreadName"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The run request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RunRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted - Run started",
+            "schema": {
+              "$ref": "#/definitions/RunStatus"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string"
+              },
+              "Location": {
+                "type": "string"
+              },
+              "Retry-After": {
+                "type": "integer"
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceIntelligence/agentTeams/{agentTeamName}/threads/{threadName}/userInputs/{inputName}": {
+      "put": {
+        "operationId": "Threads_AddUserInput",
+        "tags": [
+          "Threads"
+        ],
+        "summary": "Add user input to a paused thread (resume point)",
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
+        },
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v2/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/AgentTeamName"
+          },
+          {
+            "$ref": "#/parameters/ThreadName"
+          },
+          {
+            "name": "inputName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The user input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/UserInput"
+            },
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string"
+              },
+              "Location": {
+                "type": "string"
+              },
+              "Retry-After": {
+                "type": "integer"
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "headers": {
+              "Azure-AsyncOperation": {
+                "type": "string"
+              },
+              "Location": {
+                "type": "string"
+              },
+              "Retry-After": {
+                "type": "integer"
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceIntelligence/locations/{location}/operationsStatus/{operationId}": {
+      "get": {
+        "operationId": "OperationsStatus_Get",
+        "tags": [
+          "Operations"
+        ],
+        "summary": "Get status for a long-running operation",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "name": "location",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "operationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OperationStatus"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/providers/Microsoft.ResourceIntelligence/operations": {
+      "get": {
+        "operationId": "Operations_List",
+        "tags": [
+          "Operations"
+        ],
+        "description": "List the operations for the provider",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v6/types.json#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/OperationListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "SystemData": {
+      "type": "object",
+      "description": "ARM metadata about creation and last modification.",
+      "properties": {
+        "createdBy": {
+          "type": "string"
+        },
+        "createdByType": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastModifiedBy": {
+          "type": "string"
+        },
+        "lastModifiedByType": {
+          "type": "string"
+        },
+        "lastModifiedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "readOnly": true
+    },
+    "Identity": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "None",
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned,UserAssigned"
+          ]
+        },
+        "userAssignedIdentities": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "clientId": {
+                "type": "string"
+              },
+              "principalId": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "NetworkProfile": {
+      "type": "object",
+      "properties": {
+        "vnetSubnetId": {
+          "type": "string"
+        },
+        "privateEndpoints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "publicNetworkAccess": {
+          "type": "string",
+          "enum": [
+            "Enabled",
+            "Disabled"
+          ],
+          "default": "Disabled"
+        }
+      }
+    },
+    "AuthorizationPolicy": {
+      "type": "object",
+      "description": "Default-deny allow-list & OBO settings",
+      "properties": {
+        "defaultDeny": {
+          "type": "boolean",
+          "default": true
+        },
+        "allowedClientAppIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "allowedPrincipals": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "obo": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "issuer": {
+              "type": "string"
+            },
+            "audiences": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Encryption": {
+      "type": "object",
+      "properties": {
+        "keyVaultKeyId": {
+          "type": "string"
+        },
+        "identityClientId": {
+          "type": "string"
+        }
+      }
+    },
+    "Diagnostics": {
+      "type": "object",
+      "properties": {
+        "logAnalyticsWorkspaceId": {
+          "type": "string"
+        },
+        "appInsightsConnectionString": {
+          "type": "string"
+        },
+        "auditEnabled": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "Tags": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "AgentTeam": {
+      "type": "object",
+      "x-ms-azure-resource": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true
+        },
+        "location": {
+          "type": "string"
+        },
+        "tags": {
+          "$ref": "#/definitions/Tags"
+        },
+        "identity": {
+          "$ref": "#/definitions/Identity"
+        },
+        "systemData": {
+          "$ref": "#/definitions/SystemData"
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "provisioningState": {
+              "description": "ARM provisioning state.",
+              "type": "string",
+              "readOnly": true,
+              "enum": [
+                "Succeeded",
+                "Failed",
+                "Canceled",
+                "Creating",
+                "Updating",
+                "Deleting"
+              ]
+            },
+            "description": {
+              "type": "string"
+            },
+            "networkProfile": {
+              "$ref": "#/definitions/NetworkProfile"
+            },
+            "authorization": {
+              "$ref": "#/definitions/AuthorizationPolicy"
+            },
+            "encryption": {
+              "$ref": "#/definitions/Encryption"
+            },
+            "diagnostics": {
+              "$ref": "#/definitions/Diagnostics"
+            }
+          }
+        }
+      }
+    },
+    "Agent": {
+      "type": "object",
+      "x-ms-azure-resource": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true
+        },
+        "location": {
+          "type": "string"
+        },
+        "tags": {
+          "$ref": "#/definitions/Tags"
+        },
+        "identity": {
+          "$ref": "#/definitions/Identity"
+        },
+        "systemData": {
+          "$ref": "#/definitions/SystemData"
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "provisioningState": {
+              "type": "string",
+              "readOnly": true,
+              "enum": [
+                "Succeeded",
+                "Failed",
+                "Canceled",
+                "Creating",
+                "Updating",
+                "Deleting"
+              ]
+            },
+            "model": {
+              "type": "object",
+              "properties": {
+                "provider": {
+                  "type": "string",
+                  "example": "azure-openai"
+                },
+                "deploymentName": {
+                  "type": "string"
+                }
+              }
+            },
+            "systemPrompt": {
+              "type": "string"
+            },
+            "tools": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "knowledgeRefs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "guardrails": {
+              "type": "object",
+              "properties": {
+                "pii": {
+                  "type": "string",
+                  "enum": [
+                    "mask",
+                    "block",
+                    "allow"
+                  ],
+                  "default": "mask"
+                },
+                "allowedTools": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "runtime": {
+              "type": "object",
+              "properties": {
+                "maxTokens": {
+                  "type": "integer"
+                },
+                "temperature": {
+                  "type": "number"
+                }
+              }
+            },
+            "policyModel": {
+              "type": "object",
+              "properties": {
+                "toolSelectionModelId": {
+                  "type": "string"
+                },
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "shadow",
+                    "canary",
+                    "active"
+                  ],
+                  "default": "shadow"
+                }
+              }
+            },
+            "authorization": {
+              "$ref": "#/definitions/AuthorizationPolicy"
+            },
+            "diagnostics": {
+              "$ref": "#/definitions/Diagnostics"
+            }
+          }
+        }
+      }
+    },
+    "Thread": {
+      "type": "object",
+      "x-ms-azure-resource": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "name": {
+          "type": "string",
+          "readOnly": true
+        },
+        "type": {
+          "type": "string",
+          "readOnly": true
+        },
+        "location": {
+          "type": "string"
+        },
+        "tags": {
+          "$ref": "#/definitions/Tags"
+        },
+        "systemData": {
+          "$ref": "#/definitions/SystemData"
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "provisioningState": {
+              "type": "string",
+              "readOnly": true,
+              "enum": [
+                "Succeeded",
+                "Failed",
+                "Canceled",
+                "Creating",
+                "Updating",
+                "Deleting"
+              ]
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "Idle",
+                "Running",
+                "Paused",
+                "Completed",
+                "Failed"
+              ],
+              "readOnly": true
+            },
+            "messages": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Message"
+              }
+            },
+            "lastRunId": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "user",
+            "assistant",
+            "system",
+            "tool"
+          ]
+        },
+        "content": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "RunRequest": {
+      "type": "object",
+      "properties": {
+        "inputOverrides": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "maxSteps": {
+          "type": "integer",
+          "default": 40
+        },
+        "allowToolUse": {
+          "type": "boolean",
+          "default": true
+        },
+        "resumeAfterUserInput": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "RunStatus": {
+      "type": "object",
+      "properties": {
+        "runId": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "Queued",
+            "Running",
+            "WaitingForUser",
+            "Succeeded",
+            "Failed",
+            "Canceled"
+          ]
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastMessage": {
+          "type": "string"
+        },
+        "outputArtifacts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "UserInput": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "context": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "OperationStatus": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "InProgress",
+            "Succeeded",
+            "Failed",
+            "Canceled"
+          ]
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          }
+        },
+        "targetResourceId": {
+          "type": "string"
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "AgentTeamListResult": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AgentTeam"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "AgentListResult": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Agent"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "ThreadListResult": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Thread"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "AgentTeamUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "networkProfile": {
+              "$ref": "#/definitions/NetworkProfile"
+            },
+            "authorization": {
+              "$ref": "#/definitions/AuthorizationPolicy"
+            },
+            "diagnostics": {
+              "$ref": "#/definitions/Diagnostics"
+            }
+          }
+        }
+      }
+    },
+    "AgentUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "systemPrompt": {
+              "type": "string"
+            },
+            "tools": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "runtime": {
+              "type": "object",
+              "properties": {
+                "maxTokens": {
+                  "type": "integer"
+                },
+                "temperature": {
+                  "type": "number"
+                }
+              }
+            },
+            "diagnostics": {
+              "$ref": "#/definitions/Diagnostics"
+            }
+          }
+        }
+      }
+    },
+    "ThreadUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "messages": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Message"
+              }
+            }
+          }
+        }
+      }
+    },
+    "HistoryContext": {
+      "type": "object",
+      "description": "History content generated by a user, assistant or system role",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "Content generated by a given role"
+        },
+        "role": {
+          "$ref": "#/definitions/Role",
+          "description": "Role which generates the content e.g., user, assistant or system"
+        }
+      },
+      "required": [
+        "content",
+        "role"
+      ]
+    },
+    "QueryGenerationRequest": {
+      "type": "object",
+      "description": "Query Generation Request",
+      "properties": {
+        "history": {
+          "type": "array",
+          "description": "A collection of chat history to provide context in query generation",
+          "items": {
+            "$ref": "#/definitions/HistoryContext"
+          },
+          "x-ms-identifiers": []
+        },
+        "prompt": {
+          "type": "string",
+          "description": "Prompt text from user"
+        }
+      },
+      "required": [
+        "prompt"
+      ]
+    },
+    "QueryGenerationResult": {
+      "type": "object",
+      "description": "Query Generation Result",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Query generated for a given user prompt text"
+        },
+        "status": {
+          "$ref": "#/definitions/StatusResult",
+          "description": "Status for the query generation result"
+        }
+      },
+      "required": [
+        "query",
+        "status"
+      ]
+    },
+    "Role": {
+      "type": "string",
+      "description": "The role which generates a specific message. Restricted to the user or assistant role.",
+      "enum": [
+        "user",
+        "assistant",
+        "system"
+      ],
+      "x-ms-enum": {
+        "name": "Role",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "user",
+            "value": "user",
+            "description": "If a message was generated by a human, the role should be assigned user"
+          },
+          {
+            "name": "assistant",
+            "value": "assistant",
+            "description": "If a message was generated by ARG Query Generation service, then the role should be assistant"
+          },
+          {
+            "name": "system",
+            "value": "system",
+            "description": "If a message provides high level instructions for the query generation, then the role should be system"
+          }
+        ]
+      }
+    },
+    "StatusCategory": {
+      "type": "string",
+      "description": "Status Category",
+      "enum": [
+        "Succeeded",
+        "Failed"
+      ],
+      "x-ms-enum": {
+        "name": "StatusCategory",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "Succeeded",
+            "value": "Succeeded",
+            "description": "Succeeded when query was generated successfully"
+          },
+          {
+            "name": "Failed",
+            "value": "Failed",
+            "description": "Failed when query was not generated"
+          }
+        ]
+      }
+    },
+    "StatusResult": {
+      "type": "object",
+      "description": "Status",
+      "properties": {
+        "category": {
+          "$ref": "#/definitions/StatusCategory",
+          "description": "Status category for query generation result"
+        },
+        "message": {
+          "type": "string",
+          "description": "Status message for query generation result"
+        }
+      },
+      "required": [
+        "category",
+        "message"
+      ]
+    }
+  },
+  "parameters": {
+    "AgentTeamName": {
+      "name": "agentTeamName",
+      "in": "path",
+      "required": true,
+      "type": "string"
+    },
+    "AgentName": {
+      "name": "agentName",
+      "in": "path",
+      "required": true,
+      "type": "string"
+    },
+    "ThreadName": {
+      "name": "threadName",
+      "in": "path",
+      "required": true,
+      "type": "string"
+    }
+  }
+}
