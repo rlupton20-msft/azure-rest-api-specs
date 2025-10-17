@@ -6434,7 +6434,7 @@
           "description": "Defines the username and password references when UsernamePassword user authentication mode is selected."
         },
         "x509Credentials": {
-          "$ref": "#/definitions/X509Credentials",
+          "$ref": "#/definitions/X509CertificateCredentials",
           "description": "Defines the certificate reference when Certificate user authentication mode is selected."
         }
       },
@@ -6482,7 +6482,7 @@
           "description": "Defines the username and password references when UsernamePassword user authentication mode is selected."
         },
         "x509Credentials": {
-          "$ref": "#/definitions/X509CredentialsUpdate",
+          "$ref": "#/definitions/X509CertificateCredentialsUpdate",
           "description": "Defines the certificate reference when Certificate user authentication mode is selected."
         }
       }
@@ -6715,8 +6715,7 @@
         }
       },
       "required": [
-        "name",
-        "dataSource"
+        "name"
       ]
     },
     "MessageSchemaReference": {
@@ -7239,11 +7238,11 @@
           "readOnly": true,
           "x-ms-identifiers": []
         },
-        "events": {
+        "eventGroups": {
           "type": "array",
-          "description": "Array of event statuses that describe the status of each event.",
+          "description": "Array of event group statuses that describe the status of each event group.",
           "items": {
-            "$ref": "#/definitions/NamespaceAssetStatusEvent"
+            "$ref": "#/definitions/NamespaceAssetStatusEventGroup"
           },
           "readOnly": true,
           "x-ms-identifiers": []
@@ -7310,6 +7309,29 @@
           "$ref": "#/definitions/StatusError",
           "description": "Object to transfer and persist errors that originate from the edge.",
           "readOnly": true
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "NamespaceAssetStatusEventGroup": {
+      "type": "object",
+      "description": "Defines the asset status event group properties.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.",
+          "readOnly": true
+        },
+        "events": {
+          "type": "array",
+          "description": "Array of event statuses that describe the status of each event in the event group.",
+          "items": {
+            "$ref": "#/definitions/NamespaceAssetStatusEvent"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
         }
       },
       "required": [
@@ -7885,12 +7907,6 @@
           "type": "integer",
           "format": "int64",
           "description": "An integer that is incremented each time the resource is modified."
-        },
-        "lastTransitionTime": {
-          "type": "string",
-          "format": "date-time",
-          "description": "A timestamp (in UTC) that is updated each time the resource is modified.",
-          "readOnly": true
         },
         "manufacturer": {
           "type": "string",
@@ -8473,8 +8489,7 @@
         }
       },
       "required": [
-        "name",
-        "dataSource"
+        "name"
       ]
     },
     "NamespaceDiscoveredEventDataPoint": {
@@ -8542,8 +8557,7 @@
         }
       },
       "required": [
-        "name",
-        "dataSource"
+        "name"
       ]
     },
     "NamespaceDiscoveredManagementAction": {
@@ -8692,8 +8706,7 @@
         }
       },
       "required": [
-        "name",
-        "dataSource"
+        "name"
       ]
     },
     "NamespaceDiscoveredStream": {
@@ -8760,8 +8773,7 @@
         }
       },
       "required": [
-        "name",
-        "dataSource"
+        "name"
       ]
     },
     "NamespaceEventDataPoint": {
@@ -8824,8 +8836,7 @@
         }
       },
       "required": [
-        "name",
-        "dataSource"
+        "name"
       ]
     },
     "NamespaceListResult": {
@@ -9732,6 +9743,45 @@
         "passwordSecretName": {
           "type": "string",
           "description": "The name of the secret containing the password."
+        }
+      }
+    },
+    "X509CertificateCredentials": {
+      "type": "object",
+      "description": "The x509 certificate for authentication mode Certificate.",
+      "properties": {
+        "certificateSecretName": {
+          "type": "string",
+          "description": "The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx)."
+        },
+        "keySecretName": {
+          "type": "string",
+          "description": "The name of the secret containing the certificate private key in PEM or DER format."
+        },
+        "intermediateCertificatesSecretName": {
+          "type": "string",
+          "description": "The name of the secret containing the combined intermediate certificates in PEM format."
+        }
+      },
+      "required": [
+        "certificateSecretName"
+      ]
+    },
+    "X509CertificateCredentialsUpdate": {
+      "type": "object",
+      "description": "The x509 certificate for authentication mode Certificate.",
+      "properties": {
+        "certificateSecretName": {
+          "type": "string",
+          "description": "The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx)."
+        },
+        "keySecretName": {
+          "type": "string",
+          "description": "The name of the secret containing the certificate private key in PEM or DER format."
+        },
+        "intermediateCertificatesSecretName": {
+          "type": "string",
+          "description": "The name of the secret containing the combined intermediate certificates in PEM format."
         }
       }
     },

@@ -262,7 +262,7 @@ model NamespaceEventGroup {
   name: string;
 
   @doc("The address of the notifier of the event group in the asset (e.g. URL) so that a client can access the event group on the asset.")
-  dataSource: string;
+  dataSource?: string;
 
   @doc("Stringified JSON that contains connector-specific configuration for the event group. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.")
   eventGroupConfiguration?: string;
@@ -290,7 +290,7 @@ model NamespaceEvent {
 
   @doc("Reference to a data source for a given event.")
   @added(Versions.v2025_10_01)
-  dataSource: string;
+  dataSource?: string;
 
   @doc("The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.")
   @added(Versions.v2025_07_01_preview)
@@ -355,7 +355,7 @@ model ManagementGroup {
 
   @doc("Reference to a data source for a given management group.")
   @added(Versions.v2025_10_01)
-  dataSource: string;
+  dataSource?: string;
 
   @doc("Stringified JSON that contains connector-specific configuration for the management group.")
   managementGroupConfiguration?: string;
@@ -442,9 +442,18 @@ model NamespaceAssetStatus {
   @Azure.ResourceManager.identifiers(#[])
   datasets?: NamespaceAssetStatusDataset[];
 
+  @doc("Array of event group statuses that describe the status of each event group.")
+  @added(Versions.v2025_10_01)
+  @visibility(Lifecycle.Read)
+  @Azure.ResourceManager.identifiers(#[])
+  eventGroups?: NamespaceAssetStatusEventGroup[];
+
   @doc("Array of event statuses that describe the status of each event.")
   @visibility(Lifecycle.Read)
   @added(Versions.v2024_10_01_preview)
+  @removed(Versions.v2024_11_01)
+  @added(Versions.v2025_07_01_preview)
+  @removed(Versions.v2025_10_01)
   @Azure.ResourceManager.identifiers(#[])
   events?: NamespaceAssetStatusEvent[];
 
@@ -491,6 +500,19 @@ model NamespaceAssetStatusDataset {
   @added(Versions.v2025_07_01_preview)
   @visibility(Lifecycle.Read)
   error?: StatusError;
+}
+
+@doc("Defines the asset status event group properties.")
+@added(Versions.v2025_10_01)
+model NamespaceAssetStatusEventGroup {
+  @doc("The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.")
+  @visibility(Lifecycle.Read)
+  name: string;
+
+  @doc("Array of event statuses that describe the status of each event in the event group.")
+  @visibility(Lifecycle.Read)
+  @Azure.ResourceManager.identifiers(#[])
+  events?: NamespaceAssetStatusEvent[];
 }
 
 @doc("Defines the asset status event properties.")
