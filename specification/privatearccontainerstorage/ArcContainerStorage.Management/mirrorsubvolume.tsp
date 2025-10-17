@@ -76,7 +76,7 @@ model ScheduleConfig {
 @doc("a scheme for filtering blobs to mirror")
 model BlobFilteringConfig {
   @doc("prefix to use for filtering")
-  blobNamePrefix: string;
+  blobNamePrefix?: string;
 }
 
 @doc("account kinds that exist")
