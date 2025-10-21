@@ -29,6 +29,10 @@ model CloudValidationProperties {
   @doc("The state conditions of the resource.")
   @visibility(Lifecycle.Read)
   stateCondition?: StateCondition;
+
+  @visibility(Lifecycle.Read)
+  @doc("Managed On Behalf Of Configuration.")
+  managedOnBehalfOfConfiguration?: CommonTypes.ManagedOnBehalfOfConfiguration;
 }
 
 @doc("The resource provisioning state.")
