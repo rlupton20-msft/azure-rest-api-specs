@@ -5,7 +5,7 @@
 // -----------------------------------------------------------------------
 
 // Import the shared main file for all common Azure Encrypted Transport service types
-import "../EncryptedTransport.Management.Shared/sharedResources.tsp";
+import "./sharedResources.tsp";
 
-// Import servie related to PrivateRP Azure Encrypted Transport Service
+// Import service for PrivateRP Private.EncryptedTransport
 import "./modules/services/encryptedTransportService.tsp";

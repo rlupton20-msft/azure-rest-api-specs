@@ -13,9 +13,7 @@ using Azure.Core;
 using Azure.ResourceManager;
 
 @armProviderNamespace("Private.EncryptedTransport")
-@service(#{
-  title: "Microsoft.EncryptedTransport",
-})
+@service(#{ title: "Microsoft.EncryptedTransport" })
 @versioned(Microsoft.EncryptedTransport.Versions)
 @doc("Azure Encrypted Transport Management API")
 namespace Microsoft.EncryptedTransport;
@@ -23,8 +21,10 @@ namespace Microsoft.EncryptedTransport;
 @doc("Azure Encrypted Transport Service versioning")
 enum Versions {
   @doc("Azure Encrypted Transport 2024-09-01-preview version")
-  @armCommonTypesVersion(CommonTypes.Versions.v5)
-  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  @useDependency(Azure.Core.Versions.v1_0_Preview_1)
+  @armCommonTypesVersion(CommonTypes.Versions.v6)
   v2024_09_01_preview: "2024-09-01-preview",
+
+  @doc("Azure Encrypted Transport 2025-10-01-preview version")
+  @armCommonTypesVersion(CommonTypes.Versions.v6)
+  v2025_10_01_preview: "2025-10-01-preview",
 }
