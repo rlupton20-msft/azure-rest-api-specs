@@ -25,15 +25,15 @@ model ExecutionPlanRunProperties {
 
   @doc("The start time of the execution plan run.")
   @visibility(Lifecycle.Read)
-  startTimestamp: utcDateTime;
+  startTimestampInUtc: utcDateTime;
 
   @doc("The end time of the execution plan run.")
   @visibility(Lifecycle.Read)
-  endTimestamp?: utcDateTime;
+  endTimestampInUtc?: utcDateTime;
 
   @doc("The reported timestamp of the execution plan run.")
   @visibility(Lifecycle.Read)
-  reportedTimestamp: utcDateTime;
+  reportedTimestampInUtc: utcDateTime;
 
   @doc("The test runs under this execution plan run.")
   @visibility(Lifecycle.Read)

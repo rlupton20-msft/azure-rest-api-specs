@@ -29,20 +29,12 @@ model ValidationExecutionPlanProperties {
     """)
   planConfigurationJson?: string;
 
-  @doc("The health of the execution plan.")
-  @visibility(Lifecycle.Read)
-  health?: ExecutionPlanHealth;
-
   @doc("The provisioning state of the resource.")
   @visibility(Lifecycle.Read)
   provisioningState?: ValidationExecutionPlanProvisioningState;
 
   @doc("The overall state of the resource.")
   overallState?: ValidationExecutionPlanOverallState;
-
-  @doc("The state conditions of the resource.")
-  @visibility(Lifecycle.Read)
-  stateCondition?: StateCondition;
 }
 
 @doc("The execution plan resource provisioning state.")
@@ -67,46 +59,8 @@ union ValidationExecutionPlanProvisioningState {
 
 @doc("The Overall states of the validation execution plan.")
 union ValidationExecutionPlanOverallState {
-  @doc("The resource is in draft state.")
-  Draft: "Draft",
-
-  @doc("The resource is in completed state.")
-  Completed: "Completed",
-
   @doc("The resource is in enabled state.")
   Enabled: "Enabled",
-
-  @doc("The resource is in disabled state.")
-  Disabled: "Disabled",
-
-  @doc("The resource is in suspended state.")
-  Suspended: "Suspended",
-
-  string,
-}
-
-@doc("The health of the execution plan.")
-model ExecutionPlanHealth {
-  @doc("The state of the execution plan.")
-  state: ExecutionPlanHealthState;
-
-  @doc("Gets or sets the execution plan error.")
-  error?: Object;
-}
-
-@doc("The state of the execution plan.")
-union ExecutionPlanHealthState {
-  @doc("The execution plan is healthy.")
-  Healthy: "Healthy",
-
-  @doc("The execution plan is unhealthy.")
-  Unhealthy: "Unhealthy",
-
-  @doc("The execution plan is not specified.")
-  NotSpecified: "NotSpecified",
-
-  @doc("The execution plan is unknown.")
-  Unknown: "Unknown",
 
   string,
 }

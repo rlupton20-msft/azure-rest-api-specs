@@ -26,10 +26,6 @@ model CloudValidationProperties {
   @doc("The overall state of the resource.")
   overallState?: CloudValidationOverallState;
 
-  @doc("The state conditions of the resource.")
-  @visibility(Lifecycle.Read)
-  stateCondition?: StateCondition;
-
   @visibility(Lifecycle.Read)
   @doc("Managed On Behalf Of Configuration.")
   managedOnBehalfOfConfiguration?: CommonTypes.ManagedOnBehalfOfConfiguration;
@@ -61,17 +57,8 @@ union ProvisioningState {
 
 @doc("The Overall states of the validation resource.")
 union CloudValidationOverallState {
-  @doc("The resource is in draft state.")
-  Draft: "Draft",
-
-  @doc("The resource is in pending state.")
-  Pending: "Pending",
-
-  @doc("The resource is in active state.")
-  Active: "Active",
-
-  @doc("The resource is in disabled state.")
-  Disabled: "Disabled",
+  @doc("The resource is in enabled state.")
+  Enabled: "Enabled",
 
   string,
 }

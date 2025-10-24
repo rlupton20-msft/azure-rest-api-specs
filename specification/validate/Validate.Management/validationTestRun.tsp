@@ -24,19 +24,15 @@ model ValidationTestRunProperties {
 
   @doc("The start timestamp of the test run.")
   @visibility(Lifecycle.Read)
-  startTimestamp: utcDateTime;
+  startTimestampInUtc: utcDateTime;
 
   @doc("The reported timestamp of the test run.")
   @visibility(Lifecycle.Read)
-  reportedTimestamp: utcDateTime;
+  reportedTimestampInUtc: utcDateTime;
 
   @doc("The end timestamp of the test run.")
   @visibility(Lifecycle.Read)
-  endTimestamp: utcDateTime;
-
-  @doc("Validation test run response code.")
-  @visibility(Lifecycle.Read)
-  code: string;
+  endTimestampInUtc: utcDateTime;
 
   @doc("Validation test run inputs json")
   inputsJson: string;
