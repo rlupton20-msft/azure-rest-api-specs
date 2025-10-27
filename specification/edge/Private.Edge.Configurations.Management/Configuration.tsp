@@ -44,6 +44,28 @@ model ManagedInfraConfigurations {
       type: "Microsoft.Resources/resourceGroups";
     }
   ]>[];
+
+  @doc("Metadata for additional identities.")
+  additionalIdentitiesMetadata?: AdditionalIdentitiesMetadata[];
+}
+
+@doc("Metadata for additional identities.")
+@removed(Versions.v2025_08_01)
+model AdditionalIdentitiesMetadata {
+  @doc("Object ID (GUID) of the service principal for the additional identity.")
+  servicePrincipalObjectId: string;
+
+  @doc("Name for the additional identity.")
+  name: AdditionalIdentityName;
+}
+
+@doc("Allowed names for additional identities.")
+@removed(Versions.v2025_08_01)
+union AdditionalIdentityName {
+  @doc("Name of AzureLocal for additional identity.")
+  AzureLocal: "AzureLocal",
+
+  string,
 }
 
 @doc("Configuration Resource")
