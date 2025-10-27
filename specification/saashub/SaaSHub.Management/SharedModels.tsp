@@ -927,6 +927,16 @@ model ScheduleActionLinkedResource {
    * Format: /providers/Microsoft.Billing/billingAccounts/{baId}/billingProfiles/{bfId}/invoiceSections/{isId}
    */
   billingScope?: string;
+
+  /**
+   * The link operation type.
+   */
+  operationType?: string;
+
+  /**
+   * The resource type for the linked resource.
+   */
+  resourceType?: string;
 }
 
 /**

@@ -366,7 +366,7 @@
             "description": "Request parameters that are provided to the update SaaSHub Saas resource operation.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/SaasResourceUpdate"
+              "$ref": "#/definitions/SaasResource"
             }
           }
         ],
@@ -431,6 +431,12 @@
           },
           "Update a SaaSHub saas resource with schedule actions": {
             "$ref": "./examples/SaasResources_Update_ScheduleActions.json"
+          },
+          "Update a SaaSHub saas resource with schedule actions for scheduled merges": {
+            "$ref": "./examples/SaasResources_Update_ScheduleActions_WithMerge.json"
+          },
+          "Update a SaaSHub saas resource with schedule actions for scheduled splits": {
+            "$ref": "./examples/SaasResources_Update_ScheduleActions_WithSplit.json"
           },
           "Update renewal term - Microsoft Customer Agreement Enterprise scenario": {
             "$ref": "./examples/SaasResources_Update_Microsoft_Customer_Agreement_Enterprise_Renewal.json"
@@ -1269,6 +1275,12 @@
           },
           "Update a SaaSHub cloud service with schedule actions": {
             "$ref": "./examples/CloudService_Update_ScheduleActions.json"
+          },
+          "Update a SaaSHub cloud service with schedule actions for scheduled merges": {
+            "$ref": "./examples/CloudService_Update_ScheduleActions_WithMerge.json"
+          },
+          "Update a SaaSHub cloud service with schedule actions for scheduled splits": {
+            "$ref": "./examples/CloudService_Update_ScheduleActions_WithSplit.json"
           }
         },
         "x-ms-long-running-operation-options": {
@@ -3115,21 +3127,6 @@
         }
       }
     },
-    "SaasResourceUpdate": {
-      "type": "object",
-      "description": "A SaaSHub Saas resource.",
-      "properties": {
-        "properties": {
-          "$ref": "#/definitions/SaasResourceProperties",
-          "description": "The properties of a SaaSHub Saas resource."
-        }
-      },
-      "allOf": [
-        {
-          "$ref": "../../../../../common-types/resource-management/v6/types.json#/definitions/ProxyResource"
-        }
-      ]
-    },
     "ScheduleAction": {
       "type": "object",
       "description": "Schedule action for resource operations",
@@ -3189,6 +3186,14 @@
         "billingScope": {
           "type": "string",
           "description": "The billing scope for the linked resource. Only applicable for SaaS resources.\nFormat: /providers/Microsoft.Billing/billingAccounts/{baId}/billingProfiles/{bfId}/invoiceSections/{isId}"
+        },
+        "operationType": {
+          "type": "string",
+          "description": "The link operation type."
+        },
+        "resourceType": {
+          "type": "string",
+          "description": "The resource type for the linked resource."
         }
       }
     },
