@@ -1323,26 +1323,26 @@
   "definitions": {
     "AccountConfig": {
       "type": "object",
-      "description": "an account used for mirroring",
+      "description": "A storage account used for mirroring",
       "properties": {
-        "kind": {
-          "$ref": "#/definitions/AccountConfigKind"
+        "accountType": {
+          "$ref": "#/definitions/AccountConfigType"
         }
       },
-      "discriminator": "kind",
+      "discriminator": "accountType",
       "required": [
-        "kind"
+        "accountType"
       ]
     },
-    "AccountConfigKind": {
+    "AccountConfigType": {
       "type": "string",
-      "description": "account kinds that exist",
+      "description": "A storage account configuration type used for mirroring",
       "enum": [
         "blob",
         "onelake"
       ],
       "x-ms-enum": {
-        "name": "AccountConfigKind",
+        "name": "AccountConfigType",
         "modelAsString": true,
         "values": [
           {
@@ -1358,15 +1358,15 @@
     },
     "AccountConfigUpdate": {
       "type": "object",
-      "description": "an account used for mirroring",
+      "description": "A storage account used for mirroring",
       "properties": {
-        "kind": {
-          "$ref": "#/definitions/AccountConfigKind"
+        "accountType": {
+          "$ref": "#/definitions/AccountConfigType"
         }
       },
-      "discriminator": "kind",
+      "discriminator": "accountType",
       "required": [
-        "kind"
+        "accountType"
       ]
     },
     "AuthConfig": {
@@ -1630,11 +1630,12 @@
     },
     "BlobFilteringConfig": {
       "type": "object",
-      "description": "a scheme for filtering blobs to mirror",
+      "description": "A scheme for filtering blobs to mirror",
       "properties": {
         "blobNamePrefix": {
           "type": "string",
-          "description": "prefix to use for filtering"
+          "description": "Use a prefix for filtering. For example, if the value is 'a' it only mirrors blobs with names starting with a.",
+          "pattern": "(^(?!.*[/][/]).*[^.]$|^$)"
         }
       }
     },
@@ -2293,7 +2294,7 @@
         },
         "schedule": {
           "$ref": "#/definitions/ScheduleConfig",
-          "description": "Schedule configuration"
+          "description": "Schedule configuration for when mirroring should run."
         },
         "provisioningState": {
           "$ref": "#/definitions/Azure.ResourceManager.ResourceProvisioningState",
@@ -2336,7 +2337,7 @@
         },
         "schedule": {
           "$ref": "#/definitions/ScheduleConfig",
-          "description": "Schedule configuration"
+          "description": "Schedule configuration for when mirroring should run."
         }
       }
     },
@@ -2383,10 +2384,6 @@
         "state": {
           "$ref": "#/definitions/MirrorSubvolumeState",
           "description": "The current state of the subvolume."
-        },
-        "backendConnection": {
-          "$ref": "#/definitions/BackendConnectionState",
-          "description": "Describes the backend connection."
         }
       }
     },
@@ -2459,15 +2456,12 @@
       "properties": {
         "frequency": {
           "type": "string",
-          "description": "cron syntax (e.g., '0 12 * * *') for schedule or special modes like 'never'."
-        },
-        "suspend": {
-          "type": "boolean",
-          "description": "If set to true, the scheduled or automatic sync will not run until unsuspended."
+          "description": "Options are: @annually, @yearly, @monthly, @weekly, @daily, @hourly, never, or cron syntax (five digits, first is minutes (0-59), second is hours (0-23), third is day (1-31), fourth is month (1-12), fifth is day of the week (0-6)).",
+          "pattern": "^(never|@(annually|yearly|monthly|weekly|daily|hourly)|((([*]|([1-5]?[0-9])([-]([1-5]?[0-9]))?)([/]([1-5]?[0-9]))?)) ((([*]|(1?[0-9]|2[0-3])([-](1?[0-9]|2[0-3]))?)([/](1?[0-9]|2[0-3]))?)) ((([*]|([1-2]?[0-9]|3[0-1])([-]([1-2]?[0-9]|3[0-1]))?)([/]([1-2][0-9]|3[0-1]))?)) (([*]|((1[0-2]|[0-9]|[jJ][aA][nN]|[jJ][aA][nN][uU][aA][rR][yY]|[fF][eE][bB]|[fF][eE][bB][rR][uU][aA][rR][yY]|[mM][aA][rR]|[mM][aA][rR][cC][hH]|[aA][pP][rR]|[aA][pP][rR][iI][lL]|[mM][aA][yY]|[jJ][uU][nN]|[jJ][uU][nN][eE]|[aA][uU][gG]|[aA][uU][gG][uU][sS][tT]|[sS][eE][pP]|[sS][eE][pP][tT]|[sS][eE][pP][tT][eE][mM][bB][eE][rR]|[oO][cC][tT]|[oO][cC][tT][oO][bB][eE][rR]|[nN][oO][vV]|[nN][oO][vV][eE][mM][bB][eE][rR]|[dD][eE][cC]|[dD][eE][cC][eE][mM][bB][eE][rR])([-](1[0-2]|[0-9]|[jJ][aA][nN]|[jJ][aA][nN][uU][aA][rR][yY]|[fF][eE][bB]|[fF][eE][bB][rR][uU][aA][rR][yY]|[mM][aA][rR]|[mM][aA][rR][cC][hH]|[aA][pP][rR]|[aA][pP][rR][iI][lL]|[mM][aA][yY]|[jJ][uU][nN]|[jJ][uU][nN][eE]|[aA][uU][gG]|[aA][uU][gG][uU][sS][tT]|[sS][eE][pP]|[sS][eE][pP][tT]|[sS][eE][pP][tT][eE][mM][bB][eE][rR]|[oO][cC][tT]|[oO][cC][tT][oO][bB][eE][rR]|[nN][oO][vV]|[nN][oO][vV][eE][mM][bB][eE][rR]|[dD][eE][cC]|[dD][eE][cC][eE][mM][bB][eE][rR]))?))([/](1[0-2]|[0-9]|[jJ][aA][nN]|[jJ][aA][nN][uU][aA][rR][yY]|[fF][eE][bB]|[fF][eE][bB][rR][uU][aA][rR][yY]|[mM][aA][rR]|[mM][aA][rR][cC][hH]|[aA][pP][rR]|[aA][pP][rR][iI][lL]|[mM][aA][yY]|[jJ][uU][nN]|[jJ][uU][nN][eE]|[aA][uU][gG]|[aA][uU][gG][uU][sS][tT]|[sS][eE][pP]|[sS][eE][pP][tT]|[sS][eE][pP][tT][eE][mM][bB][eE][rR]|[oO][cC][tT]|[oO][cC][tT][oO][bB][eE][rR]|[nN][oO][vV]|[nN][oO][vV][eE][mM][bB][eE][rR]|[dD][eE][cC]|[dD][eE][cC][eE][mM][bB][eE][rR]))??) (([*]|([0-6]|[mM][oO][nN]|[mM][oO][nN][dD][aA][yY]|[tT][uU][eE]|[tT][uU][eE][sS]|[tT][uU][eE][sS][dD][aA][yY]|[wW][eE][dD]|[wW][eE][dD][sS]|[wW][eE][dD][nN][eE][sS][dD][aA][yY]|[tT][hH][uU]|[tT][hH][uU][rR]|[tT][hH][uU][rR][sS]|[tT][hH][uU][rR][sS][dD][aA][yY]|[fF][rR][iI]|[fF][rR][iI][dD][aA][yY]|[sS][aA][tT]|[sS][aA][tT][uU][rR][dD][aA][yY]|[sS][uU][nN]|[sS][uU][nN][dD][aA][yY])([-][0-6]|[mM][oO][nN]|[mM][oO][nN][dD][aA][yY]|[tT][uU][eE]|[tT][uU][eE][sS]|[tT][uU][eE][sS][dD][aA][yY]|[wW][eE][dD]|[wW][eE][dD][sS]|[wW][eE][dD][nN][eE][sS][dD][aA][yY]|[tT][hH][uU]|[tT][hH][uU][rR]|[tT][hH][uU][rR][sS]|[tT][hH][uU][rR][sS][dD][aA][yY]|[fF][rR][iI]|[fF][rR][iI][dD][aA][yY]|[sS][aA][tT]|[sS][aA][tT][uU][rR][dD][aA][yY]|[sS][uU][nN]|[sS][uU][nN][dD][aA][yY])?)([/]([0-6]|[mM][oO][nN]|[mM][oO][nN][dD][aA][yY]|[tT][uU][eE]|[tT][uU][eE][sS]|[tT][uU][eE][sS][dD][aA][yY]|[wW][eE][dD]|[wW][eE][dD][sS]|[wW][eE][dD][nN][eE][sS][dD][aA][yY]|[tT][hH][uU]|[tT][hH][uU][rR]|[tT][hH][uU][rR][sS]|[tT][hH][uU][rR][sS][dD][aA][yY]|[fF][rR][iI]|[fF][rR][iI][dD][aA][yY]|[sS][aA][tT]|[sS][aA][tT][uU][rR][dD][aA][yY]|[sS][uU][nN]|[sS][uU][nN][dD][aA][yY]))??))$"
         },
         "oneshot": {
           "$ref": "#/definitions/UUIDType",
-          "description": "uuid of oneshot sync"
+          "description": "By default, left blank. If at any time a uuid is specified here, it triggers an 'immediate' sync. If a uuid is specified on creation, the subvolume performs a sync on initial create, and thereafter according to the frequency. If this parameter is empty on creation, the subvolume initially creates without a sync, and then syncs according to the frequency."
         }
       }
     },

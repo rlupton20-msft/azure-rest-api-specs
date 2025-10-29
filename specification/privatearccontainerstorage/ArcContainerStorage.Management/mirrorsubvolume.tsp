@@ -48,7 +48,7 @@ model MirrorSubvolumeProperties {
   @doc("Optional Unix-like ownership info (UID/GID) for the subvolume.")
   authSys?: AuthSysConfig;
 
-  @doc("Schedule configuration")
+  @doc("Schedule configuration for when mirroring should run.")
   schedule?: ScheduleConfig;
 
   @doc("The provisioning state of the resource.")
@@ -62,34 +62,35 @@ model MirrorSubvolumeProperties {
 
 @doc("schedule configuration")
 model ScheduleConfig {
-  @doc("cron syntax (e.g., '0 12 * * *') for schedule or special modes like 'never'.")
-  //@pattern("^(never|@(annually|yearly|monthly|weekly|daily|hourly)|((?:(?:\*|(?:[1-5]?[0-9])(?:\-(?:[1-5]?[0-9]))?)(?:\/(?:[1-5]?[0-9]))?)) ((?:(?:\*|(?:1?[0-9]|2[0-3])(?:\-(?:1?[0-9]|2[0-3]))?)(?:\/(?:1?[0-9]|2[0-3]))?)) ((?:(?:\*|(?:[1-2]?[0-9]|3[0-1])(?:\-(?:[1-2]?[0-9]|3[0-1]))?)(?:\/(?:[1-2][0-9]|3[0-1]))?)) ((?:\*|(?:(?i:1[0-2]|[0-9]|jan|january|feb|february|mar|march|apr|april|may|jun|june|aug|august|sep|sept|september|oct|october|nov|november|dec|december)(?:\-(?i:1[0-2]|[0-9]|jan|january|feb|february|mar|march|apr|april|may|jun|june|aug|august|sep|sept|september|oct|october|nov|november|dec|december))?))(?:\/(?i:1[0-2]|[0-9]|jan|january|feb|february|mar|march|apr|april|may|jun|june|aug|august|sep|sept|september|oct|october|nov|november|dec|december))??) ((?:\*|(?i:[0-6]|mon|monday|tue|tues|tuesday|wed|weds|wednesday|thu|thur|thurs|thursday|fri|friday|sat|saturday|sun|sunday)(?i:\-[0-6]|mon|monday|tue|tues|tuesday|wed|weds|wednesday|thu|thur|thurs|thursday|fri|friday|sat|saturday|sun|sunday)?)(?:\/(?i:[0-6]|mon|monday|tue|tues|tuesday|wed|weds|wednesday|thu|thur|thurs|thursday|fri|friday|sat|saturday|sun|sunday))??))$')
+  @doc("Options are: @annually, @yearly, @monthly, @weekly, @daily, @hourly, never, or cron syntax (five digits, first is minutes (0-59), second is hours (0-23), third is day (1-31), fourth is month (1-12), fifth is day of the week (0-6)).")
+  @pattern("^(never|@(annually|yearly|monthly|weekly|daily|hourly)|((([*]|([1-5]?[0-9])([-]([1-5]?[0-9]))?)([/]([1-5]?[0-9]))?)) ((([*]|(1?[0-9]|2[0-3])([-](1?[0-9]|2[0-3]))?)([/](1?[0-9]|2[0-3]))?)) ((([*]|([1-2]?[0-9]|3[0-1])([-]([1-2]?[0-9]|3[0-1]))?)([/]([1-2][0-9]|3[0-1]))?)) (([*]|((1[0-2]|[0-9]|[jJ][aA][nN]|[jJ][aA][nN][uU][aA][rR][yY]|[fF][eE][bB]|[fF][eE][bB][rR][uU][aA][rR][yY]|[mM][aA][rR]|[mM][aA][rR][cC][hH]|[aA][pP][rR]|[aA][pP][rR][iI][lL]|[mM][aA][yY]|[jJ][uU][nN]|[jJ][uU][nN][eE]|[aA][uU][gG]|[aA][uU][gG][uU][sS][tT]|[sS][eE][pP]|[sS][eE][pP][tT]|[sS][eE][pP][tT][eE][mM][bB][eE][rR]|[oO][cC][tT]|[oO][cC][tT][oO][bB][eE][rR]|[nN][oO][vV]|[nN][oO][vV][eE][mM][bB][eE][rR]|[dD][eE][cC]|[dD][eE][cC][eE][mM][bB][eE][rR])([-](1[0-2]|[0-9]|[jJ][aA][nN]|[jJ][aA][nN][uU][aA][rR][yY]|[fF][eE][bB]|[fF][eE][bB][rR][uU][aA][rR][yY]|[mM][aA][rR]|[mM][aA][rR][cC][hH]|[aA][pP][rR]|[aA][pP][rR][iI][lL]|[mM][aA][yY]|[jJ][uU][nN]|[jJ][uU][nN][eE]|[aA][uU][gG]|[aA][uU][gG][uU][sS][tT]|[sS][eE][pP]|[sS][eE][pP][tT]|[sS][eE][pP][tT][eE][mM][bB][eE][rR]|[oO][cC][tT]|[oO][cC][tT][oO][bB][eE][rR]|[nN][oO][vV]|[nN][oO][vV][eE][mM][bB][eE][rR]|[dD][eE][cC]|[dD][eE][cC][eE][mM][bB][eE][rR]))?))([/](1[0-2]|[0-9]|[jJ][aA][nN]|[jJ][aA][nN][uU][aA][rR][yY]|[fF][eE][bB]|[fF][eE][bB][rR][uU][aA][rR][yY]|[mM][aA][rR]|[mM][aA][rR][cC][hH]|[aA][pP][rR]|[aA][pP][rR][iI][lL]|[mM][aA][yY]|[jJ][uU][nN]|[jJ][uU][nN][eE]|[aA][uU][gG]|[aA][uU][gG][uU][sS][tT]|[sS][eE][pP]|[sS][eE][pP][tT]|[sS][eE][pP][tT][eE][mM][bB][eE][rR]|[oO][cC][tT]|[oO][cC][tT][oO][bB][eE][rR]|[nN][oO][vV]|[nN][oO][vV][eE][mM][bB][eE][rR]|[dD][eE][cC]|[dD][eE][cC][eE][mM][bB][eE][rR]))??) (([*]|([0-6]|[mM][oO][nN]|[mM][oO][nN][dD][aA][yY]|[tT][uU][eE]|[tT][uU][eE][sS]|[tT][uU][eE][sS][dD][aA][yY]|[wW][eE][dD]|[wW][eE][dD][sS]|[wW][eE][dD][nN][eE][sS][dD][aA][yY]|[tT][hH][uU]|[tT][hH][uU][rR]|[tT][hH][uU][rR][sS]|[tT][hH][uU][rR][sS][dD][aA][yY]|[fF][rR][iI]|[fF][rR][iI][dD][aA][yY]|[sS][aA][tT]|[sS][aA][tT][uU][rR][dD][aA][yY]|[sS][uU][nN]|[sS][uU][nN][dD][aA][yY])([-][0-6]|[mM][oO][nN]|[mM][oO][nN][dD][aA][yY]|[tT][uU][eE]|[tT][uU][eE][sS]|[tT][uU][eE][sS][dD][aA][yY]|[wW][eE][dD]|[wW][eE][dD][sS]|[wW][eE][dD][nN][eE][sS][dD][aA][yY]|[tT][hH][uU]|[tT][hH][uU][rR]|[tT][hH][uU][rR][sS]|[tT][hH][uU][rR][sS][dD][aA][yY]|[fF][rR][iI]|[fF][rR][iI][dD][aA][yY]|[sS][aA][tT]|[sS][aA][tT][uU][rR][dD][aA][yY]|[sS][uU][nN]|[sS][uU][nN][dD][aA][yY])?)([/]([0-6]|[mM][oO][nN]|[mM][oO][nN][dD][aA][yY]|[tT][uU][eE]|[tT][uU][eE][sS]|[tT][uU][eE][sS][dD][aA][yY]|[wW][eE][dD]|[wW][eE][dD][sS]|[wW][eE][dD][nN][eE][sS][dD][aA][yY]|[tT][hH][uU]|[tT][hH][uU][rR]|[tT][hH][uU][rR][sS]|[tT][hH][uU][rR][sS][dD][aA][yY]|[fF][rR][iI]|[fF][rR][iI][dD][aA][yY]|[sS][aA][tT]|[sS][aA][tT][uU][rR][dD][aA][yY]|[sS][uU][nN]|[sS][uU][nN][dD][aA][yY]))??))$")
   frequency?: string;
 
-  @doc("If set to true, the scheduled or automatic sync will not run until unsuspended.")
-  suspend?: boolean;
-
-  @doc("uuid of oneshot sync")
+  @doc("By default, left blank. If at any time a uuid is specified here, it triggers an 'immediate' sync. If a uuid is specified on creation, the subvolume performs a sync on initial create, and thereafter according to the frequency. If this parameter is empty on creation, the subvolume initially creates without a sync, and then syncs according to the frequency.")
   oneshot?: UUIDType;
 }
 
-@doc("a scheme for filtering blobs to mirror")
+@doc("A scheme for filtering blobs to mirror")
 model BlobFilteringConfig {
-  @doc("prefix to use for filtering")
+  @doc("Use a prefix for filtering. For example, if the value is 'a' it only mirrors blobs with names starting with a.")
+  @pattern(
+    "(^(?!.*[/][/]).*[^.]$|^$)",
+    "must not contain '//' and must not end with '.'"
+  )
   blobNamePrefix?: string;
 }
 
-@doc("account kinds that exist")
-union AccountConfigKind {
+@doc("A storage account configuration type used for mirroring")
+union AccountConfigType {
   blob: "blob",
   onelake: "onelake",
   string,
 }
 
-@doc("an account used for mirroring")
-@discriminator("kind")
+@doc("A storage account used for mirroring")
+@discriminator("accountType")
 model AccountConfig {
-  kind: AccountConfigKind;
+  accountType: AccountConfigType;
 }
 
 @doc("possible values for indextags")
@@ -105,7 +106,7 @@ union IndexTagsModes {
 
 @doc("a blob account used for mirroring")
 model BlobAccountConfig extends AccountConfig {
-  kind: "blob";
+  accountType: "blob";
 
   @doc("Blob storage endpoint, for example: https://mysa.core.windows.net")
   @minLength(3)
@@ -123,7 +124,7 @@ model BlobAccountConfig extends AccountConfig {
 
 @doc("A onelake account used for mirroring")
 model OnelakeAccountConfig extends AccountConfig {
-  kind: "onelake";
+  accountType: "onelake";
 
   @doc("Onelake endpoint, for example: https://onelake.blob.fabric.microsoft.com")
   @minLength(3)
@@ -141,9 +142,6 @@ model OnelakeAccountConfig extends AccountConfig {
 model MirrorSubvolumeStatus {
   @doc("The current state of the subvolume.")
   state?: MirrorSubvolumeState;
-
-  @doc("Describes the backend connection.")
-  backendConnection?: BackendConnectionState;
 }
 
 @doc("States of an MirrorSubvolume")
