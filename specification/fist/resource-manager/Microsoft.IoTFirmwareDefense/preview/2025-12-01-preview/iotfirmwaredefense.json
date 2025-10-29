@@ -2242,7 +2242,7 @@
         },
         "cwes": {
           "type": "array",
-          "description": "CWE (Common Weakness Enumeration) information related to this CVE",
+          "description": "CWE (Common Weakness Enumeration) information related to this CVE.",
           "items": {
             "$ref": "#/definitions/CweProperties"
           },
@@ -2252,7 +2252,15 @@
         },
         "kev": {
           "$ref": "#/definitions/KevProperties",
-          "description": "KEV (Known Exploited Vulnerabilities) information related to this CVE"
+          "description": "KEV (Known Exploited Vulnerabilities) information related to this CVE."
+        },
+        "fixedInVersion": {
+          "type": "string",
+          "description": "The component version in which this weakness was fixed, if any."
+        },
+        "schemaVersion": {
+          "type": "string",
+          "description": "Schema version of the CVE data."
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -2357,6 +2365,10 @@
         "vectorString": {
           "type": "string",
           "description": "The CVSS vector for the specified score"
+        },
+        "exploitMaturity": {
+          "$ref": "#/definitions/ExploitMaturityLevel",
+          "description": "The likelihood of the vulnerability being attacked based on information regarding the availability of exploitation code/processes and the state of exploitation techniques."
         }
       },
       "required": [
@@ -2370,6 +2382,10 @@
         "cweId": {
           "type": "string",
           "description": "The id of the CWE."
+        },
+        "cweName": {
+          "type": "string",
+          "description": "The name of the CWE."
         },
         "description": {
           "type": "string",
@@ -2413,6 +2429,42 @@
             "name": "x64",
             "value": "x64",
             "description": "The binary is 64-bit."
+          }
+        ]
+      }
+    },
+    "ExploitMaturityLevel": {
+      "type": "string",
+      "description": "String to indicate the exploit maturity of a CVE for the given CVSS score.",
+      "enum": [
+        "NOT_DEFINED",
+        "ATTACKED",
+        "PROOF_OF_CONCEPT",
+        "UNREPORTED"
+      ],
+      "x-ms-enum": {
+        "name": "ExploitMaturityLevel",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "NotDefined",
+            "value": "NOT_DEFINED",
+            "description": "Reliable threat intelligence is not available to determine Exploit Maturity characteristics. This is the default value and is equivalent to Attacked (A) for the purposes of the calculation of the score by assuming the worst case."
+          },
+          {
+            "name": "Attacked",
+            "value": "ATTACKED",
+            "description": "Based on available threat intelligence either of the following must apply: attacks targeting this vulnerability (attempted or successful) have been reported, or solutions to simplify attempts to exploit the vulnerability are publicly or privately available."
+          },
+          {
+            "name": "ProofOfConcept",
+            "value": "PROOF_OF_CONCEPT",
+            "description": "Based on available threat intelligence each of the following must apply: proof-of-concept exploit code is publicly available, no knowledge of reported attempts to exploit this vulnerability, and no knowledge of publicly available solutions used to simplify attempts to exploit the vulnerability"
+          },
+          {
+            "name": "Unreported",
+            "value": "UNREPORTED",
+            "description": "Based on available threat intelligence each of the following must apply: no knowledge of publicly available proof-of-concept exploit code, no knowledge of reported attempts to exploit this vulnerability, and no knowledge of publicly available solutions used to simplify attempts to exploit the vulnerability."
           }
         ]
       }

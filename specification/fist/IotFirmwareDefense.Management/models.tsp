@@ -345,6 +345,10 @@ model CvssScore {
   @added(Versions.v2025_12_01_preview)
   @doc("The CVSS vector for the specified score")
   vectorString?: string;
+
+  @added(Versions.v2025_12_01_preview)
+  @doc("The likelihood of the vulnerability being attacked based on information regarding the availability of exploitation code/processes and the state of exploitation techniques.")
+  exploitMaturity?: ExploitMaturityLevel;
 }
 
 @doc("Legacy component of a CVE result.")
@@ -423,13 +427,21 @@ model CveResult {
   epss?: EpssProperties;
 
   @added(Versions.v2025_12_01_preview)
-  @doc("CWE (Common Weakness Enumeration) information related to this CVE")
+  @doc("CWE (Common Weakness Enumeration) information related to this CVE.")
   @extension("x-ms-identifiers", #["cweId"])
   cwes?: CweProperties[];
 
   @added(Versions.v2025_12_01_preview)
-  @doc("KEV (Known Exploited Vulnerabilities) information related to this CVE")
+  @doc("KEV (Known Exploited Vulnerabilities) information related to this CVE.")
   kev?: KevProperties;
+
+  @added(Versions.v2025_12_01_preview)
+  @doc("The component version in which this weakness was fixed, if any.")
+  fixedInVersion?: string;
+
+  @added(Versions.v2025_12_01_preview)
+  @doc("Schema version of the CVE data.")
+  schemaVersion?: string;
 
   @doc("The status of the last operation.")
   @visibility(Lifecycle.Read)
@@ -461,6 +473,9 @@ model CweProperties {
   @doc("The id of the CWE.")
   cweId?: string;
 
+  @doc("The name of the CWE.")
+  cweName?: string;
+
   @doc("The description of the CWE.")
   description?: string;
 }
@@ -489,6 +504,24 @@ union RansomwareCampaignUse {
 
   @doc("CISA lacks confirmation the vulnerability has been utilized for ransomware.")
   Unknown: "Unknown",
+
+  string,
+}
+
+@doc("String to indicate the exploit maturity of a CVE for the given CVSS score.")
+@added(Versions.v2025_12_01_preview)
+union ExploitMaturityLevel {
+  @doc("Reliable threat intelligence is not available to determine Exploit Maturity characteristics. This is the default value and is equivalent to Attacked (A) for the purposes of the calculation of the score by assuming the worst case.")
+  NotDefined: "NOT_DEFINED",
+
+  @doc("Based on available threat intelligence either of the following must apply: attacks targeting this vulnerability (attempted or successful) have been reported, or solutions to simplify attempts to exploit the vulnerability are publicly or privately available.")
+  Attacked: "ATTACKED",
+
+  @doc("Based on available threat intelligence each of the following must apply: proof-of-concept exploit code is publicly available, no knowledge of reported attempts to exploit this vulnerability, and no knowledge of publicly available solutions used to simplify attempts to exploit the vulnerability")
+  ProofOfConcept: "PROOF_OF_CONCEPT",
+
+  @doc("Based on available threat intelligence each of the following must apply: no knowledge of publicly available proof-of-concept exploit code, no knowledge of reported attempts to exploit this vulnerability, and no knowledge of publicly available solutions used to simplify attempts to exploit the vulnerability.")
+  Unreported: "UNREPORTED",
 
   string,
 }
