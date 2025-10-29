@@ -410,6 +410,14 @@ model CveResult {
   @doc("The version of the effectiveCvssScore property.")
   effectiveCvssVersion?: int32;
 
+  @added(Versions.v2025_12_01_preview)
+  @doc("The CVSS vector string for the effectiveCvssVersion.")
+  effectiveVectorString?: string;
+
+  @added(Versions.v2025_12_01_preview)
+  @doc("The CVSS exploit maturity value for the effectiveCvssVersion.")
+  effectiveExploitMaturity?: ExploitMaturityLevel;
+
   @doc("All known CVSS scores for the CVE.")
   @extension("x-ms-identifiers", #[])
   cvssScores?: CvssScore[];
@@ -436,8 +444,8 @@ model CveResult {
   kev?: KevProperties;
 
   @added(Versions.v2025_12_01_preview)
-  @doc("The component version in which this weakness was fixed, if any.")
-  fixedInVersion?: string;
+  @doc("The component versions in which this weakness was fixed, if any.")
+  fixedInVersions?: string[];
 
   @added(Versions.v2025_12_01_preview)
   @doc("Schema version of the CVE data.")
