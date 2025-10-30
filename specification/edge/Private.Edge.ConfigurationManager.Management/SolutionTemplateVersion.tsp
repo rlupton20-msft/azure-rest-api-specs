@@ -124,6 +124,11 @@ model BulkPublishTargetDetails {
     }
   ]>;
 
+  @added(Versions.v2025_08_01)
+  @doc("Solution dependencies")
+  @Azure.ResourceManager.identifiers(#[])
+  solutionDependencies?: SolutionDependencyParameter[];
+
   @doc("Reviewed target solution version id")
   solutionVersionId?: Azure.Core.armResourceIdentifier<[
     {
@@ -165,6 +170,11 @@ model BulkReviewTargetDetails {
       type: "Private.Edge/Targets";
     }
   ]>;
+
+  @added(Versions.v2025_08_01)
+  @doc("Solution dependencies")
+  @Azure.ResourceManager.identifiers(#[])
+  solutionDependencies?: SolutionDependencyParameter[];
 
   @doc("Name of the solution instance")
   @pattern("^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$")
