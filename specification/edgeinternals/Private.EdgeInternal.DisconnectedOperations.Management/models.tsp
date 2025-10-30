@@ -121,6 +121,33 @@ union PricingModel {
   string,
 }
 
+/**
+ * Billing status
+ */
+@added(Versions.v2025_08_01)
+union BillingStatus {
+  /**
+   * Billing is enabled.
+   */
+  Enabled: "Enabled",
+
+  string,
+
+  /**
+   * Billing is disabled.
+   */
+  Disabled: "Disabled",
+
+  string,
+
+  /**
+   * Billing is stopped.
+   */
+  Stopped: "Stopped",
+
+  string,
+}
+
 @doc("The disconnected operation properties")
 model DisconnectedOperationProperties {
   @visibility(Lifecycle.Read)
@@ -150,9 +177,9 @@ model DisconnectedOperationProperties {
   @visibility(Lifecycle.Update, Lifecycle.Read)
   deviceVersion?: string;
 
-  @doc("Auto renew setting")
+  @doc("The billing configuration")
   @added(Versions.v2025_08_01)
-  autoRenew?: AutoRenew;
+  billingConfiguration: BillingConfiguration;
 }
 
 @doc("The disconnected operation manifest")
@@ -320,51 +347,46 @@ model HardwareSettingProperties {
   @doc("The resource provisioning state")
   provisioningState?: ResourceProvisioningState;
 
-  @visibility(Lifecycle.Update, Lifecycle.Read)
   @doc("Total number of cores")
   totalCores: int32;
 
-  @visibility(Lifecycle.Update, Lifecycle.Read)
   @doc("Disk space in MB")
   diskSpace: int64;
 
-  @visibility(Lifecycle.Update, Lifecycle.Read)
   @doc("Memory in MB")
   memory: int64;
 }
 
-@doc("Billing information")
+@doc("Billing period")
 @added(Versions.v2025_08_01)
-model BillingInfo {
-  @visibility(Lifecycle.Update, Lifecycle.Read)
+model BillingPeriod {
   @doc("Number of cores")
   cores: int32;
 
-  @visibility(Lifecycle.Update, Lifecycle.Read)
   @doc("Pricing model")
   pricingModel: PricingModel;
 
-  @visibility(Lifecycle.Update, Lifecycle.Read)
   @doc("Billing start date")
-  billingStartDate: plainDate;
+  startDate: plainDate;
 
-  @visibility(Lifecycle.Update, Lifecycle.Read)
   @doc("Billing end date")
-  billingEndDate: plainDate;
+  endDate?: plainDate;
 }
 
-@doc("The billing configuration properties")
+@doc("The billing configuration")
 @added(Versions.v2025_08_01)
-model BillingConfigurationProperties {
+model BillingConfiguration {
+  @doc("Auto renew setting")
+  autoRenew: AutoRenew;
+
   @visibility(Lifecycle.Read)
-  @doc("The resource provisioning state")
-  provisioningState?: ResourceProvisioningState;
+  @doc("Billing status")
+  billingStatus: BillingStatus;
 
   @doc("Current billing configuration")
-  @visibility(Lifecycle.Update, Lifecycle.Read)
-  currentBilling: BillingInfo;
+  current: BillingPeriod;
 
   @doc("Next billing configuration")
   @visibility(Lifecycle.Update, Lifecycle.Read)
-  nextBilling: BillingInfo;
+  upcoming?: BillingPeriod;
 }
