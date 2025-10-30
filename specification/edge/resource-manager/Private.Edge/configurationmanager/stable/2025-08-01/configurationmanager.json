@@ -110,6 +110,15 @@
     },
     {
       "name": "SiteReferences"
+    },
+    {
+      "name": "SolutionSchemas"
+    },
+    {
+      "name": "ConfigTemplateSchemas"
+    },
+    {
+      "name": "ConfigTemplateMetadatas"
     }
   ],
   "paths": {
@@ -1247,6 +1256,106 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas": {
+      "get": {
+        "operationId": "ConfigTemplateMetadatas_ListByConfigTemplate",
+        "tags": [
+          "ConfigTemplateMetadatas"
+        ],
+        "description": "List by ConfigTemplate",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "configTemplateName",
+            "in": "path",
+            "description": "The name of the ConfigTemplate",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ConfigTemplateMetadataListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas/{configTemplateMetadataName}": {
+      "get": {
+        "operationId": "ConfigTemplateMetadatas_Get",
+        "tags": [
+          "ConfigTemplateMetadatas"
+        ],
+        "description": "Get a ConfigTemplateMetadata Resource",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "configTemplateName",
+            "in": "path",
+            "description": "The name of the ConfigTemplate",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "configTemplateMetadataName",
+            "in": "path",
+            "description": "The name of the ConfigTemplateMetadataProperties",
+            "required": true,
+            "type": "string",
+            "pattern": "^(?!.*\\.\\.)[a-zA-Z0-9-][a-zA-Z0-9._-]{1,68}[a-zA-Z0-9-]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ConfigTemplateMetadata"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ConfigTemplateMetadatas_Get_MaximumSet": {
+            "$ref": "./examples/ConfigTemplateMetadatas_Get_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configTemplates/{configTemplateName}/createVersion": {
       "post": {
         "operationId": "ConfigTemplates_CreateVersion",
@@ -1321,6 +1430,69 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configTemplates/{configTemplateName}/linkToHierarchies": {
+      "post": {
+        "operationId": "ConfigTemplates_LinkToHierarchies",
+        "tags": [
+          "ConfigTemplates"
+        ],
+        "description": "Apply a Config Template to a particular hierarchy node",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "configTemplateName",
+            "in": "path",
+            "description": "The name of the ConfigTemplate",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HierarchySelector"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
+      }
+    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configTemplates/{configTemplateName}/removeVersion": {
       "post": {
         "operationId": "ConfigTemplates_RemoveVersion",
@@ -1375,6 +1547,69 @@
             "$ref": "./examples/ConfigTemplates_RemoveVersion_MaximumSet_Gen.json"
           }
         }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configTemplates/{configTemplateName}/unLinkFromHierarchies": {
+      "post": {
+        "operationId": "ConfigTemplates_UnLinkFromHierarchies",
+        "tags": [
+          "ConfigTemplates"
+        ],
+        "description": "Remove a Config Template from a particular hierarchy node",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "configTemplateName",
+            "in": "path",
+            "description": "The name of the ConfigTemplate",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The content of the action request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HierarchySelector"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Resource operation accepted.",
+            "headers": {
+              "Location": {
+                "type": "string",
+                "description": "The Location header contains the URL where the status of the long running operation can be checked."
+              },
+              "Retry-After": {
+                "type": "integer",
+                "format": "int32",
+                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+              }
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "location"
+        },
+        "x-ms-long-running-operation": true
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configTemplates/{configTemplateName}/versions": {
@@ -1478,6 +1713,127 @@
         "x-ms-examples": {
           "ConfigTemplateVersions_Get_MaximumSet": {
             "$ref": "./examples/ConfigTemplateVersions_Get_MaximumSet_Gen.json"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}/configTemplateSchemas": {
+      "get": {
+        "operationId": "ConfigTemplateSchemas_ListByConfigTemplateVersion",
+        "tags": [
+          "ConfigTemplateSchemas"
+        ],
+        "description": "List by ConfigTemplateVersion",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "configTemplateName",
+            "in": "path",
+            "description": "The name of the ConfigTemplate",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "configTemplateVersionName",
+            "in": "path",
+            "description": "The name of the ConfigTemplateVersion",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ConfigTemplateSchemaListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ConfigTemplateSchemas_ListByConfigTemplateVersion_MaximumSet": {
+            "$ref": "./examples/ConfigTemplateSchemas_ListByConfigTemplateVersion_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}/configTemplateSchemas/{configTemplateSchemaName}": {
+      "get": {
+        "operationId": "ConfigTemplateSchemas_Get",
+        "tags": [
+          "ConfigTemplateSchemas"
+        ],
+        "description": "Get a ConfigTemplateSchema Resource",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "configTemplateName",
+            "in": "path",
+            "description": "The name of the ConfigTemplate",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-]{3,24}$"
+          },
+          {
+            "name": "configTemplateVersionName",
+            "in": "path",
+            "description": "The name of the ConfigTemplateVersion",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+          },
+          {
+            "name": "configTemplateSchemaName",
+            "in": "path",
+            "description": "The name of the ConfigTemplateSchemaProperties",
+            "required": true,
+            "type": "string",
+            "pattern": "^(?!.*\\.\\.)[a-zA-Z0-9-][a-zA-Z0-9._-]{1,68}[a-zA-Z0-9-]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ConfigTemplateSchema"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "ConfigTemplateSchemas_Get_MaximumSet": {
+            "$ref": "./examples/ConfigTemplateSchemas_Get_MaximumSet_Gen.json"
           }
         }
       }
@@ -5895,90 +6251,6 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/applySolution": {
-      "post": {
-        "operationId": "SolutionTemplateVersions_ApplySolution",
-        "tags": [
-          "SolutionTemplateVersions"
-        ],
-        "description": "Post request to apply",
-        "parameters": [
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
-          },
-          {
-            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
-          },
-          {
-            "name": "solutionTemplateName",
-            "in": "path",
-            "description": "The name of the SolutionTemplate",
-            "required": true,
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 61,
-            "pattern": "^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
-          },
-          {
-            "name": "solutionTemplateVersionName",
-            "in": "path",
-            "description": "The name of the SolutionTemplateVersion",
-            "required": true,
-            "type": "string",
-            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "The content of the action request",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/HierarchyDetails"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Azure operation completed successfully.",
-            "schema": {
-              "$ref": "#/definitions/ApplyResponse"
-            }
-          },
-          "202": {
-            "description": "Resource operation accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
-            }
-          }
-        },
-        "x-ms-examples": {
-          "SolutionTemplateVersions_ApplySolution_MaximumSet": {
-            "$ref": "./examples/SolutionTemplateVersions_ApplySolution_MaximumSet_Gen.json"
-          }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
-      }
-    },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/bulkDeploySolution": {
       "post": {
         "operationId": "SolutionTemplateVersions_BulkDeploySolution",
@@ -6213,13 +6485,73 @@
         "x-ms-long-running-operation": true
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/configureSolution": {
-      "post": {
-        "operationId": "SolutionTemplateVersions_ConfigureSolution",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/solutionSchemas": {
+      "get": {
+        "operationId": "SolutionSchemas_ListBySolutionTemplateVersion",
         "tags": [
-          "SolutionTemplateVersions"
+          "SolutionSchemas"
         ],
-        "description": "Post request to configure",
+        "description": "List by SolutionTemplateVersion",
+        "parameters": [
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "solutionTemplateName",
+            "in": "path",
+            "description": "The name of the SolutionTemplate",
+            "required": true,
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 61,
+            "pattern": "^(?!v-)(?!.*-v-)[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?(\\.[a-zA-Z0-9]([-a-zA-Z0-9]*[a-zA-Z0-9])?)*$"
+          },
+          {
+            "name": "solutionTemplateVersionName",
+            "in": "path",
+            "description": "The name of the SolutionTemplateVersion",
+            "required": true,
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SolutionSchemaListResult"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "SolutionSchemas_ListBySolutionTemplateVersion_MaximumSet": {
+            "$ref": "./examples/SolutionSchemas_ListBySolutionTemplateVersion_MaximumSet_Gen.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/solutionSchemas/{solutionSchemaName}": {
+      "get": {
+        "operationId": "SolutionSchemas_Get",
+        "tags": [
+          "SolutionSchemas"
+        ],
+        "description": "Get a SolutionSchema Resource",
         "parameters": [
           {
             "$ref": "../../../../../../common-types/resource-management/v5/types.json#/parameters/ApiVersionParameter"
@@ -6249,28 +6581,19 @@
             "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
           },
           {
-            "name": "body",
-            "in": "body",
-            "description": "The content of the action request",
+            "name": "solutionSchemaName",
+            "in": "path",
+            "description": "The name of the SolutionSchemaProperties",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/ConfigureHierarchyDetails"
-            }
+            "type": "string",
+            "pattern": "^(?!.*\\.\\.)[a-zA-Z0-9-][a-zA-Z0-9._-]{1,68}[a-zA-Z0-9-]$"
           }
         ],
         "responses": {
-          "202": {
-            "description": "Resource operation accepted.",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "The Location header contains the URL where the status of the long running operation can be checked."
-              },
-              "Retry-After": {
-                "type": "integer",
-                "format": "int32",
-                "description": "The Retry-After header can indicate how long the client should wait before polling the operation status."
-              }
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/SolutionSchema"
             }
           },
           "default": {
@@ -6281,14 +6604,10 @@
           }
         },
         "x-ms-examples": {
-          "SolutionTemplateVersions_ConfigureSolution_MaximumSet": {
-            "$ref": "./examples/SolutionTemplateVersions_ConfigureSolution_MaximumSet_Gen.json"
+          "SolutionSchemas_Get_MaximumSet": {
+            "$ref": "./examples/SolutionSchemas_Get_MaximumSet_Gen.json"
           }
-        },
-        "x-ms-long-running-operation-options": {
-          "final-state-via": "location"
-        },
-        "x-ms-long-running-operation": true
+        }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.Edge/targetTemplates": {
@@ -9425,22 +9744,15 @@
         ]
       }
     },
-    "ApplyResponse": {
+    "AdditionalData": {
       "type": "object",
-      "description": "Apply Response Parameter",
+      "description": "Additional metadata or properties.",
       "properties": {
-        "levelApplyResponse": {
-          "type": "array",
-          "description": "LevelApplyResponse",
-          "items": {
-            "$ref": "#/definitions/LevelApplyResponse"
-          },
-          "x-ms-identifiers": []
+        "workflowId": {
+          "type": "string",
+          "description": "Id of the workflow."
         }
-      },
-      "required": [
-        "levelApplyResponse"
-      ]
+      }
     },
     "AvailableSolutionTemplateVersion": {
       "type": "object",
@@ -9614,6 +9926,14 @@
             ]
           }
         },
+        "solutionDependencies": {
+          "type": "array",
+          "description": "Solution dependencies",
+          "items": {
+            "$ref": "#/definitions/SolutionDependencyParameter"
+          },
+          "x-ms-identifiers": []
+        },
         "solutionVersionId": {
           "type": "string",
           "format": "arm-id",
@@ -9689,6 +10009,14 @@
               }
             ]
           }
+        },
+        "solutionDependencies": {
+          "type": "array",
+          "description": "Solution dependencies",
+          "items": {
+            "$ref": "#/definitions/SolutionDependencyParameter"
+          },
+          "x-ms-identifiers": []
         },
         "solutionInstanceName": {
           "type": "string",
@@ -9835,10 +10163,85 @@
         "value"
       ]
     },
+    "ConfigTemplateMetadata": {
+      "type": "object",
+      "description": "ConfigTemplateMetadata Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ConfigTemplateMetadataProperties",
+          "description": "The resource-specific properties for this resource."
+        },
+        "eTag": {
+          "type": "string",
+          "description": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "ConfigTemplateMetadataListResult": {
+      "type": "object",
+      "description": "The response of a ConfigTemplateMetadata list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The ConfigTemplateMetadata items on this page",
+          "items": {
+            "$ref": "#/definitions/ConfigTemplateMetadata"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "ConfigTemplateMetadataProperties": {
+      "type": "object",
+      "description": "ConfigTemplateMetadata Properties",
+      "properties": {
+        "linkedHierarchies": {
+          "type": "array",
+          "description": "Hierarchy ARM Ids",
+          "items": {
+            "$ref": "#/definitions/HierarchyMetadata"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        },
+        "unLinkedHierarchies": {
+          "type": "array",
+          "description": "Hierarchy ARM Ids",
+          "items": {
+            "$ref": "#/definitions/HierarchyMetadata"
+          },
+          "readOnly": true,
+          "x-ms-identifiers": []
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of resource",
+          "readOnly": true
+        }
+      }
+    },
     "ConfigTemplateProperties": {
       "type": "object",
       "description": "Config Template Properties",
       "properties": {
+        "uniqueIdentifier": {
+          "type": "string",
+          "description": "A unique identifier for the config template, generated by the system",
+          "readOnly": true
+        },
         "description": {
           "type": "string",
           "description": "Description of config template"
@@ -9865,6 +10268,68 @@
         "description": {
           "type": "string",
           "description": "Description of config template"
+        }
+      }
+    },
+    "ConfigTemplateSchema": {
+      "type": "object",
+      "description": "ConfigTemplateSchema Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/ConfigTemplateSchemaProperties",
+          "description": "The resource-specific properties for this resource."
+        },
+        "eTag": {
+          "type": "string",
+          "description": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "ConfigTemplateSchemaListResult": {
+      "type": "object",
+      "description": "The response of a ConfigTemplateSchema list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The ConfigTemplateSchema items on this page",
+          "items": {
+            "$ref": "#/definitions/ConfigTemplateSchema"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "ConfigTemplateSchemaProperties": {
+      "type": "object",
+      "description": "ConfigTemplateSchema Properties",
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "Value of schema",
+          "readOnly": true
+        },
+        "templateUniqueIdentifier": {
+          "type": "string",
+          "description": "Unique identifier for the config template, generated by the system",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of resource",
+          "readOnly": true
         }
       }
     },
@@ -9931,6 +10396,10 @@
         "configurations": {
           "type": "string",
           "description": "Configuration values"
+        },
+        "internalState": {
+          "$ref": "#/definitions/InternalState",
+          "description": "Internal State of resource"
         },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
@@ -10011,41 +10480,6 @@
           }
         ]
       }
-    },
-    "ConfigureHierarchy": {
-      "type": "object",
-      "description": "Configure Hierarchy parameter",
-      "properties": {
-        "hierarchyIds": {
-          "type": "string",
-          "description": "ArmId of Hierarchy"
-        },
-        "configuration": {
-          "type": "string",
-          "description": "Configuration value"
-        }
-      },
-      "required": [
-        "hierarchyIds",
-        "configuration"
-      ]
-    },
-    "ConfigureHierarchyDetails": {
-      "type": "object",
-      "description": "Configure Hierarchy Details",
-      "properties": {
-        "configs": {
-          "type": "array",
-          "description": "Configure Hierarchy Parameters",
-          "items": {
-            "$ref": "#/definitions/ConfigureHierarchy"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "configs"
-      ]
     },
     "Context": {
       "type": "object",
@@ -10692,47 +11126,65 @@
         "description"
       ]
     },
-    "HierarchyConfigSchemaDetails": {
+    "HierarchyMetadata": {
       "type": "object",
-      "description": "HierarchyConfigSchemaDetails",
-      "properties": {
-        "hierarchyIds": {
-          "type": "string",
-          "description": "ArmId of Hierarchy"
-        },
-        "configuration": {
-          "type": "string",
-          "description": "Configuration value"
-        },
-        "schema": {
-          "type": "string",
-          "description": "Schema value"
-        }
-      },
-      "required": [
-        "hierarchyIds",
-        "schema"
-      ]
-    },
-    "HierarchyDetails": {
-      "type": "object",
-      "description": "Apply Hierarchy parameter",
+      "description": "Hierarchy Ids With Level for applying config Template which will further generate ARG objects",
       "properties": {
         "hierarchyIds": {
           "type": "array",
-          "description": "ArmId of Hierarchy",
+          "description": "Hierarchy Ids",
           "items": {
-            "type": "string"
+            "type": "string",
+            "format": "arm-id",
+            "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+            "x-ms-arm-id-details": {
+              "allowedResources": [
+                {
+                  "type": "Private.Edge/Targets"
+                },
+                {
+                  "type": "Microsoft.Edge/Sites"
+                }
+              ]
+            }
+          },
+          "readOnly": true
+        },
+        "level": {
+          "type": "string",
+          "description": "Hierarchy Level",
+          "readOnly": true
+        }
+      }
+    },
+    "HierarchySelector": {
+      "type": "object",
+      "description": "Hierarchy Ids With Level for applying config Template which will further generate ARG objects",
+      "properties": {
+        "hierarchyIds": {
+          "type": "array",
+          "description": "Hierarchy Ids",
+          "items": {
+            "type": "string",
+            "format": "arm-id",
+            "description": "A type definition that refers the id to an Azure Resource Manager resource.",
+            "x-ms-arm-id-details": {
+              "allowedResources": [
+                {
+                  "type": "Private.Edge/Targets"
+                },
+                {
+                  "type": "Microsoft.Edge/Sites"
+                }
+              ]
+            }
           }
         },
         "level": {
           "type": "string",
-          "description": "Hierarchy Level"
+          "description": "Level"
         }
-      },
-      "required": [
-        "hierarchyIds"
-      ]
+      }
     },
     "InstallSolutionParameter": {
       "type": "object",
@@ -10986,6 +11438,30 @@
         }
       ]
     },
+    "InternalState": {
+      "type": "string",
+      "description": "Internal state of resource",
+      "enum": [
+        "PendingValidation",
+        "Validated"
+      ],
+      "x-ms-enum": {
+        "name": "InternalState",
+        "modelAsString": true,
+        "values": [
+          {
+            "name": "PendingValidation",
+            "value": "PendingValidation",
+            "description": "Resource is pending validation"
+          },
+          {
+            "name": "Validated",
+            "value": "Validated",
+            "description": "Resource is validated"
+          }
+        ]
+      }
+    },
     "Job": {
       "type": "object",
       "description": "Job extension resource for tracking job execution and substatuses.",
@@ -11105,6 +11581,10 @@
           "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ErrorDetail",
           "description": "Error Details if any failure is there",
           "readOnly": true
+        },
+        "additionalData": {
+          "$ref": "#/definitions/AdditionalData",
+          "description": "Additional metadata or properties."
         }
       },
       "required": [
@@ -11152,6 +11632,10 @@
         "triggeredBy": {
           "type": "string",
           "description": "The OID or identity that triggered the job."
+        },
+        "additionalData": {
+          "$ref": "#/definitions/AdditionalData",
+          "description": "Additional metadata or properties."
         }
       }
     },
@@ -11263,6 +11747,8 @@
       "description": "JobType for the job. Supports extensibility via string values.",
       "enum": [
         "deploy",
+        "publish",
+        "uninstall",
         "staging",
         "externalValidation"
       ],
@@ -11274,6 +11760,16 @@
             "name": "Deploy",
             "value": "deploy",
             "description": "A deployment job."
+          },
+          {
+            "name": "Publish",
+            "value": "publish",
+            "description": "A publish job."
+          },
+          {
+            "name": "Uninstall",
+            "value": "uninstall",
+            "description": "A Uninstall job."
           },
           {
             "name": "Staging",
@@ -11301,27 +11797,6 @@
         {
           "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
         }
-      ]
-    },
-    "LevelApplyResponse": {
-      "type": "object",
-      "description": "Level based apply response",
-      "properties": {
-        "level": {
-          "type": "string",
-          "description": "Hierarchy Level"
-        },
-        "configschemadetails": {
-          "type": "array",
-          "description": "Hierarchy config and schema details",
-          "items": {
-            "$ref": "#/definitions/HierarchyConfigSchemaDetails"
-          },
-          "x-ms-identifiers": []
-        }
-      },
-      "required": [
-        "configschemadetails"
       ]
     },
     "OrchestratorType": {
@@ -11390,6 +11865,63 @@
         ]
       },
       "readOnly": true
+    },
+    "PublishJobParameter": {
+      "type": "object",
+      "description": "Parameters for a publish job.",
+      "properties": {
+        "parameter": {
+          "$ref": "#/definitions/SolutionVersionParameter"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/JobParameterBase"
+        }
+      ],
+      "x-ms-discriminator-value": "publish"
+    },
+    "PublishJobParameterUpdate": {
+      "type": "object",
+      "description": "Parameters for a publish job.",
+      "properties": {
+        "parameter": {
+          "$ref": "#/definitions/SolutionVersionParameterUpdate"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/JobParameterBaseUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "publish"
+    },
+    "PublishJobStepStatistics": {
+      "type": "object",
+      "description": "Publish statistics for a job step, including total, success, and failed counts.",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total count of items processed in this step"
+        },
+        "successCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Count of successful items in this step"
+        },
+        "failedCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Count of failed items in this step"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/JobStepStatisticsBase"
+        }
+      ],
+      "x-ms-discriminator-value": "publish"
     },
     "ReconciliationPolicyProperties": {
       "type": "object",
@@ -11720,6 +12252,10 @@
           "type": "string",
           "description": "Value of schema version"
         },
+        "internalState": {
+          "$ref": "#/definitions/InternalState",
+          "description": "Internal State of resource"
+        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning state of resource",
@@ -11737,6 +12273,10 @@
         "value": {
           "type": "string",
           "description": "Value of schema version"
+        },
+        "internalState": {
+          "$ref": "#/definitions/InternalState",
+          "description": "Internal State of resource"
         }
       }
     },
@@ -12007,6 +12547,73 @@
         }
       }
     },
+    "SolutionSchema": {
+      "type": "object",
+      "description": "SolutionSchema Resource",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/SolutionSchemaProperties",
+          "description": "The resource-specific properties for this resource."
+        },
+        "eTag": {
+          "type": "string",
+          "description": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.",
+          "readOnly": true
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "SolutionSchemaListResult": {
+      "type": "object",
+      "description": "The response of a SolutionSchema list operation.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The SolutionSchema items on this page",
+          "items": {
+            "$ref": "#/definitions/SolutionSchema"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "SolutionSchemaProperties": {
+      "type": "object",
+      "description": "SolutionSchema Properties",
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "Value of schema",
+          "readOnly": true
+        },
+        "level": {
+          "type": "string",
+          "description": "Hierarchy Level",
+          "readOnly": true
+        },
+        "templateUniqueIdentifier": {
+          "type": "string",
+          "description": "Unique identifier for the solution template, generated by the system",
+          "readOnly": true
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "Provisioning state of resource",
+          "readOnly": true
+        }
+      }
+    },
     "SolutionTemplate": {
       "type": "object",
       "description": "Solution Template Resource. Contains capabilities and operations for creating versions.",
@@ -12216,6 +12823,10 @@
           "$ref": "#/definitions/OrchestratorType",
           "description": "Orchestrator type"
         },
+        "internalState": {
+          "$ref": "#/definitions/InternalState",
+          "description": "Internal State of resource"
+        },
         "provisioningState": {
           "$ref": "#/definitions/ProvisioningState",
           "description": "Provisioning state of resource",
@@ -12325,6 +12936,16 @@
         "solutionVersionId"
       ]
     },
+    "SolutionVersionParameterUpdate": {
+      "type": "object",
+      "description": "Solution Version Parameter",
+      "properties": {
+        "solutionVersionId": {
+          "type": "string",
+          "description": "Solution Version ARM Id"
+        }
+      }
+    },
     "SolutionVersionProperties": {
       "type": "object",
       "description": "Solution Version Properties",
@@ -12414,7 +13035,7 @@
           "description": "The URI for tracking the latest action performed on this solution version.",
           "readOnly": true
         },
-        "lastestActionTriggeredBy": {
+        "latestActionTriggeredBy": {
           "type": "string",
           "description": "Object Id of user who triggered the latest action on this solution version.",
           "readOnly": true
@@ -13132,6 +13753,63 @@
         "specification"
       ]
     },
+    "UninstallJobParameter": {
+      "type": "object",
+      "description": "Parameters for a Uninstall job.",
+      "properties": {
+        "parameter": {
+          "$ref": "#/definitions/UninstallSolutionParameter"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/JobParameterBase"
+        }
+      ],
+      "x-ms-discriminator-value": "uninstall"
+    },
+    "UninstallJobParameterUpdate": {
+      "type": "object",
+      "description": "Parameters for a Uninstall job.",
+      "properties": {
+        "parameter": {
+          "$ref": "#/definitions/UninstallSolutionParameterUpdate"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/JobParameterBaseUpdate"
+        }
+      ],
+      "x-ms-discriminator-value": "uninstall"
+    },
+    "UninstallJobStepStatistics": {
+      "type": "object",
+      "description": "Uninstall statistics for a job step, including total, success, and failed counts.",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Total count of items processed in this step"
+        },
+        "successCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Count of successful items in this step"
+        },
+        "failedCount": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Count of failed items in this step"
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/JobStepStatisticsBase"
+        }
+      ],
+      "x-ms-discriminator-value": "uninstall"
+    },
     "UninstallSolutionParameter": {
       "type": "object",
       "description": "Uninstall Solution Parameter",
@@ -13148,6 +13826,20 @@
       "required": [
         "solutionTemplateId"
       ]
+    },
+    "UninstallSolutionParameterUpdate": {
+      "type": "object",
+      "description": "Uninstall Solution Parameter",
+      "properties": {
+        "solutionTemplateId": {
+          "type": "string",
+          "description": "Solution Template ARM Id"
+        },
+        "solutionInstanceName": {
+          "type": "string",
+          "description": "Solution Instance Name"
+        }
+      }
     },
     "UpdateExternalValidationStatusParameter": {
       "type": "object",

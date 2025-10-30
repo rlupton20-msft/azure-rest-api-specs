@@ -5,6 +5,7 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./edgevolume.tsp";
 import "./backendconnectionstate.tsp";
+import "./subvolumecommon.tsp";
 
 using TypeSpec.Rest;
 using Azure.ResourceManager;
@@ -36,7 +37,7 @@ model IngestSubvolumeProperties {
   path?: string;
 
   @doc("Authentication config for certain subvolumes.")
-  auth?: AuthConfig;
+  authentication?: AuthConfig;
 
   @doc("Blob storage endpoint, for example: https://mysa.core.windows.net")
   @minLength(3)
@@ -45,7 +46,7 @@ model IngestSubvolumeProperties {
 
   @doc("Blob container name.")
   @minLength(3)
-  container?: string;
+  containerName?: string;
 
   @doc("Optional Unix-like ownership info (UID/GID) for the subvolume.")
   authSys?: AuthSysConfig;
@@ -74,8 +75,7 @@ union IngestOrder {
   @doc("Upload dirty files in the order of newest first.")
   `newest-first`: "newest-first",
 
-  @doc("Any other string value is allowed as a custom order.")
-  string, // Open enum allows any other string value
+  string,
 }
 
 @doc("The ingest configuration for the subvolume.")
@@ -111,45 +111,6 @@ model IngestSubvolumeEvictionConfig {
   @minValue(0)
   @maxValue(31536000)
   minDelaySec?: int32;
-}
-
-/**
- * Authentication config used if 'path != /' or certain authentication is required.
- */
-@doc("Authentication settings for secure access to storage.")
-model AuthConfig {
-  @doc("Auth method to use.")
-  authType: AuthType; // this is required
-}
-
-/**
- * AuthType enumerates possible authentication methods.
- */
-@doc("Possible authentication methods.")
-union AuthType {
-  @doc("Workload Identity for authentication.")
-  WORKLOAD_IDENTITY: "WORKLOAD_IDENTITY",
-
-  @doc("Managed Identity for authentication.")
-  MANAGED_IDENTITY: "MANAGED_IDENTITY",
-
-  string,
-}
-
-/**
- * UID/GID ownership for the subvolume.
- */
-@doc("Unix-like ownership of the subvolume via UID/GID.")
-model AuthSysConfig {
-  @doc("User ID owning the subvolume (default 4294967294).")
-  @minValue(1) // Minimum value constraint
-  @maxValue(4294967294) // Maximum value constraint
-  uid: int64; // Required
-
-  @doc("Group ID owning the subvolume (default 4294967294).")
-  @minValue(1) // Minimum value constraint
-  @maxValue(4294967294) // Maximum value constraint
-  gid: int64; // Required
 }
 
 /**

@@ -50,11 +50,6 @@ model NamespaceDiscoveredAssetProperties {
   @doc("An integer that is incremented each time the resource is modified.")
   version: int64;
 
-  @doc("A timestamp (in UTC) that is updated each time the resource is modified.")
-  @visibility(Lifecycle.Read)
-  @added(Versions.v2025_10_01)
-  lastTransitionTime?: utcDateTime;
-
   @doc("Asset manufacturer.")
   manufacturer?: string;
 
@@ -222,7 +217,7 @@ model NamespaceDiscoveredEventGroup {
   name: string;
 
   @doc("The address of the notifier of the event group in the asset (e.g. URL) so that a client can access the event group on the asset.")
-  dataSource: string;
+  dataSource?: string;
 
   @doc("Stringified JSON that contains connector-specific configuration for the event group. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.")
   eventGroupConfiguration?: string;
@@ -249,7 +244,7 @@ model NamespaceDiscoveredEvent {
 
   @doc("Reference to a data source for a given event.")
   @added(Versions.v2025_10_01)
-  dataSource: string;
+  dataSource?: string;
 
   @doc("The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.")
   @added(Versions.v2025_07_01_preview)
@@ -310,7 +305,7 @@ model NamespaceDiscoveredManagementGroup {
 
   @doc("Reference to a data source for a given management group.")
   @added(Versions.v2025_10_01)
-  dataSource: string;
+  dataSource?: string;
 
   @doc("Stringified JSON that contains connector-specific configuration for the management group.")
   managementGroupConfiguration?: string;

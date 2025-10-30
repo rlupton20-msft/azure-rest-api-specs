@@ -799,7 +799,8 @@ model SeatBasedResourceProperties {
    * Type of the offer for which the resource is purchased
    */
   @visibility(Lifecycle.Read)
-  offerType?: OfferType;
+  @typeChangedFrom(SaaSHubVersions.v2025_07_01_preview, OfferType)
+  offerType?: string;
 
   /**
    * Product Universal Product Number of the product
@@ -926,6 +927,16 @@ model ScheduleActionLinkedResource {
    * Format: /providers/Microsoft.Billing/billingAccounts/{baId}/billingProfiles/{bfId}/invoiceSections/{isId}
    */
   billingScope?: string;
+
+  /**
+   * The link operation type.
+   */
+  operationType?: string;
+
+  /**
+   * The resource type for the linked resource.
+   */
+  resourceType?: string;
 }
 
 /**
@@ -962,6 +973,12 @@ model ScheduleAction {
    * Optional property.
    */
   linkedResource?: ScheduleActionLinkedResource;
+
+  /**
+   * Type of the offer for which the schedule action is applied
+   */
+  @visibility(Lifecycle.Read)
+  offerType?: string;
 
   /**
    * Resource tokens for various authorization and context purposes.

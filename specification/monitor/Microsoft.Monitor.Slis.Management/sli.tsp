@@ -62,6 +62,9 @@ model SliResource {
   @doc("The streaming rule last updated timestamp associated with the Sli resource.")
   streamingRuleLastUpdatedTimestamp: string;
 
+  @doc("A flag to determine whether alert is enabled.")
+  enableAlert: boolean;
+
   @doc("Defines the SLI properties associated with the SLI.")
   sliProperties: SliProperties;
 }
@@ -135,15 +138,6 @@ model ServiceGroupParameters is ServiceGroupBaseParameters {
   ...Azure.ResourceManager.CommonTypes.ApiVersionParameter;
 }
 
-@doc("ServiceGroup parameters with signal preview query parameters")
-model ServiceGroupParametersWithSignalPreview is ServiceGroupBaseParameters {
-  ...Azure.ResourceManager.CommonTypes.ApiVersionParameter;
-
-  @query
-  @doc("The preview type for the signal preview operation.")
-  previewType: PreviewType;
-}
-
 @doc("Defines operations for managing SLI resources.")
 @armResourceOperations(Sli)
 interface Slis {
@@ -162,18 +156,4 @@ interface Slis {
   @doc("Lists all SLI resources under a parent resource.")
   @route(ServiceGroupRoute)
   listByParent is ArmResourceListByParent<Sli, ServiceGroupParameters>;
-
-  /**
-  POST Actions
-  */
-  @route(ServiceGroupRoute)
-  @armResourceAction(Sli)
-  @post
-  @doc("Returns preview data for the signal.")
-  signalPreview is ArmResourceActionSync<
-    Sli,
-    SignalPreviewSliProperties,
-    KqlmQueryResult,
-    ServiceGroupParametersWithSignalPreview
-  >;
 }

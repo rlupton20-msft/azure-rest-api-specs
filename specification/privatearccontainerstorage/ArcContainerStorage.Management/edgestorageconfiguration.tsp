@@ -32,9 +32,6 @@ model EdgeStorageConfigurationProperties {
   @visibility(Lifecycle.Create, Lifecycle.Read)
   defaultDiskStorageClasses: StorageClass[];
 
-  @doc("Automatically failover edge volume consumers.")
-  failoverEdgeVolumeConsumers?: boolean;
-
   @doc("Object containing optional workload identity information.")
   workloadIdentity?: WorkloadIdentity;
 

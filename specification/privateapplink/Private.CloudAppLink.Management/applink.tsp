@@ -11,11 +11,12 @@ namespace Private.CloudAppLink;
 @doc("AppLink resource")
 model AppLink is TrackedResource<AppLinkProperties> {
   ...ResourceNameParameter<AppLink>;
+  ...ManagedServiceIdentityProperty;
 }
 
 @doc("AppLink properties")
 model AppLinkProperties {
-  @doc("Provisioning state of the AppLink resource")
+  @doc("Provisioning state")
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }

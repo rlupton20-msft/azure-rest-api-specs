@@ -79,54 +79,6 @@ interface VirtualEnclave {
     ApprovalDeletionCallbackRequest,
     ApprovalActionResponse
   >;
-
-  @doc("Sets role assignments for the enclave resource.")
-  @armResourceAction(EnclaveResource)
-  @useFinalStateVia("azure-async-operation")
-  @added(Microsoft.Mission.Versions.v2025_09_01_preview)
-  setRoleAssignments is ArmResourceActionNoResponseContentAsync<
-    EnclaveResource,
-    SetEnclaveRoleAssignmentsRequest,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
-      ArmAsyncOperationHeader &
-      LocationHeader
-  >;
-
-  @doc("Sets role assignments for the workload resources of the enclave.")
-  @armResourceAction(EnclaveResource)
-  @useFinalStateVia("azure-async-operation")
-  @added(Microsoft.Mission.Versions.v2025_09_01_preview)
-  setWorkloadRoleAssignments is ArmResourceActionNoResponseContentAsync<
-    EnclaveResource,
-    SetWorkloadRoleAssignmentsRequest,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
-      ArmAsyncOperationHeader &
-      LocationHeader
-  >;
-
-  @doc("Sets the subnets of the enclave.")
-  @armResourceAction(EnclaveResource)
-  @useFinalStateVia("azure-async-operation")
-  @added(Microsoft.Mission.Versions.v2025_09_01_preview)
-  setSubnets is ArmResourceActionNoResponseContentAsync<
-    EnclaveResource,
-    SetEnclaveSubnetsRequest,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
-      ArmAsyncOperationHeader &
-      LocationHeader
-  >;
-
-  @doc("Sets the Enclave Maintenance Mode configuration.")
-  @armResourceAction(EnclaveResource)
-  @useFinalStateVia("azure-async-operation")
-  @added(Microsoft.Mission.Versions.v2025_09_01_preview)
-  setMaintenanceMode is ArmResourceActionNoResponseContentAsync<
-    EnclaveResource,
-    SetEnclaveMaintenanceModeRequest,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
-      ArmAsyncOperationHeader &
-      LocationHeader
-  >;
 }
 
 @doc("Community Interface")
@@ -158,18 +110,6 @@ interface Community {
     @bodyRoot
     checkAddressSpaceAvailabilityRequest: CheckAddressSpaceAvailabilityRequest,
   ): ArmResponse<CheckAddressSpaceAvailabilityResponse> | ErrorResponse;
-
-  @doc("Sets the Community Maintenance Mode configuration.")
-  @armResourceAction(CommunityResource)
-  @useFinalStateVia("azure-async-operation")
-  @added(Microsoft.Mission.Versions.v2025_09_01_preview)
-  setMaintenanceMode is ArmResourceActionNoResponseContentAsync<
-    CommunityResource,
-    SetCommunityMaintenanceModeRequest,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
-      ArmAsyncOperationHeader &
-      LocationHeader
-  >;
 }
 
 @doc("TransitHub Interface")
@@ -230,18 +170,6 @@ interface EnclaveConnection {
     EnclaveConnectionResource,
     ApprovalDeletionCallbackRequest,
     ApprovalActionResponse
-  >;
-
-  @doc("Sets the Enclave Connection source CIDR.")
-  @armResourceAction(EnclaveConnectionResource)
-  @useFinalStateVia("azure-async-operation")
-  @added(Microsoft.Mission.Versions.v2025_09_01_preview)
-  setSourceCidr is ArmResourceActionNoResponseContentAsync<
-    EnclaveConnectionResource,
-    SetSourceCidrRequest,
-    LroHeaders = Azure.Core.Foundations.RetryAfterHeader &
-      ArmAsyncOperationHeader &
-      LocationHeader
   >;
 }
 

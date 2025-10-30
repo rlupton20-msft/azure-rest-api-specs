@@ -5,7 +5,8 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "./applink.tsp";
 import "./applinkmember.tsp";
-import "./applinkreleasechannelprofile.tsp";
+import "./applinkmemberupgradehistory.tsp";
+import "./applinkavailableversion.tsp";
 
 using Versioning;
 using Azure.ResourceManager;
@@ -19,8 +20,6 @@ namespace Private.CloudAppLink;
 /** The available API versions. */
 enum Versions {
   /** 2025-04-01-preview version */
-  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
   @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v5)
   v2025_04_01_preview: "2025-04-01-preview",
 }

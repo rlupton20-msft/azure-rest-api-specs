@@ -120,6 +120,15 @@ model GeoCatalogProperties {
   @added(Versions.`2025-07-01-preview`)
   @doc("Whether or not public network access is allowed for the GeoCatalog.")
   publicNetworkAccess?: PublicNetworkAccess;
+
+  @added(Versions.`2025-07-01-preview`)
+  @doc("The resource IDs of the managed storage accounts for the GeoCatalog.")
+  @visibility(Lifecycle.Read)
+  managedStorageResourceIds?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.Storage/storageAccounts";
+    }
+  ]>[];
 }
 
 @doc("State of the public network access.")

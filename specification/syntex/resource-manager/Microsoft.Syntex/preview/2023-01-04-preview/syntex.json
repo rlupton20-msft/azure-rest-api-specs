@@ -690,6 +690,10 @@
           "$ref": "#/definitions/AccountProperties",
           "description": "The resource-specific properties for this resource.",
           "x-ms-client-flatten": false
+        },
+        "identity": {
+          "$ref": "#/definitions/ManagedServiceIdentity",
+          "description": "Managed identity of the Syntex Account."
         }
       },
       "description": "An Account is a SyntexProviderHub resource",
@@ -755,6 +759,18 @@
           },
           "default": []
         },
+        "subFeatureMappings": {
+          "type": "array",
+          "description": "An array of feature objects, each containing a feature name and a list of sub-features.",
+          "items": {
+            "$ref": "#/definitions/SubFeaturesObject"
+          },
+          "readOnly": true,
+          "x-ms-mutability": [
+            "read"
+          ],
+          "default": []
+        },
         "scope": {
           "type": "string",
           "description": "This signifies if the scope if tenant only or global."
@@ -798,6 +814,9 @@
           },
           "description": "Resource tags."
         },
+        "identity": {
+          "$ref": "#/definitions/ManagedServiceIdentity"
+        },
         "properties": {
           "type": "object",
           "x-ms-client-flatten": true,
@@ -834,6 +853,20 @@
               },
               "default": []
             },
+            "subFeaturesToAdd": {
+              "type": "array",
+              "description": "An array of feature objects, each containing a feature name and a list of sub-features to be added.",
+              "items": {
+                "$ref": "#/definitions/SubFeaturesObject"
+              }
+            },
+            "subFeaturesToRemove": {
+              "type": "array",
+              "description": "An array of feature objects, each containing a feature name and a list of sub-features to be removed.",
+              "items": {
+                "$ref": "#/definitions/SubFeaturesObject"
+              }
+            },
             "scopeMetaData": {
               "type": "array",
               "description": "The list of security or M365 groups associated with the accounts resource. Defaults to an empty array if not provided.",
@@ -860,6 +893,23 @@
         }
       },
       "description": "The type used for update operations of the Account."
+    },
+    "SubFeaturesObject": {
+      "type": "object",
+      "properties": {
+        "feature": {
+          "type": "string",
+          "description": "A string representing a feature."
+        },
+        "subfeatures": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "A string representing a sub-feature."
+          },
+          "description": "A list of subfeatures."
+        }
+      }
     },
     "Budget": {
       "type": "object",
@@ -921,6 +971,37 @@
           "description": "Unique identifier (GUID) of the associated Azure Action Group resource."
         }
       }
+    },
+    "ManagedServiceIdentity": {
+      "type": "object",
+      "description": "Managed identity for the resource.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The identity type.",
+          "enum": [
+            "SystemAssigned",
+            "None"
+          ],
+          "x-ms-enum": {
+            "name": "ManagedServiceIdentityType",
+            "modelAsString": true
+          }
+        },
+        "principalId": {
+          "type": "string",
+          "readOnly": true,
+          "description": "AAD principal ID of the system-assigned identity."
+        },
+        "tenantId": {
+          "type": "string",
+          "readOnly": true,
+          "description": "AAD tenant ID of the system-assigned identity."
+        }
+      },
+      "required": [
+        "type"
+      ]
     }
   },
   "parameters": {

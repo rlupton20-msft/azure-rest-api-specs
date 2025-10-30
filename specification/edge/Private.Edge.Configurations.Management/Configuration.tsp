@@ -5,11 +5,9 @@ import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-azure-resource-manager";
 import "@typespec/openapi";
 
-using TypeSpec.OpenAPI;
+using TypeSpec.Versioning;
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
-using Azure.Core;
 using Azure.ResourceManager;
 
 namespace Private.Edge;
@@ -19,6 +17,55 @@ model ConfigurationProperties {
   @doc("Provisioning state of resource")
   @visibility(Lifecycle.Read)
   provisioningState?: ResourceProvisioningState;
+
+  @doc("Managed Infrastructure Configurations.")
+  @removed(Versions.v2025_08_01)
+  managedInfraConfigurations?: ManagedInfraConfigurations;
+
+  @doc("Managed On Behalf Of Configuration.")
+  @visibility(Lifecycle.Read)
+  @removed(Versions.v2025_08_01)
+  managedOnBehalfOfConfiguration?: CommonTypes.ManagedOnBehalfOfConfiguration;
+}
+
+@doc("Managed Infrastructure Configurations.")
+@removed(Versions.v2025_08_01)
+model ManagedInfraConfigurations {
+  @doc("Flag indicating whether managed infrastructure is enabled or not")
+  enabled?: boolean = false;
+
+  @doc("Name of the resource group to be used for managed resources. If not provided, a new resource group will be created with name format 'ManagedResources-<configurationName>-<randomString>'.")
+  managedResourceGroupNameOverride?: string;
+
+  @doc("List of managed resource group resource IDs provisioned. This will be empty if 'enabled' is false. There will be single entry in the list if 'enabled' is true for foreseeable future. Kept array for extensibility in future.")
+  @visibility(Lifecycle.Read)
+  managedResourceGroupIds?: Azure.Core.armResourceIdentifier<[
+    {
+      type: "Microsoft.Resources/resourceGroups";
+    }
+  ]>[];
+
+  @doc("Metadata for additional identities.")
+  additionalIdentitiesMetadata?: AdditionalIdentitiesMetadata[];
+}
+
+@doc("Metadata for additional identities.")
+@removed(Versions.v2025_08_01)
+model AdditionalIdentitiesMetadata {
+  @doc("Object ID (GUID) of the service principal for the additional identity.")
+  servicePrincipalObjectId: string;
+
+  @doc("Name for the additional identity.")
+  name: AdditionalIdentityName;
+}
+
+@doc("Allowed names for additional identities.")
+@removed(Versions.v2025_08_01)
+union AdditionalIdentityName {
+  @doc("Name of AzureLocal for additional identity.")
+  AzureLocal: "AzureLocal",
+
+  string,
 }
 
 @doc("Configuration Resource")
@@ -37,13 +84,13 @@ interface Configurations {
   get is ArmResourceRead<Configuration>;
 
   @doc("Create or update a Configuration Resource")
-  createOrUpdate is ArmResourceCreateOrReplaceSync<Configuration>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<Configuration>;
 
   @doc("Update a Configuration Resource")
   update is ArmResourcePatchSync<Configuration, ConfigurationProperties>;
 
   @doc("Delete a Configuration Resource")
-  delete is ArmResourceDeleteSync<Configuration>;
+  delete is ArmResourceDeleteWithoutOkAsync<Configuration>;
 
   @doc("List by specified resource group")
   listByResourceGroup is ArmResourceListByParent<Configuration>;

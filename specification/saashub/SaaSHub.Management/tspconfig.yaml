@@ -1,6 +1,6 @@
 emit:
   - "@azure-tools/typespec-autorest"
-  # - "@azure-tools/typespec-csharp"  # Temporarily disabled due to beta emitter bug: 'AzureResourceManagerSaasHubContext' does not contain a definition for 'Default'
+  # - "@azure-tools/typespec-csharp"  # Disabled due to GeneratorPageableHelpers protection level bug in emitter
 parameters:
   service-dir:
     default: "sdk/saashub"
@@ -15,6 +15,7 @@ options:
     flavor: azure
     package-dir: "azure-resourcemanager-saashub"
     namespace: "com.azure.resourcemanager.saashub"
+    emitter-output-dir: "{output-dir}/{service-dir}/azure-resourcemanager-saashub"
   "@azure-tools/typespec-ts":
     flavor: azure
     experimental-extensible-enums: true
@@ -22,6 +23,7 @@ options:
     package-name: "@azure/arm-saashub"
     package-details:
       name: "@azure/arm-saashub"
+    emitter-output-dir: "{output-dir}/{service-dir}/arm-saashub"
   "@azure-tools/typespec-go":
     service-dir: "sdk/resourcemanager/saashub"
     package-dir: "armsaashub"
@@ -32,6 +34,7 @@ options:
     generate-fakes: true
     head-as-boolean: true
     inject-spans: true
+    emitter-output-dir: "{output-dir}/{service-dir}/armsaashub"
   "@azure-tools/typespec-python":
     flavor: azure
     package-dir: "azure-mgmt-saashub"
@@ -39,19 +42,28 @@ options:
     namespace: "azure.mgmt.saashub"
     generate-test: true
     generate-sample: true
-  # "@azure-tools/typespec-csharp":  # Temporarily disabled due to beta emitter bug (v0.2.0-beta.20250701.1)
-  #   flavor: azure                 # Error: 'AzureResourceManagerSaasHubContext' does not contain a definition for 'Default'
-  #   package-dir: "Azure.ResourceManager.SaasHub"  # Generated code tries to access AzureResourceManagerSaasHubContext.Default which doesn't exist
-  #   namespace: "{package-dir}"     # Try explicit namespace instead of {package-dir} to avoid context naming issues
+    emitter-output-dir: "{output-dir}/{service-dir}/azure-mgmt-saashub"
+  # "@azure-tools/typespec-csharp": # Temporarily disabled due to beta emitter bug (v0.2.0-beta.20250926.1)
+  #   flavor: azure
+  #   package-dir: "Azure.ResourceManager.SaasHub"
+  #   namespace: "Azure.ResourceManager.SaasHub"
   #   clear-output-folder: true
-  #   unreferenced-types-handling: "keep-all"  # Keep all types to avoid breaking changes
-  #   suppress: ["AZC0030", "AZC0033"]  # Suppress naming convention warnings for Request/Operation models
-  #   # AZC0030: Model name ends with 'Request' - applies to MergeCloudServiceRequest, MergeSaasResourcesRequest
+  #   emitter-output-dir: "{output-dir}/{service-dir}/Azure.ResourceManager.SaasHub"
+  #   unreferenced-types-handling: "keepAll"
+  #   suppress: ["AZC0030", "AZC0032", "AZC0033"]
+  #   # AZC0030: Model name ends with 'Request' or 'Response' - applies to MergeCloudServiceRequest, MergeSaasResourcesRequest, GetRefundableQuantityResponse, ProposalResponse
+  #   # AZC0032: Model name ends with 'Data' - applies to SystemData, SaasHubResourceData
   #   # AZC0033: Model name ends with 'Operation' - applies to Operation model
-  #   # Alternative workaround approaches to try:
-  #   # 1. Use a different package-dir naming pattern to avoid context naming conflicts
-  #   # 2. Wait for a stable version of the C# emitter (current is beta)
-  #   # 3. Report this as a bug to the TypeSpec C# emitter team
+  #   # Protection level error with GeneratorPageableHelpers:
+  #   # The C# emitter generates code that calls GeneratorPageableHelpers.CreatePageable()
+  #   # but GeneratorPageableHelpers class is marked as internal in Azure.ResourceManager.Core
+  #   # This is a bug in the emitter - it should either:
+  #   # 1. Use public APIs instead of internal helpers
+  #   # 2. Generate different pagination code that doesn't rely on internal classes
+  #   # 3. The Azure.ResourceManager.Core should expose these helpers publicly
+  #   #
+  #   # Current workaround: C# emitter is disabled until bug is fixed
+  #   # To re-enable: uncomment this section when emitter is updated
 linter:
   extends:
     - "@azure-tools/typespec-azure-rulesets/resource-manager"

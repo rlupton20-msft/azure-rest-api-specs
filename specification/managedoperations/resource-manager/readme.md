@@ -1,4 +1,4 @@
-# ExtManagedOperations
+# ManagedOps
 
 > see https://aka.ms/autorest
 
@@ -22,21 +22,12 @@ For other options on installation see [Installing AutoRest](https://aka.ms/autor
 
 ### Basic Information
 
-These are the global settings for the ExtManagedOperations.
+These are the global settings for the ManagedOps.
 
 ```yaml
 openapi-type: arm
 openapi-subtype: rpaas
-tag: package-2024-08-01-preview
-```
-
-### Tag: package-2024-08-01-preview
-
-These settings apply only when `--tag=package-2024-08-01-preview` is specified on the command line.
-
-```yaml $(tag) == 'package-2024-08-01-preview'
-input-file:
-  - Private.Poc360/preview/2024-08-01-preview/extmanagedoperations.json
+tag: package-2025-10-01-preview
 ```
 
 ### Tag: package-2023-04-01-preview
@@ -45,7 +36,50 @@ These settings apply only when `--tag=package-2023-04-01-preview` is specified o
 
 ```yaml $(tag) == 'package-2023-04-01-preview'
 input-file:
-  - Private.Poc360/preview/2023-04-01-preview/extmanagedoperations.json
+  - Private.Poc360/preview/2023-04-01-preview/managedops.json
+```
+
+### Tag: package-2024-08-01-preview
+
+These settings apply only when `--tag=package-2024-08-01-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2024-08-01-preview'
+input-file:
+  - Private.Poc360/preview/2024-08-01-preview/managedops.json
+```
+
+### Tag: package-2025-05-19-preview
+
+These settings apply only when `--tag=package-2025-05-19-preview` is specified on the command line.
+
+```yaml $(tag) == 'package-2025-05-19-preview'
+input-file:
+  - Private.Poc360/preview/2025-05-19-preview/managedops.json
+```
+
+### Tag: package-2025-07-28-preview 
+
+These settings apply only when `--tag=package-2025-07-28-preview` is specified on the command line. 
+
+ 
+
+```yaml $(tag) == 'package-2025-07-28-preview' 
+
+input-file: 
+
+  - Private.Poc360/preview/2025-07-28-preview/managedops.json 
+```
+
+
+### Tag: package-2025-10-01-preview 
+
+These settings apply only when `--tag=package-2025-10-01-preview` is specified on the command line. 
+
+
+
+```yaml $(tag) == 'package-2025-10-01-preview' 
+input-file: 
+  - Private.Poc360/preview/2025-10-01-preview/managedops.json 
 ```
 
 ---
@@ -87,3 +121,7 @@ See configuration in [readme.typescript.md](./readme.typescript.md)
 ## CSharp
 
 See configuration in [readme.csharp.md](./readme.csharp.md)
+
+## Java
+
+See configuration in [readme.java.md](./readme.java.md)

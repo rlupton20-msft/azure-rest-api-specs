@@ -781,9 +781,6 @@
             }
           }
         },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink"
-        },
         "x-ms-examples": {
           "Grafana_FetchAvailablePlugins": {
             "$ref": "./examples/Grafana_FetchAvailablePlugins.json"
@@ -882,6 +879,10 @@
               "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
             }
           }
+        },
+        "x-ms-long-running-operation": true,
+        "x-ms-long-running-operation-options": {
+          "final-state-via": "azure-async-operation"
         },
         "x-ms-examples": {
           "ManagedPrivateEndpoint_Refresh": {
@@ -1003,7 +1004,7 @@
         },
         "x-ms-long-running-operation": true,
         "x-ms-long-running-operation-options": {
-          "final-state-via": "azure-async-operation"
+          "final-state-via": "original-uri"
         },
         "x-ms-examples": {
           "ManagedPrivateEndpoint_Create": {
@@ -1702,6 +1703,17 @@
         }
       }
     },
+    "GrafanaPlugin": {
+      "description": "Plugin of Grafana",
+      "type": "object",
+      "properties": {
+        "pluginId": {
+          "description": "Grafana plugin id",
+          "type": "string",
+          "readOnly": true
+        }
+      }
+    },
     "GrafanaAvailablePlugin": {
       "description": "Available plugins of grafana",
       "type": "object",
@@ -1725,21 +1737,13 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/GrafanaAvailablePlugin"
-          }
+          },
+          "x-ms-identifiers": [
+            "pluginId"
+          ]
         },
         "nextLink": {
           "type": "string"
-        }
-      }
-    },
-    "GrafanaPlugin": {
-      "description": "Plugin of Grafana",
-      "type": "object",
-      "properties": {
-        "pluginId": {
-          "description": "Grafana plugin id",
-          "type": "string",
-          "readOnly": true
         }
       }
     },
@@ -1833,49 +1837,16 @@
       "type": "object",
       "description": "The managed private endpoint resource type.",
       "x-ms-azure-resource": true,
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/TrackedResource"
+        }
+      ],
       "properties": {
-        "id": {
-          "description": "ARM id of the managed private endpoint resource.",
-          "type": "string",
-          "readOnly": true
-        },
-        "name": {
-          "description": "Name of the managed private endpoint resource.",
-          "type": "string",
-          "readOnly": true
-        },
-        "type": {
-          "description": "Type of the managed private endpoint resource.",
-          "type": "string",
-          "readOnly": true
-        },
         "properties": {
+          "x-ms-client-flatten": true,
+          "description": "Resource properties.",
           "$ref": "#/definitions/ManagedPrivateEndpointModelProperties"
-        },
-        "systemData": {
-          "description": "The system meta data relating to this managed private endpoint.",
-          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/systemData",
-          "readOnly": true
-        },
-        "tags": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "x-ms-mutability": [
-            "read",
-            "create",
-            "update"
-          ],
-          "description": "The tags for managed private endpoint."
-        },
-        "location": {
-          "type": "string",
-          "x-ms-mutability": [
-            "read",
-            "create"
-          ],
-          "description": "The geo-location where the managed private endpoint lives."
         }
       }
     },

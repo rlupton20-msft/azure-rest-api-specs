@@ -2,13 +2,11 @@ import "./common.tsp";
 import "./validationExecutionPlan.tsp";
 import "./validationTestRun.tsp";
 
-using TypeSpec.Http;
 using TypeSpec.Rest;
 using Azure.Core;
-using Azure.Core.Traits;
 using Azure.ResourceManager;
 
-namespace Private.Validate;
+namespace Microsoft.Validate;
 
 @doc("The properties of the execution plan run.")
 @parentResource(ValidationExecutionPlan)
@@ -27,15 +25,15 @@ model ExecutionPlanRunProperties {
 
   @doc("The start time of the execution plan run.")
   @visibility(Lifecycle.Read)
-  startTimestamp: utcDateTime;
+  startTimestampInUtc: utcDateTime;
 
   @doc("The end time of the execution plan run.")
   @visibility(Lifecycle.Read)
-  endTimestamp?: utcDateTime;
+  endTimestampInUtc?: utcDateTime;
 
   @doc("The reported timestamp of the execution plan run.")
   @visibility(Lifecycle.Read)
-  reportedTimestamp: utcDateTime;
+  reportedTimestampInUtc: utcDateTime;
 
   @doc("The test runs under this execution plan run.")
   @visibility(Lifecycle.Read)
@@ -96,21 +94,17 @@ interface ValidationExecutionPlanRuns {
   @doc("Get a Validation test execution plan run details")
   get is ArmResourceRead<ExecutionPlanRun>;
 
+  @doc("Create or update a validation test execution plan")
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<ExecutionPlanRun>;
+
+  @doc("Delete a validation test execution plan run resource")
+  delete is ArmResourceDeleteWithoutOkAsync<ExecutionPlanRun>;
+
   @doc("List Validation test execution plan runs for an execution plan")
   listByExecutionPlan is ArmResourceListByParent<
     ExecutionPlanRun,
-    Parameters = PaginationQueryParameters
+    Parameters = StandardListQueryParameters &
+      OrderByQueryParameter &
+      FilterQueryParameter
   >;
-
-  @doc("Start a Validation test execution plan run")
-  @actionSeparator(":")
-  start is ArmResourceActionNoResponseContentAsync<ExecutionPlanRun, void>;
-
-  @doc("Stop a Validation test execution plan run")
-  @actionSeparator(":")
-  stop is ArmResourceActionNoResponseContentAsync<ExecutionPlanRun, void>;
-
-  @doc("Cancel a Validation test execution plan run")
-  @actionSeparator(":")
-  cancel is ArmResourceActionNoResponseContentAsync<ExecutionPlanRun, void>;
 }

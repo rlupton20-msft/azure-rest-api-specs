@@ -5,6 +5,8 @@ import "./authModels/accessKey.tsp";
 import "./authModels/sasToken.tsp";
 import "./authModels/oAuth.tsp";
 import "./authModels/anonymous.tsp";
+import "./authModels/certificate.tsp";
+import "./authModels/sslConfig.tsp";
 import "./networkModels/networkModel.tsp";
 import "./networkModels/subnetModel.tsp";
 import "./scalingModels/scalingProperties.tsp";

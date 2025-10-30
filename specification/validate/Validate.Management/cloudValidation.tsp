@@ -4,12 +4,10 @@ import "@typespec/openapi3";
 import "@azure-tools/typespec-azure-core";
 import "@azure-tools/typespec-autorest";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using Azure.Core;
 using Azure.ResourceManager;
 
-namespace Private.Validate;
+namespace Microsoft.Validate;
 
 @doc("Cloud Validation Resource")
 model CloudValidation is TrackedResource<CloudValidationProperties> {
@@ -27,10 +25,6 @@ model CloudValidationProperties {
 
   @doc("The overall state of the resource.")
   overallState?: CloudValidationOverallState;
-
-  @doc("The state conditions of the resource.")
-  @visibility(Lifecycle.Read)
-  stateCondition?: StateCondition;
 
   @visibility(Lifecycle.Read)
   @doc("Managed On Behalf Of Configuration.")
@@ -63,17 +57,8 @@ union ProvisioningState {
 
 @doc("The Overall states of the validation resource.")
 union CloudValidationOverallState {
-  @doc("The resource is in draft state.")
-  Draft: "Draft",
-
-  @doc("The resource is in pending state.")
-  Pending: "Pending",
-
-  @doc("The resource is in active state.")
-  Active: "Active",
-
-  @doc("The resource is in disabled state.")
-  Disabled: "Disabled",
+  @doc("The resource is in enabled state.")
+  Enabled: "Enabled",
 
   string,
 }
@@ -99,12 +84,14 @@ interface CloudValidations {
   @doc("List cloud validations by resource group")
   listByResourceGroup is ArmResourceListByParent<
     CloudValidation,
-    Parameters = PaginationQueryParameters
+    Parameters = StandardListQueryParameters &
+      OrderByQueryParameter &
+      FilterQueryParameter
   >;
 
   @doc("List cloud validations by subscription")
   listBySubscription is ArmListBySubscription<
     CloudValidation,
-    PaginationQueryParameters
+    StandardListQueryParameters & OrderByQueryParameter & FilterQueryParameter
   >;
 }

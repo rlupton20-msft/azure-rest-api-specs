@@ -19,7 +19,7 @@ namespace Private.Edge;
 union ConfigurationState {
   @doc("Configuration Completed")
   ConfigurationCompleted: "ConfigurationCompleted",
-  
+
   @doc("Configuration Completed")
   ConfigurationPending: "ConfigurationPending",
 
