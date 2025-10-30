@@ -121,6 +121,33 @@ union PricingModel {
   string,
 }
 
+/**
+ * Billing status
+ */
+@added(Versions.v2025_08_01)
+union BillingStatus {
+  /**
+   * Billing is enabled.
+   */
+  Enabled: "Enabled",
+
+  string,
+
+  /**
+   * Billing is disabled.
+   */
+  Disabled: "Disabled",
+
+  string,
+
+  /**
+   * Billing is stopped.
+   */
+  Stopped: "Stopped",
+
+  string,
+}
+
 @doc("The disconnected operation properties")
 model DisconnectedOperationProperties {
   @visibility(Lifecycle.Read)
@@ -149,10 +176,6 @@ model DisconnectedOperationProperties {
   @doc("The device version")
   @visibility(Lifecycle.Update, Lifecycle.Read)
   deviceVersion?: string;
-
-  @doc("Auto renew setting")
-  @added(Versions.v2025_08_01)
-  autoRenew: AutoRenew;
 
   @doc("The billing configuration")
   @added(Versions.v2025_08_01)
@@ -334,9 +357,9 @@ model HardwareSettingProperties {
   memory: int64;
 }
 
-@doc("Billing information")
+@doc("Billing period")
 @added(Versions.v2025_08_01)
-model BillingInfo {
+model BillingPeriod {
   @doc("Number of cores")
   cores: int32;
 
@@ -353,10 +376,17 @@ model BillingInfo {
 @doc("The billing configuration")
 @added(Versions.v2025_08_01)
 model BillingConfiguration {
+  @doc("Auto renew setting")
+  autoRenew: AutoRenew;
+
+  @visibility(Lifecycle.Read)
+  @doc("Billing status")
+  billingStatus: BillingStatus;
+
   @doc("Current billing configuration")
-  current: BillingInfo;
+  current: BillingPeriod;
 
   @doc("Next billing configuration")
   @visibility(Lifecycle.Update, Lifecycle.Read)
-  upcoming?: BillingInfo;
+  upcoming?: BillingPeriod;
 }
