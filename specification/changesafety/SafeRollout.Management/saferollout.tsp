@@ -7,10 +7,9 @@ import "./common.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-namespace Private.ChangeSafety;
+namespace Microsoft.ChangeSafety;
 
 @doc("Resource to track the rollout of changes.")
 model SafeRollout is ProxyResource<SafeRolloutProperties> {
@@ -22,6 +21,16 @@ model SafeRollout is ProxyResource<SafeRolloutProperties> {
   @minLength(3)
   @maxLength(100)
   name: string;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "FIXME: Update justification, location is needed for MSI"
+  @doc("The location of the safeRollout")
+  @visibility(Lifecycle.Read, Lifecycle.Create)
+  location: Azure.Core.azureLocation;
+
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-resource-invalid-envelope-property" "FIXME: Update justification, MSI support for proxy resource"
+  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
+  @doc("The managed identity for the safe rollout to use.")
+  identity: Foundations.ManagedServiceIdentity;
 }
 
 @doc("Azure resource Id of a ChangeState.")
@@ -45,10 +54,6 @@ model SafeRolloutProperties {
   @visibility(Lifecycle.Read, Lifecycle.Create)
   @doc("Azure resource Id of the referenced change state.")
   changeStateResourceId: ChangeStateResourceId;
-
-  @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  @doc("The managed identity for the safe rollout to use.")
-  identity: ManagedServiceIdentityProperty;
 
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @doc("The error of the safe rollout.")

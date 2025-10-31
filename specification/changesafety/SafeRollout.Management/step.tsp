@@ -7,10 +7,9 @@ import "./common.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
-using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
-namespace Private.ChangeSafety;
+namespace Microsoft.ChangeSafety;
 
 @doc("Resource to track the rollout steps, with SafeRollout as parent resource.")
 @parentResource(SafeRollout)
@@ -52,14 +51,8 @@ model StepProperties {
   sequenceId: string;
 
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
-  @doc("Step operations.")
-  operations?: StepOperations;
-}
-
-@doc("Array to track the operations of the step.")
-model StepOperations {
-  @doc("The step operations")
-  operations: StepOperation[];
+  @doc("Step operations array.")
+  operations?: StepOperation[];
 }
 
 @doc("Object to track the operations of the step.")
