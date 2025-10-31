@@ -3566,14 +3566,24 @@
           "description": "Provisioning state of resource",
           "readOnly": true
         },
-        "managedInfraConfigurations": {
-          "$ref": "#/definitions/ManagedInfraConfigurations",
-          "description": "Managed Infrastructure Configurations."
+        "managedResourcesConfiguration": {
+          "$ref": "#/definitions/ManagedResourcesConfiguration",
+          "description": "Managed Resources Configuration."
         },
         "managedOnBehalfOfConfiguration": {
           "$ref": "../../../../../../common-types/resource-management/v6/mobo.json#/definitions/ManagedOnBehalfOfConfiguration",
           "description": "Managed On Behalf Of Configuration.",
           "readOnly": true
+        }
+      }
+    },
+    "ConfigurationPropertiesUpdate": {
+      "type": "object",
+      "description": "Configuration Properties",
+      "properties": {
+        "managedResourcesConfiguration": {
+          "$ref": "#/definitions/ManagedResourcesConfigurationUpdate",
+          "description": "Managed Resources Configuration."
         }
       }
     },
@@ -3683,7 +3693,7 @@
       "description": "Configuration Resource",
       "properties": {
         "properties": {
-          "$ref": "#/definitions/ConfigurationProperties",
+          "$ref": "#/definitions/ConfigurationPropertiesUpdate",
           "description": "The resource-specific properties for this resource."
         }
       },
@@ -4170,13 +4180,13 @@
         }
       }
     },
-    "ManagedInfraConfigurations": {
+    "ManagedResourcesConfiguration": {
       "type": "object",
-      "description": "Managed Infrastructure Configurations.",
+      "description": "Managed Resources Configuration.",
       "properties": {
         "enabled": {
           "type": "boolean",
-          "description": "Flag indicating whether managed infrastructure is enabled or not",
+          "description": "Flag indicating whether managed resources are enabled or not",
           "default": false
         },
         "managedResourceGroupNameOverride": {
@@ -4184,21 +4194,42 @@
           "description": "Name of the resource group to be used for managed resources. If not provided, a new resource group will be created with name format 'ManagedResources-<configurationName>-<randomString>'."
         },
         "managedResourceGroupIds": {
-          "type": "array",
+          "type": "string",
+          "format": "arm-id",
           "description": "List of managed resource group resource IDs provisioned. This will be empty if 'enabled' is false. There will be single entry in the list if 'enabled' is true for foreseeable future. Kept array for extensibility in future.",
+          "readOnly": true,
+          "x-ms-arm-id-details": {
+            "allowedResources": [
+              {
+                "type": "Microsoft.Resources/resourceGroups"
+              }
+            ]
+          }
+        },
+        "additionalIdentitiesMetadata": {
+          "type": "array",
+          "description": "Metadata for additional identities.",
           "items": {
-            "type": "string",
-            "format": "arm-id",
-            "description": "A type definition that refers the id to an Azure Resource Manager resource.",
-            "x-ms-arm-id-details": {
-              "allowedResources": [
-                {
-                  "type": "Microsoft.Resources/resourceGroups"
-                }
-              ]
-            }
-          },
-          "readOnly": true
+            "$ref": "#/definitions/AdditionalIdentitiesMetadata"
+          }
+        }
+      },
+      "required": [
+        "enabled"
+      ]
+    },
+    "ManagedResourcesConfigurationUpdate": {
+      "type": "object",
+      "description": "Managed Resources Configuration.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Flag indicating whether managed resources are enabled or not",
+          "default": false
+        },
+        "managedResourceGroupNameOverride": {
+          "type": "string",
+          "description": "Name of the resource group to be used for managed resources. If not provided, a new resource group will be created with name format 'ManagedResources-<configurationName>-<randomString>'."
         },
         "additionalIdentitiesMetadata": {
           "type": "array",

@@ -18,9 +18,9 @@ model ConfigurationProperties {
   @visibility(Lifecycle.Read)
   provisioningState?: ResourceProvisioningState;
 
-  @doc("Managed Infrastructure Configurations.")
+  @doc("Managed Resources Configuration.")
   @removed(Versions.v2025_08_01)
-  managedInfraConfigurations?: ManagedInfraConfigurations;
+  managedResourcesConfiguration?: ManagedResourcesConfiguration;
 
   @doc("Managed On Behalf Of Configuration.")
   @visibility(Lifecycle.Read)
@@ -28,11 +28,11 @@ model ConfigurationProperties {
   managedOnBehalfOfConfiguration?: CommonTypes.ManagedOnBehalfOfConfiguration;
 }
 
-@doc("Managed Infrastructure Configurations.")
+@doc("Managed Resources Configuration.")
 @removed(Versions.v2025_08_01)
-model ManagedInfraConfigurations {
-  @doc("Flag indicating whether managed infrastructure is enabled or not")
-  enabled?: boolean = false;
+model ManagedResourcesConfiguration {
+  @doc("Flag indicating whether managed resources are enabled or not")
+  enabled: boolean = false;
 
   @doc("Name of the resource group to be used for managed resources. If not provided, a new resource group will be created with name format 'ManagedResources-<configurationName>-<randomString>'.")
   managedResourceGroupNameOverride?: string;
@@ -43,7 +43,7 @@ model ManagedInfraConfigurations {
     {
       type: "Microsoft.Resources/resourceGroups";
     }
-  ]>[];
+  ]>;
 
   @doc("Metadata for additional identities.")
   additionalIdentitiesMetadata?: AdditionalIdentitiesMetadata[];
