@@ -63,15 +63,14 @@ model WithStatusReason {
 }
 
 // alias ByType = string;
-// TODO: Figure out why readonly properties using union below appear able to be set in PUT
 // @access(Access.internal)
 @doc("Enum for entity type")
 union ByType {
   /** A human user. */
   User: "User",
 
-  //  /** Application */
-  //  Application: "Application",
+   /** Application */
+   Application: "Application",
   //
   //  /** ManagedIdentity */
   //  ManagedIdentity: "ManagedIdentity",

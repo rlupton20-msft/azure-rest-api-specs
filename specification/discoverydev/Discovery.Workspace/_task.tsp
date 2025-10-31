@@ -9,30 +9,18 @@ using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.Core;
 using Azure.Core.Traits;
-using Azure.Core.Foundations;
 using Microsoft.Discovery.Shared;
 
 @versioned(Microsoft.Discovery.Workspace.Versions)
 namespace Microsoft.Discovery.Workspace;
-
-@doc("Type of assignee (human user or AI agent).")
-union TaskAssigneeType {
-  /** Human user */
-  human: "human",
-
-  /** AI agent */
-  ai: "ai",
-
-  string,
-}
 
 @doc("Task assignee information.")
 model TaskAssignee {
   @doc("The unique identifier of the assignee.")
   id: string;
 
-  @doc("Type of assignee (human user or AI agent).")
-  type: TaskAssigneeType;
+  @doc("Type of assignee (User, Application, System, or custom type).")
+  type: ByType;
 }
 
 @doc("Task execution result.")
@@ -47,27 +35,16 @@ model TaskResult {
   citations?: Citation[];
 }
 
-@doc("Type of entity that created a comment.")
-union CommentAuthorType {
-  /** Human user */
-  human: "human",
-
-  /** AI agent */
-  ai: "ai",
-
-  string,
-}
-
 @doc("Task comment.")
 model TaskComment {
   @doc("When the comment was created.")
-  timestamp: utcDateTime;
+  createdAt: utcDateTime;
 
-  @doc("ID of the user or agent who created the comment.")
-  authorId: string;
+  @doc("ID of the user or application who created the comment.")
+  createdBy: string;
 
-  @doc("Type of author (human user or AI agent).")
-  authorType: CommentAuthorType;
+  @doc("Type of creator (User, Application, System, or custom type).")
+  createdByType: ByType;
 
   @doc("The comment text content.")
   text: string;
@@ -75,20 +52,30 @@ model TaskComment {
 
 @doc("Execution history entry for a task.")
 model ExecutionHistoryEntry {
-  @doc("Timestamp of the execution event.")
-  timestamp: utcDateTime;
+  @doc("Timestamp when the entry was created (ISO 8601 UTC format).")
+  createdAt: utcDateTime;
 
-  @doc("The action that was performed.")
+  @doc("The action that was performed (controlled vocabulary; semi-open).")
   action: string;
 
-  @doc("Name of the agent that performed the action.")
-  agentName?: string;
+  @doc("Identifier of who created this entry (GUID for user | resourceId for application | arbitrary string for other types).")
+  createdBy: string;
 
-  @doc("Additional details about the action.")
-  details?: Record<string>;
+  @doc("Type of entity that created this entry (User, Application, System, or custom type).")
+  createdByType: ByType;
 
-  @doc("Result of the action.")
-  result?: Record<string>;
+  @doc("Brief summary of the execution event.")
+  @maxLength(2048)
+  summary?: string;
+
+  @doc("Detailed completion message.")
+  responseMessageText?: string;
+
+  @doc("Run or message ID for full details.")
+  responseMessageId?: string;
+
+  @doc("Freeform key-value pairs for additional details.")
+  additionalDetails?: Record<string>;
 }
 
 @doc("Task status enumeration.")
@@ -129,17 +116,6 @@ union TaskStatus {
   string,
 }
 
-@doc("Type of entity that created the task.")
-union TaskCreatorType {
-  /** Human user */
-  human: "human",
-
-  /** AI agent */
-  ai: "ai",
-
-  string,
-}
-
 @doc("Task resource.")
 @resource("tasks")
 @parentResource(Investigation)
@@ -171,14 +147,14 @@ model Task {
   @doc("IDs of tasks that are related to this task.")
   relatedTo?: string[];
 
-  @doc("Agent or user assigned to this task.")
+  @doc("Application or user assigned to this task.")
   assignedTo?: TaskAssignee;
 
   @doc("Comments or notes about the task.")
   comments?: TaskComment[];
 
-  @doc("Type of entity that created the task.")
-  creatorType: TaskCreatorType;
+  @doc("Type of entity that created the task (User, Application, System, or custom type).")
+  createdByType: ByType;
 
   @doc("The current status of the task.")
   status: TaskStatus;
@@ -187,9 +163,9 @@ model Task {
   @visibility(Lifecycle.Read)
   createdAt: utcDateTime;
 
-  @doc("The date and time when the task was last updated.")
+  @doc("The date and time when the task was last modified.")
   @visibility(Lifecycle.Read)
-  updatedAt: utcDateTime;
+  lastModifiedAt: utcDateTime;
 
   @doc("History of execution events for this task.")
   executionHistory?: ExecutionHistoryEntry[];
@@ -228,14 +204,14 @@ model TaskCreate {
   @doc("IDs of tasks that are related to this task.")
   relatedTo?: string[];
 
-  @doc("Agent or user assigned to this task.")
+  @doc("Application or user assigned to this task.")
   assignedTo?: TaskAssignee;
 
   @doc("Comments or notes about the task.")
   comments?: TaskComment[];
 
-  @doc("Type of entity that created the task.")
-  creatorType: TaskCreatorType;
+  @doc("Type of entity that created the task (User, Application, System, or custom type).")
+  createdByType: ByType;
 
   @doc("The investigation identifier associated with the task.")
   investigationId: string;
@@ -268,7 +244,7 @@ model TaskUpdate {
   @doc("IDs of tasks that are related to this task.")
   relatedTo?: string[];
 
-  @doc("Agent or user assigned to this task.")
+  @doc("Application or user assigned to this task.")
   assignedTo?: TaskAssignee;
 
   @doc("Comments or notes about the task.")
@@ -292,7 +268,7 @@ interface Tasks {
   listTasks is Azure.Core.ResourceList<
     Task,
     QueryParametersTrait<{
-      @doc("OData filter expression. Supported fields: investigationId, status, creatorType, priority, createdAt, updatedAt. Example: status eq 'new' or status eq 'executing'")
+      @doc("OData filter expression. Supported fields: investigationId, status, createdByType, priority, createdAt, lastModifiedAt. Example: status eq 'new' or status eq 'executing'")
       @query
       filter?: string;
     }>

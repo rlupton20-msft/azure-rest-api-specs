@@ -1220,7 +1220,7 @@
           {
             "name": "filter",
             "in": "query",
-            "description": "OData filter expression. Supported fields: investigationId, status, creatorType, priority, createdAt, updatedAt. Example: status eq 'new' or status eq 'executing'",
+            "description": "OData filter expression. Supported fields: investigationId, status, createdByType, priority, createdAt, lastModifiedAt. Example: status eq 'new' or status eq 'executing'",
             "required": false,
             "type": "string"
           }
@@ -2074,30 +2074,6 @@
         "description"
       ]
     },
-    "CommentAuthorType": {
-      "type": "string",
-      "description": "Type of entity that created a comment.",
-      "enum": [
-        "human",
-        "ai"
-      ],
-      "x-ms-enum": {
-        "name": "CommentAuthorType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "human",
-            "value": "human",
-            "description": "Human user"
-          },
-          {
-            "name": "ai",
-            "value": "ai",
-            "description": "AI agent"
-          }
-        ]
-      }
-    },
     "ConfirmationStatus": {
       "type": "string",
       "description": "Enumeration for message status.",
@@ -2451,37 +2427,49 @@
       "type": "object",
       "description": "Execution history entry for a task.",
       "properties": {
-        "timestamp": {
+        "createdAt": {
           "type": "string",
           "format": "date-time",
-          "description": "Timestamp of the execution event."
+          "description": "Timestamp when the entry was created (ISO 8601 UTC format)."
         },
         "action": {
           "type": "string",
-          "description": "The action that was performed."
+          "description": "The action that was performed (controlled vocabulary; semi-open)."
         },
-        "agentName": {
+        "createdBy": {
           "type": "string",
-          "description": "Name of the agent that performed the action."
+          "description": "Identifier of who created this entry (GUID for user | resourceId for application | arbitrary string for other types)."
         },
-        "details": {
-          "type": "object",
-          "description": "Additional details about the action.",
-          "additionalProperties": {
-            "type": "string"
-          }
+        "createdByType": {
+          "$ref": "#/definitions/Microsoft.Discovery.Shared.ByType",
+          "description": "Type of entity that created this entry (User, Application, System, or custom type)."
         },
-        "result": {
+        "summary": {
+          "type": "string",
+          "description": "Brief summary of the execution event.",
+          "maxLength": 2048
+        },
+        "responseMessageText": {
+          "type": "string",
+          "description": "Detailed completion message."
+        },
+        "responseMessageId": {
+          "type": "string",
+          "description": "Run or message ID for full details."
+        },
+        "additionalDetails": {
           "type": "object",
-          "description": "Result of the action.",
+          "description": "Freeform key-value pairs for additional details.",
           "additionalProperties": {
             "type": "string"
           }
         }
       },
       "required": [
-        "timestamp",
-        "action"
+        "createdAt",
+        "action",
+        "createdBy",
+        "createdByType"
       ]
     },
     "InlineFile": {
@@ -3140,6 +3128,7 @@
       "description": "Enum for entity type",
       "enum": [
         "User",
+        "Application",
         "System"
       ],
       "x-ms-enum": {
@@ -3150,6 +3139,11 @@
             "name": "User",
             "value": "User",
             "description": "A human user."
+          },
+          {
+            "name": "Application",
+            "value": "Application",
+            "description": "Application"
           },
           {
             "name": "System",
@@ -3651,7 +3645,7 @@
         },
         "assignedTo": {
           "$ref": "#/definitions/TaskAssignee",
-          "description": "Agent or user assigned to this task."
+          "description": "Application or user assigned to this task."
         },
         "comments": {
           "type": "array",
@@ -3660,9 +3654,9 @@
             "$ref": "#/definitions/TaskComment"
           }
         },
-        "creatorType": {
-          "$ref": "#/definitions/TaskCreatorType",
-          "description": "Type of entity that created the task."
+        "createdByType": {
+          "$ref": "#/definitions/Microsoft.Discovery.Shared.ByType",
+          "description": "Type of entity that created the task (User, Application, System, or custom type)."
         },
         "status": {
           "$ref": "#/definitions/TaskStatus",
@@ -3674,10 +3668,10 @@
           "description": "The date and time when the task was created.",
           "readOnly": true
         },
-        "updatedAt": {
+        "lastModifiedAt": {
           "type": "string",
           "format": "date-time",
-          "description": "The date and time when the task was last updated.",
+          "description": "The date and time when the task was last modified.",
           "readOnly": true
         },
         "executionHistory": {
@@ -3706,10 +3700,10 @@
       "required": [
         "name",
         "title",
-        "creatorType",
+        "createdByType",
         "status",
         "createdAt",
-        "updatedAt",
+        "lastModifiedAt",
         "investigationId"
       ]
     },
@@ -3722,8 +3716,8 @@
           "description": "The unique identifier of the assignee."
         },
         "type": {
-          "$ref": "#/definitions/TaskAssigneeType",
-          "description": "Type of assignee (human user or AI agent)."
+          "$ref": "#/definitions/Microsoft.Discovery.Shared.ByType",
+          "description": "Type of assignee (User, Application, System, or custom type)."
         }
       },
       "required": [
@@ -3740,51 +3734,27 @@
           "description": "The unique identifier of the assignee."
         },
         "type": {
-          "$ref": "#/definitions/TaskAssigneeType",
-          "description": "Type of assignee (human user or AI agent)."
+          "$ref": "#/definitions/Microsoft.Discovery.Shared.ByType",
+          "description": "Type of assignee (User, Application, System, or custom type)."
         }
-      }
-    },
-    "TaskAssigneeType": {
-      "type": "string",
-      "description": "Type of assignee (human user or AI agent).",
-      "enum": [
-        "human",
-        "ai"
-      ],
-      "x-ms-enum": {
-        "name": "TaskAssigneeType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "human",
-            "value": "human",
-            "description": "Human user"
-          },
-          {
-            "name": "ai",
-            "value": "ai",
-            "description": "AI agent"
-          }
-        ]
       }
     },
     "TaskComment": {
       "type": "object",
       "description": "Task comment.",
       "properties": {
-        "timestamp": {
+        "createdAt": {
           "type": "string",
           "format": "date-time",
           "description": "When the comment was created."
         },
-        "authorId": {
+        "createdBy": {
           "type": "string",
-          "description": "ID of the user or agent who created the comment."
+          "description": "ID of the user or application who created the comment."
         },
-        "authorType": {
-          "$ref": "#/definitions/CommentAuthorType",
-          "description": "Type of author (human user or AI agent)."
+        "createdByType": {
+          "$ref": "#/definitions/Microsoft.Discovery.Shared.ByType",
+          "description": "Type of creator (User, Application, System, or custom type)."
         },
         "text": {
           "type": "string",
@@ -3792,9 +3762,9 @@
         }
       },
       "required": [
-        "timestamp",
-        "authorId",
-        "authorType",
+        "createdAt",
+        "createdBy",
+        "createdByType",
         "text"
       ]
     },
@@ -3843,7 +3813,7 @@
         },
         "assignedTo": {
           "$ref": "#/definitions/TaskAssignee",
-          "description": "Agent or user assigned to this task."
+          "description": "Application or user assigned to this task."
         },
         "comments": {
           "type": "array",
@@ -3852,9 +3822,9 @@
             "$ref": "#/definitions/TaskComment"
           }
         },
-        "creatorType": {
-          "$ref": "#/definitions/TaskCreatorType",
-          "description": "Type of entity that created the task."
+        "createdByType": {
+          "$ref": "#/definitions/Microsoft.Discovery.Shared.ByType",
+          "description": "Type of entity that created the task (User, Application, System, or custom type)."
         },
         "investigationId": {
           "type": "string",
@@ -3870,7 +3840,7 @@
       },
       "required": [
         "title",
-        "creatorType",
+        "createdByType",
         "investigationId"
       ]
     },
@@ -3919,7 +3889,7 @@
         },
         "assignedTo": {
           "$ref": "#/definitions/TaskAssigneeCreateOrUpdate",
-          "description": "Agent or user assigned to this task."
+          "description": "Application or user assigned to this task."
         },
         "comments": {
           "type": "array",
@@ -3928,9 +3898,9 @@
             "$ref": "#/definitions/TaskComment"
           }
         },
-        "creatorType": {
-          "$ref": "#/definitions/TaskCreatorType",
-          "description": "Type of entity that created the task."
+        "createdByType": {
+          "$ref": "#/definitions/Microsoft.Discovery.Shared.ByType",
+          "description": "Type of entity that created the task (User, Application, System, or custom type)."
         },
         "status": {
           "$ref": "#/definitions/TaskStatus",
@@ -3958,30 +3928,6 @@
             "type": "string"
           }
         }
-      }
-    },
-    "TaskCreatorType": {
-      "type": "string",
-      "description": "Type of entity that created the task.",
-      "enum": [
-        "human",
-        "ai"
-      ],
-      "x-ms-enum": {
-        "name": "TaskCreatorType",
-        "modelAsString": true,
-        "values": [
-          {
-            "name": "human",
-            "value": "human",
-            "description": "Human user"
-          },
-          {
-            "name": "ai",
-            "value": "ai",
-            "description": "AI agent"
-          }
-        ]
       }
     },
     "TaskResult": {
@@ -4131,7 +4077,7 @@
         },
         "assignedTo": {
           "$ref": "#/definitions/TaskAssignee",
-          "description": "Agent or user assigned to this task."
+          "description": "Application or user assigned to this task."
         },
         "comments": {
           "type": "array",
