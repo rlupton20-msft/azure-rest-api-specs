@@ -912,22 +912,12 @@
       "type": "object",
       "description": "CertificateAuthentication Model.",
       "properties": {
-        "keyVaultUri": {
-          "type": "string",
-          "description": "Uri for keyvault which store the Certificate."
-        },
-        "keyVaultToken": {
-          "type": "string",
-          "format": "password",
-          "description": "Access token for keyVault.",
-          "x-ms-secret": true
-        },
-        "certCa": {
-          "type": "string",
+        "certificationAuthorityCert": {
+          "$ref": "#/definitions/Models.Auth.KeyVaultCertificateInfo",
           "description": "Self-signed CA, null means client certificate is signed off by public well-known CA"
         },
         "clientCert": {
-          "type": "string",
+          "$ref": "#/definitions/Models.Auth.KeyVaultCertificateInfo",
           "description": "Client certificate is signed off either by private CA (specified by certCa) or public well-known CA. If it's null, mTLS is turned off, i.e. server side shall be configured as not validate client."
         },
         "tlsRevokeMode": {
@@ -962,6 +952,31 @@
         }
       ],
       "x-ms-discriminator-value": "ConnectionString"
+    },
+    "Models.Auth.KeyVaultCertificateInfo": {
+      "type": "object",
+      "description": "certificate model.",
+      "properties": {
+        "keyVaultUri": {
+          "type": "string",
+          "description": "Uri for keyvault which store the Certificate."
+        },
+        "keyVaultToken": {
+          "type": "string",
+          "format": "password",
+          "description": "Access token for keyVault.",
+          "x-ms-secret": true
+        },
+        "certificateName": {
+          "type": "string",
+          "description": "Name of certificate."
+        }
+      },
+      "required": [
+        "keyVaultUri",
+        "keyVaultToken",
+        "certificateName"
+      ]
     },
     "Models.Auth.OAuthAuthentication": {
       "type": "object",
@@ -1009,23 +1024,9 @@
       "type": "object",
       "description": "SslConfiguration Model.",
       "properties": {
-        "keyVaultUri": {
-          "type": "string",
-          "description": "Uri for keyvault which store the Certificate."
-        },
-        "keyVaultToken": {
-          "type": "string",
-          "format": "password",
-          "description": "Access token for keyVault.",
-          "x-ms-secret": true
-        },
-        "certCa": {
-          "type": "string",
+        "certificationAuthorityCert": {
+          "$ref": "#/definitions/Models.Auth.KeyVaultCertificateInfo",
           "description": "Certificate Authority."
-        },
-        "protocol": {
-          "type": "string",
-          "description": "Protocol version for ssl."
         },
         "cipherSuites": {
           "type": "string",
@@ -1199,7 +1200,8 @@
         "Stopped",
         "Paused",
         "Deleting",
-        "Failed"
+        "Failed",
+        "Pausing"
       ],
       "x-ms-enum": {
         "name": "ConnectorState",
@@ -1254,6 +1256,11 @@
             "name": "Failed",
             "value": "Failed",
             "description": "Failed State"
+          },
+          {
+            "name": "Pausing",
+            "value": "Pausing",
+            "description": "Pausing State"
           }
         ]
       }

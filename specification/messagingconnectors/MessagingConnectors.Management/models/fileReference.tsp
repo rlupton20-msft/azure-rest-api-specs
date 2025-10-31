@@ -7,6 +7,7 @@ import "./authModels/oAuth.tsp";
 import "./authModels/anonymous.tsp";
 import "./authModels/certificate.tsp";
 import "./authModels/sslConfig.tsp";
+import "./authModels/keyVaultCertificateInfo.tsp";
 import "./networkModels/networkModel.tsp";
 import "./networkModels/subnetModel.tsp";
 import "./scalingModels/scalingProperties.tsp";

@@ -8,18 +8,8 @@ namespace Private.MessagingConnectors.Models.Auth;
 
 @doc("SslConfiguration Model.")
 model SslConfiguration {
-  @doc("Uri for keyvault which store the Certificate.")
-  keyVaultUri?: string;
-
-  @doc("Access token for keyVault.")
-  @secret
-  keyVaultToken?: string;
-
   @doc("Certificate Authority.")
-  certCa?: string;
-
-  @doc("Protocol version for ssl.")
-  protocol?: string;
+  certificationAuthorityCert?: KeyVaultCertificateInfo;
 
   @doc("Cipher Suites configuration.")
   cipherSuites?: string;

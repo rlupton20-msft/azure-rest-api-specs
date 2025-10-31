@@ -28,18 +28,11 @@ model CertificateAuthentication extends Authentication {
   @doc("Type of the Auth Model.")
   authenticationMode: AuthenticationMode.Certificate;
 
-  @doc("Uri for keyvault which store the Certificate.")
-  keyVaultUri?: string;
-
-  @doc("Access token for keyVault.")
-  @secret
-  keyVaultToken?: string;
-
   @doc("Self-signed CA, null means client certificate is signed off by public well-known CA")
-  certCa?: string;
+  certificationAuthorityCert?: KeyVaultCertificateInfo;
 
   @doc("Client certificate is signed off either by private CA (specified by certCa) or public well-known CA. If it's null, mTLS is turned off, i.e. server side shall be configured as not validate client.")
-  clientCert?: string;
+  clientCert?: KeyVaultCertificateInfo;
 
   @doc("Certificate revoke mode: off, CRL, OCSP, CRL+OCSP.")
   tlsRevokeMode?: TlsRevokeMode;
