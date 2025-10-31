@@ -37,9 +37,9 @@ model ManagedResourcesConfiguration {
   @doc("Name of the resource group to be used for managed resources. If not provided, a new resource group will be created with name format 'ManagedResources-<configurationName>-<randomString>'.")
   managedResourceGroupNameOverride?: string;
 
-  @doc("List of managed resource group resource IDs provisioned. This will be empty if 'enabled' is false. There will be single entry in the list if 'enabled' is true for foreseeable future. Kept array for extensibility in future.")
+  @doc("ResourceId of provisioned Managed resource group. This will not be set if 'enabled' is false.")
   @visibility(Lifecycle.Read)
-  managedResourceGroupIds?: Azure.Core.armResourceIdentifier<[
+  managedResourceGroupId?: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.Resources/resourceGroups";
     }
