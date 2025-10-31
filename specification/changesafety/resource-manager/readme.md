@@ -47,6 +47,7 @@ These settings apply only when `--tag=package-2025-03-01-preview` is specified o
 ```yaml $(tag) == 'package-2025-03-01-preview'
 input-file:
   - Microsoft.ChangeSafety/ChangeControl/preview/2025-03-01-preview/ChangeControl.json
+  - Microsoft.ChangeSafety/SafeRollout/preview/2025-03-01-preview/SafeRollout.json
 ```
 
 ### Tag: package-2025-07-01-preview

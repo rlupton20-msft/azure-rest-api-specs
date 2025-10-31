@@ -6,21 +6,16 @@ import "@azure-tools/typespec-azure-resource-manager";
 import "./saferollout.tsp";
 import "./step.tsp";
 
-using TypeSpec.Http;
-using TypeSpec.Rest;
 using TypeSpec.Versioning;
 using Azure.ResourceManager;
 
+#suppress "@azure-tools/typespec-azure-resource-manager/missing-operations-endpoint" "Suppress missing operations endpoint as the same is defined ../operations/ChangeControl.Management/main.tsp."
 @armProviderNamespace
-@service(#{ title: "Private.ChangeSafety" })
-@versioned(Versions)
-@armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
-namespace Private.ChangeSafety;
+@service(#{ title: "Microsoft.ChangeSafety management service" })
+@versioned(Microsoft.ChangeSafety.Versions)
+namespace Microsoft.ChangeSafety;
 
 enum Versions {
-  @useDependency(Azure.Core.Versions.v1_0_Preview_2)
-  @useDependency(Azure.ResourceManager.Versions.v1_0_Preview_1)
-  v2025_05_01_preview: "2025-05-01-preview",
+  @armCommonTypesVersion(Azure.ResourceManager.CommonTypes.Versions.v6)
+  v2025_03_01_preview: "2025-03-01-preview",
 }
-
-interface Operations extends Azure.ResourceManager.Operations {}
