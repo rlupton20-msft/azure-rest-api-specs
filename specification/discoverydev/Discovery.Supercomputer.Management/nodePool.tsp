@@ -86,6 +86,7 @@ model NodePoolProperties {
   @doc("The maximum number of nodes.")
   @visibility(Lifecycle.Read, Lifecycle.Create, Lifecycle.Update)
   @minValue(1)
+  @maxValue(1000)
   maxNodeCount: int32;
 
   @doc("The minimum number of nodes.")
