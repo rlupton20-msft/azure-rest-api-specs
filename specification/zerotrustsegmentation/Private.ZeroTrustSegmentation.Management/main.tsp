@@ -102,7 +102,7 @@ model SegmentationManagerProperties {
 
   @doc("ARM Resource ID of the Log Analytics Workspace where graph data will be stored")
   @added(Versions.v2025_08_01_preview)
-  logAnalyticsWorkspaceId: Azure.Core.armResourceIdentifier<[
+  logAnalyticsWorkspaceId?: Azure.Core.armResourceIdentifier<[
     {
       type: "Microsoft.OperationalInsights/workspaces";
     }
