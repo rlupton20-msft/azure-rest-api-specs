@@ -914,6 +914,9 @@
           },
           "Tenant Level CanTransact - Single SaasResource CanCreate - Passed": {
             "$ref": "./examples/TenantLevelCanTransact_SingleSaasResource_CanCreate_Pass.json"
+          },
+          "TenantLevelCanTransact with AdditionalInfo - Multiple Operations": {
+            "$ref": "./examples/TenantLevelCanTransact_WithAdditionalInfo.json"
           }
         }
       }
@@ -1052,6 +1055,9 @@
           },
           "Resource Group Level CanTransact - Single CloudService CanCreate - Passed": {
             "$ref": "./examples/ResourceGroupLevelCanTransact_SingleCloudService_CanCreate_Pass.json"
+          },
+          "ResourceGroupLevelCanTransact with AdditionalInfo - CloudServices": {
+            "$ref": "./examples/ResourceGroupLevelCanTransact_WithAdditionalInfo.json"
           }
         }
       }
@@ -1794,6 +1800,24 @@
     }
   },
   "definitions": {
+    "AdditionalInfoItem": {
+      "type": "object",
+      "description": "Additional information key-value pair",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of the additional information item."
+        },
+        "key": {
+          "type": "string",
+          "description": "The key of the additional information item."
+        },
+        "value": {
+          "type": "string",
+          "description": "The value of the additional information item."
+        }
+      }
+    },
     "AutoRenew": {
       "type": "string",
       "description": "Indicates whether auto renewal is turned on or off for a SaaSHub saas resource. The default value will be 'On' for products that support autorenew.",
@@ -2206,6 +2230,14 @@
         "mergeRequest": {
           "$ref": "#/definitions/MergeCloudServiceRequest",
           "description": "Full merge request payload used for canMerge operations."
+        },
+        "additionalInfo": {
+          "type": "array",
+          "description": "Additional information as key-value pairs",
+          "items": {
+            "$ref": "#/definitions/AdditionalInfoItem"
+          },
+          "x-ms-identifiers": []
         }
       },
       "required": [
@@ -2307,6 +2339,14 @@
         "mergeRequest": {
           "$ref": "#/definitions/MergeSaasResourcesRequest",
           "description": "Full merge request payload used for canMerge operations."
+        },
+        "additionalInfo": {
+          "type": "array",
+          "description": "Additional information as key-value pairs",
+          "items": {
+            "$ref": "#/definitions/AdditionalInfoItem"
+          },
+          "x-ms-identifiers": []
         }
       },
       "required": [

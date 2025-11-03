@@ -929,6 +929,26 @@ model DependsOnValue {
 }
 
 /**
+ * Additional information key-value pair
+ */
+model AdditionalInfoItem {
+  /**
+   * The type of the additional information item.
+   */
+  type?: string;
+
+  /**
+   * The key of the additional information item.
+   */
+  key?: string;
+
+  /**
+   * The value of the additional information item.
+   */
+  value?: string;
+}
+
+/**
  * Linked resource for scheduled actions
  */
 model ScheduleActionLinkedResource {
@@ -1101,6 +1121,12 @@ model CanTransactSaasResourcesRequest {
    * Full merge request payload used for canMerge operations.
    */
   mergeRequest?: MergeSaasResourcesRequest;
+
+  /**
+   * Additional information as key-value pairs
+   */
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  additionalInfo?: AdditionalInfoItem[];
 }
 
 /**
@@ -1143,6 +1169,12 @@ model CanTransactCloudServicesRequest {
    * Full merge request payload used for canMerge operations.
    */
   mergeRequest?: MergeCloudServiceRequest;
+
+  /**
+   * Additional information as key-value pairs
+   */
+  @OpenAPI.extension("x-ms-identifiers", #[])
+  additionalInfo?: AdditionalInfoItem[];
 }
 
 /**
