@@ -69,8 +69,9 @@ union ByType {
   /** A human user. */
   User: "User",
 
-   /** Application */
-   Application: "Application",
+  /** Application */
+  Application: "Application",
+
   //
   //  /** ManagedIdentity */
   //  ManagedIdentity: "ManagedIdentity",
