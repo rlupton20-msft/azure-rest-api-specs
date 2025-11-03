@@ -404,7 +404,7 @@ model WorkspaceResourceProperties {
   /**
    * Whether this workspace is v1 or v2.
    */
-  @added(Versions.v2025_11_01_preview, string)
+  @added(Versions.v2025_11_01_preview)
   kind?: WorkspaceKind;
 
   /**
