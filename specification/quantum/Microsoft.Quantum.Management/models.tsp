@@ -92,6 +92,19 @@ union KeyType {
 }
 
 /**
+ * The workspace type.
+ */
+union WorkspaceKind {
+  string,
+
+  /** The workspace is a general-purpose workspace. */
+  v1: "v1",
+
+  /** The workspace is a V2 workspace. */
+  v2: "v2",
+}
+
+/**
  * The response of a list Providers operation.
  */
 model OfferingsListResult is Azure.Core.Page<ProviderDescription>;
@@ -238,6 +251,13 @@ model TargetDescription {
    * List of content encodings accepted by this target.
    */
   acceptedContentEncodings?: string[];
+
+  /**
+   * The metadata of this target.
+   */
+  #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the target specification"
+  @added(Versions.v2025_11_01_preview)
+  metadata?: Record<string>;
 }
 
 /**
@@ -392,6 +412,12 @@ model WorkspaceResourceProperties {
    */
   @typeChangedFrom(Versions.v2025_01_01_preview, string)
   storageAccount?: StorageAccountResourceId;
+
+  /**
+   * Whether this workspace is v1 or v2.
+   */
+  @added(Versions.v2025_11_01_preview)
+  workspaceKind?: WorkspaceKind;
 
   /**
    * The URI of the workspace endpoint.
