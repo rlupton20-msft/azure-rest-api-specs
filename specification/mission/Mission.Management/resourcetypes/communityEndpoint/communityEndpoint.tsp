@@ -91,7 +91,7 @@ model CommunityEndpointProperties {
 
   @added(Microsoft.Mission.Versions.v2025_11_01_preview)
   @doc("Whether update mode is automatic or manual.")
-  autoUpdate: UpdateModeItem;
+  updateMode: UpdateMode = UpdateMode.Manual;
 }
 
 @doc("Community Endpoint patchable Properties")

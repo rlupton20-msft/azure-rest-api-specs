@@ -73,7 +73,7 @@ model EnclaveConnectionProperties {
   @added(Microsoft.Mission.Versions.v2025_11_01_preview)
   @doc("Destination Endpoint supports automatic or manual updates.")
   @visibility(Lifecycle.Read)
-  updateMode?: UpdateModeItem;
+  updateMode?: UpdateMode;
 }
 
 @doc("Enclave Connection patchable Properties")

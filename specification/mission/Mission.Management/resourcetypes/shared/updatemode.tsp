@@ -1,4 +1,4 @@
-@doc("Update Mode Enum")
+@doc("Update Mode")
 union UpdateMode {
   string,
 
@@ -7,10 +7,4 @@ union UpdateMode {
 
   @doc("UpdateMode Type Manual")
   Manual: "Manual",
-}
-
-@doc("Update Mode Model")
-model UpdateModeItem {
-  @doc("Update mode.")
-  updateMode: UpdateMode;
 }
