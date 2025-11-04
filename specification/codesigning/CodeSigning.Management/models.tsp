@@ -59,6 +59,10 @@ union ProfileType {
 
   @doc("Used for signing files for testing purpose.")
   PublicTrustTest: "PublicTrustTest",
+
+  @added(Versions.v2025_11_20_preview)
+  @doc("Used for signing content files.")
+  C2PAContentCredentials: "C2PAContentCredentials",
 }
 
 @doc("Status of the certificate profiles.")
@@ -151,9 +155,7 @@ model CodeSigningAccountPatch {
   @doc("Resource tags.")
   tags?: Record<string>;
 
-  #suppress "deprecated" "Legacy flatten"
   @doc("Properties of the trusted signing account.")
-  @Azure.ClientGenerator.Core.flattenProperty
   properties?: CodeSigningAccountPatchProperties;
 }
 
@@ -248,11 +250,9 @@ model CertificateProfileProperties {
   @visibility(Lifecycle.Read)
   status?: CertificateProfileStatus;
 
-  #suppress "deprecated" "Legacy flatten"
   @doc("List of renewed certificates.")
   @visibility(Lifecycle.Read)
   @identifiers(#[])
-  @Azure.ClientGenerator.Core.flattenProperty
   certificates?: Certificate[];
 }
 
@@ -280,9 +280,7 @@ model Certificate {
   @doc("Status of the certificate.")
   status?: CertificateStatus;
 
-  #suppress "deprecated" "Legacy flatten"
   @doc("Revocations history of a certificate.")
-  @Azure.ClientGenerator.Core.flattenProperty
   revocation?: Revocation;
 }
 
@@ -309,6 +307,8 @@ model Revocation {
 
 @doc("Defines the list of certificates for revocation in certificate profile.")
 @added(Versions.v2025_07_30_preview)
+@removed(Versions.v2025_10_13)
+@added(Versions.v2025_11_20_preview)
 model RevokeCertificateList {
   @doc("List of certificates to be revoked in a certificate profile.")
   @extension("x-ms-identifiers", #[])
@@ -336,6 +336,9 @@ model RevokeCertificate {
 
 @doc("The parameters used to check the availability of the trusted signing account name.")
 model CheckNameAvailability {
+  @doc("The type of the resource, \"Microsoft.CodeSigning/codeSigningAccounts\".")
+  type: string;
+
   @doc("Trusted signing account name.")
   name: string;
 }
