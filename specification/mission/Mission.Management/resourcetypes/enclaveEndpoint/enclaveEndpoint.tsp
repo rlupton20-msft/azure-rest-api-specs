@@ -62,7 +62,7 @@ model EnclaveEndpointProperties {
 
   @added(Microsoft.Mission.Versions.v2025_11_01_preview)
   @doc("Whether update mode is automatic or manual.")
-  updateMode: UpdateMode = UpdateMode.Manual;
+  updateMode: UpdateMode;
 }
 
 @doc("Enclave Endpoint patchable Properties")
