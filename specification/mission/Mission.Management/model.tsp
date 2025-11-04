@@ -26,6 +26,7 @@ import "./resourcetypes/shared/principal.tsp";
 import "./resourcetypes/shared/provisioningstate.tsp";
 import "./resourcetypes/shared/resourceid.tsp";
 import "./resourcetypes/shared/roleassignmentitem.tsp";
+import "./resourcetypes/shared/updatemode.tsp";
 
 using Azure.ResourceManager;
 using TypeSpec.Http;
