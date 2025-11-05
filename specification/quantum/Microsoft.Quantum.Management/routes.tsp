@@ -43,13 +43,6 @@ interface Offerings {
       locationName: AzureLocationParameter;
 
       /**
-       * The filter to apply to the operation. Example: '$filter=workspaceKind eq 'v1'
-       */
-      @added(Versions.v2025_11_01_preview)
-      @query("$filter")
-      $filter?: string;
-
-      /**
        * The filter to apply to the operation. Example: 'filter=workspaceKind eq 'v1'
        */
       @added(Versions.v2025_11_01_preview)
