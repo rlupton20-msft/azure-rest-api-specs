@@ -97,9 +97,6 @@ union KeyType {
 union WorkspaceKind {
   string,
 
-  /** Empty string to back support existing workspaces. */
-  v0: "",
-
   /** The workspace is a general-purpose workspace. */
   v1: "v1",
 
