@@ -253,10 +253,25 @@ model TargetDescription {
   acceptedContentEncodings?: string[];
 
   /**
+   * The qubit number
+   */
+  @added(Versions.v2025_11_01_preview)
+  @visibility(Lifecycle.Read)
+  qubitNumber?: int32;
+
+  /**
+   * Target QIR profile
+   */
+  @added(Versions.v2025_11_01_preview)
+  @visibility(Lifecycle.Read)
+  targetProfile?: string;
+
+  /**
    * The metadata of this target.
    */
   #suppress "@azure-tools/typespec-azure-resource-manager/arm-no-record" "Suppress arm-no-record to handle the target specification"
   @added(Versions.v2025_11_01_preview)
+  @visibility(Lifecycle.Read)
   metadata?: Record<string>;
 }
 
