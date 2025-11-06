@@ -98,10 +98,10 @@ union WorkspaceKind {
   string,
 
   /** The workspace is a general-purpose workspace. */
-  v1: "v1",
+  V1: "V1",
 
   /** The workspace is a V2 workspace. */
-  v2: "v2",
+  V2: "V2",
 }
 
 /**
