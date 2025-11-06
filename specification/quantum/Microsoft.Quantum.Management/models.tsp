@@ -252,15 +252,12 @@ model TargetDescription {
    */
   acceptedContentEncodings?: string[];
 
-  // cspell:disable
   /**
    * The qubit number
    */
   @added(Versions.v2025_11_01_preview)
   @visibility(Lifecycle.Read)
   qubitNumber?: int32;
-
-  /* cspell:enable */
 
   /**
    * Target QIR profile
