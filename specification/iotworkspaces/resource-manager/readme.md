@@ -573,6 +573,15 @@ input-file:
   - Private.DeviceRegistry/preview/2023-09-01-preview/devices.json
 ```
 
+### Tag: package-preview-2021-10-10
+
+These settings apply only when `--tag=package-preview-2021-10-10` is specified on the command line.
+
+```yaml $(tag) == 'package-preview-2021-10-10'
+input-file:
+  - Private.DeviceRegistry/preview/2021-10-10-preview/deviceregistry.json
+```
+
 ### Tag: package-preview-2021-10
 
 These settings apply only when `--tag=package-preview-2021-10` is specified on the command line.
