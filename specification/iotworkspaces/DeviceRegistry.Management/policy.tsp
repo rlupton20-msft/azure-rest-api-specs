@@ -82,7 +82,6 @@ union SupportedKeyType {
 @added(Versions.v2025_08_01_preview)
 @doc("The leaf certificate configuration.")
 model LeafCertificateConfiguration {
-
   // Old property: max 30 days, removed in new version
   @maxValue(30)
   @doc("The validity period in days.")
