@@ -993,14 +993,14 @@ model DashboardDefinitionProperties {
  * The list response for Azure Monitor dashboard imports.
  */
 @added(Versions.v2025_09_01_preview)
-model AzureMonitorDashboardImportDetailsListResponse
-  is Azure.Core.Page<AzureMonitorDashboardImportDetail>;
+model AzureMonitorDashboardImportsListResponse
+  is Azure.Core.Page<AzureMonitorDashboardImport>;
 
 /**
  * Properties specific to the import Azure Monitor dashboard.
  */
 @added(Versions.v2025_09_01_preview)
-model AzureMonitorDashboardImportDetailsProperties {
+model AzureMonitorDashboardImportsProperties {
   /**
    * The Azure Monitor Dashboard content to import
    */
