@@ -62,6 +62,9 @@
     },
     {
       "name": "DashboardDefinitions"
+    },
+    {
+      "name": "AzureMonitorDashboardImportDetails"
     }
   ],
   "paths": {
@@ -968,6 +971,232 @@
           "final-state-via": "azure-async-operation"
         },
         "x-ms-long-running-operation": true
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/azureMonitorDashboardImportDetails": {
+      "get": {
+        "operationId": "AzureMonitorDashboardImportDetails_List",
+        "tags": [
+          "AzureMonitorDashboardImportDetails"
+        ],
+        "description": "List all Azure Monitor dashboard imports under the specified Grafana workspace.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "workspaceName",
+            "in": "path",
+            "description": "The workspace name of Azure Managed Grafana.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AzureMonitorDashboardImportDetailsListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "AzureMonitorDashboardImportDetail_List": {
+            "$ref": "./examples/AzureMonitorDashboardImportDetails_List.json"
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/azureMonitorDashboardImportDetails/{importName}": {
+      "get": {
+        "operationId": "AzureMonitorDashboardImportDetails_Get",
+        "tags": [
+          "AzureMonitorDashboardImportDetails"
+        ],
+        "description": "Get the properties of a specific Azure Monitor dashboard import.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "workspaceName",
+            "in": "path",
+            "description": "The workspace name of Azure Managed Grafana.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"
+          },
+          {
+            "name": "importName",
+            "in": "path",
+            "description": "The name of the Azure Monitor Dashboard Import.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Azure operation completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AzureMonitorDashboardImportDetail"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "AzureMonitorDashboardImportDetail_Get": {
+            "$ref": "./examples/AzureMonitorDashboardImportDetails_Get.json"
+          }
+        }
+      },
+      "put": {
+        "operationId": "AzureMonitorDashboardImportDetails_Create",
+        "tags": [
+          "AzureMonitorDashboardImportDetails"
+        ],
+        "description": "Import an Azure Monitor dashboard into Grafana workspace.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "workspaceName",
+            "in": "path",
+            "description": "The workspace name of Azure Managed Grafana.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"
+          },
+          {
+            "name": "importName",
+            "in": "path",
+            "description": "The name of the Azure Monitor Dashboard Import.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"
+          },
+          {
+            "name": "requestBodyParameters",
+            "in": "body",
+            "description": "The import Azure Monitor dashboard resource to create or update.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AzureMonitorDashboardImportDetail"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/AzureMonitorDashboardImportDetail"
+            }
+          },
+          "201": {
+            "description": "The request has succeeded and a new resource has been created as a result.",
+            "schema": {
+              "$ref": "#/definitions/AzureMonitorDashboardImportDetail"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "AzureMonitorDashboardImportDetail_Create": {
+            "$ref": "./examples/AzureMonitorDashboardImportDetails_Create.json"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "AzureMonitorDashboardImportDetails_Delete",
+        "tags": [
+          "AzureMonitorDashboardImportDetails"
+        ],
+        "description": "Delete an Azure Monitor dashboard import.",
+        "parameters": [
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "../../../../../common-types/resource-management/v3/types.json#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "name": "workspaceName",
+            "in": "path",
+            "description": "The workspace name of Azure Managed Grafana.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"
+          },
+          {
+            "name": "importName",
+            "in": "path",
+            "description": "The name of the Azure Monitor Dashboard Import.",
+            "required": true,
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource deleted successfully."
+          },
+          "204": {
+            "description": "Resource does not exist."
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "AzureMonitorDashboardImportDetail_Delete": {
+            "$ref": "./examples/AzureMonitorDashboardImportDetails_Delete.json"
+          }
+        }
       }
     },
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/checkEnterpriseDetails": {
@@ -2177,6 +2406,65 @@
           }
         ]
       }
+    },
+    "AzureMonitorDashboardImportDetail": {
+      "type": "object",
+      "description": "The import Azure Monitor dashboard resource type.",
+      "properties": {
+        "properties": {
+          "$ref": "#/definitions/AzureMonitorDashboardImportDetailsProperties",
+          "description": "Properties specific to the import Azure Monitor Dashboard resource."
+        }
+      },
+      "allOf": [
+        {
+          "$ref": "../../../../../common-types/resource-management/v3/types.json#/definitions/ProxyResource"
+        }
+      ]
+    },
+    "AzureMonitorDashboardImportDetailsListResponse": {
+      "type": "object",
+      "description": "The list response for Azure Monitor dashboard imports.",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The AzureMonitorDashboardImportDetail items on this page",
+          "items": {
+            "$ref": "#/definitions/AzureMonitorDashboardImportDetail"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "AzureMonitorDashboardImportDetailsProperties": {
+      "type": "object",
+      "description": "Properties specific to the import Azure Monitor dashboard.",
+      "properties": {
+        "dashboardContent": {
+          "type": "string",
+          "description": "The Azure Monitor Dashboard content to import"
+        },
+        "dataSourceMetadata": {
+          "type": "string",
+          "description": "Metadata about the data sources used in the dashboard"
+        },
+        "provisioningState": {
+          "$ref": "#/definitions/ProvisioningState",
+          "description": "The provisioning state of the import Azure Monitor Dashboard resource.",
+          "readOnly": true
+        }
+      },
+      "required": [
+        "dashboardContent",
+        "dataSourceMetadata"
+      ]
     },
     "AzureMonitorWorkspaceIntegration": {
       "type": "object",

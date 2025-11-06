@@ -988,3 +988,32 @@ model DashboardDefinitionProperties {
   @visibility(Lifecycle.Read)
   provisioningState?: ProvisioningState;
 }
+
+/**
+ * The list response for Azure Monitor dashboard imports.
+ */
+@added(Versions.v2025_09_01_preview)
+model AzureMonitorDashboardImportDetailsListResponse
+  is Azure.Core.Page<AzureMonitorDashboardImportDetail>;
+
+/**
+ * Properties specific to the import Azure Monitor dashboard.
+ */
+@added(Versions.v2025_09_01_preview)
+model AzureMonitorDashboardImportDetailsProperties {
+  /**
+   * The Azure Monitor Dashboard content to import
+   */
+  dashboardContent: string;
+
+  /**
+   * Metadata about the data sources used in the dashboard
+   */
+  dataSourceMetadata: string;
+
+  /**
+   * The provisioning state of the import Azure Monitor Dashboard resource.
+   */
+  @visibility(Lifecycle.Read)
+  provisioningState?: ProvisioningState;
+}

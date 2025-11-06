@@ -20,6 +20,7 @@ import "./ManagedPrivateEndpointModel.tsp";
 import "./IntegrationFabric.tsp";
 import "./ManagedDashboard.tsp";
 import "./DashboardDefinition.tsp";
+import "./AzureMonitorDashboardImportDetails.tsp";
 
 using TypeSpec.Rest;
 using TypeSpec.Http;
