@@ -49,7 +49,17 @@ alias SubscriptionParameters = Azure.ResourceManager.Foundations.SubscriptionBas
 interface SitesBySubscription {
   list is ArmListBySubscription<Site>;
   get is ArmResourceRead<Site, BaseParameters = SubscriptionParameters>;
-  createOrUpdate is ArmResourceCreateOrReplaceAsync<Site, BaseParameters = SubscriptionParameters>;
-  update is ArmCustomPatchSync<Site, SiteUpdate, BaseParameters = SubscriptionParameters>;
-  delete is ArmResourceDeleteSync<Site, BaseParameters = SubscriptionParameters>;
+  createOrUpdate is ArmResourceCreateOrReplaceAsync<
+    Site,
+    BaseParameters = SubscriptionParameters
+  >;
+  update is ArmCustomPatchSync<
+    Site,
+    SiteUpdate,
+    BaseParameters = SubscriptionParameters
+  >;
+  delete is ArmResourceDeleteSync<
+    Site,
+    BaseParameters = SubscriptionParameters
+  >;
 }
