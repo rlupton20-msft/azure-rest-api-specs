@@ -26,8 +26,58 @@ These are the global settings for the deviceregistry.
 
 ```yaml
 openapi-type: arm
-tag: package-2025-10
+tag: package-preview-2025-11
 ```
+
+### Tag: package-preview-2025-11
+These settings apply only when `--tag=package-preview-2025-11` is specified on the command line.
+
+``` yaml $(tag) == 'package-preview-2025-11'
+input-file:
+  - Private.DeviceRegistry/preview/2025-11-01-preview/deviceregistry.json
+suppressions:
+  - code: AvoidAdditionalProperties
+    from:
+      - deviceregistry.json
+    where:
+      - $.definitions.AssetProperties.properties.attributes
+      - $.definitions.AssetUpdateProperties.properties.attributes
+      - $.definitions.NamespaceAssetProperties.properties.attributes
+      - $.definitions.NamespaceAssetUpdateProperties.properties.attributes
+      - $.definitions.NamespaceAssetProperties.properties.events
+      - $.definitions.NamespaceAssetUpdateProperties.properties.events
+      - $.definitions.NamespaceDiscoveredAssetProperties.properties.attributes
+      - $.definitions.NamespaceDiscoveredAssetUpdateProperties.properties.attributes
+      - $.definitions.NamespaceDiscoveredAssetProperties.properties.events
+      - $.definitions.NamespaceDiscoveredAssetUpdateProperties.properties.events
+      - $.definitions.DeviceBaseProperties.properties.attributes
+      - $.definitions.NamespaceDeviceUpdateProperties.properties.attributes
+      - $.definitions.NamespaceDeviceProperties.properties.deviceTemplateId
+      - $.definitions.NamespaceDeviceProperties.properties.deviceGroupId
+      - $.definitions.NamespaceDeviceUpdateProperties.properties.deviceTemplateId
+      - $.definitions.NamespaceDeviceUpdateProperties.properties.deviceGroupId
+      - $.definitions.Messaging.properties.endpoints
+      - $.definitions.MessagingEndpoints.properties.inbound
+      - $.definitions.MessagingEndpointsUpdate.properties.inbound
+      - $.definitions.OutboundEndpoints.properties.assigned
+      - $.definitions.OutboundEndpoints.properties.unassigned
+      - $.definitions.OutboundEndpointsUpdate.properties.assigned
+      - $.definitions.OutboundEndpointsUpdate.properties.unassigned
+      - $.definitions.NamespaceDiscoveredDeviceProperties.properties.attributes
+      - $.definitions.DiscoveredMessagingEndpoints.properties.inbound
+      - $.definitions.DiscoveredMessagingEndpointsUpdate.properties.inbound
+      - $.definitions.DiscoveredOutboundEndpoints.properties.assigned
+      - $.definitions.DiscoveredOutboundEndpointsUpdate.properties.assigned
+      - $.definitions.DeviceStatusEndpoints.properties.inbound
+    reason: Customer-defined properties and new API features
+  - code: OperationIdNounVerb
+    from:
+      - deviceregistry.json
+    reason: An existing resource type is called 'schemas'
+    where:
+      - $.paths["/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Private.DeviceRegistry/schemaRegistries/{schemaRegistryName}/schemas"].get.operationId
+```
+
 ### Tag: package-2025-10
 These settings apply only when `--tag=package-2025-10` is specified on the command line.
 
