@@ -43,6 +43,7 @@ model NamespaceDiscoveredAssetEndpointProfile
 interface NamespaceDiscoveredAssetEndpointProfiles {
   get is ArmResourceRead<NamespaceDiscoveredAssetEndpointProfile>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<NamespaceDiscoveredAssetEndpointProfile>;
+  @patch(#{ implicitOptionality: true })
   update is ArmCustomPatchAsync<
     NamespaceDiscoveredAssetEndpointProfile,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<

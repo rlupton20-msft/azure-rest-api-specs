@@ -82,9 +82,18 @@ union SupportedKeyType {
 @added(Versions.v2025_08_01_preview)
 @doc("The leaf certificate configuration.")
 model LeafCertificateConfiguration {
-  @doc("The validity period in days.")
-  @minValue(7)
+
+  // Old property: max 30 days, removed in new version
   @maxValue(30)
+  @doc("The validity period in days.")
+  @removed(Versions.v2025_11_01_preview)
+  @renamedFrom(Versions.v2025_11_01_preview, "validityPeriodInDays")
+  validityPeriodInDaysV1: int32;
+
+  // New property: max 90 days, only in new version
+  @doc("The validity period in days.")
+  @added(Versions.v2025_11_01_preview)
+  @maxValue(90)
   validityPeriodInDays: int32;
 }
 
@@ -105,7 +114,17 @@ interface Policies {
   get is ArmResourceRead<Policy>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<Policy>;
   delete is ArmResourceDeleteWithoutOkAsync<Policy>;
-  update is ArmResourcePatchAsync<Policy, PolicyProperties>;
+  // Using 'ArmCustomPatchAsync' instead of 'ArmResourcePatchAsync' to define the correct patch payload for the resource.
+  // This is a workaround to fix the patch payload that otherwise will expose the 'location' field (not present in patch),
+  // since otherwise it extends the ARM TrackedResource type.
+  @patch(#{ implicitOptionality: true })
+  update is ArmCustomPatchAsync<
+    Policy,
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<
+      Policy,
+      PolicyProperties
+    >
+  >;
   listByResourceGroup is ArmResourceListByParent<Policy>;
   listBySubscription is ArmListBySubscription<Policy>;
 

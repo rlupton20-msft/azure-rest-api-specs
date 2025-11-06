@@ -41,6 +41,7 @@ model NamespaceDiscoveredDevice
 interface NamespaceDiscoveredDevices {
   get is ArmResourceRead<NamespaceDiscoveredDevice>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<NamespaceDiscoveredDevice>;
+  @patch(#{ implicitOptionality: true })
   update is ArmCustomPatchAsync<
     NamespaceDiscoveredDevice,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<

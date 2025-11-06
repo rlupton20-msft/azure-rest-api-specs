@@ -71,11 +71,12 @@ model MigrateResponse {
 interface Assets {
   get is ArmResourceRead<Asset>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<Asset>;
+  @patch(#{ implicitOptionality: true })
   update is ArmCustomPatchAsync<
     Asset,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       Asset,
-      AssetPropertiesUpdate
+      AssetProperties
     >
   >;
   delete is ArmResourceDeleteWithoutOkAsync<Asset>;

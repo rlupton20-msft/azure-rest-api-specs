@@ -36,18 +36,6 @@ model NamespaceDiscoveredAsset
   extendedLocation: ExtendedLocation;
 }
 
-alias NamespaceDiscoveredAssetPropertiesUpdate = {
-  ...OptionalProperties<UpdateableProperties<OmitProperties<
-    NamespaceDiscoveredAssetProperties,
-    "defaultTopic"
-  >>>;
-
-  @added(Versions.v2024_10_01_preview)
-  @removed(Versions.v2025_07_01_preview)
-  @doc("Object that describes the default topic information for the discovered asset.")
-  defaultTopic?: OptionalProperties<OmitDefaults<Topic>>;
-};
-
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 @added(Versions.v2025_07_01_preview)
@@ -55,11 +43,12 @@ alias NamespaceDiscoveredAssetPropertiesUpdate = {
 interface NamespaceDiscoveredAssets {
   get is ArmResourceRead<NamespaceDiscoveredAsset>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<NamespaceDiscoveredAsset>;
+  @patch(#{ implicitOptionality: true })
   update is ArmCustomPatchAsync<
     NamespaceDiscoveredAsset,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       NamespaceDiscoveredAsset,
-      NamespaceDiscoveredAssetPropertiesUpdate
+      NamespaceDiscoveredAssetProperties
     >
   >;
   delete is ArmResourceDeleteWithoutOkAsync<NamespaceDiscoveredAsset>;

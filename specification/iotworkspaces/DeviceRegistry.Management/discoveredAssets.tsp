@@ -41,6 +41,7 @@ model DiscoveredAsset is TrackedResource<DiscoveredAssetProperties> {
 interface DiscoveredAssets {
   get is ArmResourceRead<DiscoveredAsset>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<DiscoveredAsset>;
+  @patch(#{ implicitOptionality: true })
   update is ArmCustomPatchAsync<
     DiscoveredAsset,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<

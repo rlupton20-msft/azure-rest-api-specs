@@ -40,7 +40,17 @@ interface Credentials {
   get is ArmResourceRead<Credential>;
   createOrUpdate is ArmResourceCreateOrUpdateAsync<Credential>;
   delete is ArmResourceDeleteWithoutOkAsync<Credential>;
-  update is ArmResourcePatchAsync<Credential, CredentialProperties>;
+  // Using 'ArmCustomPatchAsync' instead of 'ArmResourcePatchAsync' to define the correct patch payload for the resource.
+  // This is a workaround to fix the patch payload that otherwise will expose the 'location' field (not present in patch),
+  // since otherwise it extends the ARM TrackedResource type.
+  @patch(#{ implicitOptionality: true })
+  update is ArmCustomPatchAsync<
+    Credential,
+    Azure.ResourceManager.Foundations.ResourceUpdateModel<
+      Credential,
+      CredentialProperties
+    >
+  >;
   listByResourceGroup is ArmResourceListByParent<Credential>;
   listBySubscription is ArmListBySubscription<Credential>;
   synchronize is ArmResourceActionNoResponseContentAsync<Credential, void>;

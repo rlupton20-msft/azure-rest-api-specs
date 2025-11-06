@@ -41,6 +41,7 @@ model AssetEndpointProfile is TrackedResource<AssetEndpointProfileProperties> {
 interface AssetEndpointProfiles {
   get is ArmResourceRead<AssetEndpointProfile>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<AssetEndpointProfile>;
+  @patch(#{ implicitOptionality: true })
   update is ArmCustomPatchAsync<
     AssetEndpointProfile,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<

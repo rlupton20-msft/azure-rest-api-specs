@@ -38,18 +38,6 @@ model NamespaceAsset is TrackedResource<NamespaceAssetProperties> {
   extendedLocation: ExtendedLocation;
 }
 
-alias NamespaceAssetPropertiesUpdate = {
-  ...OptionalProperties<UpdateableProperties<OmitProperties<
-    NamespaceAssetProperties,
-    "defaultTopic"
-  >>>;
-
-  @added(Versions.v2024_10_01_preview)
-  @removed(Versions.v2025_07_01_preview)
-  @doc("Object that describes the default topic information for the asset.")
-  defaultTopic?: OptionalProperties<OmitDefaults<Topic>>;
-};
-
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 @added(Versions.v2025_07_01_preview)
@@ -57,11 +45,12 @@ alias NamespaceAssetPropertiesUpdate = {
 interface NamespaceAssets {
   get is ArmResourceRead<NamespaceAsset>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<NamespaceAsset>;
+  @patch(#{ implicitOptionality: true })
   update is ArmCustomPatchAsync<
     NamespaceAsset,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
       NamespaceAsset,
-      NamespaceAssetPropertiesUpdate
+      NamespaceAssetProperties
     >
   >;
   delete is ArmResourceDeleteWithoutOkAsync<NamespaceAsset>;

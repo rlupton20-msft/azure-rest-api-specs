@@ -43,17 +43,6 @@ model NamespaceDevice is TrackedResource<NamespaceDeviceProperties> {
   extendedLocation?: ExtendedLocation;
 }
 
-alias NamespaceDevicePropertiesUpdate = {
-  ...OptionalProperties<UpdateableProperties<OmitProperties<
-    NamespaceDeviceProperties,
-    "enabled"
-  >>>;
-
-  @added(Versions.v2024_10_01_preview)
-  @doc("Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with Microsoft Entra ID.")
-  enabled?: boolean;
-};
-
 @added(Versions.v2024_10_01_preview)
 @removed(Versions.v2024_11_01)
 @added(Versions.v2025_07_01_preview)
@@ -61,10 +50,8 @@ alias NamespaceDevicePropertiesUpdate = {
 interface NamespaceDevices {
   get is ArmResourceRead<NamespaceDevice>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<NamespaceDevice>;
-  update is ArmResourcePatchAsync<
-    NamespaceDevice,
-    NamespaceDevicePropertiesUpdate
-  >;
+  @patch(#{ implicitOptionality: true })
+  update is ArmResourcePatchAsync<NamespaceDevice, NamespaceDeviceProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<NamespaceDevice>;
   listByResourceGroup is ArmResourceListByParent<NamespaceDevice>;
 }

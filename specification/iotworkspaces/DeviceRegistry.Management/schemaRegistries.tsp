@@ -176,6 +176,7 @@ model SchemaVersionProperties {
 interface SchemaRegistries {
   get is ArmResourceRead<SchemaRegistry>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<SchemaRegistry>;
+  @patch(#{ implicitOptionality: true })
   update is ArmCustomPatchAsync<
     SchemaRegistry,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<

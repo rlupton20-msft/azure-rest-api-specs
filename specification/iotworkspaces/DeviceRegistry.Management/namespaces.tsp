@@ -137,6 +137,7 @@ union Scope {
 interface Namespaces {
   get is ArmResourceRead<Namespace>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<Namespace>;
+  @patch(#{ implicitOptionality: true })
   update is ArmResourcePatchAsync<Namespace, NamespaceProperties>;
   delete is ArmResourceDeleteWithoutOkAsync<Namespace>;
   listByResourceGroup is ArmResourceListByParent<Namespace>;

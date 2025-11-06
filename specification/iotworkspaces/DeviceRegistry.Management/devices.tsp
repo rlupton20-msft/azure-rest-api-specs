@@ -37,6 +37,7 @@ model Device is TrackedResource<DeviceProperties> {
 interface Devices {
   get is ArmResourceRead<Device>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<Device>;
+  @patch(#{ implicitOptionality: true })
   update is ArmCustomPatchAsync<
     Device,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<

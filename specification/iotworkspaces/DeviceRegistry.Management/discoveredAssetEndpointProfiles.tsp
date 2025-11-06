@@ -42,6 +42,7 @@ model DiscoveredAssetEndpointProfile
 interface DiscoveredAssetEndpointProfiles {
   get is ArmResourceRead<DiscoveredAssetEndpointProfile>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<DiscoveredAssetEndpointProfile>;
+  @patch(#{ implicitOptionality: true })
   update is ArmCustomPatchAsync<
     DiscoveredAssetEndpointProfile,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<

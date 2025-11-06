@@ -56,6 +56,7 @@ alias NamespaceAssetEndpointProfilePropertiesUpdate = {
 interface NamespaceAssetEndpointProfiles {
   get is ArmResourceRead<NamespaceAssetEndpointProfile>;
   createOrReplace is ArmResourceCreateOrReplaceAsync<NamespaceAssetEndpointProfile>;
+  @patch(#{ implicitOptionality: true })
   update is ArmCustomPatchAsync<
     NamespaceAssetEndpointProfile,
     Azure.ResourceManager.Foundations.ResourceUpdateModel<
