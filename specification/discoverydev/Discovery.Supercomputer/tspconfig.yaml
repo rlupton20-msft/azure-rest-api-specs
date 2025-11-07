@@ -1,0 +1,22 @@
+parameters:
+  "service-dir":
+    default: "sdk/discovery-supercomputer"
+  "service-directory-name":
+    default: "discovery-supercomputer"
+emit:
+  - "@azure-tools/typespec-autorest"
+linter:
+  extends:
+    - "@azure-tools/typespec-azure-rulesets/data-plane"
+options:
+  "@azure-tools/typespec-autorest":
+    emitter-output-dir: "{project-root}/.."
+    omit-unreachable-types: false
+    output-file: "{azure-resource-provider-folder}/Microsoft.Discovery.Supercomputer/{version-status}/{version}/discovery-workspace.json"
+    azure-resource-provider-folder: "data-plane"
+    emit-lro-options: "none"
+  "@azure-tools/typespec-client-generator-cli":
+    additionalDirectories:
+      - "specification/discoverydev/Discovery.Shared/"
+    # Suppress SDK configuration validation since we use pipelines
+    suppress-sdk-validation: true
