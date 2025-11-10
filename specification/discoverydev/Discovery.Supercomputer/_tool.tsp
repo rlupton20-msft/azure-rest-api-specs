@@ -199,6 +199,9 @@ model RunRequest {
 
   @doc("IDs of NodePools to use for this run.")
   nodePoolIds: NodePoolId[];
+
+  @doc("Override the infrastructure requirements in the tool definitions.")
+  infraOverrides?: InfraOverrides;
 }
 
 @doc("A file to be included in the input data for a tool run and the path where it will be mounted, relative to the working directory.")
@@ -216,6 +219,26 @@ model InlineFile {
   @doc("File contents: Compressed using .gz then base64-encoded.")
   @maxLength(12000) // ~12kB - any larger threw an exception on the Batch API - commandLine too long. May be able to relax for AKS but easier to start strict.
   encodedFile: string;
+}
+
+@doc("Override infrastructure requirements in the tool definition.")
+model InfraOverrides
+{
+  @doc("Resource overrides.")
+  resources?: ResourceOverrides;
+}
+
+@doc("Override resources in the tool definition.")
+model ResourceOverrides
+{
+  @doc("Override CPU requirements.")
+  cpu?: string;
+
+  @doc("Override RAM requirements.")
+  ram?: string;
+
+  @doc("Override GPU count requirements.")
+  gpu?: string;
 }
 
 /** For tracking when it completed. */
