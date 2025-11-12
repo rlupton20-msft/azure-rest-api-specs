@@ -350,9 +350,24 @@ model Operation {
   createdBy?: string;
 }
 
-model OperationList {
+model OperationList { // TODO Should be custom page?
  @pageItems
  values: Operation[];
+}
+
+model ComputeUsage {
+  activeJobs: int64;
+  pendingJobs: int64;
+  nodepools: Record<NodepoolUsage>;
+}
+
+model NodepoolUsage {
+  reservedCpus: string;
+  allocatableCpus: string;
+  reservedMemory: string;
+  allocatableMemory: string;
+  reservedGpus: string;
+  allocatableGpus: string;
 }
 
 interface Tools {
@@ -373,14 +388,6 @@ interface Tools {
   >;
 
   #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
-  @doc("List tool runs.")
-  @route("/tools/operations")
-  listOperations is Foundations.ResourceList<
-    SupercomputerId,
-    {}, // TODO Query parameters
-    OperationList>;
-
-  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
   @doc("Cancel an ongoing tool run.")
   @route("/tools/operations/{operationId}:cancel")
   @post
@@ -388,4 +395,18 @@ interface Tools {
     WithOperationId,
     AcceptedResponse
   >;
+
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  @doc("List tool runs.")
+  listOperations is Foundations.ResourceList<
+    SupercomputerId,
+    {}, // TODO Query parameters
+    OperationList>;
+
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  @doc("Examine compute usage.")
+  @route("/computeUsage")
+  getComputeUsage is Foundations.Operation<
+    {}, // TODO Parameters
+    ComputeUsage>;
 }
