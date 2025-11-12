@@ -6,12 +6,13 @@ import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Versioning;
+using TypeSpec.Rest;
 using Azure.Core;
 using Microsoft.Discovery.Shared;
 using Azure.ClientGenerator.Core;
 
-@versioned(Microsoft.Discovery.Workspace.Versions)
-namespace Microsoft.Discovery.Workspace;
+@versioned(Microsoft.Discovery.Supercomputer.Versions)
+namespace Microsoft.Discovery.Supercomputer;
 
 /** Enum for run status */
 @lroStatus
@@ -333,6 +334,27 @@ model WithOperationId {
   operationId: string;
 }
 
+@resource("supercomputer")
+model SupercomputerId {
+  @key
+  supercomputer: string;
+}
+
+model Operation {
+  id: string;
+  nodepoolId: string;
+  status: string;
+  runtimeDetails: string;
+  createdAt: utcDateTime;
+  completedAt?: utcDateTime;
+  createdBy?: string;
+}
+
+model OperationList {
+ @pageItems
+ values: Operation[];
+}
+
 interface Tools {
   #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
   @doc("Used for to poll status of a Tool run.")
@@ -349,6 +371,14 @@ interface Tools {
     RunRequest,
     AcceptedResponse & Foundations.OperationStatus<RunResult>
   >;
+
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  @doc("List tool runs.")
+  @route("/tools/operations")
+  listOperations is Foundations.ResourceList<
+    SupercomputerId,
+    {}, // TODO Query parameters
+    OperationList>;
 
   #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
   @doc("Cancel an ongoing tool run.")

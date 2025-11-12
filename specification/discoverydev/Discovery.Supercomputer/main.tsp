@@ -39,7 +39,7 @@ using TypeSpec.Versioning;
     apiVersion: Versions,
   }
 )
-namespace Microsoft.Discovery.Workspace;
+namespace Microsoft.Discovery.Supercomputer;
 
 @doc("The Microsoft.Discovery.Supercomputer service versions.")
 enum Versions {
