@@ -1793,6 +1793,74 @@
         "x-ms-long-running-operation": true
       }
     },
+    "/tools/projects/{projectName}/computeUsage": {
+      "get": {
+        "operationId": "Tools_GetComputeUsage",
+        "description": "Examine compute usage.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/WithProjectNamePath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/ComputeUsage"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Azure.Core.Foundations.ErrorResponse"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "type": "string",
+                "description": "String error code indicating what went wrong."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tools/projects/{projectName}/operations": {
+      "get": {
+        "operationId": "Tools_ListOperations",
+        "description": "List tool runs.",
+        "parameters": [
+          {
+            "$ref": "#/parameters/Azure.Core.Foundations.ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/WithProjectNamePath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request has succeeded.",
+            "schema": {
+              "$ref": "#/definitions/PagedOperation"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/Azure.Core.Foundations.ErrorResponse"
+            },
+            "headers": {
+              "x-ms-error-code": {
+                "type": "string",
+                "description": "String error code indicating what went wrong."
+              }
+            }
+          }
+        }
+      }
+    },
     "/tools/projects/{projectName}/operations/{operationId}": {
       "get": {
         "operationId": "Tools_GetRunStatus",
@@ -2072,6 +2140,20 @@
         "sourceUri",
         "title",
         "description"
+      ]
+    },
+    "ComputeUsage": {
+      "type": "object",
+      "properties": {
+        "supercomputers": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/SupercomputerUsage"
+          }
+        }
+      },
+      "required": [
+        "supercomputers"
       ]
     },
     "ConfirmationStatus": {
@@ -3172,6 +3254,86 @@
         }
       }
     },
+    "NodepoolUsage": {
+      "type": "object",
+      "properties": {
+        "reservedCpus": {
+          "type": "string"
+        },
+        "allocatableCpus": {
+          "type": "string"
+        },
+        "reservedMemory": {
+          "type": "string"
+        },
+        "allocatableMemory": {
+          "type": "string"
+        },
+        "reservedGpus": {
+          "type": "string"
+        },
+        "allocatableGpus": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "reservedCpus",
+        "allocatableCpus",
+        "reservedMemory",
+        "allocatableMemory",
+        "reservedGpus",
+        "allocatableGpus"
+      ]
+    },
+    "Operation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "nodepoolId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "runtimeDetails": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdBy": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "nodepoolId",
+        "status",
+        "runtimeDetails",
+        "createdAt"
+      ]
+    },
+    "OperationList": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Operation"
+          }
+        }
+      },
+      "required": [
+        "values"
+      ]
+    },
     "OutputDataMount": {
       "type": "object",
       "description": "Definition of a mount for collecting tool output data.",
@@ -3279,6 +3441,27 @@
           "description": "The MessageLog items on this page",
           "items": {
             "$ref": "#/definitions/MessageLog"
+          }
+        },
+        "nextLink": {
+          "type": "string",
+          "format": "uri",
+          "description": "The link to the next page of items"
+        }
+      },
+      "required": [
+        "value"
+      ]
+    },
+    "PagedOperation": {
+      "type": "object",
+      "description": "Paged collection of Operation items",
+      "properties": {
+        "value": {
+          "type": "array",
+          "description": "The Operation items on this page",
+          "items": {
+            "$ref": "#/definitions/Operation"
           }
         },
         "nextLink": {
@@ -3594,6 +3777,41 @@
           }
         ]
       }
+    },
+    "SupercomputerId": {
+      "type": "object",
+      "properties": {
+        "supercomputer": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "supercomputer"
+      ]
+    },
+    "SupercomputerUsage": {
+      "type": "object",
+      "properties": {
+        "activeJobs": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pendingJobs": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "nodepools": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/NodepoolUsage"
+          }
+        }
+      },
+      "required": [
+        "activeJobs",
+        "pendingJobs",
+        "nodepools"
+      ]
     },
     "Task": {
       "type": "object",

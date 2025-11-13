@@ -3,7 +3,7 @@ import { execSync } from "child_process";
 import fs from "fs";
 import fastGlob from "fast-glob";
 
-export const apiVersions = ["2025-07-01-preview", "2025-12-01-preview"];
+export const apiVersions = ["2025-12-01-preview"];
 export const dataPlanePackageNames = ["Bookshelf", "Workspace"];
 
 export const compilePackage = ({ packagePath }) => {

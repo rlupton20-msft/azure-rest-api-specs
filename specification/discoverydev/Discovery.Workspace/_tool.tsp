@@ -391,11 +391,10 @@ interface Tools {
 
   #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
   @doc("List tool runs.")
-  @route("/tools/projects/operations")
-  listOperations is Foundations.ResourceList<
-    SupercomputerId, // TODO Revisit
-    {}, // TODO Query parameters
-    OperationList>;
+  @route("/tools/projects/{projectName}/operations")
+  listOperations is Foundations.Operation<
+    WithProjectNamePath,
+    Foundations.CustomPage<Operation>>;
 
   #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
   @doc("Examine compute usage.")
