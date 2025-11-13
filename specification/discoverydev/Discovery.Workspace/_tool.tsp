@@ -7,6 +7,7 @@ import "../Discovery.Shared/shared.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Versioning;
+using TypeSpec.Rest;
 using Azure.Core;
 using Microsoft.Discovery.Shared;
 using Azure.ClientGenerator.Core;
@@ -321,6 +322,46 @@ model WithOperationId {
   operationId: string;
 }
 
+model Operation {
+  id: string;
+  nodepoolId: string;
+  status: string;
+  runtimeDetails: string;
+  createdAt: utcDateTime;
+  completedAt?: utcDateTime;
+  createdBy?: string;
+}
+
+model OperationList { // TODO Should be custom page?
+ @pageItems
+ values: Operation[];
+}
+
+model ComputeUsage {
+  supercomputers: Record<SupercomputerUsage>;
+}
+
+model SupercomputerUsage {
+  activeJobs: int64;
+  pendingJobs: int64;
+  nodepools: Record<NodepoolUsage>;
+}
+
+model NodepoolUsage {
+  reservedCpus: string;
+  allocatableCpus: string;
+  reservedMemory: string;
+  allocatableMemory: string;
+  reservedGpus: string;
+  allocatableGpus: string;
+}
+
+@resource("supercomputer")
+model SupercomputerId {
+  @key
+  supercomputer: string;
+}
+
 interface Tools {
   #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
   @doc("Used for to poll status of a Tool run.")
@@ -347,4 +388,19 @@ interface Tools {
     WithProjectNamePath & WithOperationId,
     AcceptedResponse
   >;
+
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  @doc("List tool runs.")
+  @route("/tools/projects/operations")
+  listOperations is Foundations.ResourceList<
+    SupercomputerId, // TODO Revisit
+    {}, // TODO Query parameters
+    OperationList>;
+
+  #suppress "@azure-tools/typespec-azure-core/use-standard-operations"
+  @doc("Examine compute usage.")
+  @route("/tools/projects/{projectName}/computeUsage")
+  getComputeUsage is Foundations.Operation<
+    WithProjectNamePath,
+    ComputeUsage>;
 }
